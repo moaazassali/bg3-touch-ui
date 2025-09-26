@@ -600,6 +600,13 @@
                         </Border>
                     </StackPanel>
                     <ControlTemplate.Triggers>
+                        <!-- New trigger for value 1 row -->
+                        <DataTrigger
+                            Binding="{Binding DataContext.NumberOfRows, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                            Value="1">
+                            <Setter TargetName="Shutter" Property="Source"
+                                Value="../Assets/shutterX1_d.png" />
+                        </DataTrigger>
                         <DataTrigger
                             Binding="{Binding DataContext.NumberOfRows, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                             Value="3">
@@ -617,6 +624,19 @@
                             <Setter TargetName="Shutter" Property="Source"
                                 Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/shutter_h.png" />
                         </DataTrigger>
+                        <!-- New trigger for value 1 row -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition
+                                    Binding="{Binding IsMouseOver, ElementName=PART_SizerThumb}"
+                                    Value="True" />
+                                <Condition
+                                    Binding="{Binding DataContext.NumberOfRows, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                    Value="1" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Shutter" Property="Source"
+                                Value="../Assets/shutterX1_h.png" />
+                        </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition
