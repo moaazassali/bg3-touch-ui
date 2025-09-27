@@ -1,0 +1,82 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+    xmlns:ls="clr-namespace:ls;assembly=Code"
+    mc:Ignorable="d">
+
+    <!-- Copied from Game/Public/Game/GUI/Library/DataTemplates.xaml -->
+
+    <ControlTemplate x:Key="Custom_HotBarActiveSlotIndicatorMetamagic">
+        <ControlTemplate.Resources>
+            <BitmapImage x:Key="roundIconCoverImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/roundIconCover.png" />
+            <BitmapImage x:Key="roundEnergyFillImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/roundEnergyFill.png" />
+            <BitmapImage x:Key="roundFlameEdgeImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/roundFlameEdge.png" />
+        </ControlTemplate.Resources>
+        <Grid Width="{StaticResource HotBarSlotWidth}" Height="{StaticResource HotBarSlotHeight}">
+            <ls:AnimatedImage x:Name="PassiveEnergyFill"
+                Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80" RepeatBehavior="1x"
+                Time="0:0:0.033" Source="{StaticResource roundEnergyFillImg}" Visibility="Collapsed" />
+            <ls:AnimatedImage x:Name="PassiveFlameEdge"
+                Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80" LastFrame="41"
+                RepeatBehavior="Forever" Time="0:0:0.033"
+                Source="{StaticResource roundFlameEdgeImg}" Opacity="0" Visibility="Collapsed" />
+            <Image x:Name="PassiveCover" Source="{StaticResource roundIconCoverImg}"
+                Visibility="Collapsed" Opacity="0" Width="{StaticResource HotBarIconWidth}"
+                Height="{StaticResource HotBarIconHeight}" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="PassiveEnergyFill" />
+                <Setter Property="Visibility" Value="Visible" TargetName="PassiveFlameEdge" />
+                <Setter Property="Visibility" Value="Visible" TargetName="PassiveCover" />
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="FadeInPassiveFlameEdge">
+                        <Storyboard RepeatBehavior="1x">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="PassiveFlameEdge">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                    <BeginStoryboard x:Name="FadeInOutPassiveCover">
+                        <Storyboard RepeatBehavior="1x">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="PassiveCover">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+
+                    <BeginStoryboard x:Name="LoopPassiveCover">
+                        <Storyboard RepeatBehavior="Forever" BeginTime="0:0:0.5">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="PassiveCover">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.2" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.2" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="FadeInPassiveFlameEdge" />
+                    <StopStoryboard BeginStoryboardName="FadeInOutPassiveCover" />
+                    <StopStoryboard BeginStoryboardName="LoopPassiveCover" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

@@ -256,7 +256,7 @@
                                             <DataTrigger Binding="{Binding Content.IsMetaMagic}"
                                                 Value="True">
                                                 <Setter Property="Template"
-                                                    Value="{StaticResource HotBarActiveSlotIndicatorMetamagic}" />
+                                                    Value="{StaticResource Custom_HotBarActiveSlotIndicatorMetamagic}" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -325,7 +325,7 @@
 
                         <DataTrigger Binding="{Binding Content.IsModified}" Value="True">
                             <Setter TargetName="MetaMagicOverlay" Property="Template"
-                                Value="{StaticResource HotbarSlotGlow}" />
+                                Value="{StaticResource Custom_HotbarSlotGlow}" />
                             <Setter TargetName="Slot" Property="Tag" Value="False" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>

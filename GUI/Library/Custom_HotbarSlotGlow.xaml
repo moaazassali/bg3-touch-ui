@@ -1,0 +1,165 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+    xmlns:ls="clr-namespace:ls;assembly=Code"
+    mc:Ignorable="d">
+
+    <!-- Copied from Game/Public/Game/GUI/Library/DataTemplates.xaml -->
+
+    <ControlTemplate x:Key="Custom_HotbarSlotGlow">
+        <ControlTemplate.Resources>
+            <BitmapImage x:Key="MetamagicEnergyFillImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/squareEnergyFill.png" />
+            <BitmapImage x:Key="FadeFlameEdgeImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/squareFlameEdge.png" />
+            <BitmapImage x:Key="MetaMagicCoverImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/squareIconCover.png" />
+        </ControlTemplate.Resources>
+        <Grid>
+            <!-- The borders are here because only one storyboard can manipulate a property at a
+            time, so even starting a storyboard with a start delay, the storyboard will already take
+            ownership of the property -->
+            <Border x:Name="FadeFlameEdge" Visibility="Collapsed">
+                <ls:AnimatedImage x:Name="MetamagicFlameEdge"
+                    Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80" LastFrame="45"
+                    RepeatBehavior="Forever" Time="0:0:0.033"
+                    Source="{StaticResource FadeFlameEdgeImg}" />
+            </Border>
+
+            <Border x:Name="FadeCover" Visibility="Collapsed">
+                <Image x:Name="MetamagicCover" Source="{StaticResource MetaMagicCoverImg}" />
+            </Border>
+            <Border x:Name="EnergyFill" Visibility="Collapsed">
+                <ls:AnimatedImage x:Name="MetamagicEnergyFill"
+                    Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80"
+                    RepeatBehavior="1x" Time="0:0:0.033"
+                    Source="{StaticResource MetamagicEnergyFillImg}" />
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger
+                Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSpellTask, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource NullToBoolTrueConverter}}"
+                Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="EnergyFill" />
+                <Setter Property="Visibility" Value="Visible" TargetName="FadeFlameEdge" />
+                <Setter Property="Visibility" Value="Visible" TargetName="FadeCover" />
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="EnergyFillControl">
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="EnergyFill">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                    <BeginStoryboard x:Name="FadeInFlameEdge">
+                        <Storyboard RepeatBehavior="1x" FillBehavior="Stop">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="FadeFlameEdge">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0.9" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                    <BeginStoryboard x:Name="FadeInOutCover">
+                        <Storyboard RepeatBehavior="1x" BeginTime="0:0:0.0" FillBehavior="Stop">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="FadeCover">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0.9" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                    <BeginStoryboard x:Name="LoopFlameEdge">
+                        <Storyboard RepeatBehavior="Forever" BeginTime="0:0:0.6">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="MetamagicFlameEdge">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.9" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.9" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                    <BeginStoryboard x:Name="LoopCover">
+                        <Storyboard RepeatBehavior="Forever" BeginTime="0:0:0.6">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="MetamagicCover">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.6" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.6" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="FadeInFlameEdge" />
+                    <StopStoryboard BeginStoryboardName="FadeInOutCover" />
+                    <StopStoryboard BeginStoryboardName="LoopFlameEdge" />
+                    <StopStoryboard BeginStoryboardName="LoopCover" />
+                    <StopStoryboard BeginStoryboardName="EnergyFillControl" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                <Setter Property="Tag" Value="True" />
+            </DataTrigger>
+            <!--Tag
+            is used so this can be force enabled when needed (like when selecting upcasts in the
+            hotbar)-->
+            <Trigger Property="Tag" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="FadeFlameEdge" />
+                <Setter Property="Visibility" Value="Visible" TargetName="FadeCover" />
+                <Trigger.EnterActions>
+                    <BeginStoryboard x:Name="FixEdge">
+                        <Storyboard RepeatBehavior="1x">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="MetamagicFlameEdge">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.9" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.9" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                    <BeginStoryboard x:Name="LoopSpellCover">
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="(UIElement.Opacity)"
+                                Storyboard.TargetName="MetamagicCover">
+                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.6" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.6" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="FixEdge" />
+                    <StopStoryboard BeginStoryboardName="LoopSpellCover" />
+                </Trigger.ExitActions>
+            </Trigger>
+            <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                <StopStoryboard BeginStoryboardName="FadeInFlameEdge" />
+                <StopStoryboard BeginStoryboardName="FadeInOutCover" />
+                <StopStoryboard BeginStoryboardName="LoopFlameEdge" />
+                <StopStoryboard BeginStoryboardName="LoopCover" />
+                <StopStoryboard BeginStoryboardName="FixEdge" />
+                <StopStoryboard BeginStoryboardName="LoopSpellCover" />
+                <StopStoryboard BeginStoryboardName="EnergyFillControl" />
+            </EventTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>
