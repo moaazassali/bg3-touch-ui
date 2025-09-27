@@ -24,11 +24,14 @@
                 <System:Double x:Key="HotbarSlotSpacing">0</System:Double>
                 <System:Double x:Key="HotbarAttackSlotSize">88</System:Double>
                 <System:Double x:Key="ClassIconSize">160</System:Double>
-                
+
                 <System:Double x:Key="HotBarAttackHoverSize">80</System:Double>
 
-                <System:Double x:Key="MinimalistSlotSize">88</System:Double>
-                <System:Double x:Key="MinimalistHotbarThreshold">12</System:Double>
+                <!-- Minimalist hotbar is when an ability has multiple options (not upcast and
+                multi-target hotbar). Disguise self and chromatic orb are a good example to
+                see the impact of the threshold value. -->
+                <System:Double x:Key="MinimalistSlotSize">176</System:Double>
+                <System:Double x:Key="MinimalistHotbarThreshold">7</System:Double>
 
                 <System:TimeSpan x:Key="StopDragDuration">0:0:0.2</System:TimeSpan>
                 <System:TimeSpan x:Key="DeckResizeDuration">0:0:0.5</System:TimeSpan>
