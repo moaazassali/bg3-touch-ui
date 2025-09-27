@@ -19,8 +19,8 @@
         <ControlTemplate>
             <ControlTemplate.Resources>
                 <System:Int16 x:Key="MaxDeckColumns">16</System:Int16>
-                <System:Double x:Key="HotbarSlotSize">88</System:Double>
-                <System:Double x:Key="HotbarSlotIconSize">88</System:Double>
+                <System:Double x:Key="HotbarSlotSize">176</System:Double>
+                <System:Double x:Key="HotbarSlotIconSize">176</System:Double>
                 <System:Double x:Key="HotbarSlotSpacing">0</System:Double>
                 <System:Double x:Key="HotbarAttackSlotSize">88</System:Double>
                 <System:Double x:Key="ClassIconSize">160</System:Double>
@@ -372,7 +372,7 @@
                                             <ControlTemplate TargetType="ListBoxItem">
                                                 <ls:LSButton x:Name="contentContainer"
                                                     ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Style="{StaticResource HotBarSlotStyle}"
+                                                    Style="{StaticResource CustomHotBarSlotStyle}"
                                                     Content="{Binding Content}" />
                                             </ControlTemplate>
                                         </Setter.Value>
@@ -1980,7 +1980,7 @@
                                         <!--UNEQUIPPED-->
                                         <ls:LSButton x:Name="MainAttack" Grid.Column="0"
                                             VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                                            Style="{StaticResource HotBarSlotStyle}"
+                                            Style="{StaticResource CustomHotBarSlotStyle}"
                                             Visibility="Collapsed"
                                             Width="{StaticResource HotBarSlotWidth}"
                                             Height="{StaticResource HotBarSlotWidth}"
@@ -3020,7 +3020,7 @@
                                                 </b:Interaction.Triggers>
                                                 <ls:LSButton x:Name="HotbarslotBtn"
                                                     ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Style="{StaticResource HotBarSlotStyle}"
+                                                    Style="{StaticResource CustomHotBarSlotStyle}"
                                                     Content="{Binding Content}" />
                                             </Border>
                                         </DataTemplate>
@@ -3196,7 +3196,7 @@
                                                     ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}"
                                                     ToolTipService.Placement="Top"
                                                     ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                                    Style="{StaticResource HotBarSlotStyle}"
+                                                    Style="{StaticResource CustomHotBarSlotStyle}"
                                                     ToolTip="{StaticResource ManagedTooltip}"
                                                     ToolTipService.VerticalOffset="-110"
                                                     ls:TooltipExtender.Context="Hotbar"

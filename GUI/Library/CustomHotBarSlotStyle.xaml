@@ -10,10 +10,10 @@
 
     <!-- Copied from Game/Public/Game/GUI/Library/DataTemplates.xaml -->
 
-    <System:Double x:Key="HotBarSlotWidth">88</System:Double>
-    <System:Double x:Key="HotBarSlotHeight">88</System:Double>
-    <System:Double x:Key="HotBarIconWidth">80</System:Double>
-    <System:Double x:Key="HotBarIconHeight">80</System:Double>
+    <System:Double x:Key="HotBarSlotWidth">176</System:Double>
+    <System:Double x:Key="HotBarSlotHeight">176</System:Double>
+    <System:Double x:Key="HotBarIconWidth">160</System:Double>
+    <System:Double x:Key="HotBarIconHeight">160</System:Double>
 
     <Style x:Key="CustomHotBarSlotStyle" TargetType="ls:LSButton">
         <Style.Resources>
