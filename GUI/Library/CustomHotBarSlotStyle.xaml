@@ -303,12 +303,12 @@
                         <DataTrigger Binding="{Binding SlotType}" Value="Passive">
                             <Setter TargetName="hover" Property="Clip">
                                 <Setter.Value>
-                                    <EllipseGeometry RadiusX="44" RadiusY="44" Center="44,44" />
+                                    <EllipseGeometry RadiusX="88" RadiusY="88" Center="88,88" />
                                 </Setter.Value>
                             </Setter>
                             <Setter TargetName="disCover" Property="Clip">
                                 <Setter.Value>
-                                    <EllipseGeometry RadiusX="44" RadiusY="44" Center="44,44" />
+                                    <EllipseGeometry RadiusX="88" RadiusY="88" Center="88,88" />
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
