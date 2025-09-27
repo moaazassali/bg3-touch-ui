@@ -15,7 +15,12 @@
             <BitmapImage x:Key="AnimSelectedImg"
                 UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/animSelected.png" />
         </ControlTemplate.Resources>
-        <Canvas Margin="5,5,0,0">
+        <Canvas Margin="10,10,0,0">
+            <!-- This scales the canvas and everything in it by 2x so we can increase the animation size -->
+            <Canvas.RenderTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+            </Canvas.RenderTransform>
+
             <ls:AnimatedImage x:Name="PassiveEnergyFill"
                 Template="{StaticResource BaseAnimatedImage}" Canvas.Top="-63" Canvas.Left="-72"
                 ClipSize="215,215" RepeatBehavior="Forever" Time="0:0:0.033" LastFrame="59"

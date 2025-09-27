@@ -9,8 +9,8 @@
     mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Custom_HotBarSlotStyle.xaml" />
         <ResourceDictionary Source="Custom_HotBarActiveSlotIndicator.xaml" />
+        <ResourceDictionary Source="Custom_HotBarSlotStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
