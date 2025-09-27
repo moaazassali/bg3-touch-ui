@@ -24,6 +24,10 @@
             time, so even starting a storyboard with a start delay, the storyboard will already take
             ownership of the property -->
             <Border x:Name="FadeFlameEdge" Visibility="Collapsed">
+                <!-- Scale by 2x so we can increase the animation size -->
+                <Border.RenderTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" CenterX="88" CenterY="88" />
+                </Border.RenderTransform>
                 <ls:AnimatedImage x:Name="MetamagicFlameEdge"
                     Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80" LastFrame="45"
                     RepeatBehavior="Forever" Time="0:0:0.033"
@@ -34,6 +38,10 @@
                 <Image x:Name="MetamagicCover" Source="{StaticResource MetaMagicCoverImg}" />
             </Border>
             <Border x:Name="EnergyFill" Visibility="Collapsed">
+                <!-- Scale by 2x so we can increase the animation size -->
+                <Border.RenderTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" CenterX="88" CenterY="88" />
+                </Border.RenderTransform>
                 <ls:AnimatedImage x:Name="MetamagicEnergyFill"
                     Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80"
                     RepeatBehavior="1x" Time="0:0:0.033"

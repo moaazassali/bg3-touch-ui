@@ -20,6 +20,10 @@
                 UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/roundFlameEdge.png" />
         </ControlTemplate.Resources>
         <Grid Width="{StaticResource HotBarSlotWidth}" Height="{StaticResource HotBarSlotHeight}">
+            <!-- Scale all by 2x so we can increase the animation size -->
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2" CenterX="44" CenterY="44" />
+            </Border.RenderTransform>
             <ls:AnimatedImage x:Name="PassiveEnergyFill"
                 Template="{StaticResource BaseAnimatedImage}" ClipSize="80,80" RepeatBehavior="1x"
                 Time="0:0:0.033" Source="{StaticResource roundEnergyFillImg}" Visibility="Collapsed" />
