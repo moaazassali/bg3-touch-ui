@@ -244,7 +244,7 @@
                                 <ls:AdornedBehavior.AdornerStyle>
                                     <Style TargetType="Control">
                                         <Setter Property="Template"
-                                            Value="{StaticResource HotBarActiveSlotIndicator}" />
+                                            Value="{StaticResource Custom_HotBarActiveSlotIndicator}" />
                                         <Setter Property="IsHitTestVisible" Value="False" />
                                         <Style.Triggers>
                                             <!-- Passives use a border in the template instead of

@@ -1,0 +1,26 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+    xmlns:ls="clr-namespace:ls;assembly=Code"
+    mc:Ignorable="d">
+
+    <!-- Copied from Game/Public/Game/GUI/Library/DataTemplates.xaml -->
+
+    <ControlTemplate x:Key="Custom_HotBarActiveSlotIndicator">
+        <ControlTemplate.Resources>
+            <BitmapImage x:Key="AnimSelectedImg"
+                UriSource="pack://application:,,,/Core;component/Assets/BottomBar/VFX/animSelected.png" />
+        </ControlTemplate.Resources>
+        <Canvas Margin="5,5,0,0">
+            <ls:AnimatedImage x:Name="PassiveEnergyFill"
+                Template="{StaticResource BaseAnimatedImage}" Canvas.Top="-63" Canvas.Left="-72"
+                ClipSize="215,215" RepeatBehavior="Forever" Time="0:0:0.033" LastFrame="59"
+                Source="{StaticResource AnimSelectedImg}" />
+        </Canvas>
+    </ControlTemplate>
+
+</ResourceDictionary>

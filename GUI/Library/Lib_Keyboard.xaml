@@ -10,6 +10,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Custom_HotBarSlotStyle.xaml" />
+        <ResourceDictionary Source="Custom_HotBarActiveSlotIndicator.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
