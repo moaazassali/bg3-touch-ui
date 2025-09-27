@@ -2926,8 +2926,36 @@
                                             <Border
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                                Background="{TemplateBinding Background}"
-                                                Margin="-24,0,0,0">
+                                                Background="{TemplateBinding Background}">
+
+                                                <!-- Custom margin adjustment for minimalist inner
+                                                hotbar container based on side bar visibility -->
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Margin"
+                                                            Value="216,0,0,0" />
+
+                                                        <!-- If side bar is visible with 1 slot -->
+                                                        <Style.Triggers>
+                                                            <DataTrigger
+                                                                Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.FixedSideBar.SlotList.Count, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}"
+                                                                Value="1">
+                                                                <Setter Property="Margin"
+                                                                    Value="0,0,0,0" />
+                                                            </DataTrigger>
+
+                                                            <!-- If more than 1 slot is filled in
+                                                            the side bar -->
+                                                            <DataTrigger
+                                                                Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.FixedSideBar.SlotList.Count, RelativeSource={RelativeSource AncestorType=ls:UIWidget}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=1}"
+                                                                Value="True">
+                                                                <Setter Property="Margin"
+                                                                    Value="-192,0,0,0" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image x:Name="ContainerIcon"
                                                         Width="{StaticResource HotbarSlotIconSize}"
