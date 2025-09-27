@@ -22,8 +22,10 @@
                 <System:Double x:Key="HotbarSlotSize">88</System:Double>
                 <System:Double x:Key="HotbarSlotIconSize">88</System:Double>
                 <System:Double x:Key="HotbarSlotSpacing">0</System:Double>
-                <System:Double x:Key="HotbarAttackSlotSize">80</System:Double>
+                <System:Double x:Key="HotbarAttackSlotSize">88</System:Double>
                 <System:Double x:Key="ClassIconSize">160</System:Double>
+                
+                <System:Double x:Key="HotBarAttackHoverSize">80</System:Double>
 
                 <System:Double x:Key="MinimalistSlotSize">88</System:Double>
                 <System:Double x:Key="MinimalistHotbarThreshold">12</System:Double>
@@ -808,8 +810,8 @@
                     <Grid x:Name="Root" ToolTipService.Placement="Top"
                         ToolTipService.VerticalOffset="-60"
                         d:DataContext="{d:DesignInstance {x:Type ls:VMEquipmentSlot}, IsDesignTimeCreatable=True}"
-                        Height="{StaticResource HotbarSlotSize}"
-                        Width="{StaticResource HotbarSlotSize}" Background="Transparent">
+                        Height="{StaticResource HotbarAttackSlotSize}"
+                        Width="{StaticResource HotbarAttackSlotSize}" Background="Transparent">
                         <Grid.ToolTip>
                             <ls:LSTooltip Content="{Binding DataContext.Item, ElementName=Root}"
                                 ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), ElementName=WeaponSlots}" />
@@ -831,8 +833,8 @@
                         </b:Interaction.Triggers>
                         <ContentPresenter ContentTemplate="{StaticResource Template.ItemEquipment}"
                             Content="{Binding Item}" IsHitTestVisible="False" />
-                        <Image x:Name="hl" Width="{StaticResource HotbarAttackSlotSize}"
-                            Height="{StaticResource HotbarAttackSlotSize}" Stretch="Uniform"
+                        <Image x:Name="hl" Width="{StaticResource HotBarAttackHoverSize}"
+                            Height="{StaticResource HotBarAttackHoverSize}" Stretch="Uniform"
                             Source="{StaticResource FrameWeaponSlotHover}" Visibility="Collapsed" />
                         <Image x:Name="StatusIcon" Source="{StaticResource IconConditionMark}"
                             Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top"
