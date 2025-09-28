@@ -2896,7 +2896,61 @@
                         <!--DYNAMIC
                         DECK CONTENT ALIGNMENT-->
 
-                        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                            x:Name="Custom_DynamicDeckGrid">
+
+                            <!-- START OF CUSTOM TRIGGER BLOCK -->
+                            <!-- Add space for upcast hotbar when row count is 1 -->
+                            <b:Interaction.Triggers>
+                                <!-- Trigger to INCREASE rows and SET the flag -->
+                                <b:DataTrigger
+                                    Binding="{Binding Visibility, ElementName=UpcastSection}"
+                                    Value="Visible">
+                                    <b:Interaction.Behaviors>
+                                        <b:ConditionBehavior>
+                                            <b:ConditionalExpression>
+                                                <b:ComparisonCondition
+                                                    LeftOperand="{Binding NumberOfRows}"
+                                                    Operator="Equal"
+                                                    RightOperand="1" />
+                                            </b:ConditionalExpression>
+                                        </b:ConditionBehavior>
+                                    </b:Interaction.Behaviors>
+                                    <!-- Action 1: Increase the rows -->
+                                    <b:InvokeCommandAction Command="{Binding IncreaseRowsCommand}" />
+                                    <!-- Action 2: Set the "we did this" flag -->
+                                    <b:ChangePropertyAction TargetName="Custom_DynamicDeckGrid"
+                                        PropertyName="Tag" Value="AutoResized" />
+                                </b:DataTrigger>
+
+                                <!-- Trigger to DECREASE rows ONLY IF we increased them -->
+                                <b:DataTrigger
+                                    Binding="{Binding Visibility, ElementName=UpcastSection}"
+                                    Value="Collapsed">
+                                    <b:Interaction.Behaviors>
+                                        <b:ConditionBehavior>
+                                            <b:ConditionalExpression>
+                                                <!-- Condition 1: NumberOfRows must be 2 -->
+                                                <b:ComparisonCondition
+                                                    LeftOperand="{Binding NumberOfRows}"
+                                                    Operator="Equal"
+                                                    RightOperand="2" />
+                                                <!-- Condition 2: Our "we did this" flag must be set -->
+                                                <b:ComparisonCondition
+                                                    LeftOperand="{Binding Tag, ElementName=Custom_DynamicDeckGrid}"
+                                                    Operator="Equal"
+                                                    RightOperand="AutoResized" />
+                                            </b:ConditionalExpression>
+                                        </b:ConditionBehavior>
+                                    </b:Interaction.Behaviors>
+                                    <!-- Action 1: Decrease the rows -->
+                                    <b:InvokeCommandAction Command="{Binding DecreaseRowsCommand}" />
+                                    <!-- Action 2: Clear the flag -->
+                                    <b:ChangePropertyAction TargetName="Custom_DynamicDeckGrid"
+                                        PropertyName="Tag" Value="{x:Null}" />
+                                </b:DataTrigger>
+                            </b:Interaction.Triggers>
+                            <!-- END OF CUSTOM TRIGGER BLOCK -->
 
                             <!--TWO
                             STEP DECK-->
@@ -3096,6 +3150,14 @@
                                                                     ToolTipService.IsEnabled="True"
                                                                     ToolTipService.Placement="Right"
                                                                     Margin="0,0,30,0">
+
+                                                                    <!-- Fix sorcery points size -->
+                                                                    <Grid.RenderTransform>
+                                                                        <ScaleTransform ScaleX="2"
+                                                                            ScaleY="2" CenterX="32"
+                                                                            CenterY="32" />
+                                                                    </Grid.RenderTransform>
+
                                                                     <Image Stretch="None"
                                                                         Style="{DynamicResource SectionImageStyle}"
                                                                         Margin="0,0,0,0"
@@ -3143,13 +3205,13 @@
                                                             Visibility="Collapsed"
                                                             DataContext="{Binding CurrentActiveSlot}"
                                                             Tag="True" IsHitTestVisible="False"
-                                                            Template="{StaticResource HotbarSlotGlow}" />
+                                                            Template="{StaticResource Custom_HotbarSlotGlow}" />
 
                                                     </Grid>
                                                     <Grid
                                                         Width="{StaticResource HotbarSlotIconSize}"
                                                         Height="{StaticResource HotbarSlotIconSize}"
-                                                        VerticalAlignment="Center" Margin="0,-8,0,8"
+                                                        VerticalAlignment="Center" Margin="0,8,0,8"
                                                         Visibility="{Binding CurrentActiveSlot.Content.Icon, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}">
                                                         <Rectangle
                                                             Fill="{Binding CurrentActiveSlot.Content.Icon}" />
@@ -3157,7 +3219,7 @@
                                                             DataContext="{Binding CurrentActiveSlot}"
                                                             Tag="True" IsHitTestVisible="False"
                                                             Visibility="Collapsed"
-                                                            Template="{StaticResource HotbarSlotGlow}" />
+                                                            Template="{StaticResource Custom_HotbarSlotGlow}" />
                                                     </Grid>
                                                     <ItemsPresenter VerticalAlignment="Center" />
                                                 </StackPanel>
@@ -3246,9 +3308,17 @@
                                                                 </Style>
                                                             </ControlTemplate.Resources>
                                                             <Grid Background="Transparent">
+
+                                                                <!-- Upcasting and multi-target icon
+                                                                and animations fixes -->
                                                                 <Grid
                                                                     Width="{StaticResource HotbarSlotIconSize}"
                                                                     Height="{StaticResource HotbarSlotIconSize}">
+                                                                    <Grid.RenderTransform>
+                                                                        <ScaleTransform ScaleX="2"
+                                                                            ScaleY="2" CenterX="88"
+                                                                            CenterY="88" />
+                                                                    </Grid.RenderTransform>
                                                                     <Image x:Name="Background"
                                                                         Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_d.png"
                                                                         Stretch="None" />
@@ -3258,7 +3328,8 @@
                                                                         Foreground="{StaticResource LS_accent100TxtColor}"
                                                                         VerticalAlignment="Top"
                                                                         HorizontalAlignment="Center"
-                                                                        Height="35" Margin="0,8,0,0"
+                                                                        Height="35"
+                                                                        Margin="0,54,0,0"
                                                                         FontSize="{StaticResource MediumFontSize}"
                                                                         noesis:Text.StrokeThickness="5" />
 
@@ -3275,18 +3346,28 @@
                                                                         IsHitTestVisible="False"
                                                                         HorizontalAlignment="Center"
                                                                         VerticalAlignment="Top"
-                                                                        Margin="0,-4,0,0"
+                                                                        Margin="0,42,0,0"
                                                                         Visibility="{Binding IsUpcasted, Converter={StaticResource BoolToVisibleConverter}}" />
                                                                 </Grid>
 
                                                                 <Border x:Name="SelectedMarker"
                                                                     BorderBrush="{StaticResource LS_tint100}"
                                                                     BorderThickness="2"
-                                                                    Visibility="Collapsed" />
+                                                                    Visibility="Collapsed">
+                                                                    <Border.RenderTransform>
+                                                                        <ScaleTransform ScaleX="2"
+                                                                            ScaleY="2" />
+                                                                    </Border.RenderTransform>
+                                                                </Border>
                                                                 <Control x:Name="SelectedGlow"
                                                                     IsHitTestVisible="False"
                                                                     Visibility="Collapsed"
-                                                                    Template="{StaticResource HotBarActiveSlotIndicator}" />
+                                                                    Template="{StaticResource HotBarActiveSlotIndicator}">
+                                                                    <Control.RenderTransform>
+                                                                        <ScaleTransform ScaleX="2"
+                                                                            ScaleY="2" />
+                                                                    </Control.RenderTransform>
+                                                                </Control>
 
 
                                                             </Grid>
