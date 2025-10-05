@@ -45,6 +45,9 @@
                 <System:Double x:Key="StatusLimitAmount">9</System:Double>
                 <System:Double x:Key="StatusLimitAmountInverse">-9</System:Double>
 
+                <!-- TouchUI -->
+                <System:Double x:Key="MultiTargetPopupScaleFactor">1000.0</System:Double>
+
                 <Thickness x:Key="ResourceBackgroundMargin">0</Thickness>
                 <Thickness x:Key="ClassIconMargin">0,16,0,51</Thickness>
                 <Thickness x:Key="TurnButtonMargin">0,0,174,34</Thickness>
@@ -2665,205 +2668,377 @@
                                         <Grid x:Name="MultiTargetDashContainer"
                                             Visibility="Collapsed" HorizontalAlignment="Right"
                                             VerticalAlignment="Center" Margin="0,0,24,24">
-                                            <Grid.Resources>
-                                                <BitmapImage x:Key="ExtraTargetRadialBg"
-                                                    UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/extraTarget_radialBg.png" />
-                                                <BitmapImage x:Key="ExtraTargetBg"
-                                                    UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/extraTarget_bg.png" />
-                                            </Grid.Resources>
 
-                                            <Image Source="{StaticResource ExtraTargetBg}"
-                                                Stretch="None" VerticalAlignment="Center"
-                                                HorizontalAlignment="Right" />
+                                            <!-- TouchUI: Wrap in pop-up to allow for absolute
+                                            positioning relative to full window -->
+                                            <Popup Name="BottomRightPopup"
+                                                IsOpen="{Binding IsVisible, ElementName=MultiTargetDashContainer}"
+                                                AllowsTransparency="True"
+                                                StaysOpen="True"
+                                                PlacementTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=AdornerDecorator}}"
+                                                Placement="RelativePoint"
+                                                HorizontalOffset="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType=AdornerDecorator}}"
+                                                VerticalOffset="{Binding Path=ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType=AdornerDecorator}}"
+                                            >
+                                                <Grid x:Name="MultiTargetPopupGrid"
+                                                    RenderTransformOrigin="1, 1">
 
-                                            <ls:LSButton x:Name="ForceCastButton"
-                                                IsEnabled="{Binding CurrentPlayer.UIData.ActiveTask.CanForceCast}"
-                                                Command="{Binding Path=ForceCastCommand}"
-                                                ToolTipService.ShowOnDisabled="True"
-                                                HorizontalAlignment="Right" Margin="0,0,2,0">
-                                                <ls:LSButton.ToolTip>
-                                                    <ls:LSTooltip IsHitTestVisible="False"
-                                                        Placement="Center" VerticalOffset="-126">
-                                                        <StackPanel>
-                                                            <TextBlock x:Name="Title"
-                                                                Style="{StaticResource TooltipTitleStyle}"
-                                                                Margin="{StaticResource TitleWithoutSubtitleMargin}"
-                                                                Text="{Binding Source='h2bb01606gdea8g4ae9gbab7ge50b79a088dc', Converter={StaticResource TranslatedStringConverter}}" />
+                                                    <!-- TouchUI: Scale based on window height.
+                                                    Using the VerticalOffset binding somehow didn't work or
+                                                    maybe I misconfigured it, but using the vertical
+                                                    offset which is exactly the same seems to work -->
+                                                    <Grid.RenderTransform>
+                                                        <ScaleTransform>
+                                                            <ScaleTransform.ScaleY>
+                                                                <MultiBinding
+                                                                    Converter="{StaticResource DivideMultiConverter}">
+                                                                    <Binding Path="VerticalOffset"
+                                                                        ElementName="BottomRightPopup" />
+                                                                    <Binding
+                                                                        Source="{StaticResource MultiTargetPopupScaleFactor}" />
+                                                                </MultiBinding>
+                                                            </ScaleTransform.ScaleY>
+                                                            <ScaleTransform.ScaleX>
+                                                                <Binding Path="ScaleY"
+                                                                    RelativeSource="{RelativeSource Self}" />
+                                                            </ScaleTransform.ScaleX>
+                                                        </ScaleTransform>
+                                                    </Grid.RenderTransform>
+
+                                                    <Grid Margin="0,0,0,28">
+                                                        <Grid.Resources>
+                                                            <BitmapImage x:Key="ExtraTargetRadialBg"
+                                                                UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/extraTarget_radialBg.png" />
+                                                            <BitmapImage x:Key="ExtraTargetBg"
+                                                                UriSource="../Assets/touchui_extraTarget_bg.png" />
+                                                        </Grid.Resources>
+
+                                                        <Image
+                                                            Source="{StaticResource ExtraTargetBg}"
+                                                            Stretch="None"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Right" />
+
+                                                        <ls:LSButton x:Name="ForceCastButton"
+                                                            IsEnabled="True"
+                                                            Command="{Binding Path=ForceCastCommand}"
+                                                            ToolTipService.ShowOnDisabled="True"
+                                                            HorizontalAlignment="Right"
+                                                            Margin="0,0,0,0">
+                                                            <ls:LSButton.ToolTip>
+                                                                <ls:LSTooltip
+                                                                    IsHitTestVisible="False"
+                                                                    Placement="Center"
+                                                                    VerticalOffset="-126">
+                                                                    <StackPanel>
+                                                                        <TextBlock x:Name="Title"
+                                                                            Style="{StaticResource TooltipTitleStyle}"
+                                                                            Margin="{StaticResource TitleWithoutSubtitleMargin}"
+                                                                            Text="{Binding Source='h2bb01606gdea8g4ae9gbab7ge50b79a088dc', Converter={StaticResource TranslatedStringConverter}}" />
+                                                                        <TextBlock
+                                                                            Style="{StaticResource TooltipDefaultTextStyle}"
+                                                                            Text="{Binding Source='h51aabbb7ga214g41e0ga817gcf00d25250d7', Converter={StaticResource TranslatedStringConverter}}"
+                                                                            TextWrapping="Wrap" />
+                                                                    </StackPanel>
+                                                                </ls:LSTooltip>
+                                                            </ls:LSButton.ToolTip>
+                                                            <ls:LSButton.Template>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <ControlTemplate.Resources>
+                                                                        <BitmapImage
+                                                                            x:Key="ButtonNormal"
+                                                                            UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/box_resource_ready.png" />
+                                                                        <BitmapImage
+                                                                            x:Key="ButtonIcon"
+                                                                            UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_d.png" />
+                                                                    </ControlTemplate.Resources>
+                                                                    <Grid>
+                                                                        <Image x:Name="bg"
+                                                                            Source="{StaticResource ButtonNormal}"
+                                                                            Stretch="Uniform"
+                                                                            Width="80">
+                                                                            <Image.Effect>
+                                                                                <DropShadowEffect
+                                                                                    x:Name="glow"
+                                                                                    BlurRadius="20"
+                                                                                    ShadowDepth="0"
+                                                                                    Opacity="1"
+                                                                                    Color="{StaticResource bonusColor}" />
+                                                                            </Image.Effect>
+                                                                        </Image>
+                                                                        <Image x:Name="icon"
+                                                                            Source="{StaticResource ButtonIcon}"
+                                                                            Stretch="None"
+                                                                            Opacity="0.9" />
+                                                                    </Grid>
+
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger
+                                                                            Property="IsMouseOver"
+                                                                            Value="True">
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/box_resource_ready.png" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_h.png" />
+                                                                        </Trigger>
+                                                                        <Trigger
+                                                                            Property="IsPressed"
+                                                                            Value="True">
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/box_resource_ready.png" />
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Margin"
+                                                                                Value="0,2,0,-2" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_h.png" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Margin"
+                                                                                Value="0,2,0,-2" />
+                                                                        </Trigger>
+                                                                        <Trigger
+                                                                            Property="IsEnabled"
+                                                                            Value="False">
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/neo/box_resource_missing.png" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_disabled.png" />
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Effect">
+                                                                                <Setter.Value>
+                                                                                    <DropShadowEffect
+                                                                                        Color="{StaticResource darkRed}" />
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </ls:LSButton.Template>
+                                                        </ls:LSButton>
+
+                                                        <!-- New button to undo multi-target casting
+                                                        (like a right click) -->
+                                                        <ls:LSButton x:Name="MultiTargetUndoButton"
+                                                            IsEnabled="True"
+                                                            Command="{Binding Path=TouchUI_UndoMultiTargetCommand}"
+                                                            ToolTipService.ShowOnDisabled="True"
+                                                            HorizontalAlignment="Left"
+                                                            Margin="0,0,0,0">
+                                                            <ls:LSButton.ToolTip>
+                                                                <ls:LSTooltip
+                                                                    IsHitTestVisible="False"
+                                                                    Placement="Center"
+                                                                    VerticalOffset="-126">
+                                                                    <StackPanel>
+                                                                        <TextBlock
+                                                                            Style="{StaticResource TooltipTitleStyle}"
+                                                                            Margin="{StaticResource TitleWithoutSubtitleMargin}"
+                                                                            Text="{Binding Source='h2bb01606gdea8g4ae9gbab7ge50b79a088dc', Converter={StaticResource TranslatedStringConverter}}" />
+                                                                        <TextBlock
+                                                                            Style="{StaticResource TooltipDefaultTextStyle}"
+                                                                            Text="{Binding Source='h51aabbb7ga214g41e0ga817gcf00d25250d7', Converter={StaticResource TranslatedStringConverter}}"
+                                                                            TextWrapping="Wrap" />
+                                                                    </StackPanel>
+                                                                </ls:LSTooltip>
+                                                            </ls:LSButton.ToolTip>
+                                                            <ls:LSButton.Template>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <ControlTemplate.Resources>
+                                                                        <BitmapImage
+                                                                            x:Key="ButtonNormal"
+                                                                            UriSource="../Assets/touchui_box_resource_undo.png" />
+                                                                        <BitmapImage
+                                                                            x:Key="ButtonIcon"
+                                                                            UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/ico_btn_back_d.png" />
+                                                                    </ControlTemplate.Resources>
+                                                                    <Grid>
+                                                                        <Image x:Name="bg"
+                                                                            Source="{StaticResource ButtonNormal}"
+                                                                            Stretch="Uniform"
+                                                                            Width="80">
+                                                                            <Image.Effect>
+                                                                                <DropShadowEffect
+                                                                                    x:Name="glow"
+                                                                                    BlurRadius="20"
+                                                                                    ShadowDepth="0"
+                                                                                    Opacity="1"
+                                                                                    Color="{StaticResource baseColor}" />
+                                                                            </Image.Effect>
+                                                                        </Image>
+                                                                        <Image x:Name="icon"
+                                                                            Source="{StaticResource ButtonIcon}"
+                                                                            Stretch="None"
+                                                                            Opacity="0.9" />
+                                                                    </Grid>
+
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger
+                                                                            Property="IsMouseOver"
+                                                                            Value="True">
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Source"
+                                                                                Value="../Assets/touchui_box_resource_undo.png" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/ico_btn_back_h.png" />
+                                                                        </Trigger>
+                                                                        <Trigger
+                                                                            Property="IsPressed"
+                                                                            Value="True">
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Source"
+                                                                                Value="../Assets/touchui_box_resource_undo.png" />
+                                                                            <Setter TargetName="bg"
+                                                                                Property="Margin"
+                                                                                Value="0,2,0,-2" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Source"
+                                                                                Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/ico_btn_back_h.png" />
+                                                                            <Setter
+                                                                                TargetName="icon"
+                                                                                Property="Margin"
+                                                                                Value="0,2,0,-2" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </ls:LSButton.Template>
+                                                        </ls:LSButton>
+
+                                                        <Grid HorizontalAlignment="Right"
+                                                            Margin="0,0,61,0">
+                                                            <Grid.Resources>
+                                                                <Style x:Key="CursorDashPathStyle"
+                                                                    TargetType="Path">
+                                                                    <Setter
+                                                                        Property="StrokeThickness"
+                                                                        Value="6" />
+                                                                    <Setter
+                                                                        Property="noesis:Element.PPAAIn"
+                                                                        Value="0.3" />
+                                                                    <Setter
+                                                                        Property="noesis:Element.PPAAOut"
+                                                                        Value="2.0" />
+                                                                    <Setter
+                                                                        Property="RenderOptions.BitmapScalingMode"
+                                                                        Value="NearestNeighbor" />
+                                                                    <Setter
+                                                                        Property="UseLayoutRounding"
+                                                                        Value="True" />
+                                                                    <Setter
+                                                                        Property="SnapsToDevicePixels"
+                                                                        Value="True" />
+                                                                    <Setter Property="Width"
+                                                                        Value="120" />
+                                                                    <Setter Property="Height"
+                                                                        Value="120" />
+                                                                    <Setter
+                                                                        Property="RenderTransformOrigin"
+                                                                        Value="0.5,0.5" />
+                                                                    <Setter Property="Data">
+                                                                        <Setter.Value>
+                                                                            <EllipseGeometry
+                                                                                RadiusX="50"
+                                                                                RadiusY="50"
+                                                                                Center="60,60" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+
+                                                                <Style x:Key="CursorDashTextStyle"
+                                                                    TargetType="TextBlock">
+                                                                    <Setter Property="FontSize"
+                                                                        Value="{StaticResource ScaledLargeFontSize}" />
+                                                                    <Setter Property="Foreground"
+                                                                        Value="{StaticResource LS_extraspecialTxtColor}" />
+                                                                    <Setter
+                                                                        Property="HorizontalAlignment"
+                                                                        Value="Center" />
+                                                                    <Setter
+                                                                        Property="VerticalAlignment"
+                                                                        Value="Center" />
+                                                                    <Setter Property="FontWeight"
+                                                                        Value="Bold" />
+                                                                </Style>
+
+                                                                <Style x:Key="PieStyle"
+                                                                    BasedOn="{StaticResource CursorDashPathStyle}" />
+                                                                <System:Double
+                                                                    x:Key="BaseColorOpacity">
+                                                                    1</System:Double>
+                                                                <SolidColorBrush x:Key="BaseColor"
+                                                                    Color="{Binding Source={StaticResource LS_HotbarTargetRadialBaseColor}, Path=Color}" />
+                                                                <SolidColorBrush
+                                                                    x:Key="HighlightColor"
+                                                                    Color="{Binding Source={StaticResource LS_HotbarTargetRadialHighlightColor}, Path=Color}" />
+                                                                <SolidColorBrush x:Key="GlowColor"
+                                                                    Color="{Binding Source={StaticResource LS_HotbarTargetRadialGlowColor}, Path=Color}" />
+                                                            </Grid.Resources>
+
+                                                            <Image
+                                                                Source="{StaticResource ExtraTargetRadialBg}"
+                                                                Stretch="None"
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Center" />
+
+                                                            <Control x:Name="InnerHitPointsDash"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Template="{StaticResource SimplifiedCursorDashTemplate}"
+                                                                DataContext="{Binding CurrentPlayer.UIData.ActiveTask.HPTargetValues}"
+                                                                Visibility="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToCollapsedConverter}}">
+                                                                <Control.Resources>
+                                                                    <System:Double
+                                                                        x:Key="RelativeSegmentLength">
+                                                                        0.75</System:Double>
+                                                                </Control.Resources>
+                                                            </Control>
+
                                                             <TextBlock
-                                                                Style="{StaticResource TooltipDefaultTextStyle}"
-                                                                Text="{Binding Source='h51aabbb7ga214g41e0ga817gcf00d25250d7', Converter={StaticResource TranslatedStringConverter}}"
-                                                                TextWrapping="Wrap" />
-                                                        </StackPanel>
-                                                    </ls:LSTooltip>
-                                                </ls:LSButton.ToolTip>
-                                                <ls:LSButton.Template>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <ControlTemplate.Resources>
-                                                            <BitmapImage x:Key="ButtonNormal"
-                                                                UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/box_resource_ready.png" />
-                                                            <BitmapImage x:Key="ButtonIcon"
-                                                                UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_d.png" />
-                                                        </ControlTemplate.Resources>
-                                                        <Grid>
-                                                            <Image x:Name="bg"
-                                                                Source="{StaticResource ButtonNormal}"
-                                                                Stretch="Uniform" Width="80">
-                                                                <Image.Effect>
-                                                                    <DropShadowEffect x:Name="glow"
-                                                                        BlurRadius="20"
-                                                                        ShadowDepth="0" Opacity="1"
-                                                                        Color="{StaticResource bonusColor}" />
-                                                                </Image.Effect>
-                                                            </Image>
-                                                            <Image x:Name="icon"
-                                                                Source="{StaticResource ButtonIcon}"
-                                                                Stretch="None" Opacity="0.9" />
+                                                                Style="{StaticResource CursorDashTextStyle}"
+                                                                Text="{Binding CurrentPlayer.UIData.ActiveTask.HPTargetValues.Remaining}"
+                                                                Visibility="{Binding Visibility, ElementName=InnerHitPointsDash}" />
+
+                                                            <Control x:Name="InnerProjectilesDash"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Template="{StaticResource SimplifiedCursorDashTemplate}"
+                                                                DataContext="{Binding CurrentPlayer.UIData.ActiveTask.TargetValues}"
+                                                                Visibility="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToCollapsedConverter}}">
+                                                                <Control.Resources>
+                                                                    <System:Double
+                                                                        x:Key="RelativeSegmentLength">
+                                                                        0.9</System:Double>
+                                                                </Control.Resources>
+                                                            </Control>
+
+                                                            <TextBlock
+                                                                Style="{StaticResource CursorDashTextStyle}"
+                                                                Text="{Binding CurrentPlayer.UIData.ActiveTask.TargetValues.Remaining, Converter={StaticResource AddConverter}, ConverterParameter=1}"
+                                                                Visibility="{Binding Visibility, ElementName=InnerProjectilesDash}" />
                                                         </Grid>
 
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver"
-                                                                Value="True">
-                                                                <Setter TargetName="bg"
-                                                                    Property="Source"
-                                                                    Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/box_resource_ready.png" />
-                                                                <Setter TargetName="icon"
-                                                                    Property="Source"
-                                                                    Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_h.png" />
-                                                            </Trigger>
-                                                            <Trigger Property="IsPressed"
-                                                                Value="True">
-                                                                <Setter TargetName="bg"
-                                                                    Property="Source"
-                                                                    Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/box_resource_ready.png" />
-                                                                <Setter TargetName="bg"
-                                                                    Property="Margin"
-                                                                    Value="0,2,0,-2" />
-                                                                <Setter TargetName="icon"
-                                                                    Property="Source"
-                                                                    Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_h.png" />
-                                                                <Setter TargetName="icon"
-                                                                    Property="Margin"
-                                                                    Value="0,2,0,-2" />
-                                                            </Trigger>
-                                                            <Trigger Property="IsEnabled"
-                                                                Value="False">
-                                                                <Setter TargetName="bg"
-                                                                    Property="Source"
-                                                                    Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/neo/box_resource_missing.png" />
-                                                                <Setter TargetName="icon"
-                                                                    Property="Source"
-                                                                    Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_tick_disabled.png" />
-                                                                <Setter TargetName="bg"
-                                                                    Property="Effect">
-                                                                    <Setter.Value>
-                                                                        <DropShadowEffect
-                                                                            Color="{StaticResource darkRed}" />
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </ls:LSButton.Template>
-                                            </ls:LSButton>
-
-                                            <Grid HorizontalAlignment="Right" Margin="0,0,150,0">
-                                                <Grid.Resources>
-                                                    <Style x:Key="CursorDashPathStyle"
-                                                        TargetType="Path">
-                                                        <Setter Property="StrokeThickness" Value="6" />
-                                                        <Setter Property="noesis:Element.PPAAIn"
-                                                            Value="0.3" />
-                                                        <Setter Property="noesis:Element.PPAAOut"
-                                                            Value="2.0" />
-                                                        <Setter
-                                                            Property="RenderOptions.BitmapScalingMode"
-                                                            Value="NearestNeighbor" />
-                                                        <Setter Property="UseLayoutRounding"
-                                                            Value="True" />
-                                                        <Setter Property="SnapsToDevicePixels"
-                                                            Value="True" />
-                                                        <Setter Property="Width" Value="120" />
-                                                        <Setter Property="Height" Value="120" />
-                                                        <Setter Property="RenderTransformOrigin"
-                                                            Value="0.5,0.5" />
-                                                        <Setter Property="Data">
-                                                            <Setter.Value>
-                                                                <EllipseGeometry RadiusX="50"
-                                                                    RadiusY="50" Center="60,60" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-
-                                                    <Style x:Key="CursorDashTextStyle"
-                                                        TargetType="TextBlock">
-                                                        <Setter Property="FontSize"
-                                                            Value="{StaticResource ScaledLargeFontSize}" />
-                                                        <Setter Property="Foreground"
-                                                            Value="{StaticResource LS_extraspecialTxtColor}" />
-                                                        <Setter Property="HorizontalAlignment"
-                                                            Value="Center" />
-                                                        <Setter Property="VerticalAlignment"
-                                                            Value="Center" />
-                                                        <Setter Property="FontWeight" Value="Bold" />
-                                                    </Style>
-
-                                                    <Style x:Key="PieStyle"
-                                                        BasedOn="{StaticResource CursorDashPathStyle}" />
-                                                    <System:Double x:Key="BaseColorOpacity">1</System:Double>
-                                                    <SolidColorBrush x:Key="BaseColor"
-                                                        Color="{Binding Source={StaticResource LS_HotbarTargetRadialBaseColor}, Path=Color}" />
-                                                    <SolidColorBrush x:Key="HighlightColor"
-                                                        Color="{Binding Source={StaticResource LS_HotbarTargetRadialHighlightColor}, Path=Color}" />
-                                                    <SolidColorBrush x:Key="GlowColor"
-                                                        Color="{Binding Source={StaticResource LS_HotbarTargetRadialGlowColor}, Path=Color}" />
-                                                </Grid.Resources>
-
-                                                <Image Source="{StaticResource ExtraTargetRadialBg}"
-                                                    Stretch="None" VerticalAlignment="Center"
-                                                    HorizontalAlignment="Center" />
-
-                                                <Control x:Name="InnerHitPointsDash"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Template="{StaticResource SimplifiedCursorDashTemplate}"
-                                                    DataContext="{Binding CurrentPlayer.UIData.ActiveTask.HPTargetValues}"
-                                                    Visibility="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToCollapsedConverter}}">
-                                                    <Control.Resources>
-                                                        <System:Double x:Key="RelativeSegmentLength">
-                                                            0.75</System:Double>
-                                                    </Control.Resources>
-                                                </Control>
-
-                                                <TextBlock
-                                                    Style="{StaticResource CursorDashTextStyle}"
-                                                    Text="{Binding CurrentPlayer.UIData.ActiveTask.HPTargetValues.Remaining}"
-                                                    Visibility="{Binding Visibility, ElementName=InnerHitPointsDash}" />
-
-                                                <Control x:Name="InnerProjectilesDash"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Template="{StaticResource SimplifiedCursorDashTemplate}"
-                                                    DataContext="{Binding CurrentPlayer.UIData.ActiveTask.TargetValues}"
-                                                    Visibility="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToCollapsedConverter}}">
-                                                    <Control.Resources>
-                                                        <System:Double x:Key="RelativeSegmentLength">
-                                                            0.9</System:Double>
-                                                    </Control.Resources>
-                                                </Control>
-
-                                                <TextBlock
-                                                    Style="{StaticResource CursorDashTextStyle}"
-                                                    Text="{Binding CurrentPlayer.UIData.ActiveTask.TargetValues.Remaining, Converter={StaticResource AddConverter}, ConverterParameter=1}"
-                                                    Visibility="{Binding Visibility, ElementName=InnerProjectilesDash}" />
-                                            </Grid>
-
-                                            <TextBlock x:Name="MultiTargetPropertyName"
-                                                FontSize="{StaticResource ScaledSmallFontSize}"
-                                                Foreground="{StaticResource LS_extraspecialTxtColor}"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Bottom" Margin="0,28,94,-28"
-                                                Width="234" TextAlignment="Center"
-                                                FontStyle="Italic" />
+                                                        <TextBlock x:Name="MultiTargetPropertyName"
+                                                            FontSize="{StaticResource ScaledSmallFontSize}"
+                                                            Foreground="{StaticResource LS_extraspecialTxtColor}"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Bottom"
+                                                            Margin="0,28,3,-28"
+                                                            Width="234" TextAlignment="Center"
+                                                            FontStyle="Italic" />
+                                                    </Grid>
+                                                </Grid>
+                                            </Popup>
                                         </Grid>
                                     </Grid>
                                 </Border>
