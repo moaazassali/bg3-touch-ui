@@ -11,6 +11,11 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance {x:Type ls:Widget}, IsDesignTimeCreatable=True}">
 
+    <ls:UIWidget.RenderTransform>
+        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+    </ls:UIWidget.RenderTransform>
+
+
     <ls:UIWidget.Style>
         <Style TargetType="ls:UIWidget" BasedOn="{StaticResource {x:Type ls:UIWidget}}">
             <Setter Property="Template" Value="{StaticResource Hud.Root}" />
@@ -280,7 +285,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <ls:LSNineSliceImage Margin="-4,0,0,0" HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Top"
                             ImageSource="pack://application:,,,/Core;component/Assets/PlayerPortraits/portrait_party_bg.png"
                             Slices="108,155,0,255">
                             <StackPanel>
