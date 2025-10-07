@@ -281,7 +281,7 @@
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="1850" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <ls:LSNineSliceImage Margin="-4,0,0,0" HorizontalAlignment="Left"
@@ -670,66 +670,68 @@
 
                             </StackPanel>
                         </ls:LSNineSliceImage>
+
+                        <!-- TouchUI: Moved the camp inventory button inside so it gets positioned
+                        just under the player portraits instead of being outside of window bounds -->
+                        <Grid x:Name="CompanionAccessHolder" VerticalAlignment="Top" Grid.Row="1"
+                            HorizontalAlignment="Left" Visibility="Collapsed" Margin="-18,-32,0,0">
+                            <Grid.Resources>
+                                <BitmapImage x:Key="CompanionButtonholder"
+                                    UriSource="pack://application:,,,/Core;component/Assets/CharacterSheet/campFollowers_btn_bg.png" />
+                            </Grid.Resources>
+                            <Grid.RenderTransform>
+                                <TranslateTransform X="0" Y="0" />
+                            </Grid.RenderTransform>
+                            <Image Source="{StaticResource CompanionButtonholder}" Stretch="None" />
+
+                            <ls:LSButton x:Name="ToggleCampCompanionButton" Width="130" Height="130"
+                                Margin="0,0,0,28" ToolTipService.Placement="Top"
+                                Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                                CommandParameter="ToggleCompanionsPanel">
+                                <ls:LSButton.Resources>
+                                    <BitmapImage x:Key="partyLine_bigBtn_d"
+                                        UriSource="pack://application:,,,/Core;component/Assets/Buttons/partyLine_bigBtn_h.png" />
+                                    <BitmapImage x:Key="ico_party_d"
+                                        UriSource="pack://application:,,,/Core;component/Assets/Shared/campFollowers_btn_ico_d.png" />
+                                </ls:LSButton.Resources>
+                                <ls:LSButton.ToolTip>
+                                    <ls:LSTooltip IsHitTestVisible="False">
+                                        <TextBlock
+                                            Text="{Binding Source='ha8cd9920g28dfg4ebcg8a03g20ffa9fa4e4e',Converter={StaticResource TranslatedStringConverter}}"
+                                            Style="{StaticResource TooltipBaseTextStyle}" />
+                                    </ls:LSTooltip>
+                                </ls:LSButton.ToolTip>
+                                <ls:LSButton.Template>
+                                    <ControlTemplate TargetType="ls:LSButton">
+                                        <Grid>
+                                            <Image x:Name="Background"
+                                                Source="{StaticResource partyLine_bigBtn_d}"
+                                                Stretch="None"
+                                                Margin="-1,-1,1,1" />
+                                            <Image x:Name="ClassIcon"
+                                                Source="{StaticResource ico_party_d}"
+                                                Height="48" Margin="0" />
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Background" Property="Source"
+                                                    Value="pack://application:,,,/Core;component/Assets/Buttons/partyLine_bigBtn_h.png" />
+                                                <Setter TargetName="ClassIcon" Property="Source"
+                                                    Value="pack://application:,,,/Core;component/Assets/Shared/campFollowers_btn_ico_h.png" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="Background" Property="Source"
+                                                    Value="pack://application:,,,/Core;component/Assets/Buttons/partyLine_bigBtn_p.png" />
+                                                <Setter TargetName="ClassIcon" Property="Height"
+                                                    Value="40" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ls:LSButton.Template>
+                            </ls:LSButton>
+                        </Grid>
                     </Grid>
                 </Border>
-
-                <!--CAMP
-                COMPANIONS TOGGLE-->
-                <Grid x:Name="CompanionAccessHolder" VerticalAlignment="Bottom"
-                    HorizontalAlignment="Left" Visibility="Collapsed" Margin="-16,0,0,48">
-                    <Grid.Resources>
-                        <BitmapImage x:Key="CompanionButtonholder"
-                            UriSource="pack://application:,,,/Core;component/Assets/CharacterSheet/campFollowers_btn_bg.png" />
-                    </Grid.Resources>
-                    <Grid.RenderTransform>
-                        <TranslateTransform X="0" Y="0" />
-                    </Grid.RenderTransform>
-                    <Image Source="{StaticResource CompanionButtonholder}" Stretch="None" />
-
-                    <ls:LSButton x:Name="ToggleCampCompanionButton" Width="130" Height="130"
-                        Margin="0,0,0,28" ToolTipService.Placement="Top"
-                        Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
-                        CommandParameter="ToggleCompanionsPanel">
-                        <ls:LSButton.Resources>
-                            <BitmapImage x:Key="partyLine_bigBtn_d"
-                                UriSource="pack://application:,,,/Core;component/Assets/Buttons/partyLine_bigBtn_h.png" />
-                            <BitmapImage x:Key="ico_party_d"
-                                UriSource="pack://application:,,,/Core;component/Assets/Shared/campFollowers_btn_ico_d.png" />
-                        </ls:LSButton.Resources>
-                        <ls:LSButton.ToolTip>
-                            <ls:LSTooltip IsHitTestVisible="False">
-                                <TextBlock
-                                    Text="{Binding Source='ha8cd9920g28dfg4ebcg8a03g20ffa9fa4e4e',Converter={StaticResource TranslatedStringConverter}}"
-                                    Style="{StaticResource TooltipBaseTextStyle}" />
-                            </ls:LSTooltip>
-                        </ls:LSButton.ToolTip>
-                        <ls:LSButton.Template>
-                            <ControlTemplate TargetType="ls:LSButton">
-                                <Grid>
-                                    <Image x:Name="Background"
-                                        Source="{StaticResource partyLine_bigBtn_d}" Stretch="None"
-                                        Margin="-1,-1,1,1" />
-                                    <Image x:Name="ClassIcon" Source="{StaticResource ico_party_d}"
-                                        Height="48" Margin="0" />
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Background" Property="Source"
-                                            Value="pack://application:,,,/Core;component/Assets/Buttons/partyLine_bigBtn_h.png" />
-                                        <Setter TargetName="ClassIcon" Property="Source"
-                                            Value="pack://application:,,,/Core;component/Assets/Shared/campFollowers_btn_ico_h.png" />
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="Background" Property="Source"
-                                            Value="pack://application:,,,/Core;component/Assets/Buttons/partyLine_bigBtn_p.png" />
-                                        <Setter TargetName="ClassIcon" Property="Height" Value="40" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </ls:LSButton.Template>
-                    </ls:LSButton>
-                </Grid>
-
 
                 <!-- If partly line is hidden, allow centering the camera on the unique character by
                 pressing UISelectChar1 -->
