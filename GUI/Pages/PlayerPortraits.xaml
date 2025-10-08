@@ -11,11 +11,6 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance {x:Type ls:Widget}, IsDesignTimeCreatable=True}">
 
-    <ls:UIWidget.RenderTransform>
-        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-    </ls:UIWidget.RenderTransform>
-
-
     <ls:UIWidget.Style>
         <Style TargetType="ls:UIWidget" BasedOn="{StaticResource {x:Type ls:UIWidget}}">
             <Setter Property="Template" Value="{StaticResource Hud.Root}" />
@@ -32,6 +27,10 @@
     </ls:UIWidget.Style>
 
     <ls:UIWidget.Resources>
+
+        <!-- TouchUI Resources -->
+        <System:Double x:Key="TouchUI_PlayerPortraitsScale">1.5</System:Double>
+        <!-- TouchUI Resources -->
 
         <KeyTime x:Key="SlideInHudTime">0:0:0.7</KeyTime>
         <KeyTime x:Key="SlideInHudBeginTime">0:0:0.3</KeyTime>
@@ -114,6 +113,14 @@
         </Style>
 
     </ls:UIWidget.Resources>
+
+
+    <ls:UIWidget.RenderTransform>
+        <ScaleTransform
+            ScaleX="{StaticResource TouchUI_PlayerPortraitsScale}"
+            ScaleY="{StaticResource TouchUI_PlayerPortraitsScale}"
+        />
+    </ls:UIWidget.RenderTransform>
 
     <ls:UIWidget.ContentTemplate>
         <DataTemplate>
