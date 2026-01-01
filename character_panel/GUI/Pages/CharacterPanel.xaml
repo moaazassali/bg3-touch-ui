@@ -24,289 +24,295 @@
     </b:Interaction.Triggers>
 
     <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <!-- Touch UI - Import custom TouchUI_XPBarTemplate.xaml -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_XPBarTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
-        <BitmapImage x:Key="decorated_header_3">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded.png</BitmapImage>
-        <BitmapImage x:Key="decorated_header_2">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_2.png</BitmapImage>
+            <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
+            <BitmapImage x:Key="decorated_header_3">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded.png</BitmapImage>
+            <BitmapImage x:Key="decorated_header_2">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_2.png</BitmapImage>
 
-        <DropShadowEffect x:Key="DropShadow" Direction="270" Color="{StaticResource LS_PrimaryColorDropShadowColor}" ShadowDepth="3.0" BlurRadius="5.0"/>
+            <DropShadowEffect x:Key="DropShadow" Direction="270" Color="{StaticResource LS_PrimaryColorDropShadowColor}" ShadowDepth="3.0" BlurRadius="5.0"/>
 
-        <Storyboard x:Key="FadeInBrainImage">
-            <DoubleAnimation
-                Storyboard.TargetName="IllithidBackgroundHolder"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="0.8"
-                Duration="0:0:1.2">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
+            <Storyboard x:Key="FadeInBrainImage">
+                <DoubleAnimation
+                    Storyboard.TargetName="IllithidBackgroundHolder"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="0.8"
+                    Duration="0:0:1.2">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
 
-            <DoubleAnimation
-                Storyboard.TargetName="IllithidBackgroundTransform"
-                Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
-                From="1.3"
-                To="1.46"
-                Duration="0:0:2.4">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation
-                Storyboard.TargetName="IllithidBackgroundTransform"
-                Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
-                From="1.3"
-                To="1.46"
-                Duration="0:0:2.4">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="IllithidBackgroundTransform"
+                    Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+                    From="1.3"
+                    To="1.46"
+                    Duration="0:0:2.4">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="IllithidBackgroundTransform"
+                    Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+                    From="1.3"
+                    To="1.46"
+                    Duration="0:0:2.4">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
 
-        </Storyboard>
+            </Storyboard>
 
-        <Storyboard x:Key="FadeInAlchemyImage">
-            <DoubleAnimation
-                Storyboard.TargetName="AlchemyBackgroundHolder"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="1"
-                Duration="0:0:1.0">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
+            <Storyboard x:Key="FadeInAlchemyImage">
+                <DoubleAnimation
+                    Storyboard.TargetName="AlchemyBackgroundHolder"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:1.0">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
 
-        <Storyboard x:Key="HideCharacterSelectAnim" FillBehavior="Stop">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EquipmentHolder">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CharacterInfoPanel">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="InventoryColumn">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimation
-                Storyboard.TargetName="EquipmentHolder"
-                Storyboard.TargetProperty="Opacity"
-                From="1"
-                To="0"
-                Duration="0:0:0.4">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation
-                Storyboard.TargetName="CharacterInfoPanel"
-                Storyboard.TargetProperty="Opacity"
-                From="1"
-                To="0"
-                Duration="0:0:0.3">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <ThicknessAnimation
-                Storyboard.TargetName="CharacterInfoPanel"
-                Storyboard.TargetProperty="Margin"
-                From="0,0,0,0"
-                To="-800,0,800,0"
-                Duration="0:0:0.4">
-                <ThicknessAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-            <DoubleAnimation
-                Storyboard.TargetName="InventoryColumn"
-                Storyboard.TargetProperty="Opacity"
-                From="1"
-                To="0"
-                Duration="0:0:0.3">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <ThicknessAnimation
-                Storyboard.TargetName="InventoryColumn"
-                Storyboard.TargetProperty="Margin"
-                From="0,0,0,0"
-                To="800,0,-800,0"
-                Duration="0:0:0.4">
-                <ThicknessAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-        </Storyboard>
-
-
-        <Storyboard x:Key="ShowCharacterSelectAnim" FillBehavior="Stop">
-            <DoubleAnimation
-                Storyboard.TargetName="EquipmentHolder"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="1"
-                Duration="0:0:0.4">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation
-                Storyboard.TargetName="CharacterInfoPanel"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="1"
-                Duration="0:0:0.2">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-
-            <ThicknessAnimation
-                Storyboard.TargetName="CharacterInfoPanel"
-                Storyboard.TargetProperty="Margin"
-                From="-800,0,800,0"
-                To="0,0,0,0"
-                Duration="0:0:0.4">
-                <ThicknessAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-            <DoubleAnimation
-                Storyboard.TargetName="InventoryColumn"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="1"
-                Duration="0:0:0.2">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-
-            <ThicknessAnimation
-                Storyboard.TargetName="InventoryColumn"
-                Storyboard.TargetProperty="Margin"
-                From="800,0,-800,0"
-                To="0,0,0,0"
-                Duration="0:0:0.4">
-                <ThicknessAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-
-        </Storyboard>
+            <Storyboard x:Key="HideCharacterSelectAnim" FillBehavior="Stop">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EquipmentHolder">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CharacterInfoPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="InventoryColumn">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimation
+                    Storyboard.TargetName="EquipmentHolder"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.4">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="CharacterInfoPanel"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <ThicknessAnimation
+                    Storyboard.TargetName="CharacterInfoPanel"
+                    Storyboard.TargetProperty="Margin"
+                    From="0,0,0,0"
+                    To="-800,0,800,0"
+                    Duration="0:0:0.4">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="InventoryColumn"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <ThicknessAnimation
+                    Storyboard.TargetName="InventoryColumn"
+                    Storyboard.TargetProperty="Margin"
+                    From="0,0,0,0"
+                    To="800,0,-800,0"
+                    Duration="0:0:0.4">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+            </Storyboard>
 
 
-        <!-- ======  ILLITHID TEMPLATE ====== -->
+            <Storyboard x:Key="ShowCharacterSelectAnim" FillBehavior="Stop">
+                <DoubleAnimation
+                    Storyboard.TargetName="EquipmentHolder"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.4">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="CharacterInfoPanel"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
 
-        <!--TadpoleCountTemplate copied from gamepad-->
-        <ControlTemplate x:Key="TadpoleCountTemplate" TargetType="Control">
-            <Grid>
-                <Image Source="pack://application:,,,/Core;component/Assets/TadpoleTree_c/TadpoleCounterHolder.png" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="None" Margin="-30,0,-30,-30" />
-                <TextBlock x:Name="TadpoleCountTxt" HorizontalAlignment="Center" noesis:Text.Stroke="{StaticResource LS_specialTxtColor}" noesis:Text.StrokeThickness="3" IsHitTestVisible="False" VerticalAlignment="Top" Margin="0,140,0,0" TextAlignment="Center" FontSize="{StaticResource ScaledHumongousFontSize}" Text="{Binding DataContext.CurrentPlayer.PartyTadpoleCount, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Foreground="{StaticResource LS_specialTxtColor}">
-                    <TextBlock.Effect>
-                        <DropShadowEffect x:Name="TadpoleCountTxtShadow" Direction="270" Color="{StaticResource specialColor}" ShadowDepth="3.0" BlurRadius="10.0"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-                <TextBlock x:Name="TadpoleCountLabel" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource ScaledDefaultFontSize}" Text="{Binding Source='hef430f37g1a44g4d62g8b27gef6546d71ec4', Converter={StaticResource TranslatedStringConverter}}" Margin="0,260,0,0" MaxWidth="300" Foreground="{StaticResource LS_specialTxtColor}"/>
-            </Grid>
-        </ControlTemplate>
+                <ThicknessAnimation
+                    Storyboard.TargetName="CharacterInfoPanel"
+                    Storyboard.TargetProperty="Margin"
+                    From="-800,0,800,0"
+                    To="0,0,0,0"
+                    Duration="0:0:0.4">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="InventoryColumn"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
 
-        <ControlTemplate x:Key="CharacterIllithidTemplate" TargetType="Control">
-            <Grid>
-                <Grid.Resources>
-                    <Style x:Key="BodyText" TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="{StaticResource ScaledDefaultFontSize}"/>
-                        <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                        <Setter Property="TextAlignment" Value="Center"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                    </Style>
-                    <Style x:Key="TitleText" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
-                        <Setter Property="FontSize" Value="{StaticResource ScaledTitleFontSize}"/>
-                        <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
-                    </Style>
-                </Grid.Resources>
+                <ThicknessAnimation
+                    Storyboard.TargetName="InventoryColumn"
+                    Storyboard.TargetProperty="Margin"
+                    From="800,0,-800,0"
+                    To="0,0,0,0"
+                    Duration="0:0:0.4">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
 
-                <Grid Name="IllithidHidden" Visibility="Collapsed" >
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Width="1260" Style="{StaticResource BodyText}" Text="{Binding Source=h7d846a8fg8c30g4debgbb99g23ea547bfafa, Converter={StaticResource TranslatedStringConverter}}"/>
-                        <Grid Width="420" Margin="0,40" Opacity="0.6">
-                            <Grid.ToolTip>
-                                <ls:LSTooltip>
-                                    <TextBlock x:Name="TooltipContent" Text="{Binding Source='h10091f5dg95efg43eega690g96ed3ce694a7', Converter={StaticResource TranslatedStringConverter}}"/>
-                                </ls:LSTooltip>
-                            </Grid.ToolTip>
-                            <Image Source="pack://application:,,,/Core;component/Assets/Buttons/Btn_blue_disabled.png"/>
-                            <TextBlock Text="{Binding Source=heead3bebgdc62g41c5g8cd1g3d96b81a7c68, Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </StackPanel>
+            </Storyboard>
+
+
+            <!-- ======  ILLITHID TEMPLATE ====== -->
+
+            <!--TadpoleCountTemplate copied from gamepad-->
+            <ControlTemplate x:Key="TadpoleCountTemplate" TargetType="Control">
+                <Grid>
+                    <Image Source="pack://application:,,,/Core;component/Assets/TadpoleTree_c/TadpoleCounterHolder.png" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="None" Margin="-30,0,-30,-30" />
+                    <TextBlock x:Name="TadpoleCountTxt" HorizontalAlignment="Center" noesis:Text.Stroke="{StaticResource LS_specialTxtColor}" noesis:Text.StrokeThickness="3" IsHitTestVisible="False" VerticalAlignment="Top" Margin="0,140,0,0" TextAlignment="Center" FontSize="{StaticResource ScaledHumongousFontSize}" Text="{Binding DataContext.CurrentPlayer.PartyTadpoleCount, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Foreground="{StaticResource LS_specialTxtColor}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect x:Name="TadpoleCountTxtShadow" Direction="270" Color="{StaticResource specialColor}" ShadowDepth="3.0" BlurRadius="10.0"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock x:Name="TadpoleCountLabel" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource ScaledDefaultFontSize}" Text="{Binding Source='hef430f37g1a44g4d62g8b27gef6546d71ec4', Converter={StaticResource TranslatedStringConverter}}" Margin="0,260,0,0" MaxWidth="300" Foreground="{StaticResource LS_specialTxtColor}"/>
+                </Grid>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="CharacterIllithidTemplate" TargetType="Control">
+                <Grid>
+                    <Grid.Resources>
+                        <Style x:Key="BodyText" TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="{StaticResource ScaledDefaultFontSize}"/>
+                            <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                        <Style x:Key="TitleText" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
+                            <Setter Property="FontSize" Value="{StaticResource ScaledTitleFontSize}"/>
+                            <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <Grid Name="IllithidHidden" Visibility="Collapsed" >
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Width="1260" Style="{StaticResource BodyText}" Text="{Binding Source=h7d846a8fg8c30g4debgbb99g23ea547bfafa, Converter={StaticResource TranslatedStringConverter}}"/>
+                            <Grid Width="420" Margin="0,40" Opacity="0.6">
+                                <Grid.ToolTip>
+                                    <ls:LSTooltip>
+                                        <TextBlock x:Name="TooltipContent" Text="{Binding Source='h10091f5dg95efg43eega690g96ed3ce694a7', Converter={StaticResource TranslatedStringConverter}}"/>
+                                    </ls:LSTooltip>
+                                </Grid.ToolTip>
+                                <Image Source="pack://application:,,,/Core;component/Assets/Buttons/Btn_blue_disabled.png"/>
+                                <TextBlock Text="{Binding Source=heead3bebgdc62g41c5g8cd1g3d96b81a7c68, Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="IllithidLocked" Visibility="Collapsed" VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,80">
+                            <TextBlock Style="{StaticResource TitleText}" Text="{Binding Source=h764fcd6cgd702g41bcg93a6g64855afd2c92, Converter={StaticResource TranslatedStringConverter}}" MaxWidth="700" Margin="0,0,0,40" VerticalAlignment="Top"/>
+                            <TextBlock Style="{StaticResource BodyText}">
+                                <ls:TextBlockFormatter.SourceText>
+                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                            <Binding Source="hae014f0cgf722g4cd8g93d8gd9faaa4e2ef7"/>
+                                            <Binding Path="Name"/>
+                                        </MultiBinding>
+                                </ls:TextBlockFormatter.SourceText>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="IllithidUnLocked"  Visibility="Collapsed">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource BodyText}" Text="{Binding Source=hb6d4f05fg375bg4219ga684g1be1396aa6e9, Converter={StaticResource TranslatedStringConverter}}" MaxWidth="700" Margin="0,0,0,40" VerticalAlignment="Top">
+
+                            </TextBlock>
+                            <Control HorizontalAlignment="Center" Template="{StaticResource TadpoleCountTemplate}" />
+                            <ls:LSButton Style="{StaticResource BigBlueButtonStyle}" Content="{Binding Source=h1f318f39g2d8eg46ccga7cag187950e70bbd, Converter={StaticResource TranslatedStringConverter}}" Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="OpenTadpoleTree" SoundID="UI_HUD_EscapeMenu" ls:TutorialProperties.TargetID="TUT_TadpoleTree" ls:TutorialProperties.ModalType="TopRight"/>
+                        </StackPanel>
+                    </Grid>
+
                 </Grid>
 
-                <Grid Name="IllithidLocked" Visibility="Collapsed" VerticalAlignment="Center">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,80">
-                        <TextBlock Style="{StaticResource TitleText}" Text="{Binding Source=h764fcd6cgd702g41bcg93a6g64855afd2c92, Converter={StaticResource TranslatedStringConverter}}" MaxWidth="700" Margin="0,0,0,40" VerticalAlignment="Top"/>
-                        <TextBlock Style="{StaticResource BodyText}">
-                            <ls:TextBlockFormatter.SourceText>
-                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                        <Binding Source="hae014f0cgf722g4cd8g93d8gd9faaa4e2ef7"/>
-                                        <Binding Path="Name"/>
-                                    </MultiBinding>
-                            </ls:TextBlockFormatter.SourceText>
-                        </TextBlock>
-                    </StackPanel>
+
+                <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding PlayerCharacterProperties.TadpoleTreeState}" Value="Hidden">
+                        <Setter TargetName="IllithidHidden" Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding PlayerCharacterProperties.TadpoleTreeState}" Value="Locked">
+                        <Setter TargetName="IllithidLocked" Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding PlayerCharacterProperties.TadpoleTreeState}" Value="Available">
+                        <Setter TargetName="IllithidUnLocked" Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
+
+            </ControlTemplate>
+
+
+            <!-- ===== HEADER TEMPLATE ===== -->
+            <ControlTemplate x:Key="RoundTabsTemplate" TargetType="RadioButton">
+                <Grid>
+                    <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_d.png" Stretch="Fill"/>
+                    <Image x:Name="icon" Width="64" Height="64" Source="{DynamicResource Icon}" Stretch="Uniform"/>
                 </Grid>
 
-                <Grid x:Name="IllithidUnLocked"  Visibility="Collapsed">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource BodyText}" Text="{Binding Source=hb6d4f05fg375bg4219ga684g1be1396aa6e9, Converter={StaticResource TranslatedStringConverter}}" MaxWidth="700" Margin="0,0,0,40" VerticalAlignment="Top">
-
-                        </TextBlock>
-                        <Control HorizontalAlignment="Center" Template="{StaticResource TadpoleCountTemplate}" />
-                        <ls:LSButton Style="{StaticResource BigBlueButtonStyle}" Content="{Binding Source=h1f318f39g2d8eg46ccga7cag187950e70bbd, Converter={StaticResource TranslatedStringConverter}}" Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="OpenTadpoleTree" SoundID="UI_HUD_EscapeMenu" ls:TutorialProperties.TargetID="TUT_TadpoleTree" ls:TutorialProperties.ModalType="TopRight"/>
-                    </StackPanel>
-                </Grid>
-
-            </Grid>
-
-
-            <ControlTemplate.Triggers>
-                <DataTrigger Binding="{Binding PlayerCharacterProperties.TadpoleTreeState}" Value="Hidden">
-                    <Setter TargetName="IllithidHidden" Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding PlayerCharacterProperties.TadpoleTreeState}" Value="Locked">
-                    <Setter TargetName="IllithidLocked" Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding PlayerCharacterProperties.TadpoleTreeState}" Value="Available">
-                    <Setter TargetName="IllithidUnLocked" Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </ControlTemplate.Triggers>
-
-        </ControlTemplate>
-
-
-        <!-- ===== HEADER TEMPLATE ===== -->
-        <ControlTemplate x:Key="RoundTabsTemplate" TargetType="RadioButton">
-            <Grid>
-                <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_d.png" Stretch="Fill"/>
-                <Image x:Name="icon" Width="64" Height="64" Source="{DynamicResource Icon}" Stretch="Uniform"/>
-            </Grid>
-
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_h.png"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_p.png"/>
-                    <Setter TargetName="icon" Property="Margin" Value="0,2,0,-2"/>
-                </Trigger>
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_active_d.png"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_h.png"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_p.png"/>
+                        <Setter TargetName="icon" Property="Margin" Value="0,2,0,-2"/>
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_active_d.png"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </ResourceDictionary>
     </ls:UIWidget.Resources>
 
 
@@ -689,7 +695,7 @@
                                         <Run Text="{Binding Source='h8e782babg516fg4d7cgbd57g335de64c94a3', Converter={StaticResource TranslatedStringConverter}}"/>
                                         <Run Text="{Binding Stats.Level.Value}"/>
                                     </TextBlock>
-                                    <Control Grid.Column="1" VerticalAlignment="Center" Template="{DynamicResource XPBarTemplate}"/>
+                                    <Control Grid.Column="1" VerticalAlignment="Center" Template="{DynamicResource TouchUI_XPBarTemplate}"/>
 
                                     <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Source='hd0a79314g0517g4938ga883g9f991801df75', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource DetailedListText}" Margin="10,0,0,0"/>
                                 </Grid>

@@ -1,0 +1,179 @@
+<!-- Copied from Game\Public\Game\GUI\Library\CharacterSheetTemplates.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			        xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    mc:Ignorable="d">
+
+
+    <ControlTemplate x:Key="TouchUI_XPBarTemplate" TargetType="Control">
+        <Grid x:Name="Container" HorizontalAlignment="Center" VerticalAlignment="Top" ToolTipService.Placement="Bottom" Height="64" Background="Transparent">
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource BarBaseTextStyle}"/>
+                <System:Double x:Key="xpBarWidth">300</System:Double>
+            </Grid.Resources>
+
+            <!-- Experience bar -->
+            <Grid Margin="0,12,0,0" ToolTipService.Placement="Bottom" Visibility="{Binding Stats.Level.LevelUpAvailable, Converter={StaticResource BoolToCollapsedConverter}}">
+                <Grid.Resources>
+                    <Style x:Key="BarBackgroundImage9s" TargetType="ls:LSNineSliceImage" BasedOn="{StaticResource {x:Type ls:LSNineSliceImage}}">
+                        <Setter Property="ImageSource" Value="{StaticResource BarBg}" />
+                        <Setter Property="Slices" Value="100,16,100,32" />
+                        <Setter Property="MinHeight" Value="50" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ToolTip>
+                    <ls:LSTooltip>
+                        <ls:LSTooltip.Resources>
+                            <System:Double x:Key="MaxTooltipContentWidth">720</System:Double>
+                        </ls:LSTooltip.Resources>
+                        <TextBlock TextWrapping="Wrap" MaxWidth="700" HorizontalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" >
+						<b:Interaction.Behaviors>
+							<ls:CtxTransStringRunGeneratorBehavior Source="{Binding Path=DataContext.Stats.Level.Description, ElementName=Container}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+						</b:Interaction.Behaviors>
+                        </TextBlock>
+                    </ls:LSTooltip>
+                </Grid.ToolTip>
+                <!-- Bar background -->
+                <ls:LSNineSliceImage x:Name="ExpereinceBar" Style="{StaticResource BarBackgroundImage9s}" Width="364" HorizontalAlignment="Center" Opacity="0.4"/>
+          
+                <!-- Bar -->
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="{StaticResource xpBarWidth}" Width="{StaticResource xpBarWidth}" Height="12" Margin="0,12,0,0">
+                    <ProgressBar Value="{Binding Stats.Level.FractionXPToNextLevel, Mode=OneWay}" Minimum="0" Maximum="1" BorderBrush="Transparent">
+                        <ProgressBar.Foreground>
+                            <ImageBrush ImageSource="pack://application:,,,/Core;component/Assets/CharacterPanel/xpbar_fillcolour.png"/>
+                        </ProgressBar.Foreground>
+                        <ProgressBar.Background>
+                            <ImageBrush ImageSource="pack://application:,,,/Core;component/Assets/CharacterPanel/xpbar_bg.png"/>
+                        </ProgressBar.Background>
+                    </ProgressBar>
+                    <Image VerticalAlignment="Top" Source="pack://application:,,,/Core;component/Assets/CharacterPanel/xpbar_overlay.png" Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                </Grid>
+
+            </Grid>
+
+            <!-- Level up button-->
+            <ls:LSButton x:Name="LevelUpButton" Visibility="{Binding Stats.Level.LevelUpAvailable, Converter={StaticResource BoolToVisibleConverter}}" Command="{Binding DataContext.StartLevelUp, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}" ToolTipService.Placement="Bottom" ToolTipService.ShowOnDisabled="True">
+                <ls:LSButton.ToolTip>
+                    <ls:LSTooltip>
+                        <TextBlock x:Name="TooltipText" ls:TextBlockFormatter.SourceText="{Binding Source='h279c7a26gafe3g440cgb460g878bbfc0bdc0', Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Center" Style="{DynamicResource TooltipBaseTextStyle}" TextWrapping="Wrap"/>
+                    </ls:LSTooltip>
+                </ls:LSButton.ToolTip>
+                <ls:LSButton.Template>
+                    <ControlTemplate TargetType="ls:LSButton">
+                        <Grid>
+                            <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_d.png" Stretch="None"/>
+                            <Grid Margin="10,0" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image x:Name="icon" Grid.Column="0" Source="{StaticResource IconLevelUpArrow}" Stretch="Uniform" VerticalAlignment="Center" Width="40" Margin="-10" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="ButtonText" Grid.Column="1" Text="{Binding Source='he3ccedd0gceaeg4b1fg8e74g9dfc6da58cd2', Converter={StaticResource TranslatedStringConverter}, ConverterParameter='ToUpper'}" FontSize="{DynamicResource ScaledSmallishFontSize}" FontWeight="Bold" VerticalAlignment="Center" Foreground="{StaticResource LS_specialTxtColor}" noesis:Text.Stroke="{StaticResource Dialogue.Stroke}" noesis:Text.StrokeThickness="2"/>
+                            </Grid>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_h.png"/>
+                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/ico_levelUp_h.png"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_p.png"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_disabled.png"/>
+                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/ico_levelUp_d.png"/>
+                                <Setter TargetName="icon" Property="Opacity" Value="0.7"/>
+                                <Setter TargetName="ButtonText" Property="Foreground" Value="{StaticResource LS_disabledTxtColor}"/>
+                            </Trigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsVisible, ElementName=LevelUpButton}" Value="True"/>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.EnterActions>
+                                    <BeginStoryboard Name="IconBounce">
+                                        <BeginStoryboard.Storyboard>
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Storyboard.TargetName="icon" RepeatBehavior="Forever">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="40"/>
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="40"/>
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:2.2" Value="60"/>
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:2.4" Value="40"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard.Storyboard>
+                                    </BeginStoryboard>
+                                </MultiDataTrigger.EnterActions>
+                                <MultiDataTrigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="IconBounce"/>
+                                </MultiDataTrigger.ExitActions>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ls:LSButton.Template>
+            </ls:LSButton>
+
+            <TextBlock x:Name="MaximumLevelReachedText" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ls:TextBlockFormatter.SourceText="{Binding Source='h33818cfagfc3bg4ba8g8d37g45c69b3fb3cf',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsSelectedCharacter}" Value="True">
+                <Setter TargetName="ExpereinceBar" Property="Opacity" Value="1"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Stats.Level.LevelUpAvailable}" Value="False"/>
+                    <Condition Binding="{Binding Stats.Level.MaximumXpCapReached}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="LevelUpButton" Property="Visibility" Value ="Collapsed"/>
+                    <Setter TargetName="MaximumLevelReachedText" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="Container" Property="IsHitTestVisible" Value="False"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Stats.Level.LevelUpAvailable}" Value="True"/>
+                    <Condition Binding="{Binding Stats.IsAlive}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="TooltipText" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h1f265a44gb7d4g427dga60fgea3d2e3302b1', Converter={StaticResource TranslatedStringConverter}}"/>
+                    <Setter TargetName="LevelUpButton" Property="IsEnabled" Value="False"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Stats.Level.LevelUpAvailable}" Value="True"/>
+                    <Condition Binding="{Binding DownedInfo.Active}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="TooltipText" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h11ebc4efg1100g4d39g8ea1g5dc2e4a51c03', Converter={StaticResource TranslatedStringConverter}}"/>
+                    <Setter TargetName="LevelUpButton" Property="IsEnabled" Value="False"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Stats.Level.LevelUpAvailable}" Value="True"/>
+                    <Condition Binding="{Binding CharacterMode}" Value="InCombat"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="TooltipText" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h5352e5c4g581cg4199gb42cg3a2473f3040b', Converter={StaticResource TranslatedStringConverter}}"/>
+                    <Setter TargetName="LevelUpButton" Property="IsEnabled" Value="False"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False">
+                <Setter TargetName="LevelUpButton" Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>
