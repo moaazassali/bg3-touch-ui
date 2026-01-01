@@ -29,6 +29,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Library/TouchUI_XPBarTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CloseButton.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CharacterInventoryTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -337,7 +338,7 @@
                             <b:ControlStoryboardAction Storyboard="{StaticResource SimpleFadeIn}"/>
                         </b:DataTrigger>
                     </b:Interaction.Triggers>
-                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Width="2200" Height="{StaticResource InventoryColumnHeight}" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Tag="{Binding CurrentPlayer.SelectedCharacter.Inventory}" Margin="6">
+                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Width="2240" Height="{StaticResource InventoryColumnHeight}" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Tag="{Binding CurrentPlayer.SelectedCharacter.Inventory}" Margin="6">
                         <Grid Name="CharacterPanelContents" >
                             <!-- Touch UI - Add column for sidebar -->
                             <Grid.ColumnDefinitions>
@@ -616,7 +617,7 @@
 
                                             <!--INVENTORY-->
                                             <Grid Grid.Row="0" DataContext="{Binding CurrentPlayer.SelectedCharacter}" VerticalAlignment="Stretch">
-                                                <Control x:Name="PanelTemplateHolder" Template="{StaticResource CharacterInventoryTemplate}"/>
+                                                <Control x:Name="PanelTemplateHolder" Template="{StaticResource TouchUI_CharacterInventoryTemplate}"/>
                                             </Grid>
 
                                             <!-- Weight bar -->
