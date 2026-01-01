@@ -673,11 +673,11 @@
 
                                 <!-- Touch UI - Moved from the equipment page -->
                                 <!--EXPERIENCE-->
-                                <Grid Name="XPBar" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="40,0" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
+                                <Grid Name="XPBar" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="120,0,40,0" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.ToolTip>
                                         <ls:LSTooltip>

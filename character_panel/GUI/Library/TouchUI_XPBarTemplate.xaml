@@ -11,10 +11,9 @@
 
 
     <ControlTemplate x:Key="TouchUI_XPBarTemplate" TargetType="Control">
-        <Grid x:Name="Container" HorizontalAlignment="Center" VerticalAlignment="Top" ToolTipService.Placement="Bottom" Height="64" Background="Transparent">
+        <Grid x:Name="Container" HorizontalAlignment="Stretch" VerticalAlignment="Top" ToolTipService.Placement="Bottom" Height="64" Background="Transparent">
             <Grid.Resources>
                 <Style TargetType="TextBlock" BasedOn="{StaticResource BarBaseTextStyle}"/>
-                <System:Double x:Key="xpBarWidth">300</System:Double>
             </Grid.Resources>
 
             <!-- Experience bar -->
@@ -41,10 +40,10 @@
                     </ls:LSTooltip>
                 </Grid.ToolTip>
                 <!-- Bar background -->
-                <ls:LSNineSliceImage x:Name="ExpereinceBar" Style="{StaticResource BarBackgroundImage9s}" Width="364" HorizontalAlignment="Center" Opacity="0.4"/>
+                <ls:LSNineSliceImage x:Name="ExpereinceBar" Style="{StaticResource BarBackgroundImage9s}" HorizontalAlignment="Stretch" Opacity="0.4"/>
           
                 <!-- Bar -->
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="{StaticResource xpBarWidth}" Width="{StaticResource xpBarWidth}" Height="12" Margin="0,12,0,0">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="12" Margin="24,12,24,0">
                     <ProgressBar Value="{Binding Stats.Level.FractionXPToNextLevel, Mode=OneWay}" Minimum="0" Maximum="1" BorderBrush="Transparent">
                         <ProgressBar.Foreground>
                             <ImageBrush ImageSource="pack://application:,,,/Core;component/Assets/CharacterPanel/xpbar_fillcolour.png"/>
@@ -68,7 +67,11 @@
                 <ls:LSButton.Template>
                     <ControlTemplate TargetType="ls:LSButton">
                         <Grid>
-                            <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_d.png" Stretch="None"/>
+                            <ls:LSNineSliceImage x:Name="btn" 
+                                ImageSource="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_d.png" 
+                                Slices="80,0,80,0" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"/>
                             <Grid Margin="10,0" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
@@ -81,14 +84,14 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_h.png"/>
+                                <Setter TargetName="btn" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_h.png"/>
                                 <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/ico_levelUp_h.png"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_p.png"/>
+                                <Setter TargetName="btn" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_p.png"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_disabled.png"/>
+                                <Setter TargetName="btn" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/CharacterPanel/btn_levelUp_disabled.png"/>
                                 <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/ico_levelUp_d.png"/>
                                 <Setter TargetName="icon" Property="Opacity" Value="0.7"/>
                                 <Setter TargetName="ButtonText" Property="Foreground" Value="{StaticResource LS_disabledTxtColor}"/>
