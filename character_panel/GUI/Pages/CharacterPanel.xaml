@@ -429,8 +429,7 @@
                                     <!-- Touch UI - new page for charcter stats -->
                                     <ls:LSRadioButton x:Name="StatsToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleStats">
                                         <RadioButton.Resources>
-                                            <!-- [Should update] using same icon as equipment tab -->
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/touchui_characterpanel_info.png</ImageSource>
                                         </RadioButton.Resources>
                                     </ls:LSRadioButton>
 
