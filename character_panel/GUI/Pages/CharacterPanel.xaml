@@ -415,6 +415,14 @@
                                         </RadioButton.Resources>
                                     </ls:LSRadioButton>
 
+                                    <!-- Touch UI - new page for charcter stats -->
+                                    <ls:LSRadioButton x:Name="StatsToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleStats">
+                                        <RadioButton.Resources>
+                                            <!-- [Should update] using same icon as equipment tab -->
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+
                                     <ls:LSRadioButton x:Name="SpellbookToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells">
                                         <RadioButton.Resources>
                                             <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_spells_active_d.png</ImageSource>
@@ -543,57 +551,53 @@
                                 <!-- ===== MAIN PANEL ===== -->
                                 <Grid x:Name="CharacterSheetPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=InventoryToggleButton, Converter={StaticResource BoolToVisibleConverter}}" ClipToBounds="False">
 
-                                    <!--PAPERDOLL-->
-                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}" ClipToBounds="True">
-                                        <ls:LSPaperdoll x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" Margin="0,50,0,-50" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-                                        <!--DOLL CONTROLS-->
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                                            <ls:LSButton  x:Name="rotateRightBtn" Template="{StaticResource RotateRightButton}">
-                                                <b:Interaction.Triggers>
-                                                    <b:EventTrigger EventName="LSButtonPressed">
-                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="1.2" TargetName="CSPaperdoll" />
-                                                    </b:EventTrigger>
-                                                    <b:EventTrigger EventName="LSButtonReleased" >
-                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
-                                                    </b:EventTrigger>
-                                                </b:Interaction.Triggers>
-                                            </ls:LSButton>
-
-                                            <ls:LSToggleButton x:Name="ToggleEqView" Style="{StaticResource EyeBoxButtonTemplate}" IsChecked="True" SoundID="UI_HUD_Options_ToggleButton">
-                                                <ls:LSToggleButton.ToolTip>
-                                                    <ls:LSTooltip Content="{Binding Source='h5c2bca90g60ddg49fega1c2ga2894424c059',Converter={StaticResource TranslatedStringConverter}}"/>
-                                                </ls:LSToggleButton.ToolTip>
-                                            </ls:LSToggleButton>
-
-
-                                            <ls:LSButton  x:Name="rotateLeftBtn" Template="{StaticResource RotateLeftButton}">
-                                                <b:Interaction.Triggers>
-                                                    <b:EventTrigger EventName="LSButtonPressed" >
-                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="-1.2" TargetName="CSPaperdoll" />
-                                                    </b:EventTrigger>
-                                                    <b:EventTrigger EventName="LSButtonReleased" >
-                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
-                                                    </b:EventTrigger>
-                                                </b:Interaction.Triggers>
-                                            </ls:LSButton>
-                                        </StackPanel>
-
-                                    </Grid>
-
                                     <Grid ClipToBounds="True">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <!--  INFO  -->
-                                        <Control Name="CharacterInfoPanel" Grid.Column="0" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Left" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
+                                        <!--PAPERDOLL-->
+                                        <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}" ClipToBounds="True">
+                                            <ls:LSPaperdoll x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" Margin="0,50,0,-50" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                            <!--DOLL CONTROLS-->
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                                <ls:LSButton  x:Name="rotateRightBtn" Template="{StaticResource RotateRightButton}">
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="LSButtonPressed">
+                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="1.2" TargetName="CSPaperdoll" />
+                                                        </b:EventTrigger>
+                                                        <b:EventTrigger EventName="LSButtonReleased" >
+                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                </ls:LSButton>
+
+                                                <ls:LSToggleButton x:Name="ToggleEqView" Style="{StaticResource EyeBoxButtonTemplate}" IsChecked="True" SoundID="UI_HUD_Options_ToggleButton">
+                                                    <ls:LSToggleButton.ToolTip>
+                                                        <ls:LSTooltip Content="{Binding Source='h5c2bca90g60ddg49fega1c2ga2894424c059',Converter={StaticResource TranslatedStringConverter}}"/>
+                                                    </ls:LSToggleButton.ToolTip>
+                                                </ls:LSToggleButton>
+
+
+                                                <ls:LSButton  x:Name="rotateLeftBtn" Template="{StaticResource RotateLeftButton}">
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="LSButtonPressed" >
+                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="-1.2" TargetName="CSPaperdoll" />
+                                                        </b:EventTrigger>
+                                                        <b:EventTrigger EventName="LSButtonReleased" >
+                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                </ls:LSButton>
+                                            </StackPanel>
+
+                                        </Grid>
 
                                         <!--EQUIP-->
-                                        <Control x:Name="EquipmentHolder" Grid.Column="1" VerticalAlignment="Stretch" Template="{StaticResource CharacterEquipmentTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="40,60,40,44"/>
+                                        <Control x:Name="EquipmentHolder" Grid.Column="0" VerticalAlignment="Stretch" Template="{StaticResource CharacterEquipmentTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="40,60,40,44"/>
 
                                         <!--INVENTORY-->
-                                        <Grid x:Name="InventoryColumn" Grid.Column="2" Opacity="1" VerticalAlignment="Stretch" Width="{StaticResource InventoryColumnWidth}">
+                                        <Grid x:Name="InventoryColumn" Grid.Column="1" Opacity="1" VerticalAlignment="Stretch" Width="{StaticResource InventoryColumnWidth}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="Auto"/>
@@ -648,6 +652,12 @@
                                     </b:Interaction.Triggers>
 
 
+                                </Grid>
+
+                                <!-- Touch UI - New Character Stats page ===== -->
+                                <Grid x:Name="StatsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=StatsToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <!-- Moved CharacterInfoPanel here. Added margin for mobile spacing. -->
+                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
                                 </Grid>
 
                                 <!-- ===== SPELLBOOK ===== -->
