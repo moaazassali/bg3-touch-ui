@@ -330,8 +330,13 @@
                             <b:ControlStoryboardAction Storyboard="{StaticResource SimpleFadeIn}"/>
                         </b:DataTrigger>
                     </b:Interaction.Triggers>
-                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Width="2080" Height="{StaticResource InventoryColumnHeight}" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Tag="{Binding CurrentPlayer.SelectedCharacter.Inventory}" Margin="6">
+                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Width="2200" Height="{StaticResource InventoryColumnHeight}" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Tag="{Binding CurrentPlayer.SelectedCharacter.Inventory}" Margin="6">
                         <Grid Name="CharacterPanelContents" >
+                            <!-- Touch UI - Add column for sidebar -->
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="110"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition MaxHeight="{StaticResource CSContentHeight}"/>
@@ -342,13 +347,13 @@
                             </Grid.Resources>
                             <!--PANEL BACKGROUNDS-->
 
-                            <Border x:Name="AlchemyBackgroundHolder" Grid.Row="0" Grid.RowSpan="2" CornerRadius="26" Visibility="{Binding IsChecked, ElementName=AlchemyToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
+                            <Border x:Name="AlchemyBackgroundHolder" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" CornerRadius="26" Visibility="{Binding IsChecked, ElementName=AlchemyToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
                                 <Border.Background>
                                     <ImageBrush Stretch="UniformToFill" ImageSource="{StaticResource AlchemyBackground}"/>
                                 </Border.Background>
                             </Border>
 
-                            <Border x:Name="IllithidBackgroundHolder" Grid.Row="0" Grid.RowSpan="2" CornerRadius="26" Visibility="{Binding IsChecked, ElementName=IllithidToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
+                            <Border x:Name="IllithidBackgroundHolder" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" CornerRadius="26" Visibility="{Binding IsChecked, ElementName=IllithidToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
                                 <Border.Background>
                                     <ImageBrush Stretch="None" ImageSource="{StaticResource BrainFaintBG}"/>
                                 </Border.Background>
@@ -361,7 +366,7 @@
                             </Border>
 
                             <!--DRAG AREA-->
-                            <Border x:Name="DragHit" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="26,26,0,0">
+                            <Border x:Name="DragHit" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="26,26,0,0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                                         <GradientStop Offset="0" Color="#D4000000" />
@@ -381,8 +386,160 @@
                                 </b:Interaction.Triggers>
                             </Border>
 
+                            <!-- Touch UI - New sidebar to replace the header -->
+                            <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="10,60,10,20" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/> <!-- Row 0: Tabs -->
+                                    <RowDefinition Height="*"/>    <!-- Row 1: Spacer -->
+                                    <RowDefinition Height="Auto"/> <!-- Row 4: Close Button -->
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="ls:LSRadioButton">
+                                            <Setter Property="Template" Value="{StaticResource RoundTabsTemplate}"/>
+                                            <Setter Property="GroupName" Value="CategoryToggleButtons"/>
+                                            <Setter Property="Margin" Value="0,0,0,10"/>
+                                            <Setter Property="Height" Value="90"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="False">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Resources>
+
+                                    <ls:LSRadioButton x:Name="InventoryToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory" IsChecked="True">
+                                        <RadioButton.Resources>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+
+                                    <ls:LSRadioButton x:Name="SpellbookToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells">
+                                        <RadioButton.Resources>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_spells_active_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+
+                                    <ls:LSRadioButton x:Name="AlchemyToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleAlchemy">
+                                        <RadioButton.Resources>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_alchemy_inactive_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+
+                                    <ls:LSRadioButton x:Name="IllithidToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleIllithid">
+                                        <RadioButton.Resources>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_illithid_active_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+                                </StackPanel>
+
+
+                                <!-- 3. CLOSE BUTTON & LOCK (Moved here from Header) -->
+                                <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Control Template="{StaticResource InventoryLock}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" VerticalAlignment="Center"/>
+
+                                    <ls:LSButton x:Name="CloseButton" Style="{StaticResource SmallCloseButton}" BoundEvent="UICancel" SoundID="UI_HUD_CharacterPanel_Close" VerticalAlignment="Top" Command="ls:UIWidget.CloseRequestCommand" >
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="MouseEnter">
+                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                            </b:EventTrigger>
+
+                                            <b:EventTrigger EventName="LSButtonReleased">
+                                                <b:InvokeCommandAction Command="{Binding ClearFilterCommand}"/>
+                                                <b:InvokeCommandAction Command="{Binding HideAvailableEquipmentCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.Equipment}"/>
+                                            </b:EventTrigger>
+
+                                            <!-- Open sounds -->
+                                            <b:EventTrigger EventName="Loaded">
+                                                <ls:LSPlaySound Sound="UI_HUD_Inventory_Open"/>
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInventory"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                            </b:EventTrigger>
+                                            <b:EventTrigger EventName="Loaded">
+                                                <ls:LSPlaySound Sound="UI_HUD_SpellBook_Open"/>
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleSpells"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                            </b:EventTrigger>
+                                            <b:EventTrigger EventName="Loaded">
+                                                <ls:LSPlaySound Sound="UI_HUD_Reactions_Open"/>
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInterrupts"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                            </b:EventTrigger>
+                                            <b:EventTrigger EventName="Loaded">
+                                                <ls:LSPlaySound Sound="UI_HUD_Alchemy_Open"/>
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleAlchemy"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                            </b:EventTrigger>
+
+                                            <!-- Closing sounds when whe closing animation starts -->
+                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInventory"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                                <ls:LSPlaySound Sound="UI_HUD_Inventory_Close"/>
+                                            </b:EventTrigger>
+                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleSpells"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                                <ls:LSPlaySound Sound="UI_HUD_SpellBook_Close"/>
+                                            </b:EventTrigger>
+                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInterrupts"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                                <ls:LSPlaySound Sound="UI_HUD_Reactions_Close"/>
+                                            </b:EventTrigger>
+                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleAlchemy"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                                <ls:LSPlaySound Sound="UI_HUD_Alchemy_Close"/>
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                    </ls:LSButton>
+                                </StackPanel>
+                            </Grid>
+
                             <!--===== PAGES =====-->
-                            <Grid Grid.Row="1" Margin="0,22,0,0">
+                            <Grid Grid.Column="1" Grid.Row="1" Margin="0,22,0,0">
                                 <!-- ===== MAIN PANEL ===== -->
                                 <Grid x:Name="CharacterSheetPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=InventoryToggleButton, Converter={StaticResource BoolToVisibleConverter}}" ClipToBounds="False">
 
@@ -514,82 +671,7 @@
                             </Grid>
 
                             <!--===== HEADER =====-->
-                            <Grid x:Name="HeaderContents" Grid.Row="0">
-
-                                <!--DECORATIVE-->
-                                <Image x:Name="HeaderDecor" Source="{StaticResource decorated_header_4}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-60,0,0"/>
-
-                                <!--MAIN TABS CONTROLS-->
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-46,0,0">
-                                    <StackPanel.Resources>
-                                        <Style TargetType="ls:LSRadioButton">
-                                            <Setter Property="Template" Value="{StaticResource RoundTabsTemplate}"/>
-                                            <Setter Property="GroupName" Value="CategoryToggleButtons"/>
-                                            <Setter Property="ToolTipService.Placement" Value="Top"/>
-                                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
-                                            <Setter Property="EatInput" Value="True"/>
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                            <Setter Property="Margin" Value="-5,0"/>
-                                            <Setter Property="Height" Value="104"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsChecked" Value="False">
-                                                    <Setter Property="IsEnabled" Value="True" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                    <ls:LSRadioButton x:Name="InventoryToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory" IsChecked="True">
-                                        <RadioButton.ToolTip>
-                                            <ls:LSTooltip Content="{Binding Source='h091222a8ga54fg4ac6g862dg4b260b2c37f0',Converter={StaticResource TranslatedStringConverter}}"/>
-                                        </RadioButton.ToolTip>
-                                        <RadioButton.Resources>
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
-                                        </RadioButton.Resources>
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="Click">
-                                                <ls:LSPlaySound Sound="UI_HUD_Inventory_Open"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </ls:LSRadioButton>
-
-                                    <ls:LSRadioButton x:Name="SpellbookToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells" >
-                                        <RadioButton.ToolTip>
-                                            <ls:LSTooltip Content="{Binding Source='h15329947gc691g4323gac0fge3fbcecb92d9',Converter={StaticResource TranslatedStringConverter}}"/>
-                                        </RadioButton.ToolTip>
-                                        <RadioButton.Resources>
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_spells_active_d.png</ImageSource>
-                                        </RadioButton.Resources>
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="Click">
-                                                <ls:LSPlaySound Sound="UI_HUD_SpellBook_Open"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </ls:LSRadioButton>
-
-                                    <ls:LSRadioButton x:Name="AlchemyToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleAlchemy">
-                                        <RadioButton.ToolTip>
-                                            <ls:LSTooltip Content="{Binding Source='h5fd98be2gf77dg4dedg9fbeg312c770c4aea',Converter={StaticResource TranslatedStringConverter}}"/>
-                                        </RadioButton.ToolTip>
-                                        <RadioButton.Resources>
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_alchemy_inactive_d.png</ImageSource>
-                                        </RadioButton.Resources>
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="Click">
-                                                <ls:LSPlaySound Sound="UI_HUD_Alchemy_Open"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </ls:LSRadioButton>
-
-                                    <ls:LSRadioButton x:Name="IllithidToggleButton" Command="{Binding CustomEvent}" CommandParameter="ToggleIllithid">
-                                        <RadioButton.ToolTip>
-                                            <ls:LSTooltip x:Name="IllithidButtonTooltip"  Content="{Binding Source='h2d773583g5f0dg4737g93d5g324f4bcfe2ac',Converter={StaticResource TranslatedStringConverter}}"/>
-                                        </RadioButton.ToolTip>
-                                        <RadioButton.Resources>
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_illithid_active_d.png</ImageSource>
-                                        </RadioButton.Resources>
-                                    </ls:LSRadioButton>
-                                </StackPanel>
-
+                            <Grid x:Name="HeaderContents" Grid.ColumnSpan="2" Grid.Row="0" Margin="20,0,20,0">
                                 <!--NAME STACK-->
                                 <StackPanel x:Name="NameStack" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="22,0,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" >
                                     <Image x:Name="AvatarIcon" Source="pack://application:,,,/Core;component/Assets/Shared/ico_avatar.png" VerticalAlignment="Center" Stretch="None" Visibility="Collapsed"/>
@@ -599,108 +681,8 @@
                                 <!--CLOSE & LOCK-->
                                 <StackPanel Panel.ZIndex="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                                     <!--GOLD AND INSPIRATION-->
-
                                     <Control Template="{StaticResource HeaderInspirationPointsGold}" DataContext="{Binding CurrentPlayer}" Panel.ZIndex="1" VerticalAlignment="Center" Margin="0,0,22,0">
                                     </Control>
-
-                                    <Control Template="{StaticResource InventoryLock}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" VerticalAlignment="Center"/>
-
-                                    <ls:LSButton x:Name="CloseButton" Style="{StaticResource SmallCloseButton}" BoundEvent="UICancel" SoundID="UI_HUD_CharacterPanel_Close" VerticalAlignment="Top" Command="ls:UIWidget.CloseRequestCommand" >
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="MouseEnter">
-                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                            </b:EventTrigger>
-
-                                            <b:EventTrigger EventName="LSButtonReleased">
-                                                <b:InvokeCommandAction Command="{Binding ClearFilterCommand}"/>
-                                                <b:InvokeCommandAction Command="{Binding HideAvailableEquipmentCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.Equipment}"/>
-                                            </b:EventTrigger>
-
-                                            <!-- Open sounds -->
-                                            <b:EventTrigger EventName="Loaded">
-                                                <ls:LSPlaySound Sound="UI_HUD_Inventory_Open"/>
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInventory"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger EventName="Loaded">
-                                                <ls:LSPlaySound Sound="UI_HUD_SpellBook_Open"/>
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleSpells"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger EventName="Loaded">
-                                                <ls:LSPlaySound Sound="UI_HUD_Reactions_Open"/>
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInterrupts"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger EventName="Loaded">
-                                                <ls:LSPlaySound Sound="UI_HUD_Alchemy_Open"/>
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleAlchemy"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                            </b:EventTrigger>
-
-                                            <!-- Closing sounds when whe closing animation starts -->
-                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInventory"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <ls:LSPlaySound Sound="UI_HUD_Inventory_Close"/>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleSpells"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <ls:LSPlaySound Sound="UI_HUD_SpellBook_Close"/>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleInterrupts"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <ls:LSPlaySound Sound="UI_HUD_Reactions_Close"/>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger SourceName="CharacterPanel" EventName="CloseRequested">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Metadata, ElementName=CharacterPanel}" Operator="Equal" RightOperand="ToggleAlchemy"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <ls:LSPlaySound Sound="UI_HUD_Alchemy_Close"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </ls:LSButton>
                                 </StackPanel>
                             </Grid>
                         </Grid>
