@@ -30,6 +30,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_XPBarTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CloseButton.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterInventoryTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -320,8 +321,8 @@
 
     <ls:UIWidget.Template>
         <ControlTemplate>
-            <Grid x:Name="bgFade" Margin="-1400,0,-1400,-1000">
-                <Grid x:Name="Panel" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="1672,0,0,1460">
+            <Grid x:Name="bgFade" Margin="-1400,0,-1400,-1400">
+                <Grid x:Name="Panel" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="1672,0,0,1760">
                     <Grid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -338,7 +339,7 @@
                             <b:ControlStoryboardAction Storyboard="{StaticResource SimpleFadeIn}"/>
                         </b:DataTrigger>
                     </b:Interaction.Triggers>
-                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Width="2240" Height="{StaticResource InventoryColumnHeight}" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Tag="{Binding CurrentPlayer.SelectedCharacter.Inventory}" Margin="6">
+                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Width="2500" Height="1800" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Tag="{Binding CurrentPlayer.SelectedCharacter.Inventory}" Margin="6">
                         <Grid Name="CharacterPanelContents" >
                             <!-- Touch UI - Add column for sidebar -->
                             <Grid.ColumnDefinitions>
@@ -560,19 +561,23 @@
                             <!--===== PAGES =====-->
                             <Grid Grid.Column="1" Grid.Row="1" Margin="0,22,0,0">
                                 <!-- ===== MAIN PANEL ===== -->
-                                <Grid x:Name="CharacterSheetPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=InventoryToggleButton, Converter={StaticResource BoolToVisibleConverter}}" ClipToBounds="False">
+                                <Grid x:Name="CharacterSheetPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=InventoryToggleButton, Converter={StaticResource BoolToVisibleConverter}}" ClipToBounds="False" Margin="0,-30,0,0">
 
                                     <Grid ClipToBounds="True">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="800"/>
+                                            <ColumnDefinition Width="1070"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <!--PAPERDOLL-->
-                                        <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="800">
+                                        <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="1070">
                                             <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}" ClipToBounds="True">
-                                                <ls:LSPaperdoll x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" Margin="-290,50,0,-50" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                                <Grid.LayoutTransform>
+                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                                </Grid.LayoutTransform>
+
+                                                <ls:LSPaperdoll x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" Margin="-360,-75,0,0" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                                 <!--DOLL CONTROLS-->
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,30,300">
                                                     <ls:LSButton  x:Name="rotateRightBtn" Template="{StaticResource RotateRightButton}">
                                                         <b:Interaction.Triggers>
                                                             <b:EventTrigger EventName="LSButtonPressed">
@@ -605,7 +610,11 @@
                                             </Grid>
 
                                             <!--EQUIP-->
-                                            <Control x:Name="EquipmentHolder" Grid.Column="0" VerticalAlignment="Stretch" Template="{StaticResource CharacterEquipmentTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="40,60,40,44"/>
+                                            <Control x:Name="EquipmentHolder" Grid.Column="0" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="0,0,40,0">
+                                                <Grid.LayoutTransform>
+                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                </Grid.LayoutTransform>
+                                            </Control>
                                         </Grid>
 
                                         <!--INVENTORY-->
