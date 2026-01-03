@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="TouchUI_VanityButtonTemplate.xaml"/>
+        <ResourceDictionary Source="TouchUI_HelmetEQTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_CharacterEquipmentTemplate" TargetType="Control">
@@ -71,10 +72,10 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.Resources>
-                        <Thickness x:Key="EquipMargin">0,0,0,0</Thickness>
+                        <Thickness x:Key="EquipMargin">0,40,0,0</Thickness>
                     </Grid.Resources>
 
-                    <DockPanel Name="EquipmentRight" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,40,0,0">
+                    <DockPanel Name="EquipmentRight" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="{StaticResource EquipMargin}">
 
                         <StackPanel DockPanel.Dock="Top">
                             <!--VANITY-->
@@ -116,8 +117,7 @@
 
                     <DockPanel Name="EquipmentLeft" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="{StaticResource EquipMargin}">
                         <StackPanel DockPanel.Dock="Top">
-
-                            <Control Template="{StaticResource HelmetEQTemplate}" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Helmet}" ToolTipService.Placement="Left" Margin="0,40,0,0"/>
+                            <Control Template="{StaticResource TouchUI_HelmetEQTemplate}" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Helmet}" ToolTipService.Placement="Left"/>
                             <ls:LSButton x:Name="EquipmentCloakSlot" HorizontalAlignment="Left"  Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Cloak}" ToolTipService.Placement="Left"/>
                             <ls:LSButton x:Name="EquipmentBreastSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Breast}" ToolTipService.Placement="Left"/>
                             <ls:LSButton x:Name="EquipmentGlovesSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Gloves}" ToolTipService.Placement="Left"/>
