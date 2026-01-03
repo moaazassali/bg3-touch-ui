@@ -32,6 +32,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_CharacterInventoryTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_WeightBarTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_MultiClassSpellbookTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -669,7 +670,8 @@
                                 <!-- ===== SPELLBOOK ===== -->
                                 <Grid x:Name="SpellBookPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=SpellbookToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
 
-                                    <Control x:Name="SpellbookAndActionsHolder" Template="{StaticResource MultiClassSpellbookTemplate}" Visibility="{Binding IsChecked, ElementName=SpellbookToggleButton, Converter={StaticResource BoolToVisibleConverter}}" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
+                                    <Control x:Name="SpellbookAndActionsHolder" Template="{StaticResource TouchUI_MultiClassSpellbookTemplate}" Visibility="{Binding IsChecked, ElementName=SpellbookToggleButton, Converter={StaticResource BoolToVisibleConverter}}" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
+                                    </Control>
 
 
                                 </Grid>
