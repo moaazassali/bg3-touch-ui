@@ -659,6 +659,9 @@
 
                                 <!-- Touch UI - New Character Stats page ===== -->
                                 <Grid x:Name="StatsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=StatsToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    </Grid.LayoutTransform>
                                     <!-- Moved CharacterInfoPanel here. Added margin for mobile spacing. -->
                                     <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
                                 </Grid>
