@@ -2086,12 +2086,36 @@
 
                 <Setter TargetName="ClassPanel" Property="MaxHeight" Value="1476"/>
 
-                <Setter TargetName="ClassSectionOpening" Property="Fill" Value="{StaticResource ClassBorderEdges_Small}"/>
-                <Setter TargetName="ClassSectionOpening" Property="Margin" Value="-6 ,0,6,0"/>
-                <Setter TargetName="ClassSection" Property="Background" Value="{StaticResource ClassBorderCenter_Small}"/>
-                <Setter TargetName="ClassSectionClosure" Property="Fill" Value="{StaticResource ClassBorderEdges_Small}"/>
+                <Setter TargetName="ClassSectionOpening" Property="Width" Value="1006"/>
+                <Setter TargetName="ClassSectionOpening" Property="Fill">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{StaticResource ClassBorder}" Stretch="Fill" ViewboxUnits="Absolute" Viewbox="0,0,1124,23"/>
+                    </Setter.Value>
+                </Setter>
+                <!-- <Setter TargetName="ClassSectionOpening" Property="Fill" Value="{StaticResource ClassBorderEdges_Small}"/> -->
+                <Setter TargetName="ClassSectionOpening" Property="Margin" Value="-6 ,0,0,0"/>
+                
+                <!-- <Setter TargetName="ClassSection" Property="Background" Value="{StaticResource ClassBorderCenter_Small}"/> -->
+                <Setter TargetName="ClassSection" Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{StaticResource ClassBorder}" 
+                                    Stretch="Fill" 
+                                    TileMode="Tile" 
+                                    AlignmentY="Top" 
+                                    ViewboxUnits="Absolute" Viewbox="0,23,1124,29" 
+                                    ViewportUnits="Absolute" Viewport="0,0,1006,29"/>
+                    </Setter.Value>
+                </Setter>
 
-                <Setter TargetName="PreparedSpellsSectionOpening" Property="Source" Value="{StaticResource PreparedSpellsTop_Small}"/>
+                <Setter TargetName="ClassSectionClosure" Property="Width" Value="1006"/>
+                <Setter TargetName="ClassSectionClosure" Property="Fill">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{StaticResource ClassBorder}" Stretch="Fill" ViewboxUnits="Absolute" Viewbox="0,0,1124,23"/>
+                    </Setter.Value>
+                </Setter>
+                <!-- <Setter TargetName="ClassSectionClosure" Property="Fill" Value="{StaticResource ClassBorderEdges_Small}"/> -->
+
+                <!-- <Setter TargetName="PreparedSpellsSectionOpening" Property="Source" Value="{StaticResource PreparedSpellsTop_Small}"/>
                 <Setter TargetName="PreparedSpellsSection" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="{StaticResource PreparedSpellsCenter_Small}" Stretch="Fill" TileMode="Tile" AlignmentY="Top" ViewportUnits="Absolute">
@@ -2106,12 +2130,12 @@
                         </ImageBrush>
                     </Setter.Value>
                 </Setter>
-                <Setter TargetName="PreparedSpellsSectionClosure" Property="Source" Value="{StaticResource PreparedSpellsBottom_Small}"/>
+                <Setter TargetName="PreparedSpellsSectionClosure" Property="Source" Value="{StaticResource PreparedSpellsBottom_Small}"/> -->
 
-                <Setter TargetName="KnownSpellSection" Property="ImageSource" Value="{StaticResource SpellsBorder_Small}"/>
-                <Setter TargetName="KnownSpellSection" Property="Slices" Value="24,20,44,44"/>
-                <Setter TargetName="KnownSpellSection" Property="Width" Value="690"/>
-                <Setter TargetName="KnownSpellSection" Property="Margin" Value="-6,0,6,0"/>
+                <!-- <Setter TargetName="KnownSpellSection" Property="ImageSource" Value="{StaticResource SpellsBorder_Small}"/> -->
+                <!-- <Setter TargetName="KnownSpellSection" Property="Slices" Value="24,20,44,44"/> -->
+                <Setter TargetName="KnownSpellSection" Property="Width" Value="1006"/>
+                <!-- <Setter TargetName="KnownSpellSection" Property="Margin" Value="-6,0,6,0"/> -->
 
                 <Setter TargetName="SearchResultsSectionOpening" Property="Fill" Value="{StaticResource ClassBorderEdges_Small}"/>
                 <Setter TargetName="SearchResultsSectionOpening" Property="Margin" Value="0"/>
