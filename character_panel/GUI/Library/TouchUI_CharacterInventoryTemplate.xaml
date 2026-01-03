@@ -126,6 +126,10 @@
 
                 <!-- Filter -->
                 <Grid x:Name="FiltersControl" Grid.Row="0" VerticalAlignment="Top" Height="88">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="1.9" ScaleY="1.9"/>
+                    </Grid.LayoutTransform>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
