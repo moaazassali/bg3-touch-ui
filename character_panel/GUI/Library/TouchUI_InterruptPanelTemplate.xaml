@@ -25,7 +25,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" HorizontalAlignment="Center" x:Name="Description" Text="{Binding Source=h4683b44fg5f66g4001gbc80gbcb307102d8d,Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" Margin="440,24"/>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center" x:Name="Description" Text="{Binding Source=h4683b44fg5f66g4001gbc80gbcb307102d8d,Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" Margin="50,24"/>
 
             <TextBlock Grid.Row="1" x:Name="NoReactionsMsg" Foreground="{StaticResource LS_baseTxtColor}" TextWrapping="Wrap" MaxWidth="600" IsHitTestVisible="False" HorizontalAlignment="Center" TextAlignment="Center" FontStyle="Italic" Visibility="Collapsed" Margin="20,368,40,20" noesis:Text.StrokeThickness="6">
                 <noesis:Text.Stroke>
@@ -38,7 +38,7 @@
                 </TextBlock.Text>
             </TextBlock>
             
-            <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,22">
+            <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,0,0,22">
                 <Rectangle x:Name="DecorativeStroke" Width="{Binding ActualWidth, ElementName=ListSectionBackground}" Height="{Binding ActualHeight, ElementName=ListSectionBackground}" StrokeDashArray="5,3" StrokeThickness="2" Stroke="{StaticResource LS_PanelBorder}" RadiusX="{StaticResource CornerRadius}" RadiusY="{StaticResource CornerRadius}" Fill="{StaticResource ContentBGShade}"/>
 
                 <ScrollViewer Style="{StaticResource NoForcedScrollViewerStyle}" Padding="{StaticResource ScrollOffset}" HorizontalAlignment="Left" Margin="30">
@@ -48,26 +48,57 @@
                                 <DataTemplate.Resources>
                                     <BitmapImage x:Key="ReactionCheckBoxBGImg" UriSource="pack://application:,,,/Core;component/Assets/Reactions/checkbox_d.png"/>
                                 </DataTemplate.Resources>
+                                
+                                <!-- Main Row Grid -->
                                 <Grid>
-                                    <ls:LSToggleButton x:Name="ToggleEnableButton" IsChecked="{Binding Enabled, Mode=OneWay}" Command="{Binding DataContext.InterruptToggleDisableCommand,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding .}" Template="{StaticResource InterruptToggleBtnTemplate}" Content ="{Binding .}" IsEnabled="{Binding Available}"/>
+                                    <!-- 1. LEFT SIDE: Icon and Title 
+                                        This element dictates the "Natural Height" of the row. -->
+                                    <ls:LSToggleButton x:Name="ToggleEnableButton" 
+                                                    IsChecked="{Binding Enabled, Mode=OneWay}" 
+                                                    Command="{Binding DataContext.InterruptToggleDisableCommand,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" 
+                                                    CommandParameter="{Binding .}" 
+                                                    Template="{StaticResource InterruptToggleBtnTemplate}" 
+                                                    Content="{Binding .}" 
+                                                    IsEnabled="{Binding Available}"/>
 
-                                    <ls:LSToggleButton x:Name="ToggleManagementButton" IsChecked="{Binding Ask, Mode=OneWay}" Command="{Binding DataContext.InterruptChangeAskCommand,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding .}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,4">
+                                    <ls:LSToggleButton x:Name="ToggleManagementButton" 
+                                                    IsChecked="{Binding Ask, Mode=OneWay}" 
+                                                    Command="{Binding DataContext.InterruptChangeAskCommand,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" 
+                                                    CommandParameter="{Binding .}" 
+                                                    VerticalAlignment="Stretch" 
+                                                    HorizontalAlignment="Right" 
+                                                    Margin="0">
 
                                         <ls:LSToggleButton.Template>
                                             <ControlTemplate TargetType="ToggleButton">
-                                                <StackPanel Orientation="Horizontal" Background="Transparent">
-                                                    <StackPanel.ToolTip>
+                                                <Grid Background="Transparent">
+                                                    <Grid.ToolTip>
                                                         <ls:LSTooltip IsHitTestVisible="False">
-                                                            <TextBlock  Text="{Binding Source='h4353cf8eg6bb3g46f5g92eage382a75f4338', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                                            <TextBlock Text="{Binding Source='h4353cf8eg6bb3g46f5g92eage382a75f4338', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
                                                         </ls:LSTooltip>
-                                                    </StackPanel.ToolTip>
-                                                    <TextBlock x:Name="State" Text="{Binding Source=h0b717014gd250g44ccg9653g68b111f2fefb,Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_baseTxtColor}" FontSize="{StaticResource ScaledMediumFontSize}" VerticalAlignment="Center"/>
-                                                    <Image Source="{StaticResource QuestionMarkIcon}" Stretch="Uniform" Margin="4,0,0,0" Height="36"/>
-                                                    <Grid VerticalAlignment="Center">
-                                                        <Image x:Name="bg" Source="{StaticResource ReactionCheckBoxBGImg}" Stretch="None"/>
-                                                        <Image x:Name="CheckImg" Source="{StaticResource ReactionCheckImg}" Stretch="None" Visibility="Hidden" Margin="0,0,0,4"/>
+                                                    </Grid.ToolTip>
+                                                    
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Column 0: Text and Chat Icon (Centered vertically) -->
+                                                    <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,0,0,17">
+                                                        <TextBlock x:Name="State" Text="{Binding Source=h0b717014gd250g44ccg9653g68b111f2fefb,Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_baseTxtColor}" FontSize="{StaticResource ScaledMediumFontSize}" VerticalAlignment="Center"/>
+                                                        <Image Source="{StaticResource QuestionMarkIcon}" Stretch="Uniform" Margin="4,0,0,0" Height="36"/>
+                                                    </StackPanel>
+
+                                                    <!-- Column 1: The Checkbox -->
+                                                    <!-- Removed Viewbox. Added VerticalAlignment="Stretch" and Stretch="Uniform".
+                                                        This makes the image grow to fill the row height, but maintains aspect ratio. -->
+                                                    <Grid Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                                                        <Image x:Name="bg" Source="{StaticResource ReactionCheckBoxBGImg}" Stretch="Uniform" Width="80"/>
+                                                        <Image x:Name="CheckImg" Source="{StaticResource ReactionCheckImg}" Stretch="Uniform" Visibility="Hidden"/>
                                                     </Grid>
-                                                </StackPanel>
+                                                </Grid>
+                                                
+                                                <!-- Trigger Logic (Colors/States) -->
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Setter TargetName="bg" Property="Source" Value="pack://application:,,,/Core;component/Assets/Reactions/checkbox_h.png"/>
@@ -91,7 +122,6 @@
                                     </ls:LSToggleButton>
                                 </Grid>
                             </DataTemplate>
-
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>

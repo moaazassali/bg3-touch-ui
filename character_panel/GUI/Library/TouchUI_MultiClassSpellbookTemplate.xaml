@@ -923,7 +923,7 @@
                         
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
 
