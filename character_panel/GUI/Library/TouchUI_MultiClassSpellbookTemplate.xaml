@@ -9,6 +9,10 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">    
     
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="TouchUI_InterruptPanelTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <ControlTemplate x:Key="TouchUI_MultiClassSpellbookTemplate">
         <!-- DataContext of this should be a VMCharacter -->
         <ControlTemplate.Resources>
@@ -1144,7 +1148,7 @@
                 </StackPanel>
 
                 <!-- Reactions -->
-                <Control Grid.Row="1" x:Name="Reactions" Template="{StaticResource InterruptPanelTemplate}" Visibility="Collapsed" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                <Control Grid.Row="1" x:Name="Reactions" Template="{StaticResource TouchUI_InterruptPanelTemplate}" Visibility="Collapsed" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
 
                 <!-- Panel -->
                 <Grid Grid.Row="1" x:Name="ClassPanel" Margin="0,10,0,0" MaxHeight="1290" >
