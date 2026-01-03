@@ -129,7 +129,7 @@
                 </Setter>
 
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="PartyPanel">
+                    <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterPanel">
                         <Setter Property="MinWidth" Value="136"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -1170,7 +1170,7 @@
                     </Grid>
 
                     <!-- Class panel -->
-                    <Grid x:Name="ClassPanelContent" Grid.Column="1" VerticalAlignment="Top">
+                    <Grid x:Name="ClassPanelContent" Grid.Column="1" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -1319,7 +1319,7 @@
                         </Grid>
 
                         <!-- Class panel content -->
-                        <ScrollViewer x:Name="WholePanelScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="50,0,-50,0" Padding="-50,0,50,0">
+                        <ScrollViewer x:Name="WholePanelScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="50,0,-50,50" Padding="-50,0,50,-40">
                             <Grid x:Name="WholePanelScrollViewerRoot">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -1531,7 +1531,7 @@
                                                     <Setter Property="Width" Value="{Binding ActualWidth, ElementName=ClassPanelContent, Converter={StaticResource MultiplierConverter}, ConverterParameter=0.5}"/>
 
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="PartyPanel">
+                                                        <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterPanel">
                                                             <Setter Property="Width" Value="Auto"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -1624,7 +1624,7 @@
                                                             <Setter TargetName="LongRestImage" Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
 
-                                                        <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="PartyPanel">
+                                                        <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterPanel">
                                                             <Setter TargetName="InitiationRoot" Property="Width" Value="Auto"/>
                                                         </DataTrigger>
                                                     </DataTemplate.Triggers>
@@ -2053,7 +2053,7 @@
             </MultiDataTrigger>
 
             <!-- Party Panel view -->
-            <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="PartyPanel">
+            <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterPanel">
                 <Setter TargetName="MultiClassSpellbookContainer" Property="Margin" Value="0,0,0,0"/>
 
                 <Setter TargetName="NavigationLeftButton" Property="Visibility" Value="Visible"/>
@@ -2061,7 +2061,7 @@
 
                 <Setter TargetName="TopBar" Property="Margin" Value="0,0,0,20"/>
 
-                <Setter TargetName="ClassPanelCentralColumn" Property="Width" Value="684"/>
+                <Setter TargetName="ClassPanelCentralColumn" Property="Width" Value="1000"/>
                 <Setter TargetName="SubClassContainer" Property="Grid.ColumnSpan" Value="5"/>
                 <Setter TargetName="BarLevelContainer" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ClassResourcesContainer" Property="Grid.Row" Value="1"/>
@@ -2079,9 +2079,10 @@
 
                 <Setter TargetName="InitiationsList" Property="HorizontalAlignment" Value="Center"/>
 
-                <Setter TargetName="Background" Property="Source" Value="{StaticResource SpellbookBg_Small}"/>
+                <!-- <Setter TargetName="Background" Property="Source" Value="{StaticResource SpellbookBg_Small}"/> -->
                 <Setter TargetName="Background" Property="Stretch" Value="Fill"/>
-                <Setter TargetName="Background" Property="Margin" Value="-8,-94,-8,-8"/>
+                <Setter TargetName="Background" Property="VerticalAlignment" Value="Stretch"/>
+                <!-- <Setter TargetName="Background" Property="Margin" Value="-8,-94,-8,-8"/> -->
 
                 <Setter TargetName="ClassPanel" Property="MaxHeight" Value="1476"/>
 
@@ -2121,7 +2122,7 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="PartyPanel"/>
+                    <Condition Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterPanel"/>
                     <Condition Binding="{Binding Visibility, ElementName=SubClassContainer}" Value="Collapsed"/>
                     <Condition Binding="{Binding Visibility, ElementName=ClassResourcesContainer}" Value="Collapsed"/>
                 </MultiDataTrigger.Conditions>
@@ -2131,7 +2132,7 @@
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="PartyPanel"/>
+                    <Condition Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterPanel"/>
                     <Condition Binding="{Binding Visibility, ElementName=SubClassContainer}" Value="Collapsed"/>
                     <Condition Binding="{Binding Visibility, ElementName=CastAbilityContainer}" Value="Collapsed"/>
                     <Condition Binding="{Binding Visibility, ElementName=SpellDCContainer}" Value="Collapsed"/>

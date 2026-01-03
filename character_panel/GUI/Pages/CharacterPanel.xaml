@@ -670,7 +670,10 @@
                                 <!-- ===== SPELLBOOK ===== -->
                                 <Grid x:Name="SpellBookPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=SpellbookToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
 
-                                    <Control x:Name="SpellbookAndActionsHolder" Template="{StaticResource TouchUI_MultiClassSpellbookTemplate}" Visibility="{Binding IsChecked, ElementName=SpellbookToggleButton, Converter={StaticResource BoolToVisibleConverter}}" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
+                                    <Control x:Name="SpellbookAndActionsHolder" Template="{StaticResource TouchUI_MultiClassSpellbookTemplate}" Visibility="{Binding IsChecked, ElementName=SpellbookToggleButton, Converter={StaticResource BoolToVisibleConverter}}" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" HorizontalAlignment="Center" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
+                                        <Control.LayoutTransform>
+                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                        </Control.LayoutTransform>
                                     </Control>
 
 
