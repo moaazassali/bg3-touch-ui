@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="TouchUI_VanityButtonTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_HelmetEQTemplate.xaml"/>
+        <ResourceDictionary Source="TouchUI_MuscialEQTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_CharacterEquipmentTemplate" TargetType="Control">
@@ -129,7 +130,7 @@
                                         <ls:DropOnGenericBehavior DropCommand="{Binding DataContext.DropLightSourceCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                     </b:Interaction.Behaviors>
                                 </ls:LSButton>
-                                <Control Tag="{Binding DataContext, ElementName=EquipmentSlots}" Template="{StaticResource MuscialEQTemplate}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MusicalInstrument}"/>
+                                <Control Tag="{Binding DataContext, ElementName=EquipmentSlots}" Template="{StaticResource TouchUI_MuscialEQTemplate}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MusicalInstrument}"/>
                             </StackPanel>
                         </StackPanel>
 

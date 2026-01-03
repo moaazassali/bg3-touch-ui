@@ -12,6 +12,7 @@
     <ControlTemplate x:Key="TouchUI_VisibilityButtonTemplate" TargetType="ls:LSButton">
         <Grid x:Name="ButtonContainer" Width="60" Height="86" Background="Transparent">
             
+            <!-- Use LSNineSliceImage to stretch the frame from the inside but keep border 12px wide regardless of button size -->
             <ls:LSNineSliceImage x:Name="frame" 
                                 ImageSource="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_d.png" 
                                 Slices="12"

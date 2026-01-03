@@ -1,0 +1,132 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <ControlTemplate x:Key="TouchUI_StowedVisibilityButtonTemplate" TargetType="ls:LSButton">
+        <Grid x:Name="ButtonContainer" Width="60" Height="86" Background="Transparent">
+            
+            <!-- Use LSNineSliceImage to stretch the frame from the inside but keep border 12px wide regardless of button size -->
+            <ls:LSNineSliceImage x:Name="frame" 
+                                ImageSource="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_d.png" 
+                                Slices="12"
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"/>
+
+            <Image x:Name="icon" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Source="{DynamicResource IconNormal}" 
+                Stretch="None">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Resources>
+                            <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_none_d.png</ImageSource>
+                            <ImageSource x:Key="IconHighlight">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_none_h.png</ImageSource>
+                            <ImageSource x:Key="IconPressed">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_none_h.png</ImageSource>
+                        </Style.Resources>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <Rectangle Fill="{StaticResource LS_DisabledPanelColor}" 
+                    Visibility="{Binding Tag, ElementName=CharacterPanelHolder, Converter={StaticResource BoolToCollapsedConverter}}"
+                    IsHitTestVisible="False"/>
+
+            <TextBlock Name="MusicalToggleString" 
+                    Text="{Binding Source='h99bd79aeg8906g4400g9bdbg2ea075945d2e',Converter={StaticResource TranslatedStringConverter}}" 
+                    Style="{StaticResource DetailedListText}" 
+                    Visibility="Collapsed" 
+                    Margin="-80,-37,-600,0" 
+                    HorizontalAlignment="Left"
+                    noesis:Text.StrokeThickness="4" 
+                    noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}">
+                <TextBlock.Effect>
+                    <DropShadowEffect Direction="270" Color="{StaticResource LS_PrimaryColorDropShadowColor}" ShadowDepth="3.0" BlurRadius="8.0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding StowedVisibility}" Value="ShowWeaponOnly">
+                <Setter Property="Style" TargetName="icon">
+                    <Setter.Value>
+                        <Style TargetType="Image">
+                            <Style.Resources>
+                                <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_none_d.png</ImageSource>
+                                <ImageSource x:Key="IconHighlight">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_none_h.png</ImageSource>
+                                <ImageSource x:Key="IconPressed">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_none_h.png</ImageSource>
+                            </Style.Resources>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Text" TargetName="MusicalToggleString" Value="{Binding Source='hddb17d4eg181fg4e65g9f0cg8e430dc903ca',Converter={StaticResource TranslatedStringConverter}}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding StowedVisibility}" Value="ShowMusicalInstrumentOnly">
+                <Setter Property="Style" TargetName="icon">
+                    <Setter.Value>
+                        <Style TargetType="Image">
+                            <Style.Resources>
+                                <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Equipment/ico_instrumentVis_d.png</ImageSource>
+                                <ImageSource x:Key="IconHighlight">pack://application:,,,/Core;component/Assets/Equipment/ico_instrumentVis_h.png</ImageSource>
+                                <ImageSource x:Key="IconPressed">pack://application:,,,/Core;component/Assets/Equipment/ico_instrumentVis_h.png</ImageSource>
+                            </Style.Resources>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Text" TargetName="MusicalToggleString" Value="{Binding Source='hfb427664gb836g49ebga804g0aa44391e8ad',Converter={StaticResource TranslatedStringConverter}}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding StowedVisibility}" Value="ShowAll">
+                <Setter Property="Style" TargetName="icon">
+                    <Setter.Value>
+                        <Style TargetType="Image">
+                            <Style.Resources>
+                                <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_d.png</ImageSource>
+                                <ImageSource x:Key="IconHighlight">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_h.png</ImageSource>
+                                <ImageSource x:Key="IconPressed">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_h.png</ImageSource>
+                            </Style.Resources>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_h_active.png" TargetName="frame"/>
+                <Setter Property="Source" Value="{DynamicResource IconHighlight}" TargetName="icon"/>
+                <Setter Property="Visibility" Value="Visible" TargetName="MusicalToggleString"/>
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_h_active.png" TargetName="frame"/>
+                <Setter Property="Source" Value="{DynamicResource IconPressed}" TargetName="icon"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- Game typo -->
+    <ControlTemplate x:Key="TouchUI_MuscialEQTemplate">
+
+        <Grid>
+            <ls:LSButton x:Name="EquipmentInstrumentSlot" Style="{StaticResource EquipmentSlotStyle}" VerticalAlignment="Bottom" Tag="{TemplateBinding Tag}"/>
+            <ls:LSButton x:Name="VisibilityButton" Command="{Binding DataContext.ChangeStowedVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}" Template="{StaticResource TouchUI_StowedVisibilityButtonTemplate}" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-58,0">
+            </ls:LSButton>
+        </Grid>
+
+        <!-- Touch UI - Always visible -->
+        <!-- <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="VisibilityButton"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers> -->
+    </ControlTemplate>
+
+</ResourceDictionary>
