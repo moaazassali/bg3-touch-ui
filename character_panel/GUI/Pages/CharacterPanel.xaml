@@ -31,6 +31,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_CloseButton.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterInventoryTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_WeightBarTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -636,7 +637,11 @@
                                             </Grid>
 
                                             <!-- Weight bar -->
-                                            <Control Template="{StaticResource WeightBarTemplate}" Margin="0,16,0,16" Grid.Row="1" HorizontalAlignment="Center" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
+                                            <Control Template="{StaticResource TouchUI_WeightBarTemplate}" Margin="-100,24,0,24" Grid.Row="1" HorizontalAlignment="Center" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
+                                                <Control.LayoutTransform>
+                                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                                </Control.LayoutTransform>
+                                            </Control>
 
                                         </Grid>
 
