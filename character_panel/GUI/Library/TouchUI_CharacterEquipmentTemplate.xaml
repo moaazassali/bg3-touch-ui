@@ -9,6 +9,10 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="TouchUI_VanityButtonTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <ControlTemplate x:Key="TouchUI_CharacterEquipmentTemplate" TargetType="Control">
         <Grid x:Name="CharacterPanelHolder" Tag="{Binding PlayerCharacterProperties.IsContentEditable}">
             <b:Interaction.Triggers>
@@ -67,14 +71,14 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.Resources>
-                        <Thickness x:Key="EquipMargin">0,72,0,0</Thickness>
+                        <Thickness x:Key="EquipMargin">0,0,0,0</Thickness>
                     </Grid.Resources>
 
-                    <DockPanel Name="EquipmentRight" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,0,0">
+                    <DockPanel Name="EquipmentRight" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,40,0,0">
 
                         <StackPanel DockPanel.Dock="Top">
                             <!--VANITY-->
-                            <Grid HorizontalAlignment="Left">
+                            <Grid HorizontalAlignment="Left" Panel.ZIndex="21">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
@@ -88,13 +92,20 @@
 
                                 <!-- Setting the Tag on the equipmentslots, because in Trade trying to set the ls:TooltipExtender.Owner to the correct 'CurrentTradingCharacter', doesn't trigger inheritance of the property on the first opening of the tooltips. 
                                         and if the property changes it's also not reacting as long as this inheritance is broken.-->
-                                <ls:LSButton x:Name="VanityBodySlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Grid.Row="0" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBody}" Margin="0,40,0,0"/>
+
+                                <!-- Put vanity toggle to left of body slot -->
+                                <Grid Grid.Row="0" HorizontalAlignment="Left">
+                                    <ls:LSButton x:Name="VanityBodySlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBody}"/>
+                                    
+                                    <ls:LSButton x:Name="ArmorVisibilityToggle" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Command="{Binding DataContext.ToggleArmorSetVisibility, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" Template="{StaticResource TouchUI_VanityButtonTemplate}"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-60,0,0,0">
+                                        <!-- <ls:LSButton.ToolTip>
+                                            <ls:LSTooltip Content="{Binding Source='had94b224g2d0eg43a9g96a7g27311c05ef99',Converter={StaticResource TranslatedStringConverter}}" x:Name="TooltipContent"/>
+                                        </ls:LSButton.ToolTip> -->
+                                    </ls:LSButton>
+                                </Grid>
+
                                 <ls:LSButton x:Name="VanityBootsSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Grid.Row="1" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBoots}"/>
-                                <ls:LSButton x:Name="ArmorVisibilityToggle" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Grid.RowSpan="2" VerticalAlignment="Top" Command="{Binding DataContext.ToggleArmorSetVisibility, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" Template="{StaticResource VanityButtonTemplate}" HorizontalAlignment="Right" Margin="0,0,-6,0">
-                                    <ls:LSButton.ToolTip>
-                                        <ls:LSTooltip Content="{Binding Source='had94b224g2d0eg43a9g96a7g27311c05ef99',Converter={StaticResource TranslatedStringConverter}}" x:Name="TooltipContent"/>
-                                    </ls:LSButton.ToolTip>
-                                </ls:LSButton>
                             </Grid>
                             <ls:LSButton x:Name="VanityUnderwearSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Underwear}"/>
                             <ls:LSButton x:Name="EquipmentAmuletSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Amulet}"/>
@@ -103,7 +114,7 @@
                         </StackPanel>
                     </DockPanel>
 
-                    <DockPanel Name="EquipmentLeft" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0">
+                    <DockPanel Name="EquipmentLeft" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="{StaticResource EquipMargin}">
                         <StackPanel DockPanel.Dock="Top">
 
                             <Control Template="{StaticResource HelmetEQTemplate}" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Helmet}" ToolTipService.Placement="Left" Margin="0,40,0,0"/>

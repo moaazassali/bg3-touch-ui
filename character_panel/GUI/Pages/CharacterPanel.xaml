@@ -563,7 +563,7 @@
                                 <!-- ===== MAIN PANEL ===== -->
                                 <Grid x:Name="CharacterSheetPage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=InventoryToggleButton, Converter={StaticResource BoolToVisibleConverter}}" ClipToBounds="False" Margin="0,-30,0,0">
 
-                                    <Grid ClipToBounds="True">
+                                    <Grid ClipToBounds="False">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1070"/>
                                             <ColumnDefinition Width="*"/>
