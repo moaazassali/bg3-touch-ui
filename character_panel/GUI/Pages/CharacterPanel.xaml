@@ -664,7 +664,7 @@
                                     <Grid.LayoutTransform>
                                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                                     </Grid.LayoutTransform>
-                                    <!-- Moved CharacterInfoPanel here. Added margin for mobile spacing. -->
+                                    <!-- Moved CharacterInfoPanel here  -->
                                     <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
                                 </Grid>
 
@@ -885,7 +885,7 @@
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding IsChecked, ElementName=ToggleEqView}" Value="False">
-                    <Setter TargetName="CharacterInfoPanel" Property="Visibility" Value="Collapsed"/>
+                    <!-- <Setter TargetName="CharacterInfoPanel" Property="Visibility" Value="Collapsed"/> -->
                     <Setter TargetName="EquipmentHolder" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="InventoryColumn" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="XPBar" Property="Visibility" Value="Collapsed"/>
