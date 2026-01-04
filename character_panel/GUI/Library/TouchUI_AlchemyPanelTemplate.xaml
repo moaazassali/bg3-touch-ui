@@ -1345,9 +1345,13 @@
 
             <!-- SORTING -->
             <ls:LSNineSliceImage x:Name="Filters" ImageSource="{StaticResource SortBg}" Slices="40" Padding="20,30" 
-                                 HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Margin="44,88,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Margin="44,120,0,0"
                                  Visibility="{Binding IsChecked, ElementName=SortToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
                 <StackPanel>
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </StackPanel.LayoutTransform>
+            
                     <TextBlock Text="{Binding Source='h9414328dgbabeg4602g82c1g4c947c1c8e34',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_accent25TxtColor}" FontSize="{StaticResource ScaledSmallFontSize}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <ls:LSButton x:Name="SortNameButton" Template="{StaticResource SortButtonTemplate}"
@@ -1394,6 +1398,25 @@
                 <b:PropertyChangedTrigger Binding="{Binding DataContext.SelectedRecipe, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
                     <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Tag" Value="NewRecipe"/>
                 </b:PropertyChangedTrigger>
+                <!-- Close sorting menu if clicking outside -->
+                <b:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <b:Interaction.Behaviors>
+                        <b:ConditionBehavior>
+                            <b:ConditionalExpression>
+                                <!-- Only run if the Menu is currently open -->
+                                <b:ComparisonCondition LeftOperand="{Binding IsChecked, ElementName=SortToggleButton}" Operator="Equal" RightOperand="True"/>
+                                
+                                <!-- Only run if the mouse is not over the sorting menu -->
+                                <b:ComparisonCondition LeftOperand="{Binding IsMouseOver, ElementName=Filters}" Operator="Equal" RightOperand="False"/>
+                                
+                                <!-- Only run if the mouse is not over the toggle button (prevents double-toggling) -->
+                                <b:ComparisonCondition LeftOperand="{Binding IsMouseOver, ElementName=SortToggleButton}" Operator="Equal" RightOperand="False"/>
+                            </b:ConditionalExpression>
+                        </b:ConditionBehavior>
+                    </b:Interaction.Behaviors>
+                    <!-- Close the menu -->
+                    <b:ChangePropertyAction TargetName="SortToggleButton" PropertyName="IsChecked" Value="False"/>
+                </b:EventTrigger>
             </b:Interaction.Triggers>
         </Grid>
 
