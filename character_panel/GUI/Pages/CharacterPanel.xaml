@@ -664,8 +664,35 @@
                                     <Grid.LayoutTransform>
                                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                                     </Grid.LayoutTransform>
-                                    <!-- Moved CharacterInfoPanel here  -->
-                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
+                                    <!-- Touch UI - Moved from the equipment page -->
+                                    <!--EXPERIENCE-->
+                                    <Grid Name="XPBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="60,-15,60,0" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.ToolTip>
+                                            <ls:LSTooltip>
+                                                <ls:LSTooltip.Resources>
+                                                    <System:Double x:Key="MaxTooltipContentWidth">720</System:Double>
+                                                </ls:LSTooltip.Resources>
+                                                <TextBlock TextWrapping="Wrap" MaxWidth="700" HorizontalAlignment="Center" Foreground="{DynamicResource TooltipColor.Primary}" >
+                                                    <b:Interaction.Behaviors>
+                                                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Path=DataContext.Stats.Level.Description, ElementName=NameStack}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                                                    </b:Interaction.Behaviors>
+                                                </TextBlock>
+                                            </ls:LSTooltip>
+                                        </Grid.ToolTip>
+                                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource DetailedListText}" Margin="0,0,10,0" TextAlignment="Right" HorizontalAlignment="Right">
+                                            <Run Text="{Binding Source='h8e782babg516fg4d7cgbd57g335de64c94a3', Converter={StaticResource TranslatedStringConverter}}"/>
+                                            <Run Text="{Binding Stats.Level.Value}"/>
+                                        </TextBlock>
+                                        <Control Grid.Column="1" VerticalAlignment="Center" Template="{DynamicResource TouchUI_XPBarTemplate}"/>
+                                        
+                                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Source='hd0a79314g0517g4938ga883g9f991801df75', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource DetailedListText}" Margin="10,0,0,0"/>
+                                    </Grid>
+                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="0,50,0,0"/>
                                 </Grid>
 
                                 <!-- ===== SPELLBOOK ===== -->
@@ -709,35 +736,6 @@
                                     <Image x:Name="AvatarIcon" Source="pack://application:,,,/Core;component/Assets/Shared/ico_avatar.png" VerticalAlignment="Center" Stretch="None" Visibility="Collapsed"/>
                                     <TextBlock TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                 </StackPanel>
-
-                                <!-- Touch UI - Moved from the equipment page -->
-                                <!--EXPERIENCE-->
-                                <Grid Name="XPBar" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="120,0,40,0" DataContext="{Binding CurrentPlayer.SelectedCharacter}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.ToolTip>
-                                        <ls:LSTooltip>
-                                            <ls:LSTooltip.Resources>
-                                                <System:Double x:Key="MaxTooltipContentWidth">720</System:Double>
-                                            </ls:LSTooltip.Resources>
-                                            <TextBlock TextWrapping="Wrap" MaxWidth="700" HorizontalAlignment="Center" Foreground="{DynamicResource TooltipColor.Primary}" >
-                                            <b:Interaction.Behaviors>
-                                                <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Path=DataContext.Stats.Level.Description, ElementName=NameStack}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                                            </b:Interaction.Behaviors>
-                                            </TextBlock>
-                                        </ls:LSTooltip>
-                                    </Grid.ToolTip>
-                                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource DetailedListText}" Margin="0,0,10,0" TextAlignment="Right" HorizontalAlignment="Right">
-                                        <Run Text="{Binding Source='h8e782babg516fg4d7cgbd57g335de64c94a3', Converter={StaticResource TranslatedStringConverter}}"/>
-                                        <Run Text="{Binding Stats.Level.Value}"/>
-                                    </TextBlock>
-                                    <Control Grid.Column="1" VerticalAlignment="Center" Template="{DynamicResource TouchUI_XPBarTemplate}"/>
-
-                                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Source='hd0a79314g0517g4938ga883g9f991801df75', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource DetailedListText}" Margin="10,0,0,0"/>
-                                </Grid>
 
                                 <!--CLOSE & LOCK-->
                                 <StackPanel Grid.Column="2" Panel.ZIndex="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
