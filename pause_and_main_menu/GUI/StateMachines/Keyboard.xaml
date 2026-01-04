@@ -1,0 +1,45 @@
+<ls:StateMachine xmlns:ls="clr-namespace:ls;assembly=Code"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<ls:StateMachine.States>
+		<!-- Taken from unpacked game file at Patch8_HotFix4\Mods\MainUI\GUI\StateMachines\Keyboard.xaml -->
+        <!--STATE: Paused-->
+        <ls:State Name = "Paused" DisableStatesBelow = "True" Layout = "Player" Owner = "Player" HideStatesBelow = "True" IsModal="True" ForceSplitscreen="True" TutorialLayer="Paused" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="AlwaysOnTopOverlay.xaml" Layer="MessageBox"/>
+                <ls:StateWidget Filename="TouchUI_GameMenu.xaml" Layer="Pause" SoundLayer="EscapeMenu"/>
+                <ls:StateWidget Filename="ScreenFade.xaml" Layer="ScreenFade"/>
+            </ls:State.Widgets>
+
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseGameMenu">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenGameOverMessageBox">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="GameOverMessageBox"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenMessageBox">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="MessageBox"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "CharacterAssignOpen">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="CharacterAssign"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenCharacterCreation">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="CharacterCreation"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "CloseCursor">
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+    </ls:StateMachine.States>
+</ls:StateMachine>
