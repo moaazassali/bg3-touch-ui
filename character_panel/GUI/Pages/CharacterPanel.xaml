@@ -681,7 +681,7 @@
                                 </Grid>
 
                                 <!-- ===== ALCHEMY ===== -->
-                                <Grid x:Name="AlchemyPanel" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=AlchemyToggleButton, Converter={StaticResource BoolToVisibleConverter}}" Height="{StaticResource CSContentHeight}">
+                                <Grid x:Name="AlchemyPanel" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=AlchemyToggleButton, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Stretch">
                                     <Control x:Name="AlchemyHolder" Template="{StaticResource TouchUI_AlchemyPanelTemplate}" DataContext="{Binding .}">
                                     </Control>
                                 </Grid>

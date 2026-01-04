@@ -517,7 +517,7 @@
                         </ContentControl.Resources>
                     </ContentControl>
 
-                    <Image x:Name="ActiveLine" Source="{StaticResource ExtractFlowPartialActive}" Visibility="Hidden" HorizontalAlignment="Center" Stretch="None" Margin="0,-10,0,10"/>
+                    <Image x:Name="ActiveLine" Source="{StaticResource ExtractFlowPartialActive}" Visibility="Hidden" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,-10,0,10" Height="60"/>
                 </StackPanel>
 
                 <DataTemplate.Triggers>
@@ -530,6 +530,15 @@
                         </DataTrigger.Binding>
                         <Setter TargetName="ActiveLine" Property="Visibility" Value="Visible"/>
                     </DataTrigger>
+
+                    <DataTrigger Binding="{Binding (ls:AttachedProperties.InheritedNumber), RelativeSource={RelativeSource Self}}" Value="1">
+                        <Setter TargetName="ActiveLine" Property="Margin" Value="4,-10,0,10"/> 
+                    </DataTrigger>
+
+                    <DataTrigger Binding="{Binding (ls:AttachedProperties.InheritedNumber), RelativeSource={RelativeSource Self}}" Value="3">
+                        <Setter TargetName="ActiveLine" Property="Margin" Value="-4,-10,0,10"/>
+                    </DataTrigger>
+
                 </DataTemplate.Triggers>
             </DataTemplate>
 
@@ -763,7 +772,11 @@
             </Grid.ColumnDefinitions>
 
             <!-- RECIPES -->
-            <Grid x:Name="RecipesList" Grid.Column="0" HorizontalAlignment="Center" Width="852"  Margin="0,44,0,0">
+            <Grid x:Name="RecipesList" Grid.Column="0" HorizontalAlignment="Left" Width="500" Margin="10,10,0,0">
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -776,7 +789,7 @@
                     <ls:LSToggleButton x:Name="SortToggleButton" 
                                            Template="{StaticResource SortToggleButtonTemplate}" 
                                            VerticalAlignment="Center" 
-                                           Margin="60,0,0,0"/>
+                                           Margin="0,0,0,0"/>
 
                     <ls:LSCheckBox x:Name="AvailableRecipesButton" 
                                        IsChecked="{Binding HideAvailableRecipes, Mode=OneWay}" 
@@ -846,7 +859,7 @@
                 </StackPanel>
 
                 <!-- List -->
-                <ScrollViewer x:Name="RecipesScrollList" Grid.Row="1" Padding="44,0,0,0" Margin="18" Template="{StaticResource FlippedSimpleScrollViewerTemplate}" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="RecipesScrollList" Grid.Row="1" Padding="44,0,0,0" Margin="18" Template="{StaticResource FlippedSimpleScrollViewerTemplate}" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ContentPresenter x:Name="PotionsList" ContentTemplate="{StaticResource RecipesListTemplate}" 
                                     Content="{Binding Data.PotionRecipes}"
@@ -945,8 +958,8 @@
                                  HorizontalAlignment="Center"
                                  Style="{StaticResource BigBrownButtonStyle}"
                                  Command="{Binding CreateExtracts}"
-                                 Margin="0,0,0,28"
-                                 Width="600"
+                                 Margin="0,0,10,28"
+                                 Width="500"
                                  OverwriteClickSound="UI_HUD_Alchemy_CreateExtracts_Click">
                     <ls:LSButton.Content>
                         <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
@@ -958,17 +971,28 @@
             </Grid>
 
             <!-- EXTRACT AND CRAFTING -->
-            <StackPanel x:Name="ExtractAndCrafting" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,44,0,0">
+            <StackPanel x:Name="ExtractAndCrafting" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,0,0,0">
+
                 <!-- Title -->
-                <ContentControl Name="CraftingTitle" Style="{StaticResource BaseTitleStyle}">
+                <!-- <ContentControl Name="CraftingTitle" Style="{StaticResource BaseTitleStyle}">
                     <TextBlock Text="{Binding Source='hd40af023g3265g492dgb433gb272f433a093', Converter={StaticResource TranslatedStringConverter}}"/>
-                </ContentControl>
+                </ContentControl> -->
 
                 <!-- Extract and crafting -->
                 <Grid x:Name="ExtractCrafting" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <Image x:Name="AlchemyBg" Source="{StaticResource CombineBg}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="None"/>
+                   
 
-                    <Grid x:Name="AlchemyOrbHolder" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,312,0,0">
+                    <Image x:Name="AlchemyBg" Source="{StaticResource CombineBg}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="None">
+                        <Image.LayoutTransform>
+                            <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                        </Image.LayoutTransform>
+                    </Image>
+
+                    <Grid x:Name="AlchemyOrbHolder" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,390,0,0">
+                        <Grid.LayoutTransform>
+                            <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                        </Grid.LayoutTransform>
+
                         <Image x:Name="AlchemyOrb" Source="{StaticResource OrbEnabled}" Stretch="None"/>
 
                         <ls:AnimatedImage x:Name="AlchemyOrbVFX" Style="{StaticResource AlchemyAnimationStyle}"/>
@@ -976,7 +1000,6 @@
                         <ls:LSButton x:Name="SecondaryCraftingButton" HorizontalAlignment="Center" VerticalAlignment="Center"
                                          Width="{Binding ActualWidth, ElementName=AlchemyOrb}"
                                          Height="{Binding ActualHeight, ElementName=AlchemyOrb}"
-                                         Command="{Binding Command, ElementName=ExtractCraftingButton}"
                                          IsEnabled="{Binding IsEnabled, ElementName=ExtractCraftingButton}"
                                          OverwriteClickSound="UI_HUD_Alchemy_CreateSolution_Click">
                             <ls:LSButton.Template>
@@ -1015,8 +1038,12 @@
                     <Grid x:Name="Crafting" Visibility="Hidden">
 
                         <Grid x:Name="CraftingSolution">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </Grid.LayoutTransform>
+
                             <ContentPresenter x:Name="BaseItem" ContentTemplate="{StaticResource CraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract.Item}" 
-                                              HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-120,132,0,0" 
+                                              HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-150,30,0,0" 
                                               ToolTipService.Placement="Left" 
                                               Tag="Main">
                                 <ContentPresenter.ToolTip>
@@ -1025,7 +1052,7 @@
                             </ContentPresenter>
 
                             <ContentPresenter x:Name="ExtraExtract" ContentTemplate="{StaticResource CraftingSlot}" Content="{Binding SelectedExtraExtract}" 
-                                              HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,132,-118,0" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,-150,0" 
                                               ToolTipService.Placement="Left" 
                                               Tag="Extra">
                                 <ContentPresenter.ToolTip>
@@ -1035,11 +1062,15 @@
                         </Grid>
 
                         <Grid x:Name="CraftingExtract" Visibility="Collapsed">
-                            <TextBlock x:Name="ExtractResultTut" Text="{Binding Source='h45fd5913g762cg44fbg8498g37522dcff3c3', Converter={StaticResource TranslatedStringConverter}}" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_accent25TxtColor}" MaxWidth="800" TextAlignment="Center" TextWrapping="Wrap"/>
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </Grid.LayoutTransform>
 
-                            <TextBlock x:Name="ExtractResultName" Text="{Binding SelectedRecipe.BaseExtract.Item.Name}" FontSize="{StaticResource ScaledLargeFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" Width="1000" Margin="0,140,0,0" TextAlignment="Center"/>
+                            <!-- <TextBlock x:Name="ExtractResultTut" Text="{Binding Source='h45fd5913g762cg44fbg8498g37522dcff3c3', Converter={StaticResource TranslatedStringConverter}}" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_accent25TxtColor}" MaxWidth="800" TextAlignment="Center" TextWrapping="Wrap"/> -->
 
-                            <TextBlock x:Name="ExtractResultCount" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_baseTxtColor}" Margin="0,190,0,0" TextAlignment="Center">
+                            <TextBlock x:Name="ExtractResultName" Text="{Binding SelectedRecipe.BaseExtract.Item.Name}" FontSize="{StaticResource ScaledLargeFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" HorizontalAlignment="Center" Width="1000" Margin="0,0,0,0" TextAlignment="Center"/>
+
+                            <TextBlock x:Name="ExtractResultCount" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_baseTxtColor}" Margin="0,50,0,0" TextAlignment="Center">
                                 <TextBlock.Text>
                                     <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
                                         <Binding Source="ha1a20103gb5b2g45a8gaf1fgea40cca68201"/>
@@ -1047,7 +1078,7 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                            <Grid Margin="0,246,0,0" Width="498" VerticalAlignment="Top">
+                            <Grid Margin="0,100,0,0" Width="498" VerticalAlignment="Top">
                                 <ContentPresenter x:Name="ExtractSlot1" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
                                               HorizontalAlignment="Left" 
                                               ls:AttachedProperties.InheritedNumber="1"/>
@@ -1063,8 +1094,13 @@
                         </Grid>
                         
                         <StackPanel x:Name="Result" DataContext="{Binding SelectedRecipe.Result}" 
-                                        HorizontalAlignment="Center" Margin="0,658,0,0"
+                                        HorizontalAlignment="Center" Margin="0,780,0,0"
                                         ToolTipService.Placement="Left">
+
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </StackPanel.LayoutTransform>
+
                             <StackPanel.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
@@ -1086,7 +1122,12 @@
                                 </ContentControl.Resources>
                             </ContentControl>
 
-                            <TextBlock x:Name="ResultName" Text="{Binding Item.Name}" FontSize="{StaticResource ScaledBigFontSize}" Foreground="{StaticResource LS_extraspecialTxtColor}" Width="800" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="{StaticResource ScaledIntermediateFontSizeLineHeight}" Margin="0,16,0,0"/>
+                            <TextBlock x:Name="ResultName" Text="{Binding Item.Name}" FontSize="{StaticResource ScaledBigFontSize}" Foreground="{StaticResource LS_extraspecialTxtColor}" HorizontalAlignment="Center" Width="800" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="{StaticResource ScaledIntermediateFontSizeLineHeight}" Margin="0,0,0,0">
+                                <!-- scale down from 2x to 1.5x -->
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                </StackPanel.LayoutTransform>
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -1106,12 +1147,26 @@
                                    Visibility="Collapsed" MaxWidth="800" Margin="0,16,0,0"/>
 
                     <!-- Amount Input -->
-                    <StackPanel x:Name="AmountInput" Visibility="Hidden" Height="120">
+                    <StackPanel x:Name="AmountInput" Visibility="Hidden" Height="190">
 
-                        <TextBlock x:Name="AmountInputTitle" Text="{Binding Source='h7a90a95cgf7b0g4b53g93efg2837c4dc267a', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_extraspecialTxtColor}" HorizontalAlignment="Center"/>
+                        <!-- <TextBlock x:Name="AmountInputTitle" Text="{Binding Source='h7a90a95cgf7b0g4b53g93efg2837c4dc267a', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_extraspecialTxtColor}" HorizontalAlignment="Center">
+                            <TextBlock.LayoutTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock> -->
 
-                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" >
-                            <ls:LSButton x:Name="NavigationLeftButton" Template="{StaticResource IconButtonTemplate}" VerticalAlignment="Center">
+                        <Grid x:Name="AmountInputButtons" HorizontalAlignment="Center" Margin="0,25,0,0" Width="430">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </Grid.LayoutTransform>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ls:LSButton x:Name="NavigationLeftButton" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                                 <ls:LSButton.Resources>
                                     <BitmapImage x:Key="ButtonNormal" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_d.png"/>
                                     <BitmapImage x:Key="ButtonHighlight" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_h.png"/>
@@ -1122,6 +1177,33 @@
                                     <BitmapImage x:Key="IconPressed" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_h.png"/>
                                     <BitmapImage x:Key="IconDisabled" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_d.png"/>
                                 </ls:LSButton.Resources>
+
+                                <!-- CUSTOM TEMPLATE FOR 9-SLICE SCALING -->
+                                <ls:LSButton.Template>
+                                    <ControlTemplate TargetType="ls:LSButton">
+                                        <Grid>
+                                            <ls:LSNineSliceImage x:Name="Bg" ImageSource="{DynamicResource ButtonNormal}" Height="80" Slices="30,10,10,10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                            <!-- Icon stays centered and does not stretch -->
+                                            <Image x:Name="Icon" Source="{DynamicResource IconNormal}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bg" Property="ImageSource" Value="{DynamicResource ButtonHighlight}"/>
+                                                <Setter TargetName="Icon" Property="Source" Value="{DynamicResource IconHighlight}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="Bg" Property="ImageSource" Value="{DynamicResource ButtonPressed}"/>
+                                                <Setter TargetName="Icon" Property="Source" Value="{DynamicResource IconPressed}"/>
+                                                <Setter TargetName="Icon" Property="Margin" Value="0,2,0,0"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Bg" Property="ImageSource" Value="{DynamicResource ButtonDisabled}"/>
+                                                <Setter TargetName="Icon" Property="Source" Value="{DynamicResource IconDisabled}"/>
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ls:LSButton.Template>
 
                                 <b:Interaction.Triggers>
                                     <b:EventTrigger EventName="LSButtonPressed">
@@ -1139,12 +1221,12 @@
                                 </b:Interaction.Triggers>
                             </ls:LSButton>
 
-                            <Grid>
-                                <Image x:Name="AmountInputBg" Source="{StaticResource AmountInputBg}" Stretch="None"/>
+                            <Grid Grid.Column="1" Height="83" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-2,0">
+                                <Image x:Name="AmountInputBg" Source="{StaticResource AmountInputBg}" Stretch="Fill" Height="83" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <ls:LSTextBox x:Name="AmountInputBox" Text="{Binding ItemsToCraft}" Mask="Integer" TextImmediateSourceUpdate="True" Foreground="{StaticResource LS_extraspecialTxtColor}" VerticalAlignment="Center" Background="Transparent" HorizontalContentAlignment="Center" BorderThickness="0" MaxLines="1" TextAlignment="Center" Focusable="True"/>
                             </Grid>
 
-                            <ls:LSButton x:Name="NavigationRightButton" Template="{StaticResource IconButtonTemplate}" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.5">
+                            <ls:LSButton x:Name="NavigationRightButton" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0.5, 0.5">
                                 <ls:LSButton.Resources>
                                     <BitmapImage x:Key="ButtonNormal" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_d.png"/>
                                     <BitmapImage x:Key="ButtonHighlight" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_h.png"/>
@@ -1155,6 +1237,32 @@
                                     <BitmapImage x:Key="IconPressed" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_h.png"/>
                                     <BitmapImage x:Key="IconDisabled" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_d.png"/>
                                 </ls:LSButton.Resources>
+
+                                <!-- SAME CUSTOM TEMPLATE AS LEFT BUTTON -->
+                                <ls:LSButton.Template>
+                                    <ControlTemplate TargetType="ls:LSButton">
+                                        <Grid>
+                                            <ls:LSNineSliceImage x:Name="Bg" ImageSource="{DynamicResource ButtonNormal}" Height="80" Slices="30,10,10,10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                            <Image x:Name="Icon" Source="{DynamicResource IconNormal}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bg" Property="ImageSource" Value="{DynamicResource ButtonHighlight}"/>
+                                                <Setter TargetName="Icon" Property="Source" Value="{DynamicResource IconHighlight}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="Bg" Property="ImageSource" Value="{DynamicResource ButtonPressed}"/>
+                                                <Setter TargetName="Icon" Property="Source" Value="{DynamicResource IconPressed}"/>
+                                                <Setter TargetName="Icon" Property="Margin" Value="0,2,0,0"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Bg" Property="ImageSource" Value="{DynamicResource ButtonDisabled}"/>
+                                                <Setter TargetName="Icon" Property="Source" Value="{DynamicResource IconDisabled}"/>
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ls:LSButton.Template>
 
                                 <ls:LSButton.RenderTransform>
                                     <ScaleTransform ScaleX="-1"/>
@@ -1175,12 +1283,16 @@
                                     </b:EventTrigger>
                                 </b:Interaction.Triggers>
                             </ls:LSButton>
-                        </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </Grid>
 
                 <!-- Buttons -->
                 <ls:LSButton x:Name="ExtractCraftingButton" HorizontalAlignment="Center" Style="{StaticResource BigBrownButtonStyle}" Margin="0,24,0,0">
+                    <ls:LSButton.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </ls:LSButton.LayoutTransform>
+
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="Click">
                             <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Tag" Value="NewRecipe"/>
@@ -1190,6 +1302,10 @@
 
                 <ls:LSButton x:Name="CraftAllItemsButton" HorizontalAlignment="Center" Style="{StaticResource BigBrownButtonStyle}" Command="{Binding CraftItems}"
                              CommandParameter="All" Visibility="Collapsed" Margin="12,4,12,0" Padding="40,0">
+                    <ls:LSButton.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </ls:LSButton.LayoutTransform>
+
                     <ls:LSButton.Content>
                         <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
                             <Binding Source="hf645785cg182fg40d2g9ed9g3f42fca2053c"/>
@@ -1267,8 +1383,12 @@
 
             <!--Popup menu for extract selection-->
             <!--NewRecipe tag used to track, when selected slot in the extracts inventory grid should be updated-->
-            <Control x:Name="ExtractSelectionControl" Template="{StaticResource PopOutAlchemyTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Grid.Column="1" Margin="0,420,0,100"
-                     Tag="NewRecipe" Visibility="Collapsed"/>
+            <Control x:Name="ExtractSelectionControl" Template="{StaticResource PopOutAlchemyTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Grid.ColumnSpan="2" Margin="0,320,0,0"
+                     Tag="NewRecipe" Visibility="Collapsed">
+                <Control.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Control.LayoutTransform>        
+            </Control>
 
             <b:Interaction.Triggers>
                 <b:PropertyChangedTrigger Binding="{Binding DataContext.SelectedRecipe, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
@@ -1439,7 +1559,15 @@
 
                 <Setter TargetName="AlchemyBg" Property="Source" Value="pack://application:,,,/Core;component/Assets/Alchemy/extract_flowLines_inactive.png"/>
                 <Setter TargetName="AlchemyBg" Property="VerticalAlignment" Value="Center"/>
-                <Setter TargetName="AlchemyBg" Property="Margin" Value="0,82,0,-82"/>
+                <Setter TargetName="AlchemyBg" Property="Margin" Value="0,-5,0,0"/>
+                <Setter TargetName="AlchemyBg" Property="LayoutTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="2" ScaleY="1" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Result" Property="Margin" Value="0,630,0,0"/>
+                <Setter TargetName="AmountInput" Property="Height" Value="190"/>
+                <Setter TargetName="AmountInputButtons" Property="Margin" Value="0,20,0,0"/>
             </DataTrigger>
 
             <MultiDataTrigger>
