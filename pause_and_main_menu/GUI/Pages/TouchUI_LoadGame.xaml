@@ -11,6 +11,15 @@
              d:DataContext="{d:DesignInstance {x:Type ls:DCSavegames}, IsDesignTimeCreatable=True}"
              d:DesignWidth="3840" d:DesignHeight="2160">
 
+    <!-- Touch UI - Import custom resources -->
+    <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_SavePresenterTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ls:UIWidget.Resources>
+
     <ls:UIWidget.Template>
         <ControlTemplate TargetType="ls:UIWidget">
             <ControlTemplate.Resources>
@@ -18,6 +27,10 @@
             </ControlTemplate.Resources>
 
             <Grid>
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+
                 <Grid.Background>
                     <ImageBrush ImageSource="{StaticResource OptionsBackground}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -35,24 +48,28 @@
                     <Image Grid.Row="0" Source="{StaticResource FadeHeader}" Stretch="Fill" Margin="0,-48"/>
                     <Image Grid.Row="0" Grid.RowSpan="3" Source="{StaticResource FadeFooterImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None"/>
 
-                    <ls:LSButton Grid.Row="0" x:Name="CloseButton" Style="{StaticResource SmallCloseButton}"
+                    <ls:LSButton Grid.Row="0" x:Name="CloseButton" Style="{StaticResource CloseButton}"
                                  BoundEvent="UICancel" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="{StaticResource SmallCloseButtonDefaultMargin}" 
                                  Command="{Binding CustomEvent}" CommandParameter="CloseWidget"
-                                 IsEnabled="{Binding ShowModValidationWindow,  Converter={StaticResource InvertBoolConverter}, FallbackValue=True}"/>
+                                 IsEnabled="{Binding ShowModValidationWindow,  Converter={StaticResource InvertBoolConverter}, FallbackValue=True}">
+                        <ls:LSButton.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </ls:LSButton.LayoutTransform>         
+                    </ls:LSButton>
 
-                    <StackPanel Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,60,0,0">
+                    <StackPanel Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
                         <TextBlock Text="{Binding Source='h591bfe6bg8120g4708gb6f1gb814d019a85f', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledMassiveFontSize}"/>
                         <TextBlock Text="{Binding Source='h1fb8b3cbg2df0g4edbgbb2cgc6afd98b8f96', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_accent75TxtColor}" FontSize="{StaticResource ScaledMediumFontSize}"/>
                         <Image Source="{StaticResource TitleDecoration}" Stretch="None" HorizontalAlignment="Center" Margin="0,20"/>
                     </StackPanel>
 
-                    <Grid Grid.Row="1" x:Name="PageContent" Width="3000">
+                    <Grid Grid.Row="1" x:Name="PageContent" Margin="0,-50,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Column="0" x:Name="SaveListContainer" Margin="0,0,0,32">
+                        <Grid Grid.Column="0" x:Name="SaveListContainer" Margin="100,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -68,10 +85,14 @@
                                   ItemTemplate="{StaticResource PlaythroughItemTemplate}"/>
                         </Grid>
 
-                        <Control Grid.Column="1" x:Name="PresenterControl" Template="{StaticResource SavePresenterTemplate}"/>
+                        <Control Grid.Column="1" x:Name="PresenterControl" Template="{StaticResource TouchUI_SavePresenterTemplate}">
+                            <Control.LayoutTransform>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            </Control.LayoutTransform>
+                        </Control>
                     </Grid>
 
-                    <Grid x:Name="FooterGrid" Grid.Row="2" Margin="120,0">
+                    <Grid x:Name="FooterGrid" Grid.Row="2" Margin="120,0,120,0">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition Height="72"/>
