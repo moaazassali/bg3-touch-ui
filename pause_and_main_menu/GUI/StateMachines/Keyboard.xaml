@@ -41,5 +41,36 @@
                 </ls:StateEvent>
             </ls:State.Events>
         </ls:State>
+
+        <!--STATE: Paused.LoadGame-->
+        <ls:State Name = "Paused.LoadGame" DisableStatesBelow = "True" IsModal="True" Layout = "Player" Owner = "Player" HideStatesBelow = "True" ForceSplitscreen="True" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="AlwaysOnTopOverlay.xaml" Layer="MessageBox"/>
+                <ls:StateWidget Filename="ScreenFade.xaml" Layer="ScreenFade" BlockedLoading="True"/>
+                <ls:StateWidget Filename="TouchUI_LoadGame.xaml" Layer="Pause" SoundLayer="EscapeMenu"/>
+            </ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseWidget">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "IE.LoadGameClose">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenMessageBox">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="MessageBox"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "IE.ToggleInGameMenu">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
     </ls:StateMachine.States>
 </ls:StateMachine>
