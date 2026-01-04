@@ -1,0 +1,1513 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">    
+    
+    <ControlTemplate x:Key="TouchUI_AlchemyPanelTemplate">
+        <ControlTemplate.Resources>
+            <System:Double x:Key="IconSize">88</System:Double>
+            <System:Double x:Key="ListIconSize">60</System:Double>
+
+
+            <BitmapImage x:Key="NewRecipeIcon" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_exclamation.png"/>
+
+            <BitmapImage x:Key="ExtractBg" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_extract.png"/>
+            <BitmapImage x:Key="CombineBg" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_combine.png"/>
+            <BitmapImage x:Key="PopUpBg" UriSource="pack://application:,,,/Core;component/Assets/Container/container_background.png"/>
+
+            <BitmapImage x:Key="ExtractFlowPartialActive" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_flowLines_partial.png"/>
+
+            <BitmapImage x:Key="OrbDisabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_disabled.png"/>
+            <BitmapImage x:Key="OrbEnabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_d.png"/>
+            <BitmapImage x:Key="OrbEnabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_h.png"/>
+            <BitmapImage x:Key="OrbActive" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_working_d.png"/>
+            <BitmapImage x:Key="OrbActive_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_working_h.png"/>
+            <BitmapImage x:Key="OrbButtonIcon" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_ico_d.png"/>
+            <BitmapImage x:Key="OrbButtonIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_bg_circle_button_ico_h.png"/>
+
+            <BitmapImage x:Key="SortBg" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/sorting_bg.png"/>
+
+            <BitmapImage x:Key="AmountInputBg" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_input_d.png"/>
+            <BitmapImage x:Key="AmountInputBg_h" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_input_h.png"/>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{StaticResource ScaledDefaultFontSize}"/>
+            </Style>
+
+            <Style x:Key="AlchemyAnimationStyle" TargetType="ls:AnimatedImage">
+                <Setter Property="Template" Value="{StaticResource BaseAnimatedImage}"/>
+                <Setter Property="Time" Value="0:0:0.033"/>
+                <Setter Property="ClipSize" Value="216,240"/>
+                <Setter Property="RepeatBehavior" Value="1x"/>
+                <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/BottomBar/VFX/popExplosion.png"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Visibility" Value="Hidden"/>
+            </Style>
+
+            <DataTemplate x:Key="AlchemySlotTemplate" DataType="{x:Type ls:VMItem}">
+                <Grid x:Name="AlchemySlotRoot" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image x:Name="SlotBg" Source="{DynamicResource SlotEnabled}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ContentPresenter x:Name="Icon" Content="{Binding .}" Width="{StaticResource IconSize}" Height="{StaticResource IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{StaticResource Template.ItemNoCount}"/>
+                    <Rectangle x:Name="GrayedIcon" Width="{StaticResource IconSize}" Height="{StaticResource IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Visibility, ElementName=Icon, Converter={StaticResource InvertVisibilityConverter}}" Opacity="0.5">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="{Binding Icon.ImageSource}" Viewbox="{Binding Icon.Viewbox}" ViewboxUnits="{Binding Icon.ViewboxUnits}">
+                                <noesis:Brush.Shader>
+                                    <ls:MonochromeBrushShader/>
+                                </noesis:Brush.Shader>
+                            </ImageBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <ls:AnimatedImage x:Name="VFX" Style="{StaticResource AlchemyAnimationStyle}" Margin="-64,-76" RenderTransformOrigin="0.5,0.5" ls:AttachedProperties.InheritedNumber="{Binding Source=0, Converter={StaticResource RandomConverter}, ConverterParameter=10}">
+                        <ls:AnimatedImage.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform>
+                                    <RotateTransform.Angle>
+                                        <MultiBinding Converter="{StaticResource MultiplierMultiConverter}">
+                                            <Binding Path="(ls:AttachedProperties.InheritedNumber)" ElementName="VFX"/>
+                                            <Binding Source="134"/>
+                                        </MultiBinding>
+                                    </RotateTransform.Angle>
+                                </RotateTransform>
+                            </TransformGroup>
+                        </ls:AnimatedImage.RenderTransform>
+                    </ls:AnimatedImage>
+
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                        </b:EventTrigger>
+
+                        <b:DataTrigger Binding="{Binding (ls:AnimatedImage.AnimationEnded), ElementName=VFX}" Value="True">
+                            <b:InvokeCommandAction Command="{Binding DataContext.EndCreationProcess, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                        </b:DataTrigger>
+                    </b:Interaction.Triggers>
+                </Grid>
+
+                <DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                            <Condition Binding="{Binding IsVisible, ElementName=ExtractAndCrafting}" Value="True"/>
+                            <Condition Binding="{Binding IsVisible, ElementName=AlchemySlotRoot}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="VFX" Property="Visibility" Value="Visible"/>
+                    </MultiDataTrigger>
+
+                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                        <Setter TargetName="SlotBg" Property="Source" Value="{DynamicResource SlotEnabled_h}"/>
+                    </DataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            <Condition Binding="{Binding Count}" Value="0"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="SlotBg" Property="Source" Value="{DynamicResource SlotDisabled}"/>
+                        <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                    </MultiDataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            <Condition Binding="{Binding Count}" Value="0"/>
+                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="SlotBg" Property="Source" Value="{DynamicResource SlotDisabled_h}"/>
+                        <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                    </MultiDataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            <Condition Binding="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Self}}" Value="CustomCount"/>
+                            <Condition Value="False">
+                                <Condition.Binding>
+                                    <MultiBinding Converter="{StaticResource LessThanOrEqualMultiConverter}">
+                                        <Binding Path="(ls:AttachedProperties.InheritedNumber)" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="Count"/>
+                                    </MultiBinding>
+                                </Condition.Binding>
+                            </Condition>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="SlotBg" Property="Source" Value="{DynamicResource SlotDisabled}"/>
+                        <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                    </MultiDataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            <Condition Binding="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Self}}" Value="CustomCount"/>
+                            <Condition Value="False">
+                                <Condition.Binding>
+                                    <MultiBinding Converter="{StaticResource LessThanOrEqualMultiConverter}">
+                                        <Binding Path="(ls:AttachedProperties.InheritedNumber)" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="Count"/>
+                                    </MultiBinding>
+                                </Condition.Binding>
+                            </Condition>
+                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="SlotBg" Property="Source" Value="{DynamicResource SlotDisabled_h}"/>
+                        <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                    </MultiDataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- RECIPES -->
+            <ControlTemplate x:Key="ListEntryTemplate" TargetType="ContentControl">
+                <Grid x:Name="RecipeEntryRoot">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border x:Name="Background" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource LS_accent100TxtColor}" Opacity="0" CornerRadius="12" />
+                    <ContentPresenter x:Name="Content" Grid.Column="0" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                    <Image x:Name="IsNewIcon" Grid.Column="1" Source="{StaticResource NewRecipeIcon}" Stretch="None" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibleConverter}, ConverterParameter={StaticResource TrueValue}}"/>
+
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Grid>
+
+                <ControlTemplate.Triggers>
+                    <Trigger Property="Tag" Value="Disabled">
+                        <Setter TargetName="Background" Property="Background" Value="{StaticResource LS_disabledPadTxtColor}"/>
+                    </Trigger>
+                    <Trigger Property="Tag" Value="Selected">
+                        <Setter TargetName="Background" Property="Opacity" Value="0.4"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <Style x:Key="ListEntryStyle" TargetType="ContentControl">
+                <Setter Property="Template" Value="{StaticResource ListEntryTemplate}" />
+                <Setter Property="ToolTipService.Placement" Value="Right"/>
+                <Setter Property="noesis:StyleInteraction.Triggers">
+                    <Setter.Value>
+                        <noesis:StyleTriggerCollection>
+                            <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                <ls:LSPlaySound Sound="UI_Shared_Click"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <ls:LSPlaySound Sound="UI_Shared_Secondary_Press"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                            </b:EventTrigger>
+                        </noesis:StyleTriggerCollection>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ListEntryTextStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource LS_accent75TxtColor}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                <Setter Property="LineHeight" Value="{StaticResource ScaledDefaultFontSizeLineHeight}"/>
+            </Style>
+
+            <Style x:Key="AlchemyWrappingText" TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+            </Style>
+
+            <DataTemplate x:Key="RecipesListTemplate" DataType="{x:Type ls:VMRecipesCollection}">
+                <StackPanel>
+                    <b:Interaction.Behaviors>
+                        <ls:CollectionSortBehavior x:Name="RecipesSortBehavior" ItemsSource="{Binding Recipes}" Comparer="{Binding DataContext.AlchemyRecipesComparer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" />
+                    </b:Interaction.Behaviors>
+
+                    <ls:LSToggleButton x:Name="ExpandToggle" IsChecked="False" Height="64">
+                        <ls:LSToggleButton.Template>
+                            <ControlTemplate TargetType="{x:Type ls:LSToggleButton}">
+                                <ControlTemplate.Resources>
+                                    <BitmapImage x:Key="Arrow_d" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/listItem_expandToggle_default.png"/>
+                                    <BitmapImage x:Key="Arrow_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/listItem_expandToggle_active.png"/>
+
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="{StaticResource ScaledDefaultFontSize}"/>
+                                    </Style>
+                                </ControlTemplate.Resources>
+
+                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                    <Image x:Name="ToggleIcon" Source="{StaticResource Arrow_d}" Stretch="None" Margin="10,0" RenderTransformOrigin="0.5,0.5"/>
+
+                                    <ContentPresenter x:Name="content" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="ToggleIcon" Property="Source" Value="{StaticResource Arrow_h}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="ToggleIcon" Property="RenderTransform">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="90"/>
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ls:LSToggleButton.Template>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="GroupIcon" Source="{DynamicResource GroupIcon}" Stretch="Uniform" Width="{StaticResource ListIconSize}" Height="{StaticResource ListIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="8,0"/>
+                            <TextBlock x:Name="GroupName" VerticalAlignment="Center" Foreground="{StaticResource LS_accent75TxtColor}">
+                                <Run Text="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=Self}}"/><Run 
+                                    x:Name="CraftableCount" Text="{Binding TotalCraftableRecipes, StringFormat='{} ({0}/'}"/><Run 
+                                    x:Name="GroupCount" Text="{Binding ItemsSource.Count, ElementName=RecipesList, StringFormat='{}{0})'}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </ls:LSToggleButton>
+
+                    <ItemsControl x:Name="RecipesList" AlternationCount="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}}"
+                                      ItemsSource="{Binding SortedItems, ElementName=RecipesSortBehavior}"
+                                      Visibility="{Binding Path=IsChecked, ElementName=ExpandToggle, Converter={StaticResource BoolToVisibleConverter}}">
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding DataContext.HideAvailableRecipes, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                            <Condition Binding="{Binding DataContext.CanBeCrafted, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type ls:VMRecipe}">
+                                <ContentControl x:Name="EntryRoot" Style="{StaticResource ListEntryStyle}">
+                                    <ContentControl.ToolTip>
+                                        <ls:LSTooltip Content="{Binding DataContext.Result, ElementName=EntryRoot}"/>
+                                    </ContentControl.ToolTip>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ContentPresenter x:Name="Icon" Grid.Column="0" Content="{Binding Result.Item}" Width="72" Height="72" VerticalAlignment="Center" ClipToBounds="False" Margin="8,0,0,0" ContentTemplate="{StaticResource Template.ItemNoCount}"/>
+                                        <TextBlock x:Name="Name" Grid.Column="1" Text="{Binding Result.Item.NameAlchemy}" Style="{StaticResource ListEntryTextStyle}" Margin="12,12"/>
+                                        <Button Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding DataContext.ChangeSelectedRecipe, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" Background="Transparent"/>
+                                    </Grid>
+                                </ContentControl>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding CanBeCrafted}" Value="False">
+                                        <Setter TargetName="Icon" Property="Opacity" Value="0.8"/>
+                                        <Setter TargetName="Name" Property="Foreground" Value="{StaticResource LS_accent00TxtColor}"/>
+                                        <Setter TargetName="EntryRoot" Property="Tag" Value="Disabled"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=EntryRoot}" Value="True">
+                                        <Setter TargetName="Icon" Property="Opacity" Value="1"/>
+                                        <Setter TargetName="Name" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="True">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="DataContext.SelectedRecipe" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                                <Binding Path="."/>
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter TargetName="EntryRoot" Property="Tag" Value="Selected"/>
+                                        <Setter TargetName="Name" Property="Opacity" Value="1"/>
+                                        <Setter TargetName="Icon" Property="Opacity" Value="1"/>
+                                        <Setter TargetName="Name" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=ExpandToggle}" Value="True">
+                        <Setter TargetName="GroupIcon" Property="Source" Value="{DynamicResource GroupIcon_h}"/>
+                        <Setter TargetName="GroupName" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- CRAFTING -->
+            <DataTemplate x:Key="CraftingSlot" DataType="{x:Type ls:VMItem}">
+                <StackPanel x:Name="EntryRoot" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                            <Setter Property="Width" Value="600"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                            <b:Interaction.Behaviors>
+                                <b:ConditionBehavior>
+                                    <b:ConditionalExpression>
+                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Operator="Equal" RightOperand="Extra"/>
+                                    </b:ConditionalExpression>
+                                </b:ConditionBehavior>
+                            </b:Interaction.Behaviors>
+                            <ls:LSPlaySound Sound="UI_Shared_Click"/>
+                            <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Visibility" Value="Visible"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+
+                    <TextBlock x:Name="Title" Foreground="{StaticResource LS_accent75TxtColor}" Visibility="{Binding Text, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToHiddenConverter}, ConverterParameter='EmptyString'}"/>
+
+                    <TextBlock x:Name="Name">
+                        <Run x:Name="NamePrefix" Foreground="{StaticResource LS_accent75TxtColor}"/><Run x:Name="NameText" Text="{Binding NameAlchemy}" Foreground="{StaticResource LS_extraspecialTxtColor}"/>
+                    </TextBlock>
+
+                    <ContentControl x:Name="Slot" HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{StaticResource AlchemySlotTemplate}" Content="{Binding .}" Tag="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                        <ContentControl.Resources>
+                            <BitmapImage x:Key="SlotEnabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_default.png"/>
+                            <BitmapImage x:Key="SlotEnabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_default_h.png"/>
+                            <BitmapImage x:Key="SlotDisabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_error.png"/>
+                            <BitmapImage x:Key="SlotDisabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_error_h.png"/>
+                        </ContentControl.Resources>
+                    </ContentControl>
+
+                    <TextBlock x:Name="Count" Text="{Binding Count, StringFormat='{}{0}/1'}" Foreground="{StaticResource LS_tint100}"/>
+                </StackPanel>
+
+                <DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            <Condition Binding="{Binding Count}" Value="0"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Count" Property="Foreground" Value="{StaticResource LS_alertTxtColor}"/>
+                    </MultiDataTrigger>
+
+                    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra">
+                        <Setter TargetName="Count" Property="Text" Value="{Binding DataContext.TotalAvailableExtraExtracts, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, StringFormat='{}{0}/1'}"/>
+                    </DataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding DataContext.IsCreatingItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="False"/>
+                            <Condition Binding="{Binding Count}" Value="0"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Name" Property="Foreground" Value="{StaticResource LS_alertTxtColor}"/>
+                    </MultiDataTrigger>
+
+                    <!-- Main extract titles based on the extract type -->
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Main"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Air"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Title" Property="Text" Value="{Binding Source='hb918ad87gcdc2g4809g922dg0f6c34595e6b',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Main"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Earth"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Title" Property="Text" Value="{Binding Source='h9cfa94d3g61b5g4bdcg91fag64d138bad8a2',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Main"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Fey"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Title" Property="Text" Value="{Binding Source='hbd8f16fbgcc72g489egb97eg3b6c414331a1',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Main"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Fire"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Title" Property="Text" Value="{Binding Source='h85ae0acdg4ddeg4f26g8bd6g3350c47e10d7',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Main"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Shadow"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Title" Property="Text" Value="{Binding Source='h6882b06eg7116g4d13ga04cg40936915be3c',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Main"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Water"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Title" Property="Text" Value="{Binding Source='hc73e4e3ag44c0g49b7g96f8g732f01f8270a',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+
+                    <!-- Extra extract names based on the extract type -->
+                    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra">
+                        <Setter TargetName="NamePrefix" Property="Text" Value="{Binding Source='h7bf9cc90gb598g426egb932g150189db5be7',Converter={StaticResource TranslatedStringConverter}, StringFormat='{}{0} '}"/>
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Air"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="NameText" Property="Text" Value="{Binding Source='h2c1af163gda89g4142g8670g492407614241',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Earth"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="NameText" Property="Text" Value="{Binding Source='h53369a2cgd283g467cg924cg3938e9bbdc30',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Fey"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="NameText" Property="Text" Value="{Binding Source='h17759c79g9c66g4cf4ga71bg82b7914319a1',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Fire"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="NameText" Property="Text" Value="{Binding Source='hd7d538e9gd122g4216g9b2aga1c7aaa5c7ef',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Shadow"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="NameText" Property="Text" Value="{Binding Source='hee19fd7fg6d6fg4f9fg83d7ge350d0ea4a8d',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Extra"/>
+                            <Condition Binding="{Binding AlchemyExtractType}" Value="Water"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="NameText" Property="Text" Value="{Binding Source='h7f02c548g5195g434egb3edg30c0a31130e1',Converter={StaticResource TranslatedStringConverter}}"/>
+                    </MultiDataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- EXTRACT CRAFTING -->
+            <DataTemplate x:Key="ExtractCraftingSlot" DataType="{x:Type ls:VMTooltipItemSectionDetail}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <ContentControl x:Name="Slot" ContentTemplate="{StaticResource AlchemySlotTemplate}" Content="{Binding Item}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Left" ls:AttachedProperties.InheritedTag="CustomCount" >
+                        <ContentControl.Resources>
+                            <BitmapImage x:Key="SlotEnabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_itemSlot_active.png"/>
+                            <BitmapImage x:Key="SlotEnabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_itemSlot_active_h.png"/>
+                            <BitmapImage x:Key="SlotDisabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_itemSlot_inactive.png"/>
+                            <BitmapImage x:Key="SlotDisabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_itemSlot_inactive_h.png"/>
+                        </ContentControl.Resources>
+                    </ContentControl>
+
+                    <Image x:Name="ActiveLine" Source="{StaticResource ExtractFlowPartialActive}" Visibility="Hidden" HorizontalAlignment="Center" Stretch="None" Margin="0,-10,0,10"/>
+                </StackPanel>
+
+                <DataTemplate.Triggers>
+                    <DataTrigger Value="True">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource LessThanOrEqualMultiConverter}">
+                                <Binding Path="(ls:AttachedProperties.InheritedNumber)" RelativeSource="{RelativeSource Self}"/>
+                                <Binding Path="Item.Count"/>
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter TargetName="ActiveLine" Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- SORTING -->
+            <ControlTemplate x:Key="SortButtonTemplate" TargetType="ls:LSButton">
+                <ControlTemplate.Resources>
+                    <BitmapImage x:Key="EntryBg" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/selector_listitem_d.png"/>
+                    <BitmapImage x:Key="EntryBg_h" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/selector_listitem_h.png"/>
+                    <BitmapImage x:Key="BulletIcon" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_bullet_d.png"/>
+                    <BitmapImage x:Key="BulletIcon_h" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_bullet_h.png"/>
+                </ControlTemplate.Resources>
+                <Grid x:Name="Entry">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="bg" Grid.Column="0" Grid.ColumnSpan="2" Source="{StaticResource EntryBg}" Stretch="None"/>
+                    <Image x:Name="icon" Grid.Column="0" Source="{StaticResource BulletIcon}" Stretch="None" Margin="20,0,0,0"/>
+                    <TextBlock x:Name="text" Grid.Column="1" Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{StaticResource LS_accent25TxtColor}" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="bg" Property="Source" Value="{StaticResource EntryBg_h}"/>
+                        <Setter TargetName="icon" Property="Source" Value="{StaticResource BulletIcon_h}"/>
+                        <Setter TargetName="text" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter TargetName="Entry" Property="Opacity" Value="0.85"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <!-- PROCESS -->
+            <Storyboard x:Key="ResultMessageStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ExtractCraftingMessage">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:2.8" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <!--===== POP OUT ALCHEMY TEMPLATE =====-->
+
+            <ControlTemplate x:Key="PopOutAlchemyTemplate" TargetType="Control">
+                <ls:LSNineSliceImage x:Name="PopOutAlchemyRoot" Slices="48 40 48 100" Height="600" Width="700" ImageSource="{StaticResource PopUpBg}">
+                    <b:Interaction.Triggers>
+                        <!--if popup menu opened and its NewRecipe -> update selected slot to the first one (this will always be selected extract, because of ExtraExtractComparer sort)-->
+                        <b:DataTrigger Binding="{Binding ElementName=ExtractSelectionControl, Path=Visibility}" Value="Visible">
+                            <b:Interaction.Behaviors>
+                                <b:ConditionBehavior >
+                                    <b:ConditionalExpression>
+                                        <b:ComparisonCondition LeftOperand="{Binding ElementName=ExtractSelectionControl, Path=Tag}" Operator="Equal" RightOperand="NewRecipe"/>
+                                    </b:ConditionalExpression>
+                                </b:ConditionBehavior>
+                            </b:Interaction.Behaviors>
+                            <b:ChangePropertyAction TargetName="IngredientsListBox" PropertyName="SelectedIndex" Value="0"/>
+                        </b:DataTrigger>
+                    </b:Interaction.Triggers>
+
+                    <Grid x:Name="IngredientPanelHolder" Margin="0,24,0,36" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <StackPanel x:Name="IngredientPanel" Grid.Row="0">
+                            <b:Interaction.Behaviors>
+                                <ls:InventoriesMergerBehavior x:Name="PlayerInventoriesMerged" Inventories="{Binding DataContext.CurrentPlayer.PartyInventory, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                <ls:CollectionFilterBehavior x:Name="AlchemyInventoryFiltered" ItemsSource="{Binding InventoriesSlots, ElementName=PlayerInventoriesMerged}"
+                                                             Predicate="{Binding DataContext.ExtraExtractPredicate, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                <ls:CollectionSortBehavior x:Name="AlchemyInventorySorted" ItemsSource="{Binding FilteredItems, ElementName=AlchemyInventoryFiltered}"
+                                                           Comparer="{Binding DataContext.ExtraExtractComparer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                            </b:Interaction.Behaviors>
+                            <TextBlock x:Name="AlchemyFilterHeader" FontSize="{StaticResource ScaledBigFontSize}" Margin="0,20,0,-10" HorizontalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                        <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                        <Binding Path="DataContext.SelectedExtraExtract.NameAlchemy" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <ListBox Name="IngredientsListBox" Grid.Row="0" ItemsSource="{Binding SortedItems, ElementName=AlchemyInventorySorted}" SelectionMode="Single" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
+                                     Margin="50,20,50,10" MinWidth="598" Background="Transparent" ItemTemplate="{StaticResource Template.InventorySlot}" Height="342">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ls:LSGrid x:Name="ContainerGrid" Columns="5" Rows="3" Style="{StaticResource ContainerGridStyle}" AutoIndex="True"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource BaseInvContainerItemStyle}">
+                                        <Setter Property="noesis:StyleInteraction.Triggers">
+                                            <Setter.Value>
+                                                <noesis:StyleTriggerCollection>
+                                                    <b:EventTrigger EventName="MouseDoubleClick">
+                                                        <b:InvokeCommandAction Command="{Binding DataContext.SelectExtraExtractCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                                               CommandParameter="{Binding .}"/>
+                                                        <b:ChangePropertyAction TargetObject="{Binding ElementName=ExtractSelectionControl}" PropertyName="Visibility" Value="Collapsed"/>
+                                                        <b:ChangePropertyAction TargetObject="{Binding ElementName=ExtractSelectionControl}" PropertyName="Tag" Value="ExtractChanged"/>
+                                                    </b:EventTrigger>
+                                                </noesis:StyleTriggerCollection>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <ls:LSEntityObject x:Name="CellRoot" Context="{x:Null}" ls:ContextMenuService.GenerateEnabled="False"
+                                                                       DataContext="{Binding Object}" EntityRef="{Binding EntityHandle}" Background="Transparent" ToolTipService.Placement="Right">
+                                                        <ls:LSEntityObject.ToolTip>
+                                                            <ls:LSTooltip Content="{Binding DataContext.Object,RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                        </ls:LSEntityObject.ToolTip>
+                                                        <b:Interaction.Triggers>
+                                                            <b:EventTrigger EventName="MouseEnter">
+                                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                            </b:EventTrigger>
+                                                        </b:Interaction.Triggers>
+                                                        <ContentPresenter  IsHitTestVisible="False"/>
+                                                        <Image x:Name="SelectedImg" Source="{StaticResource InvSlot_Selector}" IsHitTestVisible="False" Visibility="Hidden" Opacity="1.0" />
+                                                    </ls:LSEntityObject>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="SelectedImg" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="SelectedImg" Property="Opacity" Value="0.8"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="SelectedImg" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="SelectedImg" Property="Opacity" Value="1.0"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
+
+                        <ls:LSButton Style="{StaticResource PopUpCloseButton}" x:Name="CloseBtn" Grid.Row="0" VerticalAlignment="Top"
+                                     HorizontalAlignment="Right" Margin="0,-14,8,0">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="LSButtonReleased">
+                                    <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Visibility" Value="Collapsed"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ls:LSButton>
+
+                        <ls:LSButton Grid.Row="1" FontFamily="{StaticResource DefaultFont}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Style="{StaticResource BigBlueButtonStyle}"
+                                     IsEnabled="{Binding ElementName=IngredientsListBox, Path=SelectedItem, Converter={StaticResource NullToBoolFalseConverter}, FallbackValue=False}"
+                                     Command="{Binding DataContext.SelectExtraExtractCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                     CommandParameter="{Binding SelectedItem, ElementName=IngredientsListBox}"
+                                     Content="{Binding Source='h04f38549g65b8g4b72g834eg87ee8863fdc5', Converter={StaticResource TranslatedStringConverter}}">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="LSButtonReleased">
+                                    <!--Close popup menu and set tag ExtractChanged that default selection changed, so selected slot won't change, when re-opening menu-->
+                                    <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Visibility" Value="Collapsed"/>
+                                    <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Tag" Value="ExtractChanged"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ls:LSButton>
+                    </Grid>
+                </ls:LSNineSliceImage>
+                <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding DataContext.SelectedExtraExtract.AlchemyExtractType, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Air">
+                        <Setter TargetName="AlchemyFilterHeader" Property="Text">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                    <Binding Source="h2c1af163gda89g4142g8670g492407614241" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DataContext.SelectedExtraExtract.AlchemyExtractType, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Earth">
+                        <Setter TargetName="AlchemyFilterHeader" Property="Text">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                    <Binding Source="h53369a2cgd283g467cg924cg3938e9bbdc30" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DataContext.SelectedExtraExtract.AlchemyExtractType, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Fey">
+                        <Setter TargetName="AlchemyFilterHeader" Property="Text">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                    <Binding Source="h17759c79g9c66g4cf4ga71bg82b7914319a1" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DataContext.SelectedExtraExtract.AlchemyExtractType, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Fire">
+                        <Setter TargetName="AlchemyFilterHeader" Property="Text">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                    <Binding Source="hd7d538e9gd122g4216g9b2aga1c7aaa5c7ef" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DataContext.SelectedExtraExtract.AlchemyExtractType, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Shadow">
+                        <Setter TargetName="AlchemyFilterHeader" Property="Text">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                    <Binding Source="hee19fd7fg6d6fg4f9fg83d7ge350d0ea4a8d" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DataContext.SelectedExtraExtract.AlchemyExtractType, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Water">
+                        <Setter TargetName="AlchemyFilterHeader" Property="Text">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="h326832c1gfe11g4b60g9165g26d05fcd0919"/>
+                                    <Binding Source="h7f02c548g5195g434egb3edg30c0a31130e1" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </ControlTemplate.Resources>
+
+        <Grid x:Name="AlchemyRoot" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- RECIPES -->
+            <Grid x:Name="RecipesList" Grid.Column="0" HorizontalAlignment="Center" Width="852"  Margin="0,44,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Sorting and filtering -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" >
+
+                    <ls:LSToggleButton x:Name="SortToggleButton" 
+                                           Template="{StaticResource SortToggleButtonTemplate}" 
+                                           VerticalAlignment="Center" 
+                                           Margin="60,0,0,0"/>
+
+                    <ls:LSCheckBox x:Name="AvailableRecipesButton" 
+                                       IsChecked="{Binding HideAvailableRecipes, Mode=OneWay}" 
+                                       Command="{Binding ToggleHideAvailableRecipes}"
+                                       Margin="20,0,0,0">
+                        <ls:LSCheckBox.Template>
+                            <ControlTemplate TargetType="ls:LSCheckBox">
+                                <ControlTemplate.Resources>
+                                    <BitmapImage x:Key="Bg" UriSource="pack://application:,,,/Core;component/Assets/Reactions/checkbox_d.png"/>
+                                    <BitmapImage x:Key="Bg_h" UriSource="pack://application:,,,/Core;component/Assets/Reactions/checkbox_h.png"/>
+                                    <BitmapImage x:Key="Bg_disabled" UriSource="pack://application:,,,/Core;component/Assets/Reactions/checkbox_disabled.png"/>
+
+                                    <BitmapImage x:Key="Check" UriSource="pack://application:,,,/Core;component/Assets/Reactions/ico_check_d.png"/>
+                                    <BitmapImage x:Key="Check_h" UriSource="pack://application:,,,/Core;component/Assets/Reactions/ico_check_h.png"/>
+                                    <BitmapImage x:Key="Check_disabled" UriSource="pack://application:,,,/Core;component/Assets/Reactions/ico_check_disabled.png"/>
+                                </ControlTemplate.Resources>
+
+                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                    <Grid VerticalAlignment="Center" Margin="0,0,8,0">
+                                        <Image x:Name="MarkerBg" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{StaticResource Bg}" Stretch="None"/>
+                                        <Image x:Name="MarkerCheck" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{StaticResource Check}" Stretch="None" Visibility="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibleConverter}, ConverterParameter={StaticResource TrueValue}}"/>
+                                    </Grid>
+
+                                    <TextBlock x:Name="Text" Text="{Binding Source='hd79639b7gebffg4016ga0bfg7615cc3ca89c',Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" Style="{StaticResource DetailedListText}"/>
+                                </StackPanel>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Text" Property="Foreground" Value="{StaticResource LS_extraspecialTxtColor}"/>
+                                        <Setter TargetName="MarkerBg" Property="Source" Value="{StaticResource Bg_h}"/>
+                                        <Setter TargetName="MarkerCheck" Property="Source" Value="{StaticResource Check_h}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="MarkerBg" Property="Source" Value="{DynamicResource Bg_disabled}"/>
+                                        <Setter TargetName="MarkerCheck" Property="Source" Value="{DynamicResource Check_disabled}"/>
+                                        <Setter Property="Opacity" Value="0.75"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ls:LSCheckBox.Template>
+
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Checked">
+                                <b:Interaction.Behaviors>
+                                    <b:ConditionBehavior>
+                                        <b:ConditionalExpression>
+                                            <b:ComparisonCondition LeftOperand="{Binding SelectedRecipe.IsSolutionRecipe}" Operator="Equal" RightOperand="False"/>
+                                        </b:ConditionalExpression>
+                                    </b:ConditionBehavior>
+                                </b:Interaction.Behaviors>
+
+                                <b:InvokeCommandAction Command="{Binding ChangeSelectedRecipe}" CommandParameter="{x:Null}"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="Checked">
+                                <b:Interaction.Behaviors>
+                                    <b:ConditionBehavior>
+                                        <b:ConditionalExpression>
+                                            <b:ComparisonCondition LeftOperand="{Binding SelectedRecipe.CanBeCrafted}" Operator="Equal" RightOperand="False"/>
+                                        </b:ConditionalExpression>
+                                    </b:ConditionBehavior>
+                                </b:Interaction.Behaviors>
+
+                                <b:InvokeCommandAction Command="{Binding ChangeSelectedRecipe}" CommandParameter="{x:Null}"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ls:LSCheckBox>
+                </StackPanel>
+
+                <!-- List -->
+                <ScrollViewer x:Name="RecipesScrollList" Grid.Row="1" Padding="44,0,0,0" Margin="18" Template="{StaticResource FlippedSimpleScrollViewerTemplate}" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <ContentPresenter x:Name="PotionsList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                    Content="{Binding Data.PotionRecipes}"
+                                    ls:AttachedProperties.InheritedTag="{Binding Source='h2a90fdabg4131g46cag994agc41868d38697', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_d.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_h.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ElixirsList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                              Content="{Binding Data.ElixirRecipes}"
+                                              ls:AttachedProperties.InheritedTag="{Binding Source='h0d4195b4g618ag445fgaa9eg168f6fba5c36', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_d.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_h.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="GrenadesList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                              Content="{Binding Data.GrenadeRecipes}"
+                                              ls:AttachedProperties.InheritedTag="{Binding Source='hff6fc62agd6edg463aga06ag505e235db962', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_d.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_h.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="CoatingsList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                              Content="{Binding Data.CoatingRecipes}"
+                                              ls:AttachedProperties.InheritedTag="{Binding Source='h231c7ac3g48ecg49f4ga675gb6f16e824c54', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_d.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/ico_category01_h.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ExtractAirList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                              Content="{Binding Data.ExtractAirRecipes}"
+                                              ls:AttachedProperties.InheritedTag="{Binding Source='h2553158bgad4dg4f2bgb289g73021df996b2', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Air.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Air.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ExtractEarthList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                          Content="{Binding Data.ExtractEarthRecipes}"
+                                          ls:AttachedProperties.InheritedTag="{Binding Source='h51d33125g11e0g474ag98a0gb9f4a406f593', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Earth.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Earth.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ExtractFeyList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                          Content="{Binding Data.ExtractFeyRecipes}"
+                                          ls:AttachedProperties.InheritedTag="{Binding Source='h36ced4c2g84ecg4e17g9790gd5abcc520543', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Shadow_2.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Shadow_2.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ExtractFireList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                          Content="{Binding Data.ExtractFireRecipes}"
+                                          ls:AttachedProperties.InheritedTag="{Binding Source='h3f0368d9g82b4g47fdg90b8ge1b7a026a43d', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Fire.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Fire.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ExtractShadowList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                          Content="{Binding Data.ExtractShadowRecipes}"
+                                          ls:AttachedProperties.InheritedTag="{Binding Source='h3be6ebc2g50e7g4e8fg99edg499bdbaf356b', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Shadow_1.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Shadow_1.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <ContentPresenter x:Name="ExtractWaterList" ContentTemplate="{StaticResource RecipesListTemplate}" 
+                                          Content="{Binding Data.ExtractWaterRecipes}"
+                                          ls:AttachedProperties.InheritedTag="{Binding Source='h648fff5ag77efg4846g9752gcaf6a99758e8', Converter={StaticResource TranslatedStringConverter}}">
+                            <ContentPresenter.Resources>
+                                <BitmapImage x:Key="GroupIcon" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Water.png"/>
+                                <BitmapImage x:Key="GroupIcon_h" UriSource="pack://application:,,,/Core;component/Assets/Tooltips/ItemIcons/Item_BASE_ALCH_Extract_Water.png"/>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Extract All Ingredients Button -->
+                <ls:LSButton Grid.Row="2" x:Name="ExtractAllIngredients"
+                                 HorizontalAlignment="Center"
+                                 Style="{StaticResource BigBrownButtonStyle}"
+                                 Command="{Binding CreateExtracts}"
+                                 Margin="0,0,0,28"
+                                 Width="600"
+                                 OverwriteClickSound="UI_HUD_Alchemy_CreateExtracts_Click">
+                    <ls:LSButton.Content>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h4bf5b366g76a0g424dgaa14g37124b33b746"/>
+                            <Binding Path="TotalAvailableExtractions"/>
+                        </MultiBinding>
+                    </ls:LSButton.Content>
+                </ls:LSButton>
+            </Grid>
+
+            <!-- EXTRACT AND CRAFTING -->
+            <StackPanel x:Name="ExtractAndCrafting" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,44,0,0">
+                <!-- Title -->
+                <ContentControl Name="CraftingTitle" Style="{StaticResource BaseTitleStyle}">
+                    <TextBlock Text="{Binding Source='hd40af023g3265g492dgb433gb272f433a093', Converter={StaticResource TranslatedStringConverter}}"/>
+                </ContentControl>
+
+                <!-- Extract and crafting -->
+                <Grid x:Name="ExtractCrafting" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Image x:Name="AlchemyBg" Source="{StaticResource CombineBg}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="None"/>
+
+                    <Grid x:Name="AlchemyOrbHolder" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,312,0,0">
+                        <Image x:Name="AlchemyOrb" Source="{StaticResource OrbEnabled}" Stretch="None"/>
+
+                        <ls:AnimatedImage x:Name="AlchemyOrbVFX" Style="{StaticResource AlchemyAnimationStyle}"/>
+
+                        <ls:LSButton x:Name="SecondaryCraftingButton" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                         Width="{Binding ActualWidth, ElementName=AlchemyOrb}"
+                                         Height="{Binding ActualHeight, ElementName=AlchemyOrb}"
+                                         Command="{Binding Command, ElementName=ExtractCraftingButton}"
+                                         IsEnabled="{Binding IsEnabled, ElementName=ExtractCraftingButton}"
+                                         OverwriteClickSound="UI_HUD_Alchemy_CreateSolution_Click">
+                            <ls:LSButton.Template>
+                                <ControlTemplate TargetType="ls:LSButton">
+                                    <Border Background="Transparent">
+                                        <Image x:Name="icon" Source="{StaticResource OrbButtonIcon}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="icon" Property="Source" Value="{StaticResource OrbButtonIcon_h}" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="icon" Property="Margin" Value="0,4,0,0"/>
+                                        </Trigger>
+
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                                <Condition Binding="{Binding IsCreatingItems}" Value="False"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter TargetName="icon" Property="Visibility" Value="Collapsed"/>
+                                        </MultiDataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ls:LSButton.Template>
+                        </ls:LSButton>
+
+                        <b:Interaction.Triggers>
+                            <b:DataTrigger Binding="{Binding (ls:AnimatedImage.AnimationEnded), ElementName=AlchemyOrbVFX}" Value="True">
+                                <b:InvokeCommandAction Command="{Binding DataContext.EndCreationProcess, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                            </b:DataTrigger>
+                        </b:Interaction.Triggers>
+                    </Grid>
+
+                    <Grid x:Name="Crafting" Visibility="Hidden">
+
+                        <Grid x:Name="CraftingSolution">
+                            <ContentPresenter x:Name="BaseItem" ContentTemplate="{StaticResource CraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract.Item}" 
+                                              HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-120,132,0,0" 
+                                              ToolTipService.Placement="Left" 
+                                              Tag="Main">
+                                <ContentPresenter.ToolTip>
+                                    <ls:LSTooltip Content="{Binding DataContext.SelectedRecipe.BaseExtract, ElementName=Crafting}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Crafting}"/>
+                                </ContentPresenter.ToolTip>
+                            </ContentPresenter>
+
+                            <ContentPresenter x:Name="ExtraExtract" ContentTemplate="{StaticResource CraftingSlot}" Content="{Binding SelectedExtraExtract}" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,132,-118,0" 
+                                              ToolTipService.Placement="Left" 
+                                              Tag="Extra">
+                                <ContentPresenter.ToolTip>
+                                    <ls:LSTooltip x:Name="ExtraExtractToolTip" Content="{Binding DataContext.SelectedExtraExtract, ElementName=Crafting}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Crafting}"/>
+                                </ContentPresenter.ToolTip>
+                            </ContentPresenter>
+                        </Grid>
+
+                        <Grid x:Name="CraftingExtract" Visibility="Collapsed">
+                            <TextBlock x:Name="ExtractResultTut" Text="{Binding Source='h45fd5913g762cg44fbg8498g37522dcff3c3', Converter={StaticResource TranslatedStringConverter}}" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_accent25TxtColor}" MaxWidth="800" TextAlignment="Center" TextWrapping="Wrap"/>
+
+                            <TextBlock x:Name="ExtractResultName" Text="{Binding SelectedRecipe.BaseExtract.Item.Name}" FontSize="{StaticResource ScaledLargeFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" Width="1000" Margin="0,140,0,0" TextAlignment="Center"/>
+
+                            <TextBlock x:Name="ExtractResultCount" FontSize="{StaticResource ScaledMediumFontSize}" Foreground="{StaticResource LS_baseTxtColor}" Margin="0,190,0,0" TextAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                        <Binding Source="ha1a20103gb5b2g45a8gaf1fgea40cca68201"/>
+                                        <Binding Path="SelectedRecipe.BaseExtract.Item.Count"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <Grid Margin="0,246,0,0" Width="498" VerticalAlignment="Top">
+                                <ContentPresenter x:Name="ExtractSlot1" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
+                                              HorizontalAlignment="Left" 
+                                              ls:AttachedProperties.InheritedNumber="1"/>
+
+                                <ContentPresenter x:Name="ExtractSlot2" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
+                                              HorizontalAlignment="Center" 
+                                              ls:AttachedProperties.InheritedNumber="2"/>
+
+                                <ContentPresenter x:Name="ExtractSlot3" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
+                                              HorizontalAlignment="Right"
+                                              ls:AttachedProperties.InheritedNumber="3"/>
+                            </Grid>
+                        </Grid>
+                        
+                        <StackPanel x:Name="Result" DataContext="{Binding SelectedRecipe.Result}" 
+                                        HorizontalAlignment="Center" Margin="0,658,0,0"
+                                        ToolTipService.Placement="Left">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <StackPanel.ToolTip>
+                                <ls:LSTooltip Content="{Binding DataContext.SelectedRecipe.Result, ElementName=Crafting}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Crafting}"/>
+                            </StackPanel.ToolTip>
+
+                            <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{StaticResource AlchemySlotTemplate}" Content="{Binding Item}" Tag="{Binding ElementName=Result}">
+                                <ContentControl.Resources>
+                                    <BitmapImage x:Key="SlotEnabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_default.png"/>
+                                    <BitmapImage x:Key="SlotEnabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_default_h.png"/>
+                                    <BitmapImage x:Key="SlotDisabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_disabled.png"/>
+                                    <BitmapImage x:Key="SlotDisabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/crafting_itemFrame_disabled.png"/>
+                                </ContentControl.Resources>
+                            </ContentControl>
+
+                            <TextBlock x:Name="ResultName" Text="{Binding Item.Name}" FontSize="{StaticResource ScaledBigFontSize}" Foreground="{StaticResource LS_extraspecialTxtColor}" Width="800" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="{StaticResource ScaledIntermediateFontSizeLineHeight}" Margin="0,16,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <Grid>
+                    <!-- Errors -->
+                    <TextBlock x:Name="ExtractCraftingError" 
+                                   Style="{StaticResource AlchemyWrappingText}" 
+                                   Foreground="{StaticResource LS_alertTxtColor}" 
+                                   FontSize="{StaticResource ScaledLargeFontSize}" 
+                                   Visibility="Collapsed" MaxWidth="800" Margin="0,16,0,0"
+                               VerticalAlignment="Center"/>
+                    <TextBlock x:Name="ExtractCraftingTutorial" Text="{Binding Source='h869eeab2g5859g4defg8eb7ge77cc11eaa1a',Converter={StaticResource TranslatedStringConverter}}" 
+                                   Style="{StaticResource AlchemyWrappingText}" 
+                                   Foreground="{StaticResource LS_accent100TxtColor}" 
+                                   FontSize="{StaticResource ScaledDefaultFontSize}" 
+                                   Visibility="Collapsed" MaxWidth="800" Margin="0,16,0,0"/>
+
+                    <!-- Amount Input -->
+                    <StackPanel x:Name="AmountInput" Visibility="Hidden" Height="120">
+
+                        <TextBlock x:Name="AmountInputTitle" Text="{Binding Source='h7a90a95cgf7b0g4b53g93efg2837c4dc267a', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_extraspecialTxtColor}" HorizontalAlignment="Center"/>
+
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" >
+                            <ls:LSButton x:Name="NavigationLeftButton" Template="{StaticResource IconButtonTemplate}" VerticalAlignment="Center">
+                                <ls:LSButton.Resources>
+                                    <BitmapImage x:Key="ButtonNormal" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_d.png"/>
+                                    <BitmapImage x:Key="ButtonHighlight" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_h.png"/>
+                                    <BitmapImage x:Key="ButtonPressed" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_p.png"/>
+                                    <BitmapImage x:Key="ButtonDisabled" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_disabled.png"/>
+                                    <BitmapImage x:Key="IconNormal" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_d.png"/>
+                                    <BitmapImage x:Key="IconHighlight" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_h.png"/>
+                                    <BitmapImage x:Key="IconPressed" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_h.png"/>
+                                    <BitmapImage x:Key="IconDisabled" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_d.png"/>
+                                </ls:LSButton.Resources>
+
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="LSButtonPressed">
+                                        <b:ChangePropertyAction TargetObject="{Binding .}" PropertyName="ItemsToCraft" Value="{Binding ItemsToCraft, Converter={StaticResource AddConverter}, ConverterParameter=-1}"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseEnter">
+                                        <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <ls:LSPlaySound Sound="UI_Shared_Click"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                                        <ls:LSPlaySound Sound="UI_Shared_Press"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+
+                            <Grid>
+                                <Image x:Name="AmountInputBg" Source="{StaticResource AmountInputBg}" Stretch="None"/>
+                                <ls:LSTextBox x:Name="AmountInputBox" Text="{Binding ItemsToCraft}" Mask="Integer" TextImmediateSourceUpdate="True" Foreground="{StaticResource LS_extraspecialTxtColor}" VerticalAlignment="Center" Background="Transparent" HorizontalContentAlignment="Center" BorderThickness="0" MaxLines="1" TextAlignment="Center" Focusable="True"/>
+                            </Grid>
+
+                            <ls:LSButton x:Name="NavigationRightButton" Template="{StaticResource IconButtonTemplate}" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.5">
+                                <ls:LSButton.Resources>
+                                    <BitmapImage x:Key="ButtonNormal" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_d.png"/>
+                                    <BitmapImage x:Key="ButtonHighlight" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_h.png"/>
+                                    <BitmapImage x:Key="ButtonPressed" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_p.png"/>
+                                    <BitmapImage x:Key="ButtonDisabled" UriSource="pack://application:,,,/Core;component/Assets/Buttons/btnHalf_blue_disabled.png"/>
+                                    <BitmapImage x:Key="IconNormal" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_d.png"/>
+                                    <BitmapImage x:Key="IconHighlight" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_h.png"/>
+                                    <BitmapImage x:Key="IconPressed" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_h.png"/>
+                                    <BitmapImage x:Key="IconDisabled" UriSource="pack://application:,,,/Core;component/Assets/Buttons/ico_browseSmall_d.png"/>
+                                </ls:LSButton.Resources>
+
+                                <ls:LSButton.RenderTransform>
+                                    <ScaleTransform ScaleX="-1"/>
+                                </ls:LSButton.RenderTransform>
+
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="LSButtonPressed">
+                                        <b:ChangePropertyAction TargetObject="{Binding .}" PropertyName="ItemsToCraft" Value="{Binding ItemsToCraft, Converter={StaticResource AddConverter}, ConverterParameter=1}"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseEnter">
+                                        <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <ls:LSPlaySound Sound="UI_Shared_Click"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                                        <ls:LSPlaySound Sound="UI_Shared_Press"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Buttons -->
+                <ls:LSButton x:Name="ExtractCraftingButton" HorizontalAlignment="Center" Style="{StaticResource BigBrownButtonStyle}" Margin="0,24,0,0">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Tag" Value="NewRecipe"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ls:LSButton>
+
+                <ls:LSButton x:Name="CraftAllItemsButton" HorizontalAlignment="Center" Style="{StaticResource BigBrownButtonStyle}" Command="{Binding CraftItems}"
+                             CommandParameter="All" Visibility="Collapsed" Margin="12,4,12,0" Padding="40,0">
+                    <ls:LSButton.Content>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="hf645785cg182fg40d2g9ed9g3f42fca2053c"/>
+                            <Binding Path="SelectedRecipe.Result.Item.Count"/>
+                        </MultiBinding>
+                    </ls:LSButton.Content>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                            <ls:LSPlaySound Sound="UI_Shared_Click"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <ls:LSPlaySound Sound="UI_Shared_Press"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="Click">
+                            <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Tag" Value="NewRecipe"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ls:LSButton>
+
+                <!-- Craft message -->
+                <TextBlock x:Name="ExtractCraftingMessage" 
+                               Style="{StaticResource AlchemyWrappingText}"
+                               Foreground="{StaticResource LS_accent100TxtColor}" Width="1000" Opacity="0" Margin="0,20,0,0" FontSize="{StaticResource ScaledSmallishFontSize}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h1b698442ga1f1g4ecagba7ag82b58143139a"/>
+                            <Binding Path="TotalCreatedItems"/>
+                            <Binding Path="CurrentPlayer.SelectedCharacter.Name"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+
+            </StackPanel>
+
+            <!-- SORTING -->
+            <ls:LSNineSliceImage x:Name="Filters" ImageSource="{StaticResource SortBg}" Slices="40" Padding="20,30" 
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Margin="44,88,0,0"
+                                 Visibility="{Binding IsChecked, ElementName=SortToggleButton, Converter={StaticResource BoolToVisibleConverter}}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Source='h9414328dgbabeg4602g82c1g4c947c1c8e34',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_accent25TxtColor}" FontSize="{StaticResource ScaledSmallFontSize}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    <ls:LSButton x:Name="SortNameButton" Template="{StaticResource SortButtonTemplate}"
+                                     Tag="{Binding Source='h86ac5591g3822g45f1ga6d1gd39367a8481d',Converter={StaticResource TranslatedStringConverter}}"
+                                     Command="{Binding SetSortMode}" CommandParameter="Name">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:ChangePropertyAction TargetName="SortToggleButton" PropertyName="IsChecked" Value="False"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ls:LSButton>
+
+                    <ls:LSButton x:Name="SortTimeButton" Template="{StaticResource SortButtonTemplate}"
+                                     Tag="{Binding Source='h83250180g4f67g4697g97d4g3f698f3708ea',Converter={StaticResource TranslatedStringConverter}}"
+                                     Command="{Binding SetSortMode}" CommandParameter="Time">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:ChangePropertyAction TargetName="SortToggleButton" PropertyName="IsChecked" Value="False"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ls:LSButton>
+                </StackPanel>
+            </ls:LSNineSliceImage>
+
+            <Button Height="{Binding ElementName=AlchemyRoot, Path=ActualHeight}" Width="{Binding ElementName=AlchemyRoot, Path=ActualWidth}" Background="Transparent" Grid.ColumnSpan="2"
+                    Visibility="{Binding ElementName=ExtractSelectionControl, Path=Visibility}">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="Click">
+                        <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Visibility" Value="Collapsed"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Button>
+
+            <!--Popup menu for extract selection-->
+            <!--NewRecipe tag used to track, when selected slot in the extracts inventory grid should be updated-->
+            <Control x:Name="ExtractSelectionControl" Template="{StaticResource PopOutAlchemyTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Grid.Column="1" Margin="0,420,0,100"
+                     Tag="NewRecipe" Visibility="Collapsed"/>
+
+            <b:Interaction.Triggers>
+                <b:PropertyChangedTrigger Binding="{Binding DataContext.SelectedRecipe, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <b:ChangePropertyAction TargetName="ExtractSelectionControl" PropertyName="Tag" Value="NewRecipe"/>
+                </b:PropertyChangedTrigger>
+            </b:Interaction.Triggers>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <!-- LIST -->
+            <DataTrigger Binding="{Binding SelectedRecipe}" Value="{x:Null}">
+                <Setter TargetName="AlchemyBg" Property="Source" Value="{StaticResource ExtractBg}"/>
+                <Setter TargetName="CraftingTitle" Property="Visibility" Value="Hidden"/>
+                <Setter TargetName="ExtractCraftingError" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractCraftingButton" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractCraftingButton" Property="IsEnabled" Value="False"/>
+                <Setter TargetName="AlchemyOrb" Property="Source" Value="{StaticResource OrbDisabled}"/>
+                <Setter TargetName="ExtractCraftingTutorial" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+
+            <!-- ORB -->
+            <DataTrigger Binding="{Binding IsMouseOver, ElementName=SecondaryCraftingButton}" Value="True">
+                <Setter TargetName="AlchemyOrb" Property="Source" Value="{StaticResource OrbEnabled_h}"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver, ElementName=SecondaryCraftingButton}" Value="True"/>
+                    <Condition Binding="{Binding IsCreatingItems}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="AlchemyOrb" Property="Source" Value="{StaticResource OrbActive_h}"/>
+            </MultiDataTrigger>
+
+            <!-- EXTRACTS -->
+            <DataTrigger Binding="{Binding SelectedRecipe, Converter={StaticResource NullToBoolFalseConverter}}" Value="False">
+                <Setter TargetName="ExtractAndCrafting" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsCreatingItems}" Value="False"/>
+                    <Condition Binding="{Binding ExtractAir.Item.Count}" Value="0"/>
+                    <Condition Binding="{Binding ExtractEarth.Item.Count}" Value="0"/>
+                    <Condition Binding="{Binding ExtractFey.Item.Count}" Value="0"/>
+                    <Condition Binding="{Binding ExtractFire.Item.Count}" Value="0"/>
+                    <Condition Binding="{Binding ExtractShadow.Item.Count}" Value="0"/>
+                    <Condition Binding="{Binding ExtractWater.Item.Count}" Value="0"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ExtractAllIngredients" Property="IsEnabled" Value="False"/>
+            </MultiDataTrigger>
+
+            <!-- CRAFTING -->
+            <DataTrigger Binding="{Binding SelectedRecipe, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
+                <Setter TargetName="Crafting" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="ExtractCraftingError" Property="Text" Value="{Binding Source='ha593d514gcd01g477dgb588gdfc415f31ef4',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="ExtractCraftingButton" Property="Content" Value="{Binding Source='hfe28d675ga44ag4895gba67gcd86f47fb61b',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="ExtractCraftingButton" Property="Command" Value="{Binding DataContext.CraftItems, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                <Setter TargetName="ExtractCraftingButton" Property="OverwriteClickSound" Value="UI_HUD_Alchemy_CreateSolution_Click"/>
+                <Setter TargetName="CraftAllItemsButton" Property="OverwriteClickSound" Value="UI_HUD_Alchemy_CreateSolution_Click"/>
+                <Setter TargetName="CraftAllItemsButton" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding SelectedRecipe.Result.Item.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=1, FallbackValue=False}" Value="True">
+                <Setter TargetName="AmountInput" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding SelectedRecipe.Result.Item.Count, Converter={StaticResource LessThanConverter}, ConverterParameter=2, FallbackValue=True}" Value="True">
+                <Setter TargetName="CraftAllItemsButton" Property="IsEnabled" Value="False"/>
+                <Setter TargetName="AmountInput" Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsToCraft, Converter={StaticResource LessThanConverter}, ConverterParameter=2, FallbackValue=True}" Value="False">
+                <Setter TargetName="ExtractCraftingButton" Property="Content" Value="{Binding Source='h1deddae4gae4eg4a54gafb5ge2e61529e00e',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="ExtractCraftingButton" Property="OverwriteClickSound" Value="UI_HUD_Alchemy_CreateSolution_Click"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsCreatingItems}" Value="False"/>
+                    <Condition Binding="{Binding SelectedRecipe.Result.Item.Count}" Value="0"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ExtractCraftingButton" Property="IsEnabled" Value="False"/>
+                <Setter TargetName="ExtractCraftingError" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="AlchemyOrb" Property="Source" Value="{StaticResource OrbDisabled}"/>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding IsFocused, ElementName=AmountInputBox}" Value="True">
+                <Setter TargetName="AmountInputBg" Property="Source" Value="{StaticResource AmountInputBg_h}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding SelectedRecipe.IsSolutionRecipe}" Value="True">
+                <Setter TargetName="ExtractCrafting" Property="Margin" Value="0,-81,0,0"/>
+            </DataTrigger>
+
+            <!-- If there's no real selected extra extract, set the tooltip to use the VMTooltipItemSectionDetail instead -->
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                        <Binding Path="SelectedExtraExtract"/>
+                        <Binding Path="ExtractAir.Item"/>
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractAir, ElementName=Crafting}"/>
+            </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                        <Binding Path="SelectedExtraExtract"/>
+                        <Binding Path="ExtractEarth.Item"/>
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractEarth, ElementName=Crafting}"/>
+            </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                        <Binding Path="SelectedExtraExtract"/>
+                        <Binding Path="ExtractFey.Item"/>
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractFey, ElementName=Crafting}"/>
+            </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                        <Binding Path="SelectedExtraExtract"/>
+                        <Binding Path="ExtractFire.Item"/>
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractFire, ElementName=Crafting}"/>
+            </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                        <Binding Path="SelectedExtraExtract"/>
+                        <Binding Path="ExtractShadow.Item"/>
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractShadow, ElementName=Crafting}"/>
+            </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                        <Binding Path="SelectedExtraExtract"/>
+                        <Binding Path="ExtractWater.Item"/>
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractWater, ElementName=Crafting}"/>
+            </DataTrigger>
+
+            <!-- EXTRACT CRAFTING -->
+            <DataTrigger Binding="{Binding SelectedRecipe.IsSolutionRecipe}" Value="False">
+                <Setter TargetName="CraftingTitle" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="CraftingSolution" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="CraftingExtract" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="ExtractCraftingButton" Property="Content" Value="{Binding Source='hcf348dd3g3108g41b9g88c1gc09ee4f9192a', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="ExtractCraftingButton" Property="OverwriteClickSound" Value="UI_HUD_Alchemy_CreateExtracts_Click"/>
+                <Setter TargetName="CraftAllItemsButton" Property="OverwriteClickSound" Value="UI_HUD_Alchemy_CreateExtracts_Click"/>
+                <Setter TargetName="CraftAllItemsButton" Property="Content">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="hf86950e1g7605g42c7gb789gd894ff687b1b"/>
+                            <Binding Path="SelectedRecipe.Result.Item.Count"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="AlchemyOrbHolder" Property="Visibility" Value="Collapsed"/>
+
+                <Setter TargetName="AlchemyBg" Property="Source" Value="pack://application:,,,/Core;component/Assets/Alchemy/extract_flowLines_inactive.png"/>
+                <Setter TargetName="AlchemyBg" Property="VerticalAlignment" Value="Center"/>
+                <Setter TargetName="AlchemyBg" Property="Margin" Value="0,82,0,-82"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding SelectedRecipe.IsSolutionRecipe}" Value="False"/>
+                    <Condition Binding="{Binding SelectedRecipe.CanBeCrafted}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+
+                <Setter TargetName="AlchemyBg" Property="Source" Value="pack://application:,,,/Core;component/Assets/Alchemy/extract_flowLines_active.png"/>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding IsChecked, ElementName=AvailableRecipesButton}" Value="True">
+                <Setter TargetName="ExtractAirList" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractEarthList" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractFeyList" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractFireList" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractShadowList" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ExtractWaterList" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <!-- PROCESS -->
+            <DataTrigger Binding="{Binding IsCreatingItems}" Value="True">
+                <Setter TargetName="AlchemyOrb" Property="Source" Value="{StaticResource OrbActive}"/>
+                <Setter TargetName="ExtractCraftingButton" Property="IsEnabled" Value="False"/>
+                <Setter TargetName="CraftAllItemsButton" Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsCreatingItems}" Value="True"/>
+                    <Condition Binding="{Binding IsVisible, ElementName=ExtractAndCrafting}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="ResultMessageTextStoryboard"/>
+                </MultiDataTrigger.EnterActions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="AlchemyOrbVFX" Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding IsCreatingItems}" Value="True">
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard x:Name="ResultMessageTextStoryboard" Storyboard="{StaticResource ResultMessageStoryboard}"/>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+
+            <!-- SCALING -->
+            <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.UIScaling}" Value="Minimal">
+                <Setter TargetName="BaseItem" Property="Margin" Value="-120,152,0,0"/>
+                <Setter TargetName="ExtraExtract" Property="Margin" Value="0,152,-118,0"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.UIScaling}" Value="Small">
+                <Setter TargetName="BaseItem" Property="Margin" Value="-120,142,0,0"/>
+                <Setter TargetName="ExtraExtract" Property="Margin" Value="0,142,-118,0"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.UIScaling}" Value="Large">
+                <Setter TargetName="BaseItem" Property="Margin" Value="-120,122,0,0"/>
+                <Setter TargetName="ExtraExtract" Property="Margin" Value="0,122,-118,0"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.UIScaling}" Value="ExtraLarge">
+                <Setter TargetName="BaseItem" Property="Margin" Value="-120,113,0,0"/>
+                <Setter TargetName="ExtraExtract" Property="Margin" Value="0,113,-118,0"/>
+            </DataTrigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

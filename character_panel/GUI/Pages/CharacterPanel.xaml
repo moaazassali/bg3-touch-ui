@@ -33,6 +33,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_WeightBarTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_MultiClassSpellbookTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_AlchemyPanelTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -681,7 +682,8 @@
 
                                 <!-- ===== ALCHEMY ===== -->
                                 <Grid x:Name="AlchemyPanel" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=AlchemyToggleButton, Converter={StaticResource BoolToVisibleConverter}}" Height="{StaticResource CSContentHeight}">
-                                    <Control x:Name="AlchemyHolder" Template="{StaticResource AlchemyPanelTemplate}" DataContext="{Binding .}"/>
+                                    <Control x:Name="AlchemyHolder" Template="{StaticResource TouchUI_AlchemyPanelTemplate}" DataContext="{Binding .}">
+                                    </Control>
                                 </Grid>
 
 
