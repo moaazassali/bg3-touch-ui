@@ -22,17 +22,17 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="1" x:Name="ScreenshotHolder" HorizontalAlignment="Center" Margin="30,0,0,0" VerticalAlignment="Stretch">
+                <Grid Grid.Column="0" x:Name="ScreenshotHolder" HorizontalAlignment="Center" Margin="30,0,0,0" VerticalAlignment="Stretch">
                     <Rectangle Fill="{Binding SelectedScreenshot}" Margin="30,40"/>
                     <Image Source="{StaticResource ScreenshotHolder}" Stretch="Fill"/>
                 </Grid>
 
                 
-                <Grid Grid.Column="0" x:Name="TextDescriptions" Margin="0,0,0,0" HorizontalAlignment="Center">
+                <Grid Grid.Column="1" x:Name="TextDescriptions" Margin="0,0,0,0" HorizontalAlignment="Center">
                     <Grid.LayoutTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                     </Grid.LayoutTransform>
