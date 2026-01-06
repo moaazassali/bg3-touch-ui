@@ -15,7 +15,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_SaveInformationTemplate">
-        <Grid x:Name="TimeHolders" Margin="0,12,0,60">
+        <Grid x:Name="TimeHolders" Margin="0,12,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="1.5*"/>
@@ -60,17 +60,17 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="1" x:Name="ScreenshotHolder" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Stretch" Width="1600">
+                <Grid Grid.Column="1" x:Name="ScreenshotHolder" HorizontalAlignment="Center" Margin="30,0,0,0" VerticalAlignment="Stretch">
                     <Rectangle Fill="{Binding SelectedScreenshot}" Margin="30,40"/>
                     <Image Source="{StaticResource ScreenshotHolder}" Stretch="Fill"/>
                 </Grid>
 
                 
-                <Grid Grid.Column="0" x:Name="TextDescriptions" Margin="0,0,0,0" HorizontalAlignment="Right">
+                <Grid Grid.Column="0" x:Name="TextDescriptions" Margin="0,0,0,0" HorizontalAlignment="Center">
                     <Grid.LayoutTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                     </Grid.LayoutTransform>
@@ -87,9 +87,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" x:Name="SaveType" Text="{Binding Source='hc41b7af0g94d7g4e1ag979cg904a9146c941', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}" FontSize="{StaticResource ScaledLargeFontSize}"/>
@@ -97,9 +97,9 @@
 
                     <Control Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Template="{StaticResource TouchUI_SaveInformationTemplate}" DataContext="{Binding SelectedSave}" Margin="0,0,0,0"/>
 
-                    <Image Grid.Column="0" Grid.Row="3" x:Name="CrossIcon" Source="{StaticResource CrossImage}" Stretch="None" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="0" Grid.Row="4" x:Name="CrossTitle" Text="{Binding Source='hd9a78783g7021g4e8dga770g11c966ce5262', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}" FontSize="{StaticResource ScaledMediumFontSize}"/>
-                    <TextBlock Grid.Column="0" Grid.Row="5" x:Name="CrossSaveStatus" Text="{Binding Source='hb20007ddg7ba5g4432ga01eg42b1f30c0e2f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Value}" VerticalAlignment="Top"/>
+                    <Image Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" x:Name="CrossIcon" Source="{StaticResource CrossImage}" Stretch="None" VerticalAlignment="Center" Margin="47,0,0,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" x:Name="CrossTitle" Text="{Binding Source='hd9a78783g7021g4e8dga770g11c966ce5262', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}" FontSize="{StaticResource ScaledMediumFontSize}" Margin="5,0,0,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" x:Name="CrossSaveStatus" Text="{Binding Source='hb20007ddg7ba5g4432ga01eg42b1f30c0e2f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Value}" VerticalAlignment="Top"/>
 
                     <ls:LSButton Grid.ColumnSpan="3" Grid.Row="6" x:Name="DeleteBtn"
                                 HorizontalAlignment="Center"
@@ -107,11 +107,12 @@
                                 Content="{Binding Source='h4b0153e2g855bg45fag9e49g9c4ae03a648c', Converter={StaticResource TranslatedStringConverter}}"
                                 Command="{Binding OpenMessageBox}"
                                 CommandParameter="{DynamicResource MessageBoxSaveDelete}"
-                                BoundEvent="UIDelete"/>
+                                BoundEvent="UIDelete"
+                                Margin="0,10,0,0"/>
 
-                    <Image Grid.Column="2" Grid.Row="3" x:Name="CloudIcon" Source="{StaticResource CloudImage}" Stretch="None"/>
-                    <TextBlock Grid.Column="2" Grid.Row="4" x:Name="CloudTitle" Text="{Binding Source='hc76b68d4g8daeg422eg80b2ge283aa2465d9', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}" FontSize="{StaticResource ScaledMediumFontSize}"/>
-                    <TextBlock Grid.Column="2" Grid.Row="5" x:Name="CloudSaveStatus" Text="{Binding Source='hb20007ddg7ba5g4432ga01eg42b1f30c0e2f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Value}" VerticalAlignment="Top"/>
+                    <Image Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right" x:Name="CloudIcon" Source="{StaticResource CloudImage}" Stretch="None" Margin="0,0,55,0"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Right" x:Name="CloudTitle" Text="{Binding Source='hc76b68d4g8daeg422eg80b2ge283aa2465d9', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}" FontSize="{StaticResource ScaledMediumFontSize}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Right" x:Name="CloudSaveStatus" Text="{Binding Source='hb20007ddg7ba5g4432ga01eg42b1f30c0e2f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Value}" VerticalAlignment="Top" Margin="0,0,5,0"/>
 
 
                     <StackPanel x:Name="VersionText" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">
