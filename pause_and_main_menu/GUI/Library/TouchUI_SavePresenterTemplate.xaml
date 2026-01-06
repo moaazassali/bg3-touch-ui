@@ -9,50 +9,12 @@
                     xmlns:data="clr-namespace:System.Data;assembly=System.Data"
                     mc:Ignorable="d">
 
-    <!-- Some things cannot be found without import the parent file -->
     <ResourceDictionary.MergedDictionaries>
+        <!-- Some things cannot be found without import the parent file -->
         <ResourceDictionary Source="/Core;component/Library/SaveLoad.xaml"/>
+        <!-- Touch UI - Import our custom files -->
+        <ResourceDictionary Source="TouchUI_SaveInformationTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
-    <ControlTemplate x:Key="TouchUI_SaveInformationTemplate">
-        <Grid x:Name="TimeHolders" Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="VerticalAlignment" Value="Top"/>
-                </Style>
-            </Grid.Resources>
-
-            <TextBlock x:Name="PlayTimeLabel" Grid.ColumnSpan="3" Grid.Row="0" Text="{Binding Source='hbb2f0430g4914g4a10g8e16g64475b192e02', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}"/>
-            <TextBlock x:Name="PlayTime" Grid.ColumnSpan="3" Grid.Row="1" Text="{Binding PlayTimeString}" Style="{StaticResource SavefileInfo.Value}"/>
-
-            <TextBlock x:Name="DateLabel" Grid.ColumnSpan="3" Grid.Row="2" Text="{Binding Source='hd2d05509gaea8g4d37g9457gf3e226b4baa1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}"/>
-            <TextBlock x:Name="Date" Grid.ColumnSpan="3" Grid.Row="3" Text="{Binding TimeString}" Style="{StaticResource SavefileInfo.Value}"/>
-
-            <TextBlock x:Name="DifficultyLabel" Grid.ColumnSpan="3" Grid.Row="4" Text="{Binding Source='h46616d84g0ebag4586g9230gca30c54e7596', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SavefileInfo.Title}"/>
-            <TextBlock x:Name="Difficulty" Grid.ColumnSpan="3" Grid.Row="5" Text="{Binding Difficulty}" Style="{StaticResource SavefileInfo.Value}"/>
-        </Grid>
-
-        <ControlTemplate.Triggers>
-            <!-- Intact Honour Mode -->
-            <DataTrigger Binding="{Binding IsHonourMode}" Value="True">
-                <Setter TargetName="Difficulty" Property="Text" Value="{Binding Source='hb80200a7g8e69g4f66gbc18g4155d70f0dcc', Converter={StaticResource TranslatedStringConverter}}"/>
-            </DataTrigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
 
     <ControlTemplate x:Key="TouchUI_SavePresenterTemplate">
         <DockPanel Visibility="{Binding SelectedSave, Converter={StaticResource NullToHiddenConverter}}" Margin="60,0,100,0">

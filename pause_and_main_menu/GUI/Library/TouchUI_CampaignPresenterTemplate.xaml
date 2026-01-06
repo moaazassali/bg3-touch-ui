@@ -1,0 +1,82 @@
+<!-- Copied from Game\Public\Game\GUI\Library\SaveLoad.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:data="clr-namespace:System.Data;assembly=System.Data"
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Some things cannot be found without import the parent file -->
+        <ResourceDictionary Source="/Core;component/Library/SaveLoad.xaml"/>
+        <!-- Touch UI - Import our custom files -->
+        <ResourceDictionary Source="TouchUI_SaveInformationTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="TouchUI_CampaignPresenterTemplate">
+        <ControlTemplate.Resources>
+            <BitmapImage x:Key="Decoration" UriSource="pack://application:,,,/Core;component/Assets/SaveLoad/saveBtn_decoration.png"/>
+        </ControlTemplate.Resources>
+
+        <DockPanel Margin="60,0,100,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="1" x:Name="ScreenshotHolder" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Stretch">
+                    <Rectangle Fill="{Binding SelectedScreenshot}" Margin="30,40"/>
+                    <Image Source="{StaticResource ScreenshotHolder}" Stretch="Fill"/>
+                </Grid>
+
+                <Grid Grid.Column="0"  Margin="0,0,0,0" HorizontalAlignment="Center">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Grid.LayoutTransform>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Text="{Binding Source='h3eee6536g6802g4551g90ffge290cd22d5de', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledTitleFontSize}" HorizontalAlignment="Center"/>
+
+                    <Control Grid.Row="1" Template="{StaticResource TouchUI_SaveInformationTemplate}" DataContext="{Binding SelectedPlaythrough.LatestSave}"/>
+
+                    <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
+
+                        <Grid>
+                            <Image Source="{StaticResource Decoration}" Stretch="Uniform" Width="600" Margin="0,-16,0,-12"/>
+                            <ls:LSButton  x:Name="DeleteCampaignExceptKatestBtn"
+                                        HorizontalAlignment="Center"
+                                        Style="{StaticResource BigBrownButtonStyle}"
+                                        Content="{Binding Source='hd338417fg3591g475bga45cg85abc82bfa55', Converter={StaticResource TranslatedStringConverter}}"
+                                        Command="{Binding OpenMessageBox}"
+                                        CommandParameter="{DynamicResource MessageBoxSaveDeleteCampaignButLatest}"
+                                        IsEnabled="{Binding SelectedPlaythrough.Saves.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=1}"/>
+                        </Grid>
+
+                        <Grid>
+                            <Image Source="{StaticResource Decoration}" Stretch="Uniform" Width="600" Margin="0,-16,0,-12"/>
+                            <ls:LSButton  x:Name="DeleteCampaignBtn"
+                                        HorizontalAlignment="Center"
+                                        Style="{StaticResource BigBrownButtonStyle}"
+                                        Content="{Binding Source='ha58e0d43g4b0ag433ag939eg1c140baa7732', Converter={StaticResource TranslatedStringConverter}}"
+                                        Command="{Binding OpenMessageBox}"
+                                        CommandParameter="{DynamicResource MessageBoxSaveDeleteCampaign}"
+                                        BoundEvent="UIDelete"/>
+                        </Grid>
+
+                        <ls:LSButton DockPanel.Dock="Bottom" x:Name="DeleteDeprecatedDbg" Style="{StaticResource DeleteDeprecatedButtonStyle}" Margin="0,0,0,60"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </ControlTemplate>
+
+</ResourceDictionary>

@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Library/TouchUI_SavePresenterTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CampaignPresenterTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ls:UIWidget.Resources>
@@ -187,7 +188,7 @@
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding SelectedPlaythrough, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
-                    <Setter TargetName="PresenterControl" Property="Template" Value="{StaticResource CampaignPresenterTemplate}"/>
+                    <Setter TargetName="PresenterControl" Property="Template" Value="{StaticResource TouchUI_CampaignPresenterTemplate}"/>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding ShowModValidationWindow}" Value="True">
