@@ -31,7 +31,10 @@
 
     </ls:UIWidget.Resources>
 
-    <Border ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Border ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,100,0,0">
+        <Border.LayoutTransform>
+            <ScaleTransform ScaleX="2" ScaleY="2"/>
+        </Border.LayoutTransform>
 
         <b:Interaction.Behaviors>
             <ls:LSMouseDragElementBehavior HitArea="{Binding ElementName=DragHit,Mode=OneWay}"/>
