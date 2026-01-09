@@ -18,7 +18,7 @@
             <ControlTemplate.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Core;component/Library/JournalTemplates.xaml"/>
+                        <ResourceDictionary Source="../Library/TouchUI_JournalHeader.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
 
                     <Style x:Key="TopTreeviewNodesTextBlockStyle" TargetType="TextBlock">
@@ -167,17 +167,23 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Image x:Name="MenuBackground" Grid.Row="0" Grid.RowSpan="3" Source="{StaticResource OptionsBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
+                <!-- Touch UI - Define 2 Columns (Sidebar | Content) -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Control x:Name="JournalHeader" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Template="{StaticResource JournalHeader}"/>
+                <Image x:Name="MenuBackground" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Source="{StaticResource OptionsBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
 
-                <ls:LSButton x:Name="CloseButtonX" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource SmallCloseButton}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="{StaticResource Journal.CloseButtonMargin}"
+                <Control x:Name="TouchUI_JournalHeader" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}"/>
+
+                <ls:LSButton x:Name="CloseButtonX" Grid.Column="1" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource SmallCloseButton}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="{StaticResource Journal.CloseButtonMargin}"
                              Command="{Binding CustomEvent}" CommandParameter="CloseWidget" SoundID="UI_HUD_Panel_Close"/>
 
-                <TextBlock x:Name="MenuTitle" Grid.Row="1" Text="{Binding Source='h2732a2b9g5ea6g4391gacd2g0a9e490740bf',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
+                <TextBlock x:Name="MenuTitle" Grid.Column="1" Grid.Row="1" Text="{Binding Source='h2732a2b9g5ea6g4391gacd2g0a9e490740bf',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
                            FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="{StaticResource Journal.TitleMargin}"/>
 
-                <Grid x:Name="MenuContent" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.ContentMargin}">
+                <Grid x:Name="MenuContent" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.ContentMargin}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/> 
