@@ -176,10 +176,14 @@
 
                 <Image x:Name="MenuBackground" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Source="{StaticResource OptionsBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
 
-                <Control x:Name="TouchUI_JournalHeader" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}"/>
+                <Control x:Name="TouchUI_JournalHeader" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,0,0"/>
 
-                <ls:LSButton x:Name="CloseButtonX" Grid.Column="1" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource SmallCloseButton}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="{StaticResource Journal.CloseButtonMargin}"
-                             Command="{Binding CustomEvent}" CommandParameter="CloseWidget" SoundID="UI_HUD_Panel_Close"/>
+                <ls:LSButton x:Name="CloseButtonX" Grid.Column="0" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource CloseButton}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80,60,0,0"
+                             Command="{Binding CustomEvent}" CommandParameter="CloseWidget" SoundID="UI_HUD_Panel_Close">
+                    <ls:LSButton.LayoutTransform>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    </ls:LSButton.LayoutTransform>                
+                </ls:LSButton>
 
                 <TextBlock x:Name="MenuTitle" Grid.Column="1" Grid.Row="1" Text="{Binding Source='h2732a2b9g5ea6g4391gacd2g0a9e490740bf',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
                            FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="{StaticResource Journal.TitleMargin}"/>
