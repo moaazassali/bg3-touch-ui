@@ -276,7 +276,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Image Grid.Row="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"/>
+                <!-- <Image Grid.Row="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"/> -->
             </Grid>
 
             <ControlTemplate.Triggers>
