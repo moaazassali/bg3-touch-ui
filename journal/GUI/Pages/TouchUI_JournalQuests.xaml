@@ -317,12 +317,12 @@
                                        ls:TextBlockFormatter.SourceText="{Binding CurrentPlayer.SelectedJournalItemView.Item.Title}" 
                                        Foreground="{StaticResource LS_extraspecialTxtColor}"
                                        FontSize="{StaticResource ScaledMassiveFontSize}"
-                                       HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                       HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap"/>
                             
                             <TextBlock Grid.Row="0" x:Name="NoQuestSelectedTitle" 
                                        Text="{Binding Source='h2888ba60g6f1bg4cdeg868dgf6376812822d',Converter={StaticResource TranslatedStringConverter}}"
                                        Foreground="{StaticResource LS_accent100TxtColor}" FontSize="{StaticResource ScaledMassiveFontSize}"
-                                       HorizontalAlignment="Center" VerticalAlignment="Top" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap"
                                        Visibility="{Binding CurrentPlayer.SelectedJournalItemView, Converter={StaticResource NullToVisibleConverter}}"/>
 
                             <TextBlock Grid.Row="1" x:Name="ObjectivesLabel" 
