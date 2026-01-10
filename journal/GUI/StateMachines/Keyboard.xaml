@@ -39,6 +39,40 @@
             </ls:State.Events>
         </ls:State>
 
+        <ls:State Name = "JournalInspiration" Layout = "Player" Owner = "Player" HideStatesBelow="True" TutorialLayer="JournalInspiration" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_JournalInspiration.xaml" Layer="PopupPanels" SoundLayer="NonHUDWidget"/>
+            </ls:State.Widgets>
+
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseWidget">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "CloseAllFullscreen">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "IE.ToggleInGameMenu">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "IE.ToggleInspiration">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenPinnedTooltips">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="PinnedTooltips"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
         <!--STATE: JournalDialogues-->
         <ls:State Name = "JournalDialogues" Layout = "Player" Owner = "Player" HideStatesBelow="True" TutorialLayer="JournalDialogues" ModType="Override">
             <ls:State.Widgets>
