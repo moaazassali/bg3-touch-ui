@@ -15,6 +15,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Core;component/Library/JournalTemplates.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_JournalHeader.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="IconMouseLeftClick" UriSource="pack://application:,,,/Core;component/Assets/Options/ico_mouse_LMB.png"/>
@@ -98,13 +99,19 @@
                     </b:EventTrigger>
                 </b:Interaction.Triggers>
 
-                <Grid.RowDefinitions>
+                <!-- <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                </Grid.RowDefinitions> -->
+
+                <!-- Touch UI - Define 2 Columns (Sidebar | Content) -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
                 <!-- Map -->
-                <ls:LSWorldMap x:Name="WorldMap" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-74,0,0" Scale="8.0" MinScale="4.0" MaxScale="40.0" ScaleSteps="4.0"
+                <ls:LSWorldMap x:Name="WorldMap" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-74,0,0" Scale="8.0" MinScale="4.0" MaxScale="40.0" ScaleSteps="4.0"
                                WorldMapData="{Binding CurrentPlayer.WorldMap}" MarkerTrajectory ="Rectangle" MarkerViewportMargin="10" MarkerScale="1.2" EnableDrag="True" FollowCameraRotation="False" IsMouseWorldCoordinatesEnabled="True">
                     <ls:LSWorldMap.TweenStoryboard>
                         <Storyboard>
@@ -129,18 +136,26 @@
                     </b:Interaction.Triggers>
                 </ls:LSWorldMap>
 
+
+                <!-- Image background for the sidebar -->
+                <!-- <Image Grid.Column="0" Source="{StaticResource OptionsBackground}" VerticalAlignment="Stretch" Stretch="UniformToFill"/> -->
+
                 <!--Header and close button MUST be over the map control-->
-                <Control Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center" Template="{StaticResource JournalHeader}"/>
+                <Control Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,0,0"/>
 
                 <!-- Close button -->
-                <ls:LSButton x:Name="CloseButton" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource SmallCloseButton}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="{StaticResource Journal.CloseButtonMargin}"
-                             Command="{Binding CustomEvent}" CommandParameter="CloseAll" SoundID="UI_HUD_Panel_Close"/>
+                <ls:LSButton x:Name="CloseButtonX" Grid.Column="0" BoundEvent="UICancel" Style="{StaticResource CloseButton}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80,60,0,0"
+                             Command="{Binding CustomEvent}" CommandParameter="CloseWidget" SoundID="UI_HUD_Panel_Close">
+                    <ls:LSButton.LayoutTransform>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    </ls:LSButton.LayoutTransform>                
+                </ls:LSButton>
 
                 <!--CloseWidget binding to prevent widget from closing, when message box requested-->
                 <ls:LSInputBinding x:Name="CloseWidgetBinding" BoundEvent="ToggleInGameMenu" EatInput="True" IsEnabled="False"/>
 
                 <!-- zone name -->
-                <Grid x:Name="ZoneName" Margin="60,22,0,0" IsHitTestVisible="False" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName, Converter={StaticResource StringToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                <Grid x:Name="ZoneName" Margin="60,22,0,0" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName, Converter={StaticResource StringToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
                     <Image Source="{StaticResource MapBannerBg}" Stretch="None" VerticalAlignment="Top"/>
                     <ls:LSNineSliceImage ImageSource="{StaticResource MapBanner}" Slices="0,50,0,90" Width="580" MinHeight="144" Padding="80,28,80,80" Margin="0,56" VerticalAlignment="Top">
                         <TextBlock Text="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" 
@@ -150,7 +165,7 @@
                 </Grid>
 
                 <!-- legend -->
-                <Grid x:Name="Legend" Margin="60,0,0,88" IsHitTestVisible="False" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                <Grid x:Name="Legend" Margin="60,0,0,88" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                     <Image Source="{StaticResource MapLegend}" Margin="-26" Stretch="None"/>
 
                     <Grid Margin="180,0,0,132" VerticalAlignment="Bottom" HorizontalAlignment="Left">
@@ -226,7 +241,7 @@
 
                 <!-- waypoints -->
                 <!-- contains the scroll viewer, and the frame overlay -->
-                <Grid Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-40,12,0" Width="714">
+                <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-40,12,0" Width="714">
                     <Image Source="{StaticResource MapSidePane}" VerticalAlignment="Top" Width="688" Stretch="None" />
                     <Image Source="{StaticResource MapSidePaneDecor}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="0,0,0,140" />
                     
@@ -273,7 +288,7 @@
                 </Grid>
 
                 <!--Zoom & pan buttons - Hiding these as the interaction setup needs fixing -->
-                <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,80" Visibility="Collapsed">
+                <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,80" Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
