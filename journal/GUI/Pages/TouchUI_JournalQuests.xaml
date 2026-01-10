@@ -425,7 +425,7 @@
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,0,80"
-                            Visibility="Visible">
+                            Visibility="{Binding CurrentPlayer.SelectedJournalItemView.Quest.HasMapMarkers, FallbackValue=Collapsed, TargetNullValue=Collapsed, Converter={StaticResource BoolToVisibleConverter} }">
                     <StackPanel.LayoutTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                     </StackPanel.LayoutTransform>
@@ -440,7 +440,7 @@
                 </StackPanel>
 
                 <!-- <Image Grid.Row="1" Grid.RowSpan="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"
-                       Visibility="Visible"/> -->
+                       Visibility="{Binding CurrentPlayer.SelectedJournalItemView.Quest.HasMapMarkers, FallbackValue=Collapsed, TargetNullValue=Collapsed, Converter={StaticResource BoolToVisibleConverter} }"/> -->
             </Grid>
 
             <ControlTemplate.Triggers>
