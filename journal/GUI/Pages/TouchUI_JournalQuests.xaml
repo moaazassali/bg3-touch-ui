@@ -424,20 +424,23 @@
                     </ScrollViewer>
                 </Grid>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,110"
-                            Visibility="{Binding CurrentPlayer.SelectedJournalItemView.Quest.HasMapMarkers, FallbackValue=Collapsed, TargetNullValue=Collapsed, Converter={StaticResource BoolToVisibleConverter} }">
-                    <Image Source="{StaticResource Journal.DecorButtonSide}" Stretch="None"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,0,80"
+                            Visibility="Visible">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </StackPanel.LayoutTransform>
+                    <!-- <Image Source="{StaticResource Journal.DecorButtonSide}" Stretch="None"/> -->
                     <ls:LSButton x:Name="btn" FontSize="{StaticResource ScaledSmallFontSize}" Style="{StaticResource BlueButtonStyle}" SoundID="UI_Shared_Accept" Margin="-40,0"
                                  Content="{Binding Source='ha14c2ef4gbeffg4617g8b3cg77e7a637f94b', Converter={StaticResource TranslatedStringConverter}}" Command="{Binding ShowQuestOnMap}" />
-                    <Image Source="{StaticResource Journal.DecorButtonSide}" Stretch="None" RenderTransformOrigin="0.5,0.5">
+                    <!-- <Image Source="{StaticResource Journal.DecorButtonSide}" Stretch="None" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <ScaleTransform ScaleX="-1"/>
                         </Image.RenderTransform>
-                    </Image>
+                    </Image> -->
                 </StackPanel>
 
-                <Image Grid.Row="1" Grid.RowSpan="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"
-                       Visibility="{Binding CurrentPlayer.SelectedJournalItemView.Quest.HasMapMarkers, FallbackValue=Collapsed, TargetNullValue=Collapsed, Converter={StaticResource BoolToVisibleConverter} }"/>
+                <!-- <Image Grid.Row="1" Grid.RowSpan="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"
+                       Visibility="Visible"/> -->
             </Grid>
 
             <ControlTemplate.Triggers>
