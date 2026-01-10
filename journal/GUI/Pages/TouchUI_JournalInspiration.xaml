@@ -67,27 +67,31 @@
                 </TextBlock>
 
                 <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="100,0,0,0">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Grid.LayoutTransform> 
+
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
                     <ListBox x:Name="BackgroundsGoalsList" Grid.Column="0" ItemsSource="{Binding Data.BackgroundGoals}" AlternationCount="{Binding Data.BackgroundGoals.Count}" SelectedIndex="0"
-                             Margin="0,50" Width="1440" VerticalAlignment="Stretch">
+                            Margin="-20,20,40,90" VerticalAlignment="Stretch" ScrollViewer.CanContentScroll="False">
                         <ListBox.Template>
                             <ControlTemplate>
-                                <ScrollViewer x:Name="Scrollview" Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="{StaticResource Journal.LeftSideScrollViewerMargin}">
+                                <ScrollViewer x:Name="Scrollview" Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0">
                                     <ScrollViewer.Resources>
                                         <Style TargetType="ScrollBar" BasedOn="{StaticResource BaseScrollBar}">
-                                            <Setter Property="Margin" Value="{StaticResource Journal.LeftScrollBarMargin}"/>
+                                            <Setter Property="Margin" Value="0,0,0,0"/>
                                         </Style>
                                         <GridLength x:Key="Top">6</GridLength>
                                         <GridLength x:Key="Bottom">0</GridLength>
                                     </ScrollViewer.Resources>
                                     <StackPanel HorizontalAlignment="Stretch">
                                         <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hf263d6cdg4a2eg4769gaf58g39fa06df6c56',Converter={StaticResource TranslatedStringConverter}}"
-                                                   Foreground="{StaticResource LS_baseTxtColor}" FontSize="{StaticResource ScaledLargeFontSize}" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="100,86,200,40"/>
-                                        <ItemsPresenter Margin="{StaticResource Journal.LeftSideItemsPresenterMargin}" HorizontalAlignment="Stretch"/>
+                                                   Foreground="{StaticResource LS_baseTxtColor}" FontSize="{StaticResource ScaledLargeFontSize}" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="20,20,20,40"/>
+                                        <ItemsPresenter Margin="0,0,0,0" HorizontalAlignment="Stretch"/>
                                     </StackPanel>
                                 </ScrollViewer>
                             </ControlTemplate>
@@ -193,19 +197,19 @@
                     </ListBox>
 
                     <!-- Details Pane -->
-                    <ScrollViewer x:Name="DetailsPanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.RightSideContentMargin}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed"
+                    <ScrollViewer x:Name="DetailsPanel" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-50,40,90" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed"
                                   Template="{StaticResource ScrollViewerTemplate}">
                         <ScrollViewer.Resources>
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
                             <GridLength x:Key="Left">84</GridLength>
                             <GridLength x:Key="Right">120</GridLength>
                             <GridLength x:Key="Top">76</GridLength>
-                            <GridLength x:Key="Bottom">186</GridLength>
+                            <GridLength x:Key="Bottom">0</GridLength>
                         </ScrollViewer.Resources>
 
-                        <StackPanel Margin="0,30,220,0">
-                            <TextBlock x:Name="Title" Text="{Binding SelectedItem.Title, ElementName=BackgroundsGoalsList}" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledGiganticFontSize}" />
-                            <TextBlock x:Name="Description" Text="{Binding SelectedItem.Description, ElementName=BackgroundsGoalsList}" Margin="0,50,0,60" TextWrapping="Wrap" Foreground="{StaticResource LS_baseTxtColor}"
+                        <StackPanel Margin="0,0,20,0">
+                            <TextBlock x:Name="Title" Text="{Binding SelectedItem.Title, ElementName=BackgroundsGoalsList}" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledHugeFontSize}" />
+                            <TextBlock x:Name="Description" Text="{Binding SelectedItem.Description, ElementName=BackgroundsGoalsList}" Margin="0,15,0,60" TextWrapping="Wrap" Foreground="{StaticResource LS_baseTxtColor}"
                                        FontSize="{StaticResource ScaledLargeFontSize}"/>
                             <TextBlock x:Name="EventsTitle" Text="{Binding Source='h53de35dag1029g49f1g9151g8adf13c47199', Converter={StaticResource TranslatedStringConverter}}"
                                        Foreground="{StaticResource LS_extraspecialTxtColor}" FontSize="{StaticResource ScaledLargeFontSize}" Margin="0,4,0,34"/>
