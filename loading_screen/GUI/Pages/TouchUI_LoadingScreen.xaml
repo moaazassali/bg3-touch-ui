@@ -260,7 +260,11 @@
 
                 <TextBlock Grid.Row="0" x:Name="LongTimeCodeSyncMessage" Text="{Binding LoadingStateInfo}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,180,16"/>
 
-                <StackPanel Grid.Row="1" x:Name="LoadingProgress" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,140,0">
+                <StackPanel Grid.Row="0" x:Name="LoadingProgress" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,110,-110">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    </StackPanel.LayoutTransform>
+
                     <TextBlock VerticalAlignment="Center" Text="{Binding Progress,Converter={StaticResource FloatToPercentStringConverter}, StringFormat={}{0}%}" FontSize="{StaticResource BigFontSize}" FontWeight="ExtraBold" Foreground="{StaticResource LS_baseTxtColor}">
                         <TextBlock.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="0" Opacity="1" Color="{StaticResource tint00}"/>
