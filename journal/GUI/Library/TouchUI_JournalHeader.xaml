@@ -8,6 +8,10 @@
                     xmlns:ls="clr-namespace:ls;assembly=Code"
                     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
 					mc:Ignorable="d">
+                    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_NavButtonStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 
     <!-- Journal background and header -->
     <ControlTemplate x:Key="TouchUI_JournalHeader">
@@ -27,7 +31,7 @@
             <!-- <Image Grid.Column="2" Source="{StaticResource NavButtonsBgSideFiller}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="172" Stretch="Fill"/> -->
 
             <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" d:DataContext="{d:DesignInstance {x:Type ls:Widget}, IsDesignTimeCreatable=True}">
-                <ls:LSButton x:Name="MapButton" Template="{StaticResource NavButtonTemplate}" Style="{StaticResource DefaultNavButtonStyle}"
+                <ls:LSButton x:Name="MapButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='h7b064d66g5d48g4f9dg93c7g020e32c40def', Converter={StaticResource TranslatedStringConverter}}"
                          Command="{Binding CustomEvent}"
                          CommandParameter="ToggleJournalMap">
@@ -39,7 +43,7 @@
                         <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleMap', ElementName=MapButton}"/>
                     </ls:LSButton.ToolTip>
                 </ls:LSButton>
-                <ls:LSButton x:Name="QuestsButton" Template="{StaticResource NavButtonTemplate}" Style="{StaticResource DefaultNavButtonStyle}"
+                <ls:LSButton x:Name="QuestsButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='h70f42b48g6d94g4fadga21egd28627f404d6', Converter={StaticResource TranslatedStringConverter}}"
                          Command="{Binding CustomEvent}"
                          CommandParameter="ToggleJournalQuests">
@@ -51,7 +55,7 @@
                         <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleJournal', ElementName=QuestsButton}"/>
                     </ls:LSButton.ToolTip>
                 </ls:LSButton>
-                <ls:LSButton x:Name="InspirationButton" Template="{StaticResource NavButtonTemplate}" Style="{StaticResource DefaultNavButtonStyle}"
+                <ls:LSButton x:Name="InspirationButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='hccf10b5eg7400g48beg8523gb20b5431dd4d', Converter={StaticResource TranslatedStringConverter}}"
                          Command="{Binding CustomEvent}"
                          CommandParameter="ToggleJournalInspiration">
@@ -63,7 +67,7 @@
                         <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInspiration', ElementName=InspirationButton}"/>
                     </ls:LSButton.ToolTip>
                 </ls:LSButton>
-                <ls:LSButton x:Name="DialoguesButton" Template="{StaticResource NavButtonTemplate}" Style="{StaticResource DefaultNavButtonStyle}"
+                <ls:LSButton x:Name="DialoguesButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='hc610c4aeg0285g4e2agbc31g4bb458c1c7b3', Converter={StaticResource TranslatedStringConverter}}"
                          Command="{Binding CustomEvent}"
                          CommandParameter="ToggleJournalDialogues">
@@ -72,7 +76,7 @@
                         <BitmapImage x:Key="IconHighlight" UriSource="pack://application:,,,/Core;component/Assets/Shared/ico_dialogues_active.png"/>
                     </ls:LSButton.Resources>
                 </ls:LSButton>
-                <ls:LSButton x:Name="TutorialsButton" Template="{StaticResource NavButtonTemplate}" Style="{StaticResource DefaultNavButtonStyle}"
+                <ls:LSButton x:Name="TutorialsButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='h20907681g950fg42f3g844fg251c11592d4d', Converter={StaticResource TranslatedStringConverter}}"
                          Command="{Binding CustomEvent}"
                          CommandParameter="ToggleJournalTutorial">
@@ -86,23 +90,23 @@
 
         <ControlTemplate.Triggers>
             <DataTrigger Binding="{Binding Path=Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="JournalMap">
-                <Setter TargetName="MapButton" Property="Style" Value="{StaticResource SelectedNavButtonStyle}"/>
+                <Setter TargetName="MapButton" Property="Style" Value="{StaticResource TouchUI_SelectedNavButtonStyle}"/>
                 <Setter TargetName="MapButton" Property="Command" Value="{x:Null}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="JournalQuest">
-                <Setter TargetName="QuestsButton" Property="Style" Value="{StaticResource SelectedNavButtonStyle}"/>
+                <Setter TargetName="QuestsButton" Property="Style" Value="{StaticResource TouchUI_SelectedNavButtonStyle}"/>
                 <Setter TargetName="QuestsButton" Property="Command" Value="{x:Null}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="JournalInspiration">
-                <Setter TargetName="InspirationButton" Property="Style" Value="{StaticResource SelectedNavButtonStyle}"/>
+                <Setter TargetName="InspirationButton" Property="Style" Value="{StaticResource TouchUI_SelectedNavButtonStyle}"/>
                 <Setter TargetName="InspirationButton" Property="Command" Value="{x:Null}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="JournalDialogues">
-                <Setter TargetName="DialoguesButton" Property="Style" Value="{StaticResource SelectedNavButtonStyle}"/>
+                <Setter TargetName="DialoguesButton" Property="Style" Value="{StaticResource TouchUI_SelectedNavButtonStyle}"/>
                 <Setter TargetName="DialoguesButton" Property="Command" Value="{x:Null}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="JournalTutorial">
-                <Setter TargetName="TutorialsButton" Property="Style" Value="{StaticResource SelectedNavButtonStyle}"/>
+                <Setter TargetName="TutorialsButton" Property="Style" Value="{StaticResource TouchUI_SelectedNavButtonStyle}"/>
                 <Setter TargetName="TutorialsButton" Property="Command" Value="{x:Null}"/>
             </DataTrigger>
         </ControlTemplate.Triggers>

@@ -18,6 +18,7 @@
             <ControlTemplate.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Core;component/Library/JournalTemplates.xaml"/>
                         <ResourceDictionary Source="../Library/TouchUI_JournalHeader.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
 
