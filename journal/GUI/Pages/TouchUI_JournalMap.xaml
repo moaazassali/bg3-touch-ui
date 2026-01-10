@@ -169,12 +169,16 @@
                 <ls:LSInputBinding x:Name="CloseWidgetBinding" BoundEvent="ToggleInGameMenu" EatInput="True" IsEnabled="False"/>
 
                 <!-- zone name -->
-                <Grid x:Name="ZoneName" Margin="60,22,0,0" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName, Converter={StaticResource StringToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                    <Image Source="{StaticResource MapBannerBg}" Stretch="None" VerticalAlignment="Top"/>
-                    <ls:LSNineSliceImage ImageSource="{StaticResource MapBanner}" Slices="0,50,0,90" Width="580" MinHeight="144" Padding="80,28,80,80" Margin="0,56" VerticalAlignment="Top">
+                <Grid x:Name="ZoneName" Margin="20,30,0,0" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName, Converter={StaticResource StringToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Grid.LayoutTransform>   
+
+                    <!-- <Image Source="{StaticResource MapBannerBg}" Stretch="None" VerticalAlignment="Top"/> -->
+                    <ls:LSNineSliceImage ImageSource="{StaticResource MapBanner}" Slices="0,50,0,90" Width="580" MinHeight="144" Padding="80,28,80,80" Margin="0,0" VerticalAlignment="Top">
                         <TextBlock Text="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" 
                                    Foreground="{StaticResource LS_PaperColor}"
-                                   TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="44" TextAlignment="Center" HorizontalAlignment="Stretch"/>
+                                   TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="44" TextAlignment="Center" HorizontalAlignment="Stretch" FontWeight="DemiBold"/>
                     </ls:LSNineSliceImage>
                 </Grid>
 
