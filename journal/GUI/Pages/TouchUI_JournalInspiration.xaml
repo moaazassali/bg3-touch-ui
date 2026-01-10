@@ -20,6 +20,7 @@
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary Source="/Core;component/Library/JournalTemplates.xaml"/>
+                        <ResourceDictionary Source="../Library/TouchUI_JournalHeader.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ControlTemplate.Resources>
@@ -41,17 +42,31 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Image Grid.Row="0" Grid.RowSpan="3" Source="{StaticResource OptionsBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
+                <!-- Touch UI - Define 2 Columns (Sidebar | Content) -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Control Grid.Row="0" HorizontalAlignment="Center" Template="{StaticResource JournalHeader}"/>
+                <Image Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Source="{StaticResource OptionsBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill"/>
 
-                <ls:LSButton x:Name="JournalCloseButton" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource SmallCloseButton}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="{StaticResource Journal.CloseButtonMargin}"
-                             Command="{Binding CustomEvent}" CommandParameter="CloseWidget" SoundID="UI_HUD_Panel_Close"/>
+                <Control Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,0,0"/>
 
-                <TextBlock Grid.Row="1" Text="{Binding Source='hf915ab82gc327g4b89g9380g9befc60565d6',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
-                           FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="{StaticResource Journal.TitleMargin}"/>
+                <ls:LSButton x:Name="CloseButtonX" Grid.Column="0" Grid.Row="0" BoundEvent="UICancel" Style="{StaticResource CloseButton}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80,60,0,0"
+                             Command="{Binding CustomEvent}" CommandParameter="CloseWidget" SoundID="UI_HUD_Panel_Close">
+                    <ls:LSButton.LayoutTransform>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    </ls:LSButton.LayoutTransform>                
+                </ls:LSButton>
 
-                <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.ContentMargin}">
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Source='hf915ab82gc327g4b89g9380g9befc60565d6',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
+                           FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="100,80,0,0">
+                    <TextBlock.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+
+                <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="100,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
