@@ -112,7 +112,7 @@
 
                 <!-- Map -->
                 <ls:LSWorldMap x:Name="WorldMap" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-74,0,0" Scale="8.0" MinScale="4.0" MaxScale="40.0" ScaleSteps="4.0"
-                               WorldMapData="{Binding CurrentPlayer.WorldMap}" MarkerTrajectory ="Rectangle" MarkerViewportMargin="10" MarkerScale="1.2" EnableDrag="True" FollowCameraRotation="False" IsMouseWorldCoordinatesEnabled="True">
+                               WorldMapData="{Binding CurrentPlayer.WorldMap}" MarkerTrajectory ="Rectangle" MarkerViewportMargin="10" MarkerScale="2" EnableDrag="True" FollowCameraRotation="False" IsMouseWorldCoordinatesEnabled="True">
                     <ls:LSWorldMap.TweenStoryboard>
                         <Storyboard>
                             <PointAnimation Duration="0:0:0.5">
