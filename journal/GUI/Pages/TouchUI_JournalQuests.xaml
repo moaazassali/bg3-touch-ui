@@ -204,7 +204,7 @@
 
                     <ls:LSCheckBox x:Name="chkHideCompleted" Grid.Column="0" Visibility="Hidden"
                                    IsChecked="{Binding CurrentPlayer.HideCompletedQuestsInCurrentList}"
-                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,30,0,10" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,30,0,10" 
                                    SoundID="UI_HUD_Journal_HideCompleted"
                                    Command="{Binding ToggleHideCompletedQuests}">
 
@@ -249,10 +249,10 @@
 
                         <TreeView.Template>
                             <ControlTemplate>
-                                <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="50,0,40,40">
+                                <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,40,40">
                                     <ScrollViewer.Resources>
                                         <Style TargetType="ScrollBar" BasedOn="{StaticResource BaseScrollBar}">
-                                            <Setter Property="Margin" Value="50,0,0,0"/>
+                                            <Setter Property="Margin" Value="0,0,0,0"/>
                                         </Style>
                                         <GridLength x:Key="Top">6</GridLength>
                                         <GridLength x:Key="Bottom">0</GridLength>

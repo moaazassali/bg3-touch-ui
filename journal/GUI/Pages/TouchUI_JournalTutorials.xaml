@@ -140,8 +140,8 @@
                             <Image Grid.Column="0" x:Name="bgImg" VerticalAlignment="Top" Source="{StaticResource BtnSmallRound}" Stretch="None"/>
                             <Image Grid.Column="0" x:Name="icon" VerticalAlignment="Top" Source="{StaticResource TickActive}" Stretch="None" Visibility="Hidden" Margin="5,5,0,0"/>
 
-                            <TextBlock Grid.Column="1" x:Name="chkTextbox" Text="{Binding Source='h21d8402fgf0c9g4591gaf5fg0f6b7baa2426',Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_baseTxtColor}"
-                                               Margin="12,0,0,0" TextWrapping="Wrap"/>
+                            <TextBlock Grid.Column="1" x:Name="chkTextbox" Text="{Binding Source='h21d8402fgf0c9g4591gaf5fg0f6b7baa2426',Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{StaticResource LS_baseTxtColor}"
+                                               Margin="12,0,0,0"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -157,7 +157,7 @@
             </ls:LSCheckBox>
 
             <ls:LSTreeView x:Name="TutorialTreeView" Grid.Column="0" ItemsSource="{Binding TutorialsContainers}" BorderBrush="Transparent" InitialSelection="{Binding InitialSelection}" VerticalAlignment="Stretch"
-                           Margin="-8,140,0,0">
+                           Margin="-8,120,0,0">
                 <ls:LSTreeView.Template>
                     <ControlTemplate>
                         <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,40" >
