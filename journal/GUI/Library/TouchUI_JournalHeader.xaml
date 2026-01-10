@@ -39,9 +39,9 @@
                         <BitmapImage x:Key="IconDefault" UriSource="pack://application:,,,/Core;component/Assets/BottomBar/ico_map_d.png"/>
                         <BitmapImage x:Key="IconHighlight" UriSource="pack://application:,,,/Core;component/Assets/BottomBar/ico_map_h.png"/>
                     </ls:LSButton.Resources>
-                    <ls:LSButton.ToolTip>
+                    <!-- <ls:LSButton.ToolTip>
                         <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleMap', ElementName=MapButton}"/>
-                    </ls:LSButton.ToolTip>
+                    </ls:LSButton.ToolTip> -->
                 </ls:LSButton>
                 <ls:LSButton x:Name="QuestsButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='h70f42b48g6d94g4fadga21egd28627f404d6', Converter={StaticResource TranslatedStringConverter}}"
@@ -51,9 +51,9 @@
                         <BitmapImage x:Key="IconDefault" UriSource="pack://application:,,,/Core;component/Assets/Shared/ico_journal_inactive.png"/>
                         <BitmapImage x:Key="IconHighlight" UriSource="pack://application:,,,/Core;component/Assets/Shared/ico_journal_active.png"/>
                     </ls:LSButton.Resources>
-                    <ls:LSButton.ToolTip>
+                    <!-- <ls:LSButton.ToolTip>
                         <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleJournal', ElementName=QuestsButton}"/>
-                    </ls:LSButton.ToolTip>
+                    </ls:LSButton.ToolTip> -->
                 </ls:LSButton>
                 <ls:LSButton x:Name="InspirationButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='hccf10b5eg7400g48beg8523gb20b5431dd4d', Converter={StaticResource TranslatedStringConverter}}"
@@ -63,9 +63,9 @@
                         <BitmapImage x:Key="IconDefault" UriSource="pack://application:,,,/Core;component/Assets/Shared/ico_inspiration.png"/>
                         <BitmapImage x:Key="IconHighlight" UriSource="pack://application:,,,/Core;component/Assets/Shared/ico_inspiration_h1.png"/>
                     </ls:LSButton.Resources>
-                    <ls:LSButton.ToolTip>
+                    <!-- <ls:LSButton.ToolTip>
                         <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInspiration', ElementName=InspirationButton}"/>
-                    </ls:LSButton.ToolTip>
+                    </ls:LSButton.ToolTip> -->
                 </ls:LSButton>
                 <ls:LSButton x:Name="DialoguesButton" Template="{StaticResource TouchUI_NavButtonTemplate}" Style="{StaticResource TouchUI_DefaultNavButtonStyle}"
                          Content="{Binding Source='hc610c4aeg0285g4e2agbc31g4bb458c1c7b3', Converter={StaticResource TranslatedStringConverter}}"
