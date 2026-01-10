@@ -240,7 +240,7 @@
             </Grid.LayoutTransform> 
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*" MaxWidth="750"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
@@ -272,7 +272,7 @@
                 </ListBox.ItemsPanel>
                 <ListBox.Template>
                     <ControlTemplate>
-                        <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0}"
+                        <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0"
                                       CanContentScroll="True" Background="Transparent">
                             <ScrollViewer.Resources>
                                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
