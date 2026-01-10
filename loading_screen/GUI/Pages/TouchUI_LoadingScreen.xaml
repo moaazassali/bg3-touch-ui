@@ -203,7 +203,11 @@
                 </StackPanel>
 
                 <!-- Hints -->
-                <ItemsControl Grid.Row="1"  x:Name="LoadingHints" ItemsSource="{Binding LoadingHints}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="520,0"  AlternationCount="{Binding LoadingHints.Count}">
+                <ItemsControl Grid.Row="0"  x:Name="LoadingHints" ItemsSource="{Binding LoadingHints}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="900,0,900,-110"  AlternationCount="{Binding LoadingHints.Count}">
+                    <ItemsControl.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </ItemsControl.LayoutTransform>
+                    
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid HorizontalAlignment="Stretch"/>
