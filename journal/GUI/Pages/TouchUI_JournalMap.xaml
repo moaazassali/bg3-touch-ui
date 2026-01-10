@@ -137,11 +137,11 @@
                 </ls:LSWorldMap>
 
 
-                <!-- Image background for the sidebar -->
-                <!-- <Image Grid.Column="0" Source="{StaticResource OptionsBackground}" VerticalAlignment="Stretch" Stretch="UniformToFill"/> -->
+                <!-- Touch UI - Image background for the sidebar with very low z index so the map is over it -->
+                <Image Grid.ColumnSpan="2" Source="{StaticResource OptionsBackground}" VerticalAlignment="Stretch" Stretch="UniformToFill" HorizontalAlignment="Stretch" Panel.ZIndex="-1"/>
 
                 <!--Header and close button MUST be over the map control-->
-                <Control Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,0,0"/>
+                <Control Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,40,0"/>
 
                 <!-- Close button -->
                 <ls:LSButton x:Name="CloseButtonX" Grid.Column="0" BoundEvent="UICancel" Style="{StaticResource CloseButton}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80,60,0,0"
