@@ -185,18 +185,26 @@
                     </ls:LSButton.LayoutTransform>                
                 </ls:LSButton>
 
-                <TextBlock x:Name="MenuTitle" Grid.Column="1" Grid.Row="1" Text="{Binding Source='h2732a2b9g5ea6g4391gacd2g0a9e490740bf',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
-                           FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="{StaticResource Journal.TitleMargin}"/>
+                <TextBlock x:Name="MenuTitle" Grid.Column="1" Grid.Row="0" Text="{Binding Source='h2732a2b9g5ea6g4391gacd2g0a9e490740bf',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
+                           FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="100,80,0,0">
+                    <TextBlock.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
 
-                <Grid x:Name="MenuContent" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.ContentMargin}">
+                <Grid x:Name="MenuContent" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="100,0,0,0">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Grid.LayoutTransform> 
+
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/> 
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/> 
                     </Grid.ColumnDefinitions>
 
                     <ls:LSCheckBox x:Name="chkHideCompleted" Grid.Column="0" Visibility="Hidden"
                                    IsChecked="{Binding CurrentPlayer.HideCompletedQuestsInCurrentList}"
-                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="104,10,0,10" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,30,0,10" 
                                    SoundID="UI_HUD_Journal_HideCompleted"
                                    Command="{Binding ToggleHideCompletedQuests}">
 
@@ -231,7 +239,7 @@
                     </ls:LSCheckBox>
 
                     <!-- Left Panel -->
-                    <TreeView Grid.Column="0" x:Name="QuestsTreeView" Margin="-8,92,0,0" Width="1440" VerticalAlignment="Stretch" ItemsSource="{Binding CurrentPlayer.JournalItemContainers}" Background="Transparent" BorderBrush="Transparent" VerticalContentAlignment="Top"
+                    <TreeView Grid.Column="0" x:Name="QuestsTreeView" Margin="-8,120,0,0" Width="1440" VerticalAlignment="Stretch" ItemsSource="{Binding CurrentPlayer.JournalItemContainers}" Background="Transparent" BorderBrush="Transparent" VerticalContentAlignment="Top"
                               VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" VirtualizingStackPanel.ScrollUnit="Pixel">
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="SelectedItemChanged">
@@ -241,16 +249,16 @@
 
                         <TreeView.Template>
                             <ControlTemplate>
-                                <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="{StaticResource Journal.LeftSideScrollViewerMargin}">
+                                <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="50,0,0,0">
                                     <ScrollViewer.Resources>
                                         <Style TargetType="ScrollBar" BasedOn="{StaticResource BaseScrollBar}">
-                                            <Setter Property="Margin" Value="{StaticResource Journal.LeftScrollBarMargin}"/>
+                                            <Setter Property="Margin" Value="50,0,0,0"/>
                                         </Style>
                                         <GridLength x:Key="Top">6</GridLength>
                                         <GridLength x:Key="Bottom">0</GridLength>
                                     </ScrollViewer.Resources>
                                     <Grid HorizontalAlignment="Stretch">
-                                        <ItemsPresenter Margin="{StaticResource Journal.LeftSideItemsPresenterMargin}"/>
+                                        <ItemsPresenter Margin="0,0,0,0"/>
                                     </Grid>
                                 </ScrollViewer>
                             </ControlTemplate>
@@ -289,7 +297,7 @@
                     </TreeView>
 
                     <!-- Right Panel -->
-                    <ScrollViewer Grid.Column="1" x:Name="QuestDetails" Template="{StaticResource ScrollViewerTemplate}" Margin="{StaticResource Journal.RightSideContentMargin}" 
+                    <ScrollViewer Grid.Column="1" x:Name="QuestDetails" Template="{StaticResource ScrollViewerTemplate}" Margin="50,0,0,0" 
                                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
                         <ScrollViewer.Resources>
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
@@ -298,7 +306,7 @@
                             <GridLength x:Key="Bottom">0</GridLength>
                         </ScrollViewer.Resources>
 
-                        <Grid Margin="0,64,0,0" HorizontalAlignment="Stretch">
+                        <Grid Margin="0,0,0,0" HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="140"/>
                                 <RowDefinition Height="Auto"/>
@@ -416,7 +424,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,110"
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,110"
                             Visibility="{Binding CurrentPlayer.SelectedJournalItemView.Quest.HasMapMarkers, FallbackValue=Collapsed, TargetNullValue=Collapsed, Converter={StaticResource BoolToVisibleConverter} }">
                     <Image Source="{StaticResource Journal.DecorButtonSide}" Stretch="None"/>
                     <ls:LSButton x:Name="btn" FontSize="{StaticResource ScaledSmallFontSize}" Style="{StaticResource BlueButtonStyle}" SoundID="UI_Shared_Accept" Margin="-40,0"
@@ -428,7 +436,7 @@
                     </Image>
                 </StackPanel>
 
-                <Image Grid.Row="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"
+                <Image Grid.Row="1" Grid.RowSpan="2" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"
                        Visibility="{Binding CurrentPlayer.SelectedJournalItemView.Quest.HasMapMarkers, FallbackValue=Collapsed, TargetNullValue=Collapsed, Converter={StaticResource BoolToVisibleConverter} }"/>
             </Grid>
 
