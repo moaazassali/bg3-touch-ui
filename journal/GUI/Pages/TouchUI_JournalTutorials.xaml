@@ -109,16 +109,20 @@
             </TextBlock.LayoutTransform>
         </TextBlock>
 
-        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.ContentMargin}">
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="100,0,0,0">
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform> 
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
             <!--Show or hide unseen tutorials -->
             <ls:LSCheckBox x:Name="chkShowUnread" Grid.Column="0" Visibility="Visible"
                                    IsChecked="{Binding CurrentPlayer.ShowAllTutorials, Mode=TwoWay}"
-                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="104,10,0,10" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,30,0,10"
                                    SoundID="UI_HUD_Journal_HideCompleted"
                                    Command="{Binding ToggleShowAllTutorials}">
 
@@ -133,11 +137,11 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.Column="0" x:Name="bgImg" VerticalAlignment="Center" Source="{StaticResource BtnSmallRound}" Stretch="None"/>
-                            <Image Grid.Column="0" x:Name="icon" VerticalAlignment="Center" Source="{StaticResource TickActive}" Stretch="None" Visibility="Hidden"/>
+                            <Image Grid.Column="0" x:Name="bgImg" VerticalAlignment="Top" Source="{StaticResource BtnSmallRound}" Stretch="None"/>
+                            <Image Grid.Column="0" x:Name="icon" VerticalAlignment="Top" Source="{StaticResource TickActive}" Stretch="None" Visibility="Hidden" Margin="5,5,0,0"/>
 
                             <TextBlock Grid.Column="1" x:Name="chkTextbox" Text="{Binding Source='h21d8402fgf0c9g4591gaf5fg0f6b7baa2426',Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_baseTxtColor}"
-                                               Margin="12,0,0,0"/>
+                                               Margin="12,0,0,0" TextWrapping="Wrap"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -152,20 +156,20 @@
                 </CheckBox.Template>
             </ls:LSCheckBox>
 
-            <ls:LSTreeView x:Name="TutorialTreeView" Grid.Column="0" ItemsSource="{Binding TutorialsContainers}" BorderBrush="Transparent" InitialSelection="{Binding InitialSelection}" Width="1440" VerticalAlignment="Stretch"
-                           Margin="0,100,0,0">
+            <ls:LSTreeView x:Name="TutorialTreeView" Grid.Column="0" ItemsSource="{Binding TutorialsContainers}" BorderBrush="Transparent" InitialSelection="{Binding InitialSelection}" VerticalAlignment="Stretch"
+                           Margin="-8,140,0,0">
                 <ls:LSTreeView.Template>
                     <ControlTemplate>
-                        <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="{StaticResource Journal.LeftSideScrollViewerMargin}">
+                        <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,40" >
                             <ScrollViewer.Resources>
                                 <Style TargetType="ScrollBar" BasedOn="{StaticResource BaseScrollBar}">
-                                    <Setter Property="Margin" Value="{StaticResource Journal.LeftScrollBarMargin}"/>
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
                                 </Style>
                                 <GridLength x:Key="Top">6</GridLength>
                                 <GridLength x:Key="Bottom">0</GridLength>
                             </ScrollViewer.Resources>
                             <Grid Background="Transparent" HorizontalAlignment="Stretch">
-                                <ItemsPresenter Margin="{StaticResource Journal.LeftSideItemsPresenterMargin}"/>
+                                <ItemsPresenter Margin="0,0,0,0"/>
                             </Grid>
                         </ScrollViewer>
                     </ControlTemplate>
@@ -224,13 +228,13 @@
 
             <!-- Details Pane -->
             <Grid Grid.Column="1" Visibility="{Binding ElementName=TutorialTreeView, Path=SelectedItem.Title, Converter={StaticResource StringToVisibilityConverter}}"
-                  HorizontalAlignment="Stretch" Margin="{StaticResource Journal.RightSideContentMargin}" VerticalAlignment="Top">
+                  HorizontalAlignment="Stretch" Margin="0,-80,40,40" VerticalAlignment="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="{Binding ElementName=TutorialTreeView, Path=SelectedItem.Title}" FontSize="{StaticResource ScaledHugeFontSize}" Foreground="{StaticResource LS_accent100TxtColor}"
-                           VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80,50,80,0"/>
+                           VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,50,0,0" TextWrapping="Wrap"/>
 
                 <ScrollViewer Grid.Row="1" DataContext="{Binding ElementName=TutorialTreeView, Path=SelectedItem}" d:DataContext="{d:DesignInstance {x:Type ls:TutorialView}, IsDesignTimeCreatable=True}"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Template="{StaticResource ScrollViewerTemplate}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -240,9 +244,9 @@
                         <GridLength x:Key="Top">20</GridLength>
                         <GridLength x:Key="Bottom">20</GridLength>
                     </ScrollViewer.Resources>
-                    <StackPanel Margin="20,0,480,0">
+                    <StackPanel Margin="0,0,0,0">
                         <TextBlock FontSize="{StaticResource LargeFontSize}" Foreground="{StaticResource LS_baseTxtColor}" HorizontalAlignment="Stretch" TextAlignment="Left" TextWrapping="Wrap"
-                                   Margin="60,30,0,0">
+                                   Margin="40,30,0,0">
                             <TextBlock.Resources>
                                 <Style TargetType="ls:LSSpan" BasedOn="{StaticResource LSSpanStyle}">
                                     <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
