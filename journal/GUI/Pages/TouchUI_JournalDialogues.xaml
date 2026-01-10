@@ -111,13 +111,18 @@
             </DataTemplate>
 
             <ControlTemplate x:Key="SelectedDialogueParticipantNameTemplate">
-                <StackPanel Orientation="Horizontal" Visibility="{Binding DataContext.SelectedDialogue, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource NullToHiddenConverter}}">
+                <Grid Visibility="{Binding DataContext.SelectedDialogue, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource NullToHiddenConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
                     <b:Interaction.Behaviors>
                         <ls:CollectionFilterBehavior x:Name="NoNarratorParticipants" ItemsSource="{Binding Participants}" Predicate="{Binding DataContext.Data.DialogueParticipantNoNarratorPredicate, ElementName=JournalDialogues}"/>
                     </b:Interaction.Behaviors>
-                    <Image Source="{StaticResource IconDialogue}" Stretch="None" Margin="0,0,0,10"/>
-                    <ItemsControl x:Name="Names" ItemsSource="{Binding FilteredItems, ElementName=NoNarratorParticipants}" AlternationCount="{Binding FilteredItems.Count, ElementName=NoNarratorParticipants}" Style="{StaticResource ParticipantsNamesStyle}"
-                                      MaxHeight="138" Margin="16,0,0,0" MaxWidth="1700">
+                    <Image Grid.Column="0" Source="{StaticResource IconDialogue}" VerticalAlignment="Top" Stretch="None" Margin="0,0,0,10"/>
+                    <ItemsControl x:Name="Names" Grid.Column="1" ItemsSource="{Binding FilteredItems, ElementName=NoNarratorParticipants}" AlternationCount="{Binding FilteredItems.Count, ElementName=NoNarratorParticipants}" Style="{StaticResource ParticipantsNamesStyle}"
+                                     Margin="16,0,0,0">
                         <ItemsControl.Resources>
                             <Style x:Key="ParticipantsTextStyle" TargetType="TextBlock">
                                 <Setter Property="Foreground" Value="{StaticResource LS_extraspecialTxtColor}"/>
@@ -125,7 +130,7 @@
                             </Style>
                         </ItemsControl.Resources>
                     </ItemsControl>
-                </StackPanel>
+                </Grid>
                 <ControlTemplate.Triggers>
                     <DataTrigger Binding="{Binding Participants.Count}" Value="1">
                         <Setter TargetName="Names" Property="ItemsSource" Value="{Binding Participants}"/>
@@ -156,19 +161,24 @@
 
             <!-- Dialogue treeview node in the day group -->
             <ControlTemplate x:Key="JournalDialogueGroupedByDateTemplate">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,10"
+                <Grid HorizontalAlignment="Stretch" Margin="0,0,0,10"
                             d:DataContext="{d:DesignInstance {x:Type ls:JournalDialogue}, IsDesignTimeCreatable=True}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
                     <b:Interaction.Behaviors>
                         <ls:CollectionFilterBehavior x:Name="NoNarratorParticipants" ItemsSource="{Binding Participants}" Predicate="{Binding DataContext.Data.DialogueParticipantNoNarratorPredicate, ElementName=JournalDialogues}"/>
                     </b:Interaction.Behaviors>
-                    <TextBlock VerticalAlignment="Top" Text="{Binding TimeInDay, StringFormat='{}{0} - '}" Style="{StaticResource DialogueTimeHighlightTextStyle}"/>
-                    <ItemsControl x:Name="Names" ItemsSource="{Binding FilteredItems, ElementName=NoNarratorParticipants}" AlternationCount="{Binding FilteredItems.Count, ElementName=NoNarratorParticipants}" HorizontalAlignment="Stretch"
-                                  Style="{StaticResource ParticipantsNamesStyle}" MaxWidth="1000">
+                    <TextBlock Grid.Column="0" VerticalAlignment="Top" Text="{Binding TimeInDay, StringFormat='{}{0} - '}" Style="{StaticResource DialogueTimeHighlightTextStyle}"/>
+                    <ItemsControl x:Name="Names" Grid.Column="1" ItemsSource="{Binding FilteredItems, ElementName=NoNarratorParticipants}" AlternationCount="{Binding FilteredItems.Count, ElementName=NoNarratorParticipants}" HorizontalAlignment="Stretch"
+                                  Style="{StaticResource ParticipantsNamesStyle}">
                         <ItemsControl.Resources>
                             <Style x:Key="ParticipantsTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DialogueTimeHighlightTextStyle}"/>
                         </ItemsControl.Resources>
                     </ItemsControl>
-                </StackPanel>
+                </Grid>
                 <ControlTemplate.Triggers>
                     <DataTrigger Binding="{Binding Participants.Count}" Value="1">
                         <Setter TargetName="Names" Property="ItemsSource" Value="{Binding Participants}"/>
@@ -179,7 +189,7 @@
 
             <!-- Actual Dialogue treeview node -->
             <DataTemplate DataType="ls:JournalDialogue">
-                <Control x:Name="Content" Margin="84,0,0,0"/>
+                <Control x:Name="Content" Margin="50,0,0,0"/>
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding DataContext.GroupingTab, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="ByMap">
                         <Setter TargetName="Content" Property="Template" Value="{StaticResource JournalDialogueGroupedByMapTemplate}"/>
@@ -275,6 +285,7 @@
                 </ListBox.Template>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="BorderBrush" Value="Transparent" />
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="Padding" Value="0" />
@@ -323,7 +334,7 @@
                         </b:Interaction.Behaviors>
                     </ItemsControl>
 
-                    <Control x:Name="ParticipantNames" Margin="0,0,130,0" HorizontalAlignment="Left" Template="{StaticResource SelectedDialogueParticipantNameTemplate}"/>
+                    <Control x:Name="ParticipantNames" Margin="0,0,20,0" HorizontalAlignment="Stretch" Template="{StaticResource SelectedDialogueParticipantNameTemplate}"/>
                     <ItemsControl ItemsSource="{Binding DialogueLines}" Margin="10,52,0,0" HorizontalAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type ls:JournalDialogueLine}">
