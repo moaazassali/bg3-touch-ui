@@ -140,8 +140,22 @@
                 <!-- Touch UI - Image background for the sidebar with very low z index so the map is over it -->
                 <Image Grid.ColumnSpan="2" Source="{StaticResource OptionsBackground}" VerticalAlignment="Stretch" Stretch="UniformToFill" HorizontalAlignment="Stretch" Panel.ZIndex="-1"/>
 
+                <!-- Touch UI - Gold line divider to separate the sidebar instead of abruptly ending -->
+                <Border Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="4" Margin="-4,0,0,0" IsHitTestVisible="False">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <!-- Dark Bronze Edge -->
+                            <GradientStop Color="#3a2e22" Offset="0.0"/>
+                            <!-- Bright Gold Highlight (Center) -->
+                            <GradientStop Color="#c9a76d" Offset="0.5"/>
+                            <!-- Dark Bronze Edge -->
+                            <GradientStop Color="#3a2e22" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
                 <!--Header and close button MUST be over the map control-->
-                <Control Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,40,0"/>
+                <Control Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_JournalHeader}" Margin="0,80,30,0"/>
 
                 <!-- Close button -->
                 <ls:LSButton x:Name="CloseButtonX" Grid.Column="0" BoundEvent="UICancel" Style="{StaticResource CloseButton}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="80,60,0,0"
