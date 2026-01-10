@@ -179,24 +179,28 @@
                 </Grid>
 
                 <!-- legend -->
-                <Grid x:Name="Legend" Margin="60,0,0,88" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <Image Source="{StaticResource MapLegend}" Margin="-26" Stretch="None"/>
+                <Grid x:Name="Legend" Margin="0,0,0,0" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Grid.LayoutTransform>   
 
-                    <Grid Margin="180,0,0,132" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <!-- <Image Source="{StaticResource MapLegend}" Margin="0,0,0,0" Stretch="None"/> -->
+
+                    <Grid Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="75"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="15"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
