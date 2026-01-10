@@ -197,7 +197,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Touch UI - Define 2 Columns (Sidebar | Content) -->
@@ -219,16 +218,20 @@
         </ls:LSButton>
 
         <TextBlock x:Name="PageTitle" Grid.Column="1" Grid.Row="0" Text="{Binding Source='hc610c4aeg0285g4e2agbc31g4bb458c1c7b3',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontWeight="DemiBold"
-                   FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="{StaticResource Journal.TitleMargin}">
+                   FontSize="{StaticResource ScaledGiganticFontSize}" HorizontalAlignment="Left" Margin="100,80,0,0">
             <TextBlock.LayoutTransform>
                 <ScaleTransform ScaleX="2" ScaleY="2"/>
             </TextBlock.LayoutTransform>
         </TextBlock>
 
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource Journal.ContentMargin}">
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="100,0,0,0">
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform> 
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
             <b:Interaction.Behaviors>
@@ -237,7 +240,7 @@
             </b:Interaction.Behaviors>
 
             <!-- Dialogues treeview grouped by date or by map, faked with a listbox to optimize performance (for virtualization) -->
-            <ListBox x:Name="DialoguesTree" Grid.Column="0" BorderBrush="Transparent" Background="Transparent" Width="1440" VerticalAlignment="Stretch" Margin="0,100,0,0"
+            <ListBox x:Name="DialoguesTree" Grid.Column="0" BorderBrush="Transparent" Background="Transparent" VerticalAlignment="Stretch" Margin="-20,20,40,90"
                      VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" VirtualizingStackPanel.ScrollUnit="Pixel">
                 <ListBox.Style>
                     <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
@@ -259,14 +262,14 @@
                 </ListBox.ItemsPanel>
                 <ListBox.Template>
                     <ControlTemplate>
-                        <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="{StaticResource Journal.LeftSideScrollViewerMargin}"
+                        <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0}"
                                       CanContentScroll="True" Background="Transparent">
                             <ScrollViewer.Resources>
                                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
                                 <GridLength x:Key="Top">6</GridLength>
                                 <GridLength x:Key="Bottom">150</GridLength>
                             </ScrollViewer.Resources>
-                            <ItemsPresenter HorizontalAlignment="Stretch" Margin="{StaticResource Journal.LeftSideItemsPresenterMargin}"/>
+                            <ItemsPresenter HorizontalAlignment="Stretch" Margin="0,0,0,0"/>
                         </ScrollViewer>
                     </ControlTemplate>
                 </ListBox.Template>
@@ -300,7 +303,7 @@
 
             <!-- Details pane for the selected Dialogue in the treeview -->
             <ScrollViewer Grid.Column="1" DataContext="{Binding SelectedDialogue}" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch"
-                          Template="{StaticResource ScrollViewerTemplate}" Background="Transparent" Margin="{StaticResource Journal.RightSideContentMargin}">
+                          Template="{StaticResource ScrollViewerTemplate}" Background="Transparent" Margin="0,-80,40,90">
                 <ScrollViewer.Resources>
                     <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
                     <GridLength x:Key="Top">76</GridLength>
@@ -321,7 +324,7 @@
                     </ItemsControl>
 
                     <Control x:Name="ParticipantNames" Margin="0,0,130,0" HorizontalAlignment="Left" Template="{StaticResource SelectedDialogueParticipantNameTemplate}"/>
-                    <ItemsControl ItemsSource="{Binding DialogueLines}" Margin="10,52,250,0" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{Binding DialogueLines}" Margin="10,52,0,0" HorizontalAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type ls:JournalDialogueLine}">
                                 <Control x:Name="Root" Margin="0,0,0,24">
@@ -406,7 +409,11 @@
             </ScrollViewer>
         </Grid>
 
-        <ls:LSToggleButton x:Name="DialogGroupingToggleButton" Grid.Column="1" Grid.Row="2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding SetGroupingTab}">
+        <ls:LSToggleButton x:Name="DialogGroupingToggleButton" Grid.Column="0" Grid.Row="2" Margin="30,0,0,90" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding SetGroupingTab}">
+            <ls:LSToggleButton.LayoutTransform>
+                <ScaleTransform ScaleX="1.9" ScaleY="1.9"/>
+            </ls:LSToggleButton.LayoutTransform>
+
             <ls:LSToggleButton.Template>
                 <ControlTemplate TargetType="ls:LSToggleButton">
                     <ControlTemplate.Resources>
@@ -454,7 +461,7 @@
             </ls:LSToggleButton.Template>
         </ls:LSToggleButton>
 
-        <Image Grid.Column="1" Grid.Row="3" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"/>
+        <!-- <Image Grid.Column="1" Grid.Row="3" Source="{StaticResource Journal.DecorButtonCenter}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="None" Margin="{StaticResource Journal.DecorButtonCenterMargin}"/> -->
     </Grid>
 
     <b:Interaction.Triggers>
