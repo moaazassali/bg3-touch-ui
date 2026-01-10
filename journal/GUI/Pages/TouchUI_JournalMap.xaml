@@ -185,18 +185,18 @@
                 <!-- legend -->
                 <Grid x:Name="Legend" Margin="0,0,0,0" IsHitTestVisible="False" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                     <Grid.LayoutTransform>
-                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <ScaleTransform ScaleX="1.75" ScaleY="1.75"/>
                     </Grid.LayoutTransform>   
 
                     <!-- <Image Source="{StaticResource MapLegend}" Margin="0,0,0,0" Stretch="None"/> -->
 
                     <Grid Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
                             <RowDefinition Height="60"/>
                             <RowDefinition Height="60"/>
                             <RowDefinition Height="60"/>
