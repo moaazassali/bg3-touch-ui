@@ -241,16 +241,20 @@
 
                 <!-- waypoints -->
                 <!-- contains the scroll viewer, and the frame overlay -->
-                <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-40,12,0" Width="714">
-                    <Image Source="{StaticResource MapSidePane}" VerticalAlignment="Top" Width="688" Stretch="None" />
-                    <Image Source="{StaticResource MapSidePaneDecor}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="0,0,0,140" />
+                <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-40,12,0" Width="500">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Grid.LayoutTransform> 
+
+                    <Image Source="{StaticResource MapSidePane}" VerticalAlignment="Top" Width="480" Stretch="None" />
+                    <Image Source="{StaticResource MapSidePaneDecor}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="0,0,0,20" />
                     
 
                     <StackPanel>
-                        <Image Source="{StaticResource WaypointHeader}" Stretch="None" HorizontalAlignment="Center" Margin="-10,90,0,0"/>
+                        <Image Source="{StaticResource WaypointHeader}" Stretch="None" HorizontalAlignment="Center" Margin="-10,40,0,0"/>
                         <TextBlock Text="{Binding Source='h4dd789bfg24f5g40f6gadccg5a6e39287311', Converter ={StaticResource TranslatedStringConverter}}" Margin="0,-16,0,0" Foreground="{StaticResource LS_ActivePanelFontColor}" HorizontalAlignment="Center"/>
                         <Grid>
-                            <ScrollViewer x:Name="WaypointsScroll" HorizontalAlignment="Center" Margin="28,50,-10,0" VerticalScrollBarVisibility="Visible" Width="620" Height="1400" Style="{StaticResource NoForcedScrollViewerStyle}" IsEnabled="False" Opacity="{StaticResource DisabledWaypointsOpacity}" Padding="0,0,20,0">
+                            <ScrollViewer x:Name="WaypointsScroll" HorizontalAlignment="Center" Margin="28,20,-10,0" VerticalScrollBarVisibility="Visible" Width="440" Height="700" Style="{StaticResource NoForcedScrollViewerStyle}" IsEnabled="False" Opacity="{StaticResource DisabledWaypointsOpacity}" Padding="0,0,20,0">
                                 <ItemsControl x:Name="Waypoints" ItemsSource="{Binding CurrentPlayer.Waypoints}" Background="Transparent" BorderBrush="Transparent"  >
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
