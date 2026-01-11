@@ -11,5 +11,19 @@
             </ls:State.Widgets>
         </ls:State>
 
+        <!--STATE: Tutorials - The modal tutorial showing and highlighting other UIs while explaining their use-->
+        <ls:State Name="Tutorial" Layout="Player" Owner="Player" IsModal="True">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_Tutorial.xaml" Layer="PopupPanels" SoundLayer="TutorialPanel"/>
+            </ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseWidget">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
     </ls:StateMachine.States>
 </ls:StateMachine>
