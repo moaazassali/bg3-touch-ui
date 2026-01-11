@@ -11,6 +11,14 @@
              ls:UIWidget.ContextName="Notifications" d:DataContext="{d:DesignInstance {x:Type ls:DCNotifications}, IsDesignTimeCreatable=True}"
              d:DesignHeight="2160" d:DesignWidth="3840">
 
+    <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_SideTutorialsStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ls:UIWidget.Resources>    
+
     <ls:UIWidget.Template>
         <ControlTemplate>
             <Grid>
@@ -36,7 +44,11 @@
                         </ControlTemplate>
                     </Control.Template>
                 </Control>
-                <ItemsControl x:Name="SideTutorials" Style="{StaticResource SideTutorialsStyle}"/>
+                <ItemsControl x:Name="SideTutorials" Style="{StaticResource TouchUI_SideTutorialsStyle}">
+                    <ItemsControl.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </ItemsControl.LayoutTransform>
+                </ItemsControl>
 
                 <b:Interaction.Triggers>
                     <b:DataTrigger Binding="{Binding CurrentPlayer.UIData.Notification.Type}" Value="StartTurnFTB">

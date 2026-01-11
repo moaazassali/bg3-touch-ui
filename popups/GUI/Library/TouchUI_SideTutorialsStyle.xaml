@@ -14,7 +14,7 @@
         <Setter Property="Visibility" Value="{Binding CurrentPlayer.UIData.UnifiedTutorials.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="220,220,0,0"/>
+        <Setter Property="Margin" Value="100,50,0,0"/>
 
         <Setter Property="ItemsPanel">
             <Setter.Value>
