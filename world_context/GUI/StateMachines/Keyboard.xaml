@@ -1,0 +1,16 @@
+<ls:StateMachine xmlns:ls="clr-namespace:ls;assembly=Code"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<ls:StateMachine.States>
+		<!-- Taken from unpacked game file at Patch8_HotFix4\Mods\MainUI\GUI\StateMachines\Keyboard.xaml -->
+
+        <!--STATE: PlayerWorldContext-->
+        <ls:State Name = "PlayerWorldContext" Layout = "Player" Owner = "Player" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_WorldContextMenu.xaml" Layer="Notifications"/>
+                <ls:StateWidget Filename="TouchUI_WorldTooltips.xaml" Layer="HUD"/>
+            </ls:State.Widgets>
+        </ls:State>
+
+    </ls:StateMachine.States>
+</ls:StateMachine>
