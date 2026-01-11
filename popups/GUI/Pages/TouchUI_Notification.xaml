@@ -32,7 +32,11 @@
                     <Control x:Name="Notifications" HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{Binding CurrentPlayer.UIData.Notification}" Style="{StaticResource Notification.TemplateSwitcher}"/>
                 </StackPanel>
 
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,510">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,400">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </StackPanel.LayoutTransform>
+                    <!-- Things like 'can't go there' -->
                     <Control x:Name="BottomNotifications" DataContext="{Binding CurrentPlayer.UIData.Notification}" Style="{StaticResource Notification.TemplateSwitcher}" Visibility="Collapsed"/>
                     <Control x:Name="CampLongRestWarning" Template="{StaticResource FixedLongRestNotificationTemplate}" Visibility="Collapsed"/>
                 </StackPanel>
