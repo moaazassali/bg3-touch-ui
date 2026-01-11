@@ -22,8 +22,13 @@
     <ls:UIWidget.Template>
         <ControlTemplate>
             <Grid>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,400,0,0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,200,0,0">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </StackPanel.LayoutTransform>
+                    <!-- Not sure what this is? -->
                     <Control x:Name="Progress" HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" DataContext="{Binding CurrentPlayer.UIData.ActiveTask.Progress}" Template="{StaticResource LockPickNotificationTemplate}"/>
+                    <!-- Those are the top center of screen notifications like waypoint discovered, recipe learned, location name, x item used, etc... -->
                     <Control x:Name="Notifications" HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{Binding CurrentPlayer.UIData.Notification}" Style="{StaticResource Notification.TemplateSwitcher}"/>
                 </StackPanel>
 
