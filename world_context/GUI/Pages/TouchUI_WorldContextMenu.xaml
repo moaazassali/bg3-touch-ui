@@ -21,7 +21,11 @@
             </b:DataTrigger>
         </b:Interaction.Triggers>
         <ls:LSEntityObject.ContextMenu>
-            <ls:ContextMenu Style="{StaticResource BaseLSContextMenu}" Placement="Right"/>
+            <ls:ContextMenu Style="{StaticResource BaseLSContextMenu}" Placement="Right">
+                <ls:ContextMenu.LayoutTransform>
+                    <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
+                </ls:ContextMenu.LayoutTransform>
+            </ls:ContextMenu>
         </ls:LSEntityObject.ContextMenu>
     </ls:LSEntityObject>
 </ls:UIWidget>
