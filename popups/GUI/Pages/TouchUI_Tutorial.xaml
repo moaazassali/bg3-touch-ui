@@ -46,6 +46,10 @@
 
         <!-- We need an extra grid around the nineslice for positioning so we can use a negative margin on the nineslice to deal with the excessive shadows -->
         <Grid x:Name="Tutorial" ls:TutorialProperties.Tutorial="{Binding Tutorial}" ls:TutorialProperties.CurrentStep="{Binding CurrentStep}" ls:TutorialProperties.DefaultSpacing="20">
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform>
+
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
