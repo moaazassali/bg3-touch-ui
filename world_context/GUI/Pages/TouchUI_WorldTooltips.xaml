@@ -27,6 +27,9 @@
 							</b:EventTrigger>
 						</b:Interaction.Triggers>
                         <Border x:Name="border" Width="1024" Height="512" Canvas.Left="-512" Canvas.Top="{Binding ElementName=worldTooltip, Path=SeparationOffset, Converter={StaticResource AddConverter}, ConverterParameter=-128}">
+                            <Border.LayoutTransform>
+                                <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
+                            </Border.LayoutTransform>
 
 							<ls:LSNineSliceImage Style="{StaticResource WorldTooltip9Slice}" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Grid Margin="6,-4,6,-6">
