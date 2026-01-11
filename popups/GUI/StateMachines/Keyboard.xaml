@@ -25,5 +25,56 @@
             </ls:State.Events>
         </ls:State>
 
+        <!--STATE: Messagebox-->
+        <ls:State Name="MessageBox" DisableStatesBelow="True" IsModal="True" Layout="Common" Owner="Player" TutorialLayer="MessageBox" ModType="Override">
+            <ls:State.Widgets>
+                <!-- Pointing to your custom file -->
+                <ls:StateWidget Filename="TouchUI_MessageBox.xaml" Layer="MessageBox" BlockedLoading="True" SoundLayer="NonHUDWidget"/>
+            </ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name="TestAction">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="Paused"/>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="CloseMessageBox">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="CloseWidget">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="LoadGameOpen">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="Paused.LoadGame"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="OpenMessageBox">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="MessageBox"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="OpenHDR">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="HDRCalibration"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="OpenGammaCalibration">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="GammaCalibration"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="OpenPinnedTooltips">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="PinnedTooltipsFromMessageBox"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
     </ls:StateMachine.States>
 </ls:StateMachine>
