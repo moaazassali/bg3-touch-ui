@@ -50,10 +50,13 @@
                 <Grid >
 	                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="infoPanel" IsHitTestVisible="False">
                         <Grid.RenderTransform>
-                            <TranslateTransform  X="{Binding CurrentPlayer.UIData.Cursor.Position.X}" Y="{Binding CurrentPlayer.UIData.Cursor.Position.Y}"/>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
+                                <TranslateTransform  X="{Binding CurrentPlayer.UIData.Cursor.Position.X}" Y="{Binding CurrentPlayer.UIData.Cursor.Position.Y}"/>
+                            </TransformGroup>
                         </Grid.RenderTransform>
 
-                        <Grid x:Name="TaskInfoHolder" Margin="64,0,0,0">
+                        <Grid x:Name="TaskInfoHolder" Margin="32,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
