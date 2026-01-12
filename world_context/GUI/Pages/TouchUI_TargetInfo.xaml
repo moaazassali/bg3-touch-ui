@@ -222,7 +222,36 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="1" x:Name="CharacterName" Text="{Binding Name}" Style="{StaticResource TargetTitleTextBlockStyle}" FontSize="{StaticResource ScaledBigFontSize}"/>
+                                <!-- <TextBlock Grid.Column="1" x:Name="CharacterName" Text="{Binding Name}" Style="{StaticResource TargetTitleTextBlockStyle}" FontSize="{StaticResource ScaledBigFontSize}"/> -->
+                                <!-- Touch UI - Replace above textblock with stackpanel in order to add item count to it if needed.
+                                     We need this because we have disabled item labels in TouchUI_CursorText -->
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock x:Name="CharacterName" Text="{Binding Name}" Style="{StaticResource TargetTitleTextBlockStyle}" FontSize="{StaticResource ScaledBigFontSize}"/>
+                                    <TextBlock Text="{Binding Count, StringFormat='({0})'}" 
+                                            FontSize="{StaticResource ScaledBigFontSize}" 
+                                            Margin="10,0,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource TargetTitleTextBlockStyle}">
+                                                <!-- Default Visibility Collapsed -->
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <!-- Logic copied from TouchUI_CursorText.xaml -->
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <!-- Condition A: Must be an Item -->
+                                                            <Condition Binding="{Binding Type}" Value="Item"/>
+                                                            <!-- Condition B: Count must be > 1 -->
+                                                            <Condition Binding="{Binding Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=1}" Value="True"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                </StackPanel>
+
                                 <TextBlock Grid.Column="2" x:Name="LevelText" Style="{StaticResource TargetTitleTextBlockStyle}" FontSize="{StaticResource ScaledSmallFontSize}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,7" Visibility="Collapsed">
                                     <TextBlock.Text>
                                         <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">

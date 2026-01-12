@@ -501,9 +501,10 @@
                         <Setter TargetName="EncumbranceIndicator" Property="Visibility" Value="Collapsed"/>
                     </DataTrigger>
 
-                    <DataTrigger Binding="{Binding CurrentPlayer.CurrentTarget,Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
+                    <!-- Touch UI - Disable item labels for items/npcs to reduce clutter because we already have the target info at top of screen -->
+                    <!-- <DataTrigger Binding="{Binding CurrentPlayer.CurrentTarget,Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
                         <Setter TargetName="TargetPanel" Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
+                    </DataTrigger> -->
 
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
