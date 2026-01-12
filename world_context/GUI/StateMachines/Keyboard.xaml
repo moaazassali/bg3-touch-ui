@@ -19,5 +19,12 @@
 			</ls:State.Widgets>
 		</ls:State>
 
+        <!-- Taken from ImpUI StateMachines\Keyboard.xaml -->
+        <ls:State Name = "IUI_CursorText" Layout = "Player" Owner = "Player" ModType="Override">
+			<ls:State.Widgets>
+				<ls:StateWidget Filename="TouchUI_CursorText.xaml" Layer="PopupPanels"/>
+			</ls:State.Widgets>
+		</ls:State>
+
     </ls:StateMachine.States>
 </ls:StateMachine>
