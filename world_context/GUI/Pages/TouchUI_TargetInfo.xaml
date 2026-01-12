@@ -203,7 +203,11 @@
             
             <!-- Target Info Contents -->
             <Grid x:Name="Root" d:DataContext="{d:DesignInstance {x:Type ls:Widget}, IsDesignTimeCreatable=True}">
-                <Border x:Name="TargetInfoRoot" Margin="0,20,0,0" Visibility="{Binding CurrentPlayer.CurrentRegularOrCombatTurnTarget, Converter={StaticResource NullToHiddenConverter}}">
+                <Border x:Name="TargetInfoRoot" Margin="0,10,0,0" Visibility="{Binding CurrentPlayer.CurrentRegularOrCombatTurnTarget, Converter={StaticResource NullToHiddenConverter}}">
+                    <Border.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Border.LayoutTransform>
+
                     <b:Interaction.Behaviors>
                         <ls:CollectionFilterBehavior x:Name="PositiveModifierBehavior" ItemsSource="{Binding CurrentPlayer.UIData.HitChanceDesc.Modifiers}" Predicate="{Binding Data.PositiveModifierPredicate}"/>
                         <ls:CollectionFilterBehavior x:Name="NegativeModifierBehavior" ItemsSource="{Binding CurrentPlayer.UIData.HitChanceDesc.Modifiers}" Predicate="{Binding Data.NegativeModifierPredicate}"/>
