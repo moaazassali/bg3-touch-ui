@@ -426,6 +426,10 @@
 
                 <!--Cast notification for the target-->
                 <ItemsControl x:Name="CastInfoContainer" ItemsSource="{Binding CurrentPlayer.UIData.CastInfo}"  VerticalAlignment="Bottom" Margin="0,0,0,600">
+                    <ItemsControl.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </ItemsControl.LayoutTransform>
+
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="ls:VMCastInfo">
                             <Grid x:Name="CastInfoRoot" MinWidth="660" HorizontalAlignment="Center">
