@@ -33,5 +33,39 @@
             </ls:State.Widgets>
         </ls:State>
 
+        <!-- Taken from ImpUI StateMachines\Keyboard.xaml -->
+        <ls:State Name = "PlayerHUD" Layout = "Player" Owner = "Player" ModType="Override">
+			<ls:State.Widgets>
+				<ls:StateWidget Filename="TouchUI_Overlay.xaml" Layer="Notifications"/>
+                <ls:StateWidget Filename="/MainUI;component/Pages/PlayerPortraits.xaml" Layer="PopupPanels"/>
+                <ls:StateWidget Filename="/ImpUI;component/Pages/AlwaysOnTopOverlay.xaml" Layer="PopupPanels"/>
+			</ls:State.Widgets>
+
+			<ls:State.InitialSubstates>
+				<ls:InitialSubstate Name="PlayerPortraits" Metadata="InHUD"/>
+				<ls:InitialSubstate Name="IUI_HudIndicator"/>
+				<ls:InitialSubstate Name="IUI_OverheadInfo"/>
+				<ls:InitialSubstate Name="IUI_HotBar"/>
+				<ls:InitialSubstate Name="IUI_ActionResources_c"/>
+				<ls:InitialSubstate Name="IUI_Minimap"/>
+				<ls:InitialSubstate Name="IUI_TargetInfo"/>
+				<ls:InitialSubstate Name="IUI_TurnModeInfo"/>
+				<ls:InitialSubstate Name="IUI_CombatLog"/>
+				<ls:InitialSubstate Name="IUI_CombatantsOverlay"/>
+				<ls:InitialSubstate Name="IUI_CursorText"/>
+				<ls:InitialSubstate Name="IUI_DragAndDropPreview"/>
+				<ls:InitialSubstate Name="IUI_PassiveRoll"/>
+			</ls:State.InitialSubstates>
+
+			<ls:State.Events>
+				<ls:StateEvent Name = "OpenSelectionFlyOut">
+					<ls:StateEvent.Actions>
+						<ls:AddSubstate Name="SelectionFlyOut"/>
+					</ls:StateEvent.Actions>
+				</ls:StateEvent>
+			</ls:State.Events>
+
+		</ls:State>
+
     </ls:StateMachine.States>
 </ls:StateMachine>
