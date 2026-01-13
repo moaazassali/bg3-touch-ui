@@ -17,6 +17,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Core;component/Library/CriticalHitAnimation.xaml"/>
                 <ResourceDictionary Source="/Core;component/Library/WorldTextTemplates.xaml"/>
+                <!-- Touch UI - custom imports -->
+                <ResourceDictionary Source="../Library/TouchUI_WorldTextDisplay.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ls:UIWidget.Resources>
@@ -24,12 +26,12 @@
     <ls:UIWidget.Template>
         <ControlTemplate>
             <Grid>
-              <Control Visibility="{Binding CurrentPlayer.UIData.ShowHud, Converter={StaticResource BoolToVisibleConverter}}" Template="{StaticResource WorldTextDisplay}"/>
+              <Control Visibility="{Binding CurrentPlayer.UIData.ShowHud, Converter={StaticResource BoolToVisibleConverter}}" Template="{StaticResource TouchUI_WorldTextDisplay}"/>
                 <!-- Show dice roll and damage during CritCam -->
                 <Grid Visibility="{Binding CurrentPlayer.UIData.ShowHud, Converter={StaticResource BoolToCollapsedConverter}}">
                     <Control x:Name="CritCamInfo" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False"/>
 
-                    <Control Template="{StaticResource WorldTextDisplay}">
+                    <Control Template="{StaticResource TouchUI_WorldTextDisplay}">
                         <Control.Resources>
                             <Style x:Key="WorldTextPositioning" BasedOn="{StaticResource MiddlePosition}"/>
                         </Control.Resources>
