@@ -33,6 +33,11 @@
                     <TextBlock ls:TextBlockFormatter.SourceText="{Binding Text}" HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5"
                                    TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource LS_PrimaryColor}" 
                                    noesis:Text.StrokeThickness="{StaticResource TextOutlineThickness}" >
+
+                        <TextBlock.LayoutTransform>
+                            <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
+                        </TextBlock.LayoutTransform>
+                        
                         <noesis:Text.Stroke>
                             <SolidColorBrush Color="{DynamicResource TextOutlineColor}" Opacity="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TextBlock}, Path=Foreground.Opacity}"/>
                         </noesis:Text.Stroke>
