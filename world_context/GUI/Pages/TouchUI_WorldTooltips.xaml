@@ -26,7 +26,8 @@
 								<b:InvokeCommandAction Command="{Binding DataContext.SelectWorldTooltipCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding GameObject}" />
 							</b:EventTrigger>
 						</b:Interaction.Triggers>
-                        <Border x:Name="border" Width="1024" Height="512" Canvas.Left="-512" Canvas.Top="{Binding ElementName=worldTooltip, Path=SeparationOffset, Converter={StaticResource AddConverter}, ConverterParameter=-128}">
+                        <!-- Touch UI - Is this a bug in the game? ElementName was worldTooltip which doesn't point to anything it seems? -->
+                        <Border x:Name="border" Width="1024" Height="512" Canvas.Left="-1024" Canvas.Top="{Binding ElementName=worldTooltipPanel, Path=SeparationOffset, Converter={StaticResource AddConverter}, ConverterParameter=-128}">
                             <Border.LayoutTransform>
                                 <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
                             </Border.LayoutTransform>
