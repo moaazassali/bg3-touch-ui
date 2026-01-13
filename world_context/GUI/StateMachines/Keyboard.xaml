@@ -26,5 +26,12 @@
 			</ls:State.Widgets>
 		</ls:State>
 
+        <!-- Taken from ImpUI StateMachines\Keyboard.xaml -->
+        <ls:State Name = "IUI_OverheadInfo" Layout = "Player" Owner = "Player" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_OverheadInfo.xaml" Layer="HUD" IgnoreHitTest="True"/>
+            </ls:State.Widgets>
+        </ls:State>
+
     </ls:StateMachine.States>
 </ls:StateMachine>
