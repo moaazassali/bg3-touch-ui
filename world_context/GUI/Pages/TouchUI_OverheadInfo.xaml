@@ -114,6 +114,13 @@
                             <!--  position "over head"  -->
                             <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
                             <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
+
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="2.0" ScaleY="2.0" />
+                                </Setter.Value>
+                            </Setter>
+
                             <Setter Property="Visibility" Value="Visible" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsOnScreen}" Value="False">
