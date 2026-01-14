@@ -1182,7 +1182,7 @@
                                 <ls:LSButton.Template>
                                     <ControlTemplate TargetType="ls:LSButton">
                                         <Grid>
-                                            <ls:LSNineSliceImage x:Name="Bg" ImageSource="{DynamicResource ButtonNormal}" Height="80" Slices="30,10,10,10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                            <ls:LSNineSliceImage x:Name="Bg" ImageSource="{DynamicResource ButtonNormal}" Height="80" Slices="30,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                             <!-- Icon stays centered and does not stretch -->
                                             <Image x:Name="Icon" Source="{DynamicResource IconNormal}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Grid>
@@ -1242,7 +1242,7 @@
                                 <ls:LSButton.Template>
                                     <ControlTemplate TargetType="ls:LSButton">
                                         <Grid>
-                                            <ls:LSNineSliceImage x:Name="Bg" ImageSource="{DynamicResource ButtonNormal}" Height="80" Slices="30,10,10,10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                            <ls:LSNineSliceImage x:Name="Bg" ImageSource="{DynamicResource ButtonNormal}" Height="80" Slices="30,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                             <Image x:Name="Icon" Source="{DynamicResource IconNormal}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Grid>
                                         <ControlTemplate.Triggers>
