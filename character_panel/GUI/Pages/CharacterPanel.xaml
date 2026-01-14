@@ -243,7 +243,7 @@
 
                     <Grid Name="IllithidHidden" Visibility="Collapsed" >
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Width="1260" Style="{StaticResource BodyText}" Text="{Binding Source=h7d846a8fg8c30g4debgbb99g23ea547bfafa, Converter={StaticResource TranslatedStringConverter}}"/>
+                            <TextBlock Width="800" Style="{StaticResource BodyText}" Text="{Binding Source=h7d846a8fg8c30g4debgbb99g23ea547bfafa, Converter={StaticResource TranslatedStringConverter}}"/>
                             <Grid Width="420" Margin="0,40" Opacity="0.6">
                                 <Grid.ToolTip>
                                     <ls:LSTooltip>
@@ -715,8 +715,12 @@
 
 
                                 <!-- ===== ILLITHIDPOWERS ===== -->
-                                <Grid x:Name="IllithidPanel" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=IllithidToggleButton, Converter={StaticResource BoolToVisibleConverter}}" Height="{StaticResource CSContentHeight}">
-                                    <Control x:Name="IllithidHolder" HorizontalAlignment="Center" Template="{StaticResource CharacterIllithidTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}"/>
+                                <Grid x:Name="IllithidPanel" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=IllithidToggleButton, Converter={StaticResource BoolToVisibleConverter}}" Height="1400">
+                                    <Control x:Name="IllithidHolder" HorizontalAlignment="Center" Template="{StaticResource CharacterIllithidTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="-200,0,0,0">
+                                        <Control.LayoutTransform>
+                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                        </Control.LayoutTransform>
+                                    </Control>
                                 </Grid>
                             </Grid>
 
