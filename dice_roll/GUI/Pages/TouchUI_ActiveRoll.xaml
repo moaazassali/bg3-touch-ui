@@ -1209,7 +1209,7 @@
                         <Rectangle x:Name="AnimTargetPlaceHolder" HorizontalAlignment="Center" VerticalAlignment="Center" Width="4" Height="4"  />
                     </ContentControl>
 
-                    <Grid x:Name="BoostContainer" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="Collapsed">
+                    <Grid x:Name="BoostContainer" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,0,40,0">
 
                         <Grid x:Name="BoostList" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="436" MaxWidth="3840">
                             <Grid.Resources>
@@ -1283,24 +1283,25 @@
                                 </b:Interaction.Triggers>
                             </ls:LSButton>
 
-                        </Grid>
-
-                        <ls:LSButton x:Name="CloseButton_2" Margin="0,0,0,88" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding CancelCommand}" SoundID="UI_HUD_Panel_Close">
-                            <ls:LSButton.LayoutTransform>
-                                <ScaleTransform ScaleX="2" ScaleY="2"/>
-                            </ls:LSButton.LayoutTransform>
-
-                            <ls:LSButton.Style>
-                                <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BrownButtonStyle}">
-                                    <Style.Setters>
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Setter Property="Content" Value="{Binding Source='h0d98c8cbg811eg40a5g958dg2552a3f4e350', Converter={StaticResource TranslatedStringConverter}}"/>
-                                    </Style.Setters>
-                                </Style>
-                            </ls:LSButton.Style>
-                        </ls:LSButton>
+                        </Grid> 
 
                     </Grid>
+
+                    
+                    <ls:LSButton x:Name="CloseButton_2" Margin="0,0,0,88" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding CancelCommand}" SoundID="UI_HUD_Panel_Close">
+                        <ls:LSButton.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </ls:LSButton.LayoutTransform>
+
+                        <ls:LSButton.Style>
+                            <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BrownButtonStyle}">
+                                <Style.Setters>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Content" Value="{Binding Source='h0d98c8cbg811eg40a5g958dg2552a3f4e350', Converter={StaticResource TranslatedStringConverter}}"/>
+                                </Style.Setters>
+                            </Style>
+                        </ls:LSButton.Style>
+                    </ls:LSButton>
                 </Grid>
                 <Control x:Name="ResultAnimation"  Style="{StaticResource ResultControlStyle}" IsHitTestVisible="False"/>
                 <Grid x:Name="rollSection" Margin="0,0,0,322">
