@@ -1205,7 +1205,7 @@
 
                     </Grid>
 
-                    <ContentControl x:Name="ResultHolder" Margin="0,-474,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource ResultCountTemplateStyle}"  >
+                    <ContentControl x:Name="ResultHolder" Margin="0,754,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource ResultCountTemplateStyle}"  >
                         <Rectangle x:Name="AnimTargetPlaceHolder" HorizontalAlignment="Center" VerticalAlignment="Center" Width="4" Height="4"  />
                     </ContentControl>
 
