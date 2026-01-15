@@ -736,9 +736,13 @@
                     </ls:LSButton.Style>
                 </ls:LSButton> -->
 
-                <StackPanel x:Name="headerSection" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,120,0,0">
+                <StackPanel x:Name="headerSection" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </StackPanel.LayoutTransform>
+
                     <TextBlock Style="{StaticResource ActiveRollTextBlock}" Foreground="{StaticResource Dialogue.Answer.Normal}" ls:TextBlockFormatter.SourceText="{Binding SelectedDialogueLine}" FontSize="{StaticResource ScaledTitleFontSize}" Visibility="{Binding SelectedDialogueLine, Converter={StaticResource NullToHiddenConverter}, ConverterParameter='EmptyString'}" />
-                    <Image Source="{StaticResource DialogueSeparatorImage}" Stretch="None" HorizontalAlignment="Center" Visibility="{Binding SelectedDialogueLine, Converter={StaticResource NullToHiddenConverter}, ConverterParameter='EmptyString'}" Margin="0,20,0,40"/>
+                    <Image Source="{StaticResource DialogueSeparatorImage}" Stretch="None" HorizontalAlignment="Center" Visibility="{Binding SelectedDialogueLine, Converter={StaticResource NullToHiddenConverter}, ConverterParameter='EmptyString'}" Margin="0,10,0,10"/>
 
                     <TextBlock Style="{StaticResource ActiveRollTextBlock}" Text="{Binding SkillOrAbility}" FontSize="{StaticResource ScaledMassiveFontSize}"  />
                     <TextBlock Text="{Binding AbilityCheckText}" FontSize="{StaticResource ScaledDefaultFontSize}" Style="{StaticResource ActiveRollTextBlock}"  Foreground="{StaticResource LS_accent75TxtColor}" Visibility="{Binding IsPureAbilityRoll, Converter={StaticResource BoolToHiddenConverter}}"/>
@@ -764,11 +768,18 @@
                 <!-- Skip on Escape-->
                 <ls:LSInputBinding x:Name="UserTriggerEsc" IsEnabled="False" PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" BoundEvent="ToggleInGameMenu" Command="{Binding UserTriggeredNextPhaseCommand}" Visibility="Collapsed" CommandParameter="{StaticResource TrueValue}" />
 
-                <Image Source="/Core;component/Assets/ActiveRoll/ActiveRollFrame.png" Margin="0,460,0,0" VerticalAlignment="Top" Stretch="None"/>
-                <Image Source="/Core;component/Assets/ActiveRoll/FrameJoin.png" Margin="0,744,268,0" VerticalAlignment="Top" Stretch="None"/>
-                <Image Source="/Core;component/Assets/ActiveRoll/FrameJoin.png" Margin="268,744,0,0" VerticalAlignment="Top" Stretch="None"/>
+                <!-- Touch UI - Wrap in Grid and scale everything by 2x -->
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Grid.LayoutTransform>
 
-                <Control Template="{StaticResource LockTemplate}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,760,0,0" IsHitTestVisible="False"/>
+                    <Image Source="/Core;component/Assets/ActiveRoll/ActiveRollFrame.png" Margin="0,260,0,0" VerticalAlignment="Top" Stretch="None"/>
+                    <Image Source="/Core;component/Assets/ActiveRoll/FrameJoin.png" Margin="0,544,268,0" VerticalAlignment="Top" Stretch="None"/>
+                    <Image Source="/Core;component/Assets/ActiveRoll/FrameJoin.png" Margin="268,544,0,0" VerticalAlignment="Top" Stretch="None"/>
+
+                    <Control Template="{StaticResource LockTemplate}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,560,0,0" IsHitTestVisible="False"/>
+                </Grid>
 
                 <Grid x:Name="BonusModifiers" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <Grid.Resources>
@@ -1205,7 +1216,10 @@
 
                     </Grid>
 
-                    <ContentControl x:Name="ResultHolder" Margin="0,754,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource ResultCountTemplateStyle}"  >
+                    <ContentControl x:Name="ResultHolder" Margin="0,806,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource ResultCountTemplateStyle}"  >
+                        <ContentControl.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </ContentControl.LayoutTransform>
                         <Rectangle x:Name="AnimTargetPlaceHolder" HorizontalAlignment="Center" VerticalAlignment="Center" Width="4" Height="4"  />
                     </ContentControl>
 
@@ -1303,12 +1317,20 @@
                         </ls:LSButton.Style>
                     </ls:LSButton>
                 </Grid>
-                <Control x:Name="ResultAnimation"  Style="{StaticResource ResultControlStyle}" IsHitTestVisible="False"/>
-                <Grid x:Name="rollSection" Margin="0,0,0,322">
+                <Control x:Name="ResultAnimation"  Style="{StaticResource ResultControlStyle}" IsHitTestVisible="False" Margin="0,-325,0,0">
+                    <Control.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Control.LayoutTransform>
+                </Control>
+                <Grid x:Name="rollSection" Margin="0,0,0,122">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Grid.LayoutTransform>
+
                     <Grid.Resources>
                         <Style x:Key="TextElementHolderStyle" TargetType="Grid" >
                             <Setter Property="Height" Value="800"/>
-                            <Setter Property="Margin" Value="0,540,0,0"/>
+                            <Setter Property="Margin" Value="0,340,0,0"/>
                         </Style>
 
                         <Style x:Key="RollBonusStyle" TargetType="Control" >
@@ -1337,12 +1359,12 @@
 
                         <Style x:Key="DieHolderStyle" TargetType="Grid" BasedOn="{StaticResource BaseDieHolderStyle}">
                             <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Margin" Value="0,0,0,46"/>
+                            <Setter Property="Margin" Value="0,0,0,0"/>
                         </Style>
                     </Grid.Resources>
                     <Control x:Name="DieControlHolder" Template="{StaticResource DieControlHolderTemplate}"/>
 
-                    <Grid IsHitTestVisible="False" x:Name="prompt" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,300,0,0" >
+                    <Grid IsHitTestVisible="False" x:Name="prompt" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,350,0,0" >
                         <ls:LSNineSliceImage Slices="44,44,44,44" MinHeight="120" MinWidth="440" ImageSource="{StaticResource RollPromptImage}"  >
                             <TextBlock TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LS_baseTxtColor}" Margin="80,4,80,4">
                                 <TextBlock.Style>
@@ -1392,7 +1414,11 @@
                         </b:Interaction.Triggers>
                     </Grid>
                 </Grid>
-                <Control x:Name="DieRollAnimation" IsHitTestVisible="False" Style="{StaticResource DieRollStyle}">
+                <Control x:Name="DieRollAnimation" IsHitTestVisible="False" Style="{StaticResource DieRollStyle}" Margin="0,-325,0,0">
+                    <Control.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Control.LayoutTransform>
+
                     <b:Interaction.Triggers>
                         <b:DataTrigger Binding="{Binding Path=Tag,ElementName=DieRollAnimation}" Value="AnimPlaying">
                             <b:ChangePropertyAction PropertyName="Tag" TargetName="ActiveRoll" Value="Rollingdice"/>
@@ -1497,7 +1523,11 @@
 
                 </Grid>
 
-                <Grid x:Name="buttonGroup" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1300,0,0" MinWidth="890" Background="Transparent">
+                <Grid x:Name="buttonGroup" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1100,0,0" MinWidth="890" Background="Transparent">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Grid.LayoutTransform>
+
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed" />
