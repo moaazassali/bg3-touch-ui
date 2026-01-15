@@ -726,7 +726,7 @@
                     </b:DataTrigger>
                 </b:Interaction.Triggers>
 
-                <ls:LSButton x:Name="CloseButton" Margin="0,20,20,0" Command="{Binding CancelCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" SoundID="UI_HUD_Panel_Close">
+                <!-- <ls:LSButton x:Name="CloseButton" Margin="0,20,20,0" Command="{Binding CancelCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" SoundID="UI_HUD_Panel_Close">
                     <ls:LSButton.Style>
                         <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource CloseButton}">
                             <Style.Setters>
@@ -734,7 +734,7 @@
                             </Style.Setters>
                         </Style>
                     </ls:LSButton.Style>
-                </ls:LSButton>
+                </ls:LSButton> -->
 
                 <StackPanel x:Name="headerSection" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,120,0,0">
                     <TextBlock Style="{StaticResource ActiveRollTextBlock}" Foreground="{StaticResource Dialogue.Answer.Normal}" ls:TextBlockFormatter.SourceText="{Binding SelectedDialogueLine}" FontSize="{StaticResource ScaledTitleFontSize}" Visibility="{Binding SelectedDialogueLine, Converter={StaticResource NullToHiddenConverter}, ConverterParameter='EmptyString'}" />
@@ -1867,15 +1867,15 @@
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding RollContext}" Value="LockPick">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Visible"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Visible"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Visible"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RollContext}" Value="DisarmTrap">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Visible"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Visible"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Visible"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RollContext}" Value="PickPocket">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Visible"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Visible"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Visible"/>
                 </DataTrigger>
                 
@@ -1885,19 +1885,19 @@
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding RollState}" Value="WaitForReRoll">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RollState}" Value="StartRoll">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RollState}" Value="StopRoll">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RollState}" Value="ResultReady">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/>
 
                     <DataTrigger.EnterActions>
