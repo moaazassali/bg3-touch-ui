@@ -802,7 +802,7 @@
                         </Grid>
 
 
-                        <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" MinHeight="360" Margin="20,300,0,300">
+                        <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" MinHeight="360" Margin="20,100,0,400">
 
                             <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" VerticalAlignment="Stretch" Padding="0,0,0,0" Template="{StaticResource FlippedSimpleScrollViewerTemplate}">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -1715,12 +1715,16 @@
                     </Grid>                    
                 </ls:LSNineSliceImage>
 
-                <ls:LSToggleButton x:Name="DiceModToggle" Margin="154,0,0,81" VerticalAlignment="Bottom" HorizontalAlignment="Left" IsChecked="False" IsEnabled="False">
-                    <ls:LSToggleButton.ToolTip>
+                <ls:LSToggleButton x:Name="DiceModToggle" Margin="40,0,0,81" VerticalAlignment="Bottom" HorizontalAlignment="Left" IsChecked="False" IsEnabled="False">
+                    <ls:LSToggleButton.LayoutTransform>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    </ls:LSToggleButton.LayoutTransform>
+
+                    <!-- <ls:LSToggleButton.ToolTip>
                         <ls:LSTooltip>
                             <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source=h8cf800dbg79f9g49a8ga65agdb87546d680d, Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipDefaultTextStyle}"/>
                         </ls:LSTooltip>
-                    </ls:LSToggleButton.ToolTip>
+                    </ls:LSToggleButton.ToolTip> -->
                     <ls:LSToggleButton.Template>
                         <ControlTemplate TargetType="ls:LSToggleButton">
                             <ControlTemplate.Resources>
