@@ -1640,7 +1640,11 @@
 
                     </ls:LSNineSliceImage>
                 </Grid>
-                <ls:LSNineSliceImage x:Name="DiceSelector" Width="1024" MinHeight="828" ImageSource="{StaticResource DiceSelectorBackgroundImage}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Slices="0,588,0,236" Margin="35,0,0,177" Padding="80,46,80,80" Visibility="{Binding ElementName=DiceModToggle,Path=IsChecked,Converter={StaticResource BoolToVisibleConverter}}">
+                <ls:LSNineSliceImage x:Name="DiceSelector" Width="800" MinHeight="500" ImageSource="{StaticResource DiceSelectorBackgroundImage}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Slices="0,160,0,160" Margin="0,0,0,275" Padding="80,46,80,80" Visibility="{Binding ElementName=DiceModToggle,Path=IsChecked,Converter={StaticResource BoolToVisibleConverter}}">
+                    <ls:LSNineSliceImage.LayoutTransform>
+                        <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
+                    </ls:LSNineSliceImage.LayoutTransform>    
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="134"/>
