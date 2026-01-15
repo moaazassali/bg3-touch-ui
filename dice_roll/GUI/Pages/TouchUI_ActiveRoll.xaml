@@ -782,7 +782,7 @@
                     </Grid.Resources>
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                        <Grid x:Name="BonussesTitle"  Margin="0,340,0,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Grid x:Name="BonussesTitle"  Margin="0,0,0,250" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/totalBonusFrameElement.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0"/>
                             <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/totalBonusFrameElement.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
                                 <Image.RenderTransform>
