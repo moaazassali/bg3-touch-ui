@@ -1915,7 +1915,8 @@
                 </DataTrigger>
 
                 <Trigger SourceName="BoostList" Property="Visibility" Value="Visible">
-                    <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/>
+                    <!-- Touch UI - Keep cancel button visible even when boost list is open -->
+                    <!-- <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/> -->
                 </Trigger>
 
                 <DataTrigger Binding="{Binding RollState}" Value="StartRoll">
