@@ -802,403 +802,405 @@
                         </Grid>
 
 
-                        <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Center" HorizontalAlignment="Left" MinHeight="360" Margin="0,44,0,0">
+                        <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" MinHeight="360" Margin="20,300,0,300">
 
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" >
-                                <StackPanel.Resources>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" VerticalAlignment="Stretch" Padding="0,0,0,0" Template="{StaticResource FlippedSimpleScrollViewerTemplate}">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="20,0,0,0">
+                                    <StackPanel.Resources>
 
-                                    <Style x:Key="ModifierElementStyle" TargetType="ls:LSListBoxItem" >
-                                        <Setter Property="Background" Value="{x:Null}"/>
-                                        <Setter Property="IsEnabled" Value="True" />
-                                        <Setter Property="Template" Value="{StaticResource ModifierTemplate}" />
-                                        <Style.Triggers>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Opacity" Value="{StaticResource DisabledOpacity}"/>
-                                            </Trigger>
-                                            <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="ResultReady" >
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-
-                                    </Style>
-
-                                    <Style x:Key="ModifierListStyle" TargetType="ls:LSListBox" BasedOn="{StaticResource {x:Type ls:LSListBox}}">
-                                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-                                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-                                        <Setter Property="ItemsPanel">
-                                            <Setter.Value>
-                                                <ItemsPanelTemplate>
-                                                    <VirtualizingStackPanel Orientation="Vertical"/>
-                                                </ItemsPanelTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="ItemContainerStyle" Value="{StaticResource ModifierElementStyle}"/>
-                                    </Style>
-
-                                </StackPanel.Resources>
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:ChangePropertyAction TargetName="RollModSeq" PropertyName="Animate" Value="True"/>
-                                    </b:EventTrigger>
-                                    <b:DataTrigger Binding="{Binding ElementName=RollModSeq ,Path=SequenceCompleted}" Value="True">
-                                        <b:ChangePropertyAction TargetName="RollAdvSeq" PropertyName="Animate" Value="True"/>
-                                    </b:DataTrigger>
-
-                                </b:Interaction.Triggers>
-
-
-
-                                <Grid x:Name="ToolsHolder" Width="224" Height="260" Visibility="Collapsed" Opacity="{StaticResource DisabledOpacity}">
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="MouseEnter">
-                                            <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                        </b:EventTrigger>
-
-                                        <b:EventTrigger EventName="MouseLeftButtonDown">
-                                            <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Bonus_Press" />
-                                        </b:EventTrigger>
-
-                                        <b:EventTrigger EventName="MouseLeftButtonUp">
-                                            <ls:LSPlaySound Sound="UI_Shared_Click" />
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
-
-                                    <Image x:Name="ToolsHolderBG" Source="{StaticResource ItemModifierBucketImage}" Stretch="None" VerticalAlignment="Top" Margin="-18,0,-18,0"/>
-                                    <Grid Height="{StaticResource BoostContentHeight}" ls:TooltipExtender.Owner="{Binding (ls:TooltipExtender.Owner), ElementName=ToolsHolder}" DataContext="{Binding ContextObject}" Width="{StaticResource BoostContentWidth}" Background="Transparent" ToolTipService.ShowOnDisabled="True" ToolTipService.Placement="Right" VerticalAlignment="Top" Margin="0,30,0,0">
-                                        <Grid.ToolTip>
-                                            <ls:LSTooltip Content="{Binding DataContext.ContextObject, ElementName=ToolsHolder}" ls:TooltipExtender.Owner="{Binding (ls:TooltipExtender.Owner), ElementName=ToolsHolder}"/>
-                                        </Grid.ToolTip>
-                                        <TextBlock Text="{Binding Source=ha83f58cbg59d7g495cga578g0e945f86c83f , Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource BonusValueTxtStyle}"/>
-
-                                        <Image Source="{StaticResource ItemSlotImage}" Stretch="None" Margin="0,0,0,20"/>
-                                        <ls:LSEntityObject Context="Inventory" EntityRef="{Binding EntityHandle}" VerticalAlignment="Center" Margin="0,0,0,20" ContextMenuService.IsEnabled="False" Background="Transparent" ToolTip="{Binding }" IsHitTestVisible="False">
-                                            <ContentPresenter Content="{Binding}" Style="{StaticResource Style.GameObject}" IsHitTestVisible="False"/>
-                                        </ls:LSEntityObject>
-
-                                        <TextBlock x:Name="label" Tag="UI_HUD_DiceRoll_BonusType_Default" Text="{Binding Name}" VerticalAlignment="Bottom" Style="{StaticResource BonusNameTxtStyle}" />
-                                    </Grid>
-                                </Grid>
-
-                                <StackPanel Orientation="Horizontal" x:Name="ActiveRollBoosts">
-                                    <ls:LSListBox x:Name="modlist" ItemsSource="{Binding Roll.Modifiers}" Style="{StaticResource ModifierListStyle}" >
-                                        <b:Interaction.Behaviors>
-                                            <ls:SequenceBehavior x:Name="RollModSeq" TimeOffset="0:0:0.2" CompletedDelay="0:0:0.2" ClearPlay="false"/>
-                                        </b:Interaction.Behaviors>
-                                    </ls:LSListBox>
-                                    <ls:LSListBox ItemsSource="{Binding Roll.Advantages}" Style="{StaticResource ModifierListStyle}">
-                                        <ls:LSListBox.ItemContainerStyle>
-                                            <Style BasedOn="{StaticResource ModifierElementStyle}" TargetType="ls:LSListBoxItem" >
-                                                <Setter Property="IsEnabled" Value="False" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForStart" >
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForReRoll" >
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="IntroductionAnimation" >
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-
-                                            </Style>
-                                        </ls:LSListBox.ItemContainerStyle>
-                                        <b:Interaction.Behaviors>
-                                            <ls:SequenceBehavior x:Name="RollAdvSeq" TimeOffset="0:0:0.2" CompletedDelay="0:0:0.2" ClearPlay="false"/>
-                                        </b:Interaction.Behaviors>
-                                    </ls:LSListBox>
-
-                                </StackPanel>
-
-
-                                <Grid x:Name="divider" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,10" >
-                                    <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/modifierDivider_active.png" Stretch="None">
-                                    <!-- Touch UI - Rotate the vertical line to be horizontal -->
-                                        <Image.LayoutTransform>
-                                            <RotateTransform Angle="90"/>
-                                        </Image.LayoutTransform>
-                                    </Image>
-
-                                    <Grid.Style>
-                                        <Style TargetType="Grid">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding SelectedBoostModifierList.Count}" Value="0">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding ElementName=ActiveRollBoosts, Path=ActualWidth}" Value="0">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Style>
-                                </Grid>
-
-                                <ls:LSListBox x:Name="selectedboostmodlist" ItemsSource="{Binding SelectedBoostModifierList}" HorizontalAlignment="Center" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{StaticResource ModifierListStyle}">
-
-                                    <ls:LSListBox.ItemContainerStyle>
-                                        <Style TargetType="ls:LSListBoxItem" >
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="Template" >
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ls:LSListBoxItem">
-                                                        <Grid x:Name="root" Height="260">
-                                                            <Grid.RenderTransform>
-                                                                <TransformGroup>
-                                                                    <ScaleTransform/>
-                                                                    <SkewTransform/>
-                                                                    <RotateTransform/>
-                                                                    <TranslateTransform />
-                                                                </TransformGroup>
-                                                            </Grid.RenderTransform>
-                                                            <b:Interaction.Triggers>
-                                                                <b:EventTrigger EventName="MouseEnter">
-                                                                    <ls:LSPlaySound Sound="UI_Shared_Hover" />
-                                                                </b:EventTrigger>
-
-                                                                <b:EventTrigger EventName="MouseLeftButtonDown">
-                                                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Bonus_Press" />
-                                                                </b:EventTrigger>
-
-                                                                <b:EventTrigger EventName="MouseLeftButtonUp">
-                                                                    <ls:LSPlaySound Sound="UI_Shared_Click" />
-                                                                </b:EventTrigger>
-
-                                                                <!-- When a selected boost is loaded, play a sound for if the boost adds/removes advantage or adds disadvantage -->
-                                                                <!-- NOTE: RollAdvantageType = the dice's advantage type WITH this bonus already applied and AdvantageType is this Bonus's advantage type -->
-                                                                <!-- Case Advantage + Disadvantage bonus, it gives a Flat roll (final advantage type will be None), play BonusRemoves_Advantage (very rare) -->
-                                                                <b:EventTrigger EventName="Loaded">
-                                                                    <b:Interaction.Behaviors>
-                                                                        <b:ConditionBehavior>
-                                                                            <b:ConditionalExpression>
-                                                                                <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="None" />
-                                                                                <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Disadvantage" />
-                                                                            </b:ConditionalExpression>
-                                                                        </b:ConditionBehavior>
-                                                                    </b:Interaction.Behaviors>
-                                                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusRemoves_Advantage" />
-                                                                </b:EventTrigger>
-
-                                                                <!-- Case Disadvantage + Advantage bonus, it gives a Flat roll (final advantage type will be None), play BonusRemoves_Disadvantage (somewhat common) -->
-                                                                <b:EventTrigger EventName="Loaded">
-                                                                    <b:Interaction.Behaviors>
-                                                                        <b:ConditionBehavior>
-                                                                            <b:ConditionalExpression>
-                                                                                <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="None" />
-                                                                                <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Advantage" />
-                                                                            </b:ConditionalExpression>
-                                                                        </b:ConditionBehavior>
-                                                                    </b:Interaction.Behaviors>
-                                                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusRemoves_Disadvantage" />
-                                                                </b:EventTrigger>
-
-                                                                <!-- Case flat roll + Advantage bonus, it gives an Advantage roll (final advantage type will be Advantage), play BonusAdds_Advantage (somewhat common) -->
-                                                                <b:EventTrigger EventName="Loaded">
-                                                                    <b:Interaction.Behaviors>
-                                                                        <b:ConditionBehavior>
-                                                                            <b:ConditionalExpression>
-                                                                                <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="Advantage" />
-                                                                                <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Advantage" />
-                                                                            </b:ConditionalExpression>
-                                                                        </b:ConditionBehavior>
-                                                                    </b:Interaction.Behaviors>
-                                                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusAdds_Advantage" />
-                                                                </b:EventTrigger>
-
-                                                                <!--  Case flat roll + Disadvantage bonus, it gives an Disadvantage roll (final advantage type will be Disadvantage), play BonusAdds_Disadvantage (very rare) -->
-                                                                <b:EventTrigger EventName="Loaded">
-                                                                    <b:Interaction.Behaviors>
-                                                                        <b:ConditionBehavior>
-                                                                            <b:ConditionalExpression>
-                                                                                <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="Disadvantage" />
-                                                                                <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Disadvantage" />
-                                                                            </b:ConditionalExpression>
-                                                                        </b:ConditionBehavior>
-                                                                    </b:Interaction.Behaviors>
-                                                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusAdds_Disadvantage" />
-                                                                </b:EventTrigger>
-
-                                                                <b:EventTrigger EventName="MouseDown">
-                                                                    <b:Interaction.Behaviors>
-                                                                        <b:ConditionBehavior>
-                                                                            <b:ConditionalExpression>
-                                                                                <b:ComparisonCondition LeftOperand="{Binding DataContext.CanRespondToCommands,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="True"/>
-                                                                            </b:ConditionalExpression>
-                                                                        </b:ConditionBehavior>
-                                                                    </b:Interaction.Behaviors>
-                                                                    <b:InvokeCommandAction Command="{Binding DataContext.RemoveModifierCommand, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding}"/>
-                                                                </b:EventTrigger>
-
-                                                                <b:EventTrigger EventName="MouseDown">
-                                                                    <b:Interaction.Behaviors>
-                                                                        <b:ConditionBehavior>
-                                                                            <b:ConditionalExpression>
-                                                                                <b:ComparisonCondition LeftOperand="{Binding Owner.PlayerCharacterProperties.OwnerUserID}" Operator="Equal"
-                                                                                    RightOperand="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.OwnerUserID, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}"/>
-                                                                            </b:ConditionalExpression>
-                                                                        </b:ConditionBehavior>
-                                                                    </b:Interaction.Behaviors>
-                                                                    <b:InvokeCommandAction Command="{Binding DataContext.RemoveModifierCommand, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding}"/>
-                                                                </b:EventTrigger>
-
-                                                                <b:DataTrigger Binding="{Binding Path=(ls:SequenceBehavior.PlayElement), RelativeSource={RelativeSource AncestorType=ls:LSListBoxItem}}" Value="True">
-                                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play">
-                                                                        <b:ControlStoryboardAction.Storyboard>
-                                                                            <Storyboard Children="{StaticResource SlideInModAnim}"/>
-                                                                        </b:ControlStoryboardAction.Storyboard>
-                                                                    </b:ControlStoryboardAction>
-                                                                </b:DataTrigger>
-                                                            </b:Interaction.Triggers>
-                                                            <Image x:Name="bgImg" Source="pack://application:,,,/Core;component/Assets/ActiveRoll/activeModifierBucket_d.png" Stretch="None" VerticalAlignment="Top" Margin="-18,0,-18,0"/>
-                                                            <ls:LSButton HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,-20,0" Command="{Binding DataContext.RemoveModifierCommand, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding}">
-                                                                <ls:LSButton.Style>
-                                                                    <Style TargetType="ls:LSButton">
-                                                                        <Setter Property="Template" >
-                                                                            <Setter.Value>
-                                                                                <ControlTemplate TargetType="ls:LSButton">
-                                                                                    <ControlTemplate.Resources>
-                                                                                        <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Buttons/box_btn_ico_less.png</ImageSource>
-                                                                                    </ControlTemplate.Resources>
-                                                                                    <Grid>
-                                                                                        <Image x:Name="img" Source="{StaticResource BtnSmallRound}" Stretch="None"/>
-                                                                                        <Image x:Name="icon" Margin="0,0,0,0" Source="{StaticResource IconNormal}" Stretch="None"/>
-                                                                                    </Grid>
-                                                                                    <ControlTemplate.Triggers>
-                                                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                                                            <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_h.png" TargetName="img"/>
-                                                                                            <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/box_btn_ico_less.png" TargetName="icon"/>
-                                                                                        </Trigger>
-                                                                                        <Trigger Property="IsPressed" Value="True">
-                                                                                            <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_p.png" TargetName="img"/>
-                                                                                            <Setter Property="Margin" Value="0,4,0,0" TargetName="icon"/>
-                                                                                        </Trigger>
-                                                                                        <Trigger Property="IsEnabled" Value="False">
-                                                                                            <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_disabled.png" TargetName="img"/>
-                                                                                            <Setter Property="Opacity" Value="0.7" TargetName="icon"/>
-                                                                                        </Trigger>
-                                                                                    </ControlTemplate.Triggers>
-                                                                                </ControlTemplate>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="IsEnabled" Value="False"/>
-                                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                                        <Style.Triggers>
-                                                                            <MultiDataTrigger>
-                                                                                <MultiDataTrigger.Conditions>
-                                                                                    <Condition  Value="True">
-                                                                                        <Condition.Binding>
-                                                                                            <MultiBinding Converter="{StaticResource EqualConverter}">
-                                                                                                <Binding Path="DataContext.Owner.OwnerUserID" RelativeSource="{RelativeSource Mode=Self}"/>
-                                                                                                <Binding Path="DataContext.CurrentPlayer.SelectedCharacter.OwnerUserID" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
-                                                                                            </MultiBinding>
-                                                                                        </Condition.Binding>
-                                                                                    </Condition>
-                                                                                </MultiDataTrigger.Conditions>
-                                                                                <Setter Property="IsEnabled" Value="True"/>
-                                                                                <Setter Property="Visibility" Value="Visible"/>
-                                                                            </MultiDataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </ls:LSButton.Style>
-                                                            </ls:LSButton>
-
-                                                            <Grid Margin="0,30,0,10" VerticalAlignment="Top" >
-                                                                <Viewbox VerticalAlignment="Top" HorizontalAlignment="Center" Width="200" StretchDirection="DownOnly">
-                                                                    <TextBlock x:Name="BonusTxt" Style="{StaticResource BonusValueTxtStyle}">
-                                                                        <TextBlock.Tag>
-                                                                            <MultiBinding Converter="{StaticResource EqualConverter}">
-                                                                                <Binding Path="MinBonusValue"/>
-                                                                                <Binding Path="MaxBonusValue"/>
-                                                                            </MultiBinding>
-                                                                        </TextBlock.Tag>
-                                                                    </TextBlock>
-                                                                </Viewbox>
-                                                                <ContentPresenter Content="{Binding BoostModifier}"/>
-                                                            </Grid>
-
-                                                            <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,120,60,0">
-                                                                <ls:LSEntityObject EntityRef="{Binding Owner.EntityHandle}" ToolTipService.ShowOnDisabled="True" ToolTipService.Placement="Right" Background="Transparent">
-                                                                    <ls:LSEntityObject.ToolTip>
-                                                                        <ls:LSTooltip Content="{Binding Path=DataContext.Owner.Name, ElementName=root}"  Placement="Top"/>
-                                                                    </ls:LSEntityObject.ToolTip>
-                                                                    <Ellipse Fill="{Binding Owner.Icon}" Width="50" Height="50"/>
-                                                                    <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/companionAidFrame.png" Stretch="None"/>
-                                                                </ls:LSEntityObject>
-
-                                                            </Grid>
-
-                                                        </Grid>
-                                                        <ControlTemplate.Triggers>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Value="False">
-                                                                        <Condition.Binding>
-                                                                            <MultiBinding Converter="{StaticResource EqualConverter}">
-                                                                                <Binding Path="DataContext.Owner.PlayerCharacterProperties.OwnerUserID" RelativeSource="{RelativeSource Mode=Self}"/>
-                                                                                <Binding Path="DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.OwnerUserID" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
-                                                                            </MultiBinding>
-                                                                        </Condition.Binding>
-                                                                    </Condition>
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="IsEnabled" Value="False"/>
-                                                                <Setter Property="Opacity" Value="0.75"/>
-                                                            </MultiDataTrigger>
-                                                            <DataTrigger Binding="{Binding ElementName=BonusTxt, Path=Tag}" Value="True">
-                                                                <Setter TargetName="BonusTxt" Property="Text" >
-                                                                    <Setter.Value>
-                                                                        <MultiBinding StringFormat="{}{0:+#;-#;+0}">
-                                                                            <Binding Path="MinBonusValue" />
-                                                                        </MultiBinding>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding IsAdvantage}" Value="True">
-                                                                <Setter TargetName="BonusTxt" Property="Text" Value="{Binding Source=he770672cgd25bg4ec8g8bb6g6745e6e7576f  , Converter={StaticResource TranslatedStringConverter}}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding DiceTypeSet.Amount,Converter={StaticResource GreaterThanConverter},ConverterParameter=0}" Value="True">
-                                                                <Setter TargetName="BonusTxt" Property="Text" Value="{Binding DiceTypeSet.Str, StringFormat='{}+{0}'}"/>
-                                                            </DataTrigger>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/ActiveRoll/activeModifierBucket_h.png" TargetName="bgImg"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
+                                        <Style x:Key="ModifierElementStyle" TargetType="ls:LSListBoxItem" >
+                                            <Setter Property="Background" Value="{x:Null}"/>
                                             <Setter Property="IsEnabled" Value="True" />
+                                            <Setter Property="Template" Value="{StaticResource ModifierTemplate}" />
                                             <Style.Triggers>
                                                 <Trigger Property="IsEnabled" Value="False">
                                                     <Setter Property="Opacity" Value="{StaticResource DisabledOpacity}"/>
                                                 </Trigger>
-                                                <DataTrigger Binding="{Binding DataContext.RollState, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="ResultReady" >
+                                                <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="ResultReady" >
                                                     <Setter Property="IsEnabled" Value="False" />
                                                 </DataTrigger>
-
-                                                <DataTrigger Binding="{Binding IsAdvantage}" Value="True">
-                                                    <Setter Property="IsEnabled" Value="False"/>
-                                                </DataTrigger>
-
-                                                <MultiDataTrigger >
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsAdvantage}" Value="True"/>
-                                                        <Condition Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForStart"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="IsEnabled" Value="True"/>
-                                                </MultiDataTrigger>
-
-                                                <MultiDataTrigger >
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsAdvantage}" Value="True"/>
-                                                        <Condition Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForReRoll"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="IsEnabled" Value="True"/>
-                                                </MultiDataTrigger>
                                             </Style.Triggers>
-                                        </Style>
-                                    </ls:LSListBox.ItemContainerStyle>
-                                </ls:LSListBox>
 
-                            </StackPanel>
+                                        </Style>
+
+                                        <Style x:Key="ModifierListStyle" TargetType="ls:LSListBox" BasedOn="{StaticResource {x:Type ls:LSListBox}}">
+                                            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                                            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel Orientation="Vertical"/>
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="ItemContainerStyle" Value="{StaticResource ModifierElementStyle}"/>
+                                        </Style>
+
+                                    </StackPanel.Resources>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Loaded">
+                                            <b:ChangePropertyAction TargetName="RollModSeq" PropertyName="Animate" Value="True"/>
+                                        </b:EventTrigger>
+                                        <b:DataTrigger Binding="{Binding ElementName=RollModSeq ,Path=SequenceCompleted}" Value="True">
+                                            <b:ChangePropertyAction TargetName="RollAdvSeq" PropertyName="Animate" Value="True"/>
+                                        </b:DataTrigger>
+
+                                    </b:Interaction.Triggers>
+
+
+
+                                    <Grid x:Name="ToolsHolder" Width="224" Height="260" Visibility="Collapsed" Opacity="{StaticResource DisabledOpacity}">
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="MouseEnter">
+                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                            </b:EventTrigger>
+
+                                            <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Bonus_Press" />
+                                            </b:EventTrigger>
+
+                                            <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                <ls:LSPlaySound Sound="UI_Shared_Click" />
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+
+                                        <Image x:Name="ToolsHolderBG" Source="{StaticResource ItemModifierBucketImage}" Stretch="None" VerticalAlignment="Top" Margin="-18,0,-18,0"/>
+                                        <Grid Height="{StaticResource BoostContentHeight}" ls:TooltipExtender.Owner="{Binding (ls:TooltipExtender.Owner), ElementName=ToolsHolder}" DataContext="{Binding ContextObject}" Width="{StaticResource BoostContentWidth}" Background="Transparent" ToolTipService.ShowOnDisabled="True" ToolTipService.Placement="Right" VerticalAlignment="Top" Margin="0,30,0,0">
+                                            <Grid.ToolTip>
+                                                <ls:LSTooltip Content="{Binding DataContext.ContextObject, ElementName=ToolsHolder}" ls:TooltipExtender.Owner="{Binding (ls:TooltipExtender.Owner), ElementName=ToolsHolder}"/>
+                                            </Grid.ToolTip>
+                                            <TextBlock Text="{Binding Source=ha83f58cbg59d7g495cga578g0e945f86c83f , Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource BonusValueTxtStyle}"/>
+
+                                            <Image Source="{StaticResource ItemSlotImage}" Stretch="None" Margin="0,0,0,20"/>
+                                            <ls:LSEntityObject Context="Inventory" EntityRef="{Binding EntityHandle}" VerticalAlignment="Center" Margin="0,0,0,20" ContextMenuService.IsEnabled="False" Background="Transparent" ToolTip="{Binding }" IsHitTestVisible="False">
+                                                <ContentPresenter Content="{Binding}" Style="{StaticResource Style.GameObject}" IsHitTestVisible="False"/>
+                                            </ls:LSEntityObject>
+
+                                            <TextBlock x:Name="label" Tag="UI_HUD_DiceRoll_BonusType_Default" Text="{Binding Name}" VerticalAlignment="Bottom" Style="{StaticResource BonusNameTxtStyle}" />
+                                        </Grid>
+                                    </Grid>
+
+                                    <StackPanel Orientation="Horizontal" x:Name="ActiveRollBoosts">
+                                        <ls:LSListBox x:Name="modlist" ItemsSource="{Binding Roll.Modifiers}" Style="{StaticResource ModifierListStyle}" >
+                                            <b:Interaction.Behaviors>
+                                                <ls:SequenceBehavior x:Name="RollModSeq" TimeOffset="0:0:0.2" CompletedDelay="0:0:0.2" ClearPlay="false"/>
+                                            </b:Interaction.Behaviors>
+                                        </ls:LSListBox>
+                                        <ls:LSListBox ItemsSource="{Binding Roll.Advantages}" Style="{StaticResource ModifierListStyle}">
+                                            <ls:LSListBox.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource ModifierElementStyle}" TargetType="ls:LSListBoxItem" >
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForStart" >
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForReRoll" >
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="IntroductionAnimation" >
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+
+                                                </Style>
+                                            </ls:LSListBox.ItemContainerStyle>
+                                            <b:Interaction.Behaviors>
+                                                <ls:SequenceBehavior x:Name="RollAdvSeq" TimeOffset="0:0:0.2" CompletedDelay="0:0:0.2" ClearPlay="false"/>
+                                            </b:Interaction.Behaviors>
+                                        </ls:LSListBox>
+
+                                    </StackPanel>
+
+
+                                    <Grid x:Name="divider" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,10" >
+                                        <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/modifierDivider_active.png" Stretch="None">
+                                        <!-- Touch UI - Rotate the vertical line to be horizontal -->
+                                            <Image.LayoutTransform>
+                                                <RotateTransform Angle="90"/>
+                                            </Image.LayoutTransform>
+                                        </Image>
+
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedBoostModifierList.Count}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ElementName=ActiveRollBoosts, Path=ActualWidth}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                    </Grid>
+
+                                    <ls:LSListBox x:Name="selectedboostmodlist" ItemsSource="{Binding SelectedBoostModifierList}" HorizontalAlignment="Center" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{StaticResource ModifierListStyle}">
+
+                                        <ls:LSListBox.ItemContainerStyle>
+                                            <Style TargetType="ls:LSListBoxItem" >
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Template" >
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ls:LSListBoxItem">
+                                                            <Grid x:Name="root" Height="260">
+                                                                <Grid.RenderTransform>
+                                                                    <TransformGroup>
+                                                                        <ScaleTransform/>
+                                                                        <SkewTransform/>
+                                                                        <RotateTransform/>
+                                                                        <TranslateTransform />
+                                                                    </TransformGroup>
+                                                                </Grid.RenderTransform>
+                                                                <b:Interaction.Triggers>
+                                                                    <b:EventTrigger EventName="MouseEnter">
+                                                                        <ls:LSPlaySound Sound="UI_Shared_Hover" />
+                                                                    </b:EventTrigger>
+
+                                                                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Bonus_Press" />
+                                                                    </b:EventTrigger>
+
+                                                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                                        <ls:LSPlaySound Sound="UI_Shared_Click" />
+                                                                    </b:EventTrigger>
+
+                                                                    <!-- When a selected boost is loaded, play a sound for if the boost adds/removes advantage or adds disadvantage -->
+                                                                    <!-- NOTE: RollAdvantageType = the dice's advantage type WITH this bonus already applied and AdvantageType is this Bonus's advantage type -->
+                                                                    <!-- Case Advantage + Disadvantage bonus, it gives a Flat roll (final advantage type will be None), play BonusRemoves_Advantage (very rare) -->
+                                                                    <b:EventTrigger EventName="Loaded">
+                                                                        <b:Interaction.Behaviors>
+                                                                            <b:ConditionBehavior>
+                                                                                <b:ConditionalExpression>
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="None" />
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Disadvantage" />
+                                                                                </b:ConditionalExpression>
+                                                                            </b:ConditionBehavior>
+                                                                        </b:Interaction.Behaviors>
+                                                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusRemoves_Advantage" />
+                                                                    </b:EventTrigger>
+
+                                                                    <!-- Case Disadvantage + Advantage bonus, it gives a Flat roll (final advantage type will be None), play BonusRemoves_Disadvantage (somewhat common) -->
+                                                                    <b:EventTrigger EventName="Loaded">
+                                                                        <b:Interaction.Behaviors>
+                                                                            <b:ConditionBehavior>
+                                                                                <b:ConditionalExpression>
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="None" />
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Advantage" />
+                                                                                </b:ConditionalExpression>
+                                                                            </b:ConditionBehavior>
+                                                                        </b:Interaction.Behaviors>
+                                                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusRemoves_Disadvantage" />
+                                                                    </b:EventTrigger>
+
+                                                                    <!-- Case flat roll + Advantage bonus, it gives an Advantage roll (final advantage type will be Advantage), play BonusAdds_Advantage (somewhat common) -->
+                                                                    <b:EventTrigger EventName="Loaded">
+                                                                        <b:Interaction.Behaviors>
+                                                                            <b:ConditionBehavior>
+                                                                                <b:ConditionalExpression>
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="Advantage" />
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Advantage" />
+                                                                                </b:ConditionalExpression>
+                                                                            </b:ConditionBehavior>
+                                                                        </b:Interaction.Behaviors>
+                                                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusAdds_Advantage" />
+                                                                    </b:EventTrigger>
+
+                                                                    <!--  Case flat roll + Disadvantage bonus, it gives an Disadvantage roll (final advantage type will be Disadvantage), play BonusAdds_Disadvantage (very rare) -->
+                                                                    <b:EventTrigger EventName="Loaded">
+                                                                        <b:Interaction.Behaviors>
+                                                                            <b:ConditionBehavior>
+                                                                                <b:ConditionalExpression>
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Roll.RollAdvantageType, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="Disadvantage" />
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding AdvantageType}" Operator="Equal" RightOperand="Disadvantage" />
+                                                                                </b:ConditionalExpression>
+                                                                            </b:ConditionBehavior>
+                                                                        </b:Interaction.Behaviors>
+                                                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_BonusAdds_Disadvantage" />
+                                                                    </b:EventTrigger>
+
+                                                                    <b:EventTrigger EventName="MouseDown">
+                                                                        <b:Interaction.Behaviors>
+                                                                            <b:ConditionBehavior>
+                                                                                <b:ConditionalExpression>
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CanRespondToCommands,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Operator="Equal" RightOperand="True"/>
+                                                                                </b:ConditionalExpression>
+                                                                            </b:ConditionBehavior>
+                                                                        </b:Interaction.Behaviors>
+                                                                        <b:InvokeCommandAction Command="{Binding DataContext.RemoveModifierCommand, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding}"/>
+                                                                    </b:EventTrigger>
+
+                                                                    <b:EventTrigger EventName="MouseDown">
+                                                                        <b:Interaction.Behaviors>
+                                                                            <b:ConditionBehavior>
+                                                                                <b:ConditionalExpression>
+                                                                                    <b:ComparisonCondition LeftOperand="{Binding Owner.PlayerCharacterProperties.OwnerUserID}" Operator="Equal"
+                                                                                        RightOperand="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.OwnerUserID, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}"/>
+                                                                                </b:ConditionalExpression>
+                                                                            </b:ConditionBehavior>
+                                                                        </b:Interaction.Behaviors>
+                                                                        <b:InvokeCommandAction Command="{Binding DataContext.RemoveModifierCommand, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding}"/>
+                                                                    </b:EventTrigger>
+
+                                                                    <b:DataTrigger Binding="{Binding Path=(ls:SequenceBehavior.PlayElement), RelativeSource={RelativeSource AncestorType=ls:LSListBoxItem}}" Value="True">
+                                                                        <b:ControlStoryboardAction ControlStoryboardOption="Play">
+                                                                            <b:ControlStoryboardAction.Storyboard>
+                                                                                <Storyboard Children="{StaticResource SlideInModAnim}"/>
+                                                                            </b:ControlStoryboardAction.Storyboard>
+                                                                        </b:ControlStoryboardAction>
+                                                                    </b:DataTrigger>
+                                                                </b:Interaction.Triggers>
+                                                                <Image x:Name="bgImg" Source="pack://application:,,,/Core;component/Assets/ActiveRoll/activeModifierBucket_d.png" Stretch="None" VerticalAlignment="Top" Margin="-18,0,-18,0"/>
+                                                                <ls:LSButton HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,-20,0" Command="{Binding DataContext.RemoveModifierCommand, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" CommandParameter="{Binding}">
+                                                                    <ls:LSButton.Style>
+                                                                        <Style TargetType="ls:LSButton">
+                                                                            <Setter Property="Template" >
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="ls:LSButton">
+                                                                                        <ControlTemplate.Resources>
+                                                                                            <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Buttons/box_btn_ico_less.png</ImageSource>
+                                                                                        </ControlTemplate.Resources>
+                                                                                        <Grid>
+                                                                                            <Image x:Name="img" Source="{StaticResource BtnSmallRound}" Stretch="None"/>
+                                                                                            <Image x:Name="icon" Margin="0,0,0,0" Source="{StaticResource IconNormal}" Stretch="None"/>
+                                                                                        </Grid>
+                                                                                        <ControlTemplate.Triggers>
+                                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                                <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_h.png" TargetName="img"/>
+                                                                                                <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/box_btn_ico_less.png" TargetName="icon"/>
+                                                                                            </Trigger>
+                                                                                            <Trigger Property="IsPressed" Value="True">
+                                                                                                <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_p.png" TargetName="img"/>
+                                                                                                <Setter Property="Margin" Value="0,4,0,0" TargetName="icon"/>
+                                                                                            </Trigger>
+                                                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                                                <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_disabled.png" TargetName="img"/>
+                                                                                                <Setter Property="Opacity" Value="0.7" TargetName="icon"/>
+                                                                                            </Trigger>
+                                                                                        </ControlTemplate.Triggers>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <MultiDataTrigger>
+                                                                                    <MultiDataTrigger.Conditions>
+                                                                                        <Condition  Value="True">
+                                                                                            <Condition.Binding>
+                                                                                                <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                                                                    <Binding Path="DataContext.Owner.OwnerUserID" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                                                                    <Binding Path="DataContext.CurrentPlayer.SelectedCharacter.OwnerUserID" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                                                                                </MultiBinding>
+                                                                                            </Condition.Binding>
+                                                                                        </Condition>
+                                                                                    </MultiDataTrigger.Conditions>
+                                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </MultiDataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </ls:LSButton.Style>
+                                                                </ls:LSButton>
+
+                                                                <Grid Margin="0,30,0,10" VerticalAlignment="Top" >
+                                                                    <Viewbox VerticalAlignment="Top" HorizontalAlignment="Center" Width="200" StretchDirection="DownOnly">
+                                                                        <TextBlock x:Name="BonusTxt" Style="{StaticResource BonusValueTxtStyle}">
+                                                                            <TextBlock.Tag>
+                                                                                <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                                                    <Binding Path="MinBonusValue"/>
+                                                                                    <Binding Path="MaxBonusValue"/>
+                                                                                </MultiBinding>
+                                                                            </TextBlock.Tag>
+                                                                        </TextBlock>
+                                                                    </Viewbox>
+                                                                    <ContentPresenter Content="{Binding BoostModifier}"/>
+                                                                </Grid>
+
+                                                                <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,120,60,0">
+                                                                    <ls:LSEntityObject EntityRef="{Binding Owner.EntityHandle}" ToolTipService.ShowOnDisabled="True" ToolTipService.Placement="Right" Background="Transparent">
+                                                                        <ls:LSEntityObject.ToolTip>
+                                                                            <ls:LSTooltip Content="{Binding Path=DataContext.Owner.Name, ElementName=root}"  Placement="Top"/>
+                                                                        </ls:LSEntityObject.ToolTip>
+                                                                        <Ellipse Fill="{Binding Owner.Icon}" Width="50" Height="50"/>
+                                                                        <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/companionAidFrame.png" Stretch="None"/>
+                                                                    </ls:LSEntityObject>
+
+                                                                </Grid>
+
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Value="False">
+                                                                            <Condition.Binding>
+                                                                                <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                                                    <Binding Path="DataContext.Owner.PlayerCharacterProperties.OwnerUserID" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                                                    <Binding Path="DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.OwnerUserID" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                                                                </MultiBinding>
+                                                                            </Condition.Binding>
+                                                                        </Condition>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                                    <Setter Property="Opacity" Value="0.75"/>
+                                                                </MultiDataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=BonusTxt, Path=Tag}" Value="True">
+                                                                    <Setter TargetName="BonusTxt" Property="Text" >
+                                                                        <Setter.Value>
+                                                                            <MultiBinding StringFormat="{}{0:+#;-#;+0}">
+                                                                                <Binding Path="MinBonusValue" />
+                                                                            </MultiBinding>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsAdvantage}" Value="True">
+                                                                    <Setter TargetName="BonusTxt" Property="Text" Value="{Binding Source=he770672cgd25bg4ec8g8bb6g6745e6e7576f  , Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding DiceTypeSet.Amount,Converter={StaticResource GreaterThanConverter},ConverterParameter=0}" Value="True">
+                                                                    <Setter TargetName="BonusTxt" Property="Text" Value="{Binding DiceTypeSet.Str, StringFormat='{}+{0}'}"/>
+                                                                </DataTrigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/ActiveRoll/activeModifierBucket_h.png" TargetName="bgImg"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="IsEnabled" Value="True" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Opacity" Value="{StaticResource DisabledOpacity}"/>
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding DataContext.RollState, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="ResultReady" >
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding IsAdvantage}" Value="True">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                    </DataTrigger>
+
+                                                    <MultiDataTrigger >
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsAdvantage}" Value="True"/>
+                                                            <Condition Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForStart"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="IsEnabled" Value="True"/>
+                                                    </MultiDataTrigger>
+
+                                                    <MultiDataTrigger >
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsAdvantage}" Value="True"/>
+                                                            <Condition Binding="{Binding DataContext.RollState,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Value="WaitForReRoll"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="IsEnabled" Value="True"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ls:LSListBox.ItemContainerStyle>
+                                    </ls:LSListBox>
+
+                                </StackPanel>
+                            </ScrollViewer>
                         </Grid>
 
                     </Grid>
