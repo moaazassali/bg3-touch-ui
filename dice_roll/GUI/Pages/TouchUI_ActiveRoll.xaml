@@ -793,7 +793,11 @@
                     </Grid.Resources>
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                        <Grid x:Name="BonussesTitle"  Margin="0,0,0,250" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <Grid x:Name="BonussesTitle"  Margin="0,0,0,240" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                            </Grid.LayoutTransform>
+
                             <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/totalBonusFrameElement.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0"/>
                             <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/totalBonusFrameElement.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
                                 <Image.RenderTransform>
@@ -806,8 +810,16 @@
                                         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="{Binding Source=ha87d5467gfc76g42b7g82aega958176e3494 , Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center"/>
-                                <Control Template="{StaticResource MinMaxText}" VerticalAlignment="Center" Margin="20,0,0,0" FontSize="{StaticResource DefaultFontSize}" Background="Transparent" Foreground="{StaticResource LS_extraspecialTxtColor}" noesis:Text.Stroke="{StaticResource LS_tint00}" noesis:Text.StrokeThickness="6"/>
+                                <TextBlock Text="{Binding Source=ha87d5467gfc76g42b7g82aega958176e3494 , Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center">
+                                    <TextBlock.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                                <Control Template="{StaticResource MinMaxText}" VerticalAlignment="Center" Margin="20,0,0,0" FontSize="{StaticResource DefaultFontSize}" Background="Transparent" Foreground="{StaticResource LS_extraspecialTxtColor}" noesis:Text.Stroke="{StaticResource LS_tint00}" noesis:Text.StrokeThickness="6">
+                                    <Control.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                                    </Control.LayoutTransform>
+                                </Control>
 
                             </StackPanel>
                         </Grid>
