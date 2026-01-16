@@ -832,12 +832,12 @@
                         </Grid>
 
 
-                        <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" MinHeight="360" Margin="20,100,0,400">
+                        <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="20,100,0,100">
                             <Grid.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </Grid.LayoutTransform>
 
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" VerticalAlignment="Stretch" Padding="0,0,0,0" Template="{StaticResource FlippedSimpleScrollViewerTemplate}">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" VerticalAlignment="Stretch" Template="{StaticResource FlippedSimpleScrollViewerTemplate}">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="20,0,0,0">
                                     <StackPanel.Resources>
 
@@ -955,8 +955,8 @@
                                     </StackPanel>
 
 
-                                    <Grid x:Name="divider" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,10" >
-                                        <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/modifierDivider_active.png" Stretch="None">
+                                    <Grid x:Name="divider" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,10" Width="224">
+                                        <Image Source="pack://application:,,,/Core;component/Assets/ActiveRoll/modifierDivider_active.png" HorizontalAlignment="Center" Stretch="None">
                                         <!-- Touch UI - Rotate the vertical line to be horizontal -->
                                             <Image.LayoutTransform>
                                                 <RotateTransform Angle="90"/>
@@ -986,7 +986,7 @@
                                                 <Setter Property="Template" >
                                                     <Setter.Value>
                                                         <ControlTemplate TargetType="ls:LSListBoxItem">
-                                                            <Grid x:Name="root" Height="260">
+                                                            <Grid x:Name="root" Width="224" Height="260">
                                                                 <Grid.RenderTransform>
                                                                     <TransformGroup>
                                                                         <ScaleTransform/>
@@ -1255,19 +1255,19 @@
                         <Rectangle x:Name="AnimTargetPlaceHolder" HorizontalAlignment="Center" VerticalAlignment="Center" Width="4" Height="4"  />
                     </ContentControl>
 
-                    <Grid x:Name="BoostContainer" VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,100,20,400">
+                    <Grid x:Name="BoostContainer" VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,100,20,100">
                         <Grid.LayoutTransform>
                             <ScaleTransform ScaleX="2" ScaleY="2"/>
                         </Grid.LayoutTransform>
 
                         <!-- Touch UI - Make it always visible instead without having to press 'Add Bonus' -->
                         <Grid x:Name="BoostList" VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <Grid.Resources>
+                            <!-- <Grid.Resources>
                                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
-                            </Grid.Resources>
+                            </Grid.Resources> -->
 
-                            <ScrollViewer VerticalAlignment="Top" Style="{StaticResource NoForcedScrollViewerStyle}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Margin="0,0,0,0">
-                                <ItemsControl x:Name="BoostListItemsControl" ItemsSource="{Binding NearbyPartyCharacters}" ItemContainerStyle="{StaticResource ActiveRoll.PlayerPortraits}"  HorizontalAlignment="Center" Margin="0,0,20,0">
+                            <ScrollViewer VerticalAlignment="Stretch" Style="{StaticResource FlippedSimpleScrollViewerTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Margin="0,0,0,0">
+                                <ItemsControl x:Name="BoostListItemsControl" ItemsSource="{Binding NearbyPartyCharacters}" ItemContainerStyle="{StaticResource ActiveRoll.PlayerPortraits}"  HorizontalAlignment="Center" Margin="0,0,50,0">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel IsItemsHost="False" Orientation="Vertical"/>
@@ -1716,7 +1716,7 @@
 
                     </ls:LSNineSliceImage>
                 </Grid>
-                <ls:LSNineSliceImage x:Name="DiceSelector" Width="800" MinHeight="500" ImageSource="{StaticResource DiceSelectorBackgroundImage}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Slices="0,160,0,160" Margin="0,0,0,275" Padding="80,46,80,80" Visibility="{Binding ElementName=DiceModToggle,Path=IsChecked,Converter={StaticResource BoolToVisibleConverter}}">
+                <ls:LSNineSliceImage x:Name="DiceSelector" Width="800" MinHeight="500" ImageSource="{StaticResource DiceSelectorBackgroundImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Slices="0,160,0,160" Margin="-920,0,0,265" Padding="80,46,80,80" Visibility="{Binding ElementName=DiceModToggle,Path=IsChecked,Converter={StaticResource BoolToVisibleConverter}}">
                     <ls:LSNineSliceImage.LayoutTransform>
                         <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
                     </ls:LSNineSliceImage.LayoutTransform>    
@@ -1795,7 +1795,7 @@
                     </Grid>                    
                 </ls:LSNineSliceImage>
 
-                <ls:LSToggleButton x:Name="DiceModToggle" Margin="40,0,0,81" VerticalAlignment="Bottom" HorizontalAlignment="Left" IsChecked="False" IsEnabled="False">
+                <ls:LSToggleButton x:Name="DiceModToggle" Margin="-2000,0,0,70" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsChecked="False" IsEnabled="False">
                     <ls:LSToggleButton.LayoutTransform>
                         <ScaleTransform ScaleX="3" ScaleY="3"/>
                     </ls:LSToggleButton.LayoutTransform>
