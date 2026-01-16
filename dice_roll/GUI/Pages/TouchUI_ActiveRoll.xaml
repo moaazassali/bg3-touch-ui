@@ -1256,6 +1256,9 @@
                     </ContentControl>
 
                     <Grid x:Name="BoostContainer" VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,100,20,400">
+                        <Grid.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </Grid.LayoutTransform>
 
                         <!-- Touch UI - Make it always visible instead without having to press 'Add Bonus' -->
                         <Grid x:Name="BoostList" VerticalAlignment="Top" HorizontalAlignment="Center">
