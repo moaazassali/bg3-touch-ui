@@ -857,6 +857,16 @@
                                                 </Setter.Value>
                                             </Setter>
                                             <Setter Property="ItemContainerStyle" Value="{StaticResource ModifierElementStyle}"/>
+
+                                            <!-- Touch UI - This replaces the default ListBox layout (which includes a ScrollViewer) -->
+                                            <!-- Touch UI - with just the items, allowing us to drag while over an item -->
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ls:LSListBox">
+                                                        <ItemsPresenter />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
                                         </Style>
 
                                     </StackPanel.Resources>
