@@ -1248,10 +1248,10 @@
                         <Rectangle x:Name="AnimTargetPlaceHolder" HorizontalAlignment="Center" VerticalAlignment="Center" Width="4" Height="4"  />
                     </ContentControl>
 
-                    <Grid x:Name="BoostContainer" VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,100,20,400" MinHeight="360">
+                    <Grid x:Name="BoostContainer" VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,100,20,400">
 
                         <!-- Touch UI - Make it always visible instead without having to press 'Add Bonus' -->
-                        <Grid x:Name="BoostList" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid x:Name="BoostList" VerticalAlignment="Top" HorizontalAlignment="Center">
                             <Grid.Resources>
                                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
                             </Grid.Resources>
