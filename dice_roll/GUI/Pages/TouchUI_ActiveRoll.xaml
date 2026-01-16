@@ -1248,19 +1248,19 @@
                         <Rectangle x:Name="AnimTargetPlaceHolder" HorizontalAlignment="Center" VerticalAlignment="Center" Width="4" Height="4"  />
                     </ContentControl>
 
-                    <Grid x:Name="BoostContainer" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,0,40,0">
+                    <Grid x:Name="BoostContainer" VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,100,20,400" MinHeight="360">
 
                         <!-- Touch UI - Make it always visible instead without having to press 'Add Bonus' -->
-                        <Grid x:Name="BoostList" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="436" MaxWidth="3840">
+                        <Grid x:Name="BoostList" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Grid.Resources>
                                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
                             </Grid.Resources>
 
-                            <ScrollViewer VerticalAlignment="Top" Style="{StaticResource NoForcedScrollViewerStyle}" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" PanningMode="HorizontalOnly" Margin="0,-46,0,0">
+                            <ScrollViewer VerticalAlignment="Top" Style="{StaticResource NoForcedScrollViewerStyle}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Margin="0,0,0,0">
                                 <ItemsControl x:Name="BoostListItemsControl" ItemsSource="{Binding NearbyPartyCharacters}" ItemContainerStyle="{StaticResource ActiveRoll.PlayerPortraits}"  HorizontalAlignment="Center">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel IsItemsHost="False" Orientation="Horizontal"/>
+                                            <StackPanel IsItemsHost="False" Orientation="Vertical"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
