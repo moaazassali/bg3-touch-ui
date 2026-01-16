@@ -826,6 +826,9 @@
 
 
                         <Grid x:Name="TopNavigationList" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" MinHeight="360" Margin="20,100,0,400">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </Grid.LayoutTransform>
 
                             <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" VerticalAlignment="Stretch" Padding="0,0,0,0" Template="{StaticResource FlippedSimpleScrollViewerTemplate}">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="20,0,0,0">
