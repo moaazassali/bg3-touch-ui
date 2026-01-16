@@ -1302,6 +1302,8 @@
                     </Grid>
 
                     
+                    <!-- Touch UI - The game has a bug here where the close button flashes for a second or two after you press the try again button when lockpicking -->
+                    <!-- Touch UI - As a result, the failed attempt doesn't consume the thieve's tool used as it should -->
                     <ls:LSButton x:Name="CloseButton_2" Margin="0,0,0,88" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding CancelCommand}" SoundID="UI_HUD_Panel_Close">
                         <ls:LSButton.LayoutTransform>
                             <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -1523,7 +1525,7 @@
 
                 </Grid>
 
-                <Grid x:Name="buttonGroup" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1100,0,0" MinWidth="890" Background="Transparent">
+                <Grid x:Name="buttonGroup" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" MinWidth="890" Background="Transparent">
                     <Grid.LayoutTransform>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                     </Grid.LayoutTransform>
@@ -1569,7 +1571,7 @@
                         <!---->
                     </b:Interaction.Triggers>
                     <!-- Make BG Transparent to fix tooltips showing over opacity 0 bonus elements -->
-                    <StackPanel Background="Transparent" x:Name="FailButtons" Visibility="Collapsed" Orientation="Vertical" RenderTransformOrigin="0.5,0.5" IsEnabled="False" >
+                    <StackPanel Background="Transparent" x:Name="FailButtons" Visibility="Collapsed" Orientation="Vertical" RenderTransformOrigin="0.5,0.5" IsEnabled="False" VerticalAlignment="Center" Margin="1600,0,0,0">
                         <StackPanel.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -1630,21 +1632,24 @@
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-
-                        <Grid x:Name="ContinueButtonHolder">
-                            <ls:LSButton x:Name="ContinueBtn" Style="{StaticResource BlueEdgeButtonStyle}" Margin="0,40,0,40" Content="{Binding Converter={StaticResource TranslatedStringConverter}, Source=h560d086ag3144g4595g9129ge69f0383a226}" IsEnabled="{Binding CanRespondToCommands}">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Click">
-                                        <b:InvokeCommandAction Command="{Binding ContinueCommand}"/>
-                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Continue"/>
-                                        <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Disappear"/>
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </ls:LSButton>
-                        </Grid>
                     </StackPanel>
+
+                    <!-- Touch UI - Since this was under FailButtons, make its visibility tied to it -->
+                    <!-- Touch UI - Top margin must be SuccessButtonHolder top margin - 26 to match -->
+                    <Grid x:Name="ContinueButtonHolder" Margin="0,774,0,0" Visibility="{Binding ElementName=FailButtons,Path=Visibility}">
+                        <ls:LSButton x:Name="ContinueBtn" Margin="0,40,0,40" Style="{StaticResource BlueEdgeButtonStyle}" Content="{Binding Converter={StaticResource TranslatedStringConverter}, Source=h560d086ag3144g4595g9129ge69f0383a226}" IsEnabled="{Binding CanRespondToCommands}">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Click">
+                                    <b:InvokeCommandAction Command="{Binding ContinueCommand}"/>
+                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Continue"/>
+                                    <ls:LSPlaySound Sound="UI_HUD_DiceRoll_Disappear"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ls:LSButton>
+                    </Grid>
+
                     <Border x:Name="SuccessButtonHolder" IsEnabled="{Binding CanRespondToCommands}">
-                        <ls:LSButton x:Name="SuccessButtons" Visibility="Collapsed" Opacity="0"  Style="{StaticResource BlueEdgeButtonStyle}" Content="{Binding Converter={StaticResource TranslatedStringConverter},Source=h560d086ag3144g4595g9129ge69f0383a226}" HorizontalAlignment="Center" Margin="0,300,0,0">
+                        <ls:LSButton x:Name="SuccessButtons" Visibility="Collapsed" Opacity="0"  Style="{StaticResource BlueEdgeButtonStyle}" Content="{Binding Converter={StaticResource TranslatedStringConverter},Source=h560d086ag3144g4595g9129ge69f0383a226}" HorizontalAlignment="Center" Margin="0,800,0,0">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="Click">
                                     <b:InvokeCommandAction Command="{Binding ContinueCommand}"/>
@@ -1911,7 +1916,7 @@
                 </DataTrigger>
                 
                 <DataTrigger Binding="{Binding IsTriggeredByScript}" Value="True">
-                    <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/>
+                    <!-- <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed"/> -->
                     <Setter TargetName="CloseButton_2" Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
 
