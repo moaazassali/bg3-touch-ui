@@ -1250,7 +1250,8 @@
 
                     <Grid x:Name="BoostContainer" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed" Margin="0,0,40,0">
 
-                        <Grid x:Name="BoostList" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="436" MaxWidth="3840">
+                        <!-- Touch UI - Make it always visible instead without having to press 'Add Bonus' -->
+                        <Grid x:Name="BoostList" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="436" MaxWidth="3840">
                             <Grid.Resources>
                                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
                             </Grid.Resources>
@@ -1265,7 +1266,7 @@
                                 </ItemsControl>
                             </ScrollViewer>
 
-                            <ls:LSButton x:Name="CloseBoostListButton" VerticalAlignment="Top" Margin="560,-80,0,-86" Style="{StaticResource CloseButton}">
+                            <ls:LSButton Visibility="Collapsed" x:Name="CloseBoostListButton" VerticalAlignment="Top" Margin="560,-80,0,-86" Style="{StaticResource CloseButton}">
                                 <b:Interaction.Triggers>
                                     <b:EventTrigger EventName="Click" >
                                         <b:ChangePropertyAction TargetName="BoostList" PropertyName="Visibility" Value="Collapsed"/>
@@ -1286,7 +1287,7 @@
                             </Border>
                         </Grid>
 
-                        <Grid x:Name="BoostListButtonHolder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Panel.ZIndex="1" Height="436">
+                        <Grid Visibility="Collapsed" x:Name="BoostListButtonHolder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Panel.ZIndex="1" Height="436">
                             <Grid.Style>
                                 <Style TargetType="Grid" >
                                     <Setter Property="Visibility" Value="Hidden"/>
