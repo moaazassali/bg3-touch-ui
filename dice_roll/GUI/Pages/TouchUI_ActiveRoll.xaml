@@ -1282,7 +1282,7 @@
                                 </b:Interaction.Triggers>
                             </ls:LSButton>
                             
-                            <Border VerticalAlignment="Bottom" Height="80">
+                            <Border Visibility="Collapsed" VerticalAlignment="Bottom" Height="80">
                                 <TextBlock Text="{Binding Source=h6b9cbd3cga1a0g4cf0gb8a9gd13f93b33099 , Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" Style="{StaticResource BonusTitleStyle}"/>
                             </Border>
                         </Grid>
