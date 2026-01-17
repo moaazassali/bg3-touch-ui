@@ -1,0 +1,30 @@
+<ls:StateMachine xmlns:ls="clr-namespace:ls;assembly=Code"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<ls:StateMachine.States>
+        <!-- Taken from unpacked game file at Game\Public\Game\GUI\StateMachine.xaml -->
+
+        <!--STATE: CompanionsPanel-->
+        <ls:State Name="CompanionsPanel" Layout="Player" Owner="Player" HideStatesBelow="False" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_CompanionsPanel.xaml" Layer="PopupPanels" SoundLayer="NonHUDWidget"/>
+            </ls:State.Widgets>
+
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseCompanionsPanel">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "ToggleCompanionsPanel">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenCompanionsPanel">
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
+    </ls:StateMachine.States>
+</ls:StateMachine>
