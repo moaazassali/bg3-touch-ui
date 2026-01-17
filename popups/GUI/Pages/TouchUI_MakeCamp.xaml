@@ -105,7 +105,10 @@
             </StackPanel>
 
                 <!-- Background and holder for the camp supplies selection-->
-            <Grid x:Name="RingHolder" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,540,0,0" Height="390">
+            <Grid x:Name="RingHolder" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,110,0,0" Height="390">
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
+                </Grid.LayoutTransform>
                 <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_barBg.png" Stretch="None" IsHitTestVisible="False"/>
                 <Grid x:Name="Ring" HorizontalAlignment="Center" VerticalAlignment="Top">
                                 <Grid.RenderTransform>
