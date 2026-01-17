@@ -139,9 +139,9 @@
 
     <ls:UIWidget.Template>
         <ControlTemplate>
-            <Grid x:Name="bgFade" Margin="-1000,0,-1000,-1000">
+            <Grid x:Name="bgFade" Margin="-1400,0,-1400,-1400">
                 <Grid x:Name="Panel" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-               RenderTransformOrigin="0.5,0.5" Margin="0,0,1060,1440" Width="1426">
+               RenderTransformOrigin="0.5,0.5" Margin="0,0,1672,1560" Width="1426">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -159,7 +159,7 @@
                     </b:Interaction.Behaviors>
                     <!--===== PANEL CONTENTS =====-->
                     <Grid Grid.Row="1">
-                        <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Height="1468" Margin="22">
+                        <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Height="1800" Margin="22">
                             <Grid Name="CharacterPanelContents">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
