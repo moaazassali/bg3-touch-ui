@@ -197,7 +197,7 @@
                                 </Grid>
 
                                 <!-- ===== PAGES ===== -->
-                                <Grid Grid.Row="1"  Margin="0,22,0,0">
+                                <Grid Grid.Row="1"  Margin="0,0,0,0">
                                     <!-- ======== COMPANION PAGE ======== -->
                                     <Grid x:Name="CharacterSheetPage" DataContext="{Binding SelectedItem, ElementName=CompanionPortraits}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" ls:TooltipExtender.Owner="{Binding SelectedItem, ElementName=CompanionPortraits}">
                                         <!-- PAPERDOLL-->
