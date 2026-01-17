@@ -13,6 +13,34 @@
              ls:UIWidget.ContextName="Examine" d:DataContext="{d:DesignInstance {x:Type ls:DCExamine}, IsDesignTimeCreatable=True}"
              ls:TooltipExtender.Owner="{Binding CurrentPlayer.UIData.ExamineTarget}">
 
+    <ls:UIWidget.Resources>
+        <ResourceDictionary>
+
+            <!-- Touch UI - Copied from TouchUI_CharacterPanel.xaml -->
+            <!-- ===== HEADER TEMPLATE ===== -->
+            <ControlTemplate x:Key="RoundTabsTemplate" TargetType="RadioButton">
+                <Grid>
+                    <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_d.png" Stretch="Uniform"/>
+                    <Image x:Name="icon" Width="64" Height="64" Source="{DynamicResource Icon}" Stretch="Uniform"/>
+                </Grid>
+
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_h.png"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_inactive_p.png"/>
+                        <Setter TargetName="icon" Property="Margin" Value="0,2,0,-2"/>
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/Buttons/tab_header_active_d.png"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+        </ResourceDictionary>
+    </ls:UIWidget.Resources>
+
     <!-- ===== EXAMINE PANEL ===== -->
     <ls:UIWidget.Template>
         <ControlTemplate>
@@ -33,9 +61,37 @@
                     <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBG}" Width="{StaticResource ExaminePanelWidth}" Height="{StaticResource CSContentHeight}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="Auto" MinWidth="110"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="20,20,0,0" Panel.ZIndex="1">
+                                <!-- Copied from TouchUI_CharacterPanel.xaml -->
+                                <StackPanel.Resources>
+                                    <Style TargetType="ls:LSRadioButton">
+                                        <Setter Property="Template" Value="{StaticResource RoundTabsTemplate}"/>
+                                        <Setter Property="GroupName" Value="CategoryToggleButtons"/>
+                                        <Setter Property="Margin" Value="0,0,00,0"/>
+                                        <Setter Property="Height" Value="90"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter Property="IsEnabled" Value="True" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Resources>
+
+                                <ls:LSRadioButton x:Name="EntityInfoButton" IsChecked="True">
+                                    <RadioButton.Resources>
+                                        <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                    </RadioButton.Resources>
+                                </ls:LSRadioButton>
+                                <ls:LSRadioButton x:Name="PaperdollButton">
+                                    <RadioButton.Resources>
+                                        <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                    </RadioButton.Resources>
+                                </ls:LSRadioButton>
+                            </StackPanel>   
 
                             <!--DRAG AREA-->
                             <Grid x:Name="DragHit" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
@@ -51,7 +107,7 @@
 
                             <Grid Grid.Column="1">
                                 <!--PAPERDOLL-->
-                                <Grid HorizontalAlignment="Left" Margin="8,0,32,0" >
+                                <Grid x:Name="Paperdoll" HorizontalAlignment="Left" Margin="8,0,32,0" >
                                     <ls:LSPaperdoll x:Name="ExaminePaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource EXDollWidth}" Height="{StaticResource CSDollHeight}" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                     <!--CONTROLS-->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60">
@@ -77,47 +133,54 @@
                                         </ls:LSButton>
                                     </StackPanel>
                                 </Grid>
-                                <!--FOR ITEMS-->
-                                <ls:LSNineSliceImage x:Name="ItemInfoPanel" Style="{StaticResource WorldTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Right">
-                                    <StackPanel>
-                                        <!--Hit Points-->
-                                        <Control x:Name="HPBarContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-28,0,-10" Template="{StaticResource TargetHealthBarTemplate}"
-                                                Visibility="{Binding Stats.Health.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}"/>
 
-                                        <ScrollViewer Style="{StaticResource NoForcedScrollViewerStyle}" Padding="{StaticResource ScrollOffset}" VerticalAlignment="Stretch" ClipToBounds="False" Margin="12,0">
-                                            <StackPanel>
-                                                <StackPanel.Resources>
-                                                    <ControlTemplate x:Key="DetailedEntry">
-                                                        <ControlTemplate.Resources>
-                                                            <Style TargetType="DockPanel">
-                                                                <Setter Property="Margin" Value="8,0"/>
-                                                            </Style>
-                                                        </ControlTemplate.Resources>
-                                                        <Border x:Name="entry" Style="{StaticResource RowBG_d}" MinHeight="48">
-                                                            <ContentPresenter/>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="entry" Property="Background" Value="{StaticResource RowBG_h}"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </StackPanel.Resources>
+                                <Grid x:Name="EntityInfo">
+                                    <!--FOR ITEMS-->
+                                    <ls:LSNineSliceImage x:Name="ItemInfoPanel" Style="{StaticResource WorldTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                                        <StackPanel>
+                                            <!--Hit Points-->
+                                            <Control x:Name="HPBarContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-28,0,-10" Template="{StaticResource TargetHealthBarTemplate}"
+                                                    Visibility="{Binding Stats.Health.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}"/>
 
-                                                <ContentPresenter ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Examine}" Content="{Binding .}" DataContext="{Binding .}" ContentTemplate="{StaticResource ItemsTooltip}" ls:TooltipExtender.IsOpen="True" ls:TooltipExtender.Content="{Binding .}" ls:TooltipExtender.PlayerId="{Binding Path=DataContext.CurrentPlayer.PlayerId, ElementName=Examine}" Margin="20"/>
+                                            <ScrollViewer Style="{StaticResource NoForcedScrollViewerStyle}" Padding="{StaticResource ScrollOffset}" VerticalAlignment="Stretch" ClipToBounds="False" Margin="12,0">
+                                                <StackPanel>
+                                                    <StackPanel.Resources>
+                                                        <ControlTemplate x:Key="DetailedEntry">
+                                                            <ControlTemplate.Resources>
+                                                                <Style TargetType="DockPanel">
+                                                                    <Setter Property="Margin" Value="8,0"/>
+                                                                </Style>
+                                                            </ControlTemplate.Resources>
+                                                            <Border x:Name="entry" Style="{StaticResource RowBG_d}" MinHeight="48">
+                                                                <ContentPresenter/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="entry" Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </StackPanel.Resources>
 
-                                                <!--Resistances-->
-                                                <StackPanel Name="ResistancesSection" Visibility="{Binding Stats.NumActiveResistances, Converter={StaticResource CountToVisibilityConverter}}">
-                                                    <ContentControl Style="{StaticResource BaseTitleStyle}">
-                                                        <TextBlock Text="{Binding Source='h98a4ccfbg20f4g4294g9bf7g624c95711539', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                    </ContentControl>
-                                                    <Control x:Name="ResistanceContainer" HorizontalAlignment="Center" Template="{StaticResource ResistancesGridTemplate}"/>
+                                                    <ContentPresenter ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Examine}" Content="{Binding .}" DataContext="{Binding .}" ContentTemplate="{StaticResource ItemsTooltip}" ls:TooltipExtender.IsOpen="True" ls:TooltipExtender.Content="{Binding .}" ls:TooltipExtender.PlayerId="{Binding Path=DataContext.CurrentPlayer.PlayerId, ElementName=Examine}" Margin="20"/>
+
+                                                    <!--Resistances-->
+                                                    <StackPanel Name="ResistancesSection" Visibility="{Binding Stats.NumActiveResistances, Converter={StaticResource CountToVisibilityConverter}}">
+                                                        <ContentControl Style="{StaticResource BaseTitleStyle}">
+                                                            <TextBlock Text="{Binding Source='h98a4ccfbg20f4g4294g9bf7g624c95711539', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                        </ContentControl>
+                                                        <Control x:Name="ResistanceContainer" HorizontalAlignment="Center" Template="{StaticResource ResistancesGridTemplate}"/>
+                                                    </StackPanel>
                                                 </StackPanel>
-                                            </StackPanel>
-                                        </ScrollViewer>
-                                    </StackPanel>
+                                            </ScrollViewer>
+                                        </StackPanel>
 
-                                </ls:LSNineSliceImage>
+                                    </ls:LSNineSliceImage>
+
+                                    <!-- ===== INFO PANEL ===== -->
+                                    <!--FOR CHARACTERS-->
+                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" Width="{StaticResource CSColumnWidth}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,8,8,8"/>
+                                </Grid>
 
                                 <!--CLOSE BUTTON-->
                                 <ls:LSButton x:Name="CloseExamine" Style="{DynamicResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" BoundEvent="UICancel" Margin="0,0,0,0">
@@ -129,9 +192,6 @@
                                     </EventTrigger>
                                 </ls:LSButton.Triggers>
                                 </ls:LSButton>
-                                <!-- ===== INFO PANEL ===== -->
-                                <!--FOR CHARACTERS-->
-                                <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" Width="{StaticResource CSColumnWidth}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,8,8,8"/>
                             </Grid>
                         </Grid>
                     </ls:LSNineSliceImage>
@@ -158,6 +218,15 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CurrentPlayer.UIData.ExamineTarget.Type}" Value="Character">
                     <Setter TargetName="ItemInfoPanel" Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding IsChecked, ElementName=EntityInfoButton}" Value="True">
+                    <Setter TargetName="EntityInfo" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="Paperdoll" Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=PaperdollButton}" Value="True">
+                    <Setter TargetName="EntityInfo" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="Paperdoll" Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </ControlTemplate.Triggers>
 
