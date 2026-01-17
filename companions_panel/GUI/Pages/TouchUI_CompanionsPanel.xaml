@@ -25,110 +25,116 @@
     </b:Interaction.Triggers>
 
     <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <!-- Touch UI - Import custom resources -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_ContainerInventoryTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <Storyboard x:Key="HideCharacterSelectAnim" FillBehavior="Stop">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EquipmentColumn">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PaperdollHolder">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>
+            <Storyboard x:Key="HideCharacterSelectAnim" FillBehavior="Stop">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EquipmentColumn">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PaperdollHolder">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
 
-            <DoubleAnimation
-                Storyboard.TargetName="EquipmentColumn"
-                Storyboard.TargetProperty="Opacity"
-                From="1"
-                To="0"
-                Duration="0:0:0.3">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="EquipmentColumn"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
 
-            <DoubleAnimation
-                Storyboard.TargetName="PaperdollHolder"
-                Storyboard.TargetProperty="Opacity"
-                From="1"
-                To="0"
-                Duration="0:0:0.3">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
+                <DoubleAnimation
+                    Storyboard.TargetName="PaperdollHolder"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
 
-            <ThicknessAnimation
-                Storyboard.TargetName="CharacterInfoColumn"
-                Storyboard.TargetProperty="Margin"
-                From="-800,0,800,0"
-                To="0,0,0,0"
-                Duration="0:0:0.4">
-                <ThicknessAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
+                <ThicknessAnimation
+                    Storyboard.TargetName="CharacterInfoColumn"
+                    Storyboard.TargetProperty="Margin"
+                    From="-800,0,800,0"
+                    To="0,0,0,0"
+                    Duration="0:0:0.4">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
 
-        </Storyboard>
+            </Storyboard>
 
-        <Storyboard x:Key="ShowCharacterSelectAnim" FillBehavior="Stop">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CharacterInfoColumn">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-            </ObjectAnimationUsingKeyFrames>
+            <Storyboard x:Key="ShowCharacterSelectAnim" FillBehavior="Stop">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CharacterInfoColumn">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                
+                <DoubleAnimation
+                    Storyboard.TargetName="EquipmentColumn"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.4">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                
+                <DoubleAnimation
+                    Storyboard.TargetName="PaperdollHolder"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.4">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                
+                <ThicknessAnimation
+                    Storyboard.TargetName="CharacterInfoColumn"
+                    Storyboard.TargetProperty="Margin"
+                    From="0,0,0,0"
+                    To="-800,0,800,0"
+                    Duration="0:0:0.4">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+            </Storyboard>
+
+            <Style x:Key="ListBoxPortraits" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Setter Property="Template" Value="{StaticResource CharacterPortraitFrameTemplate}"/>
+                <Setter Property="Height" Value="168"/>
+                <Setter Property="Padding" Value="20"/>
+                <Setter Property="noesis:StyleInteraction.Triggers">
+                    <Setter.Value>
+                        <noesis:StyleTriggerCollection>
+                            <b:EventTrigger EventName="MouseLeftButtonUp">
+                                <ls:LSPlaySound Sound="UI_Shared_Click"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseLeftButtonDown">
+                                <ls:LSPlaySound Sound="UI_Shared_Press"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                            </b:EventTrigger>
+                        </noesis:StyleTriggerCollection>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             
-            <DoubleAnimation
-                Storyboard.TargetName="EquipmentColumn"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="1"
-                Duration="0:0:0.4">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            
-            <DoubleAnimation
-                Storyboard.TargetName="PaperdollHolder"
-                Storyboard.TargetProperty="Opacity"
-                From="0"
-                To="1"
-                Duration="0:0:0.4">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            
-            <ThicknessAnimation
-                Storyboard.TargetName="CharacterInfoColumn"
-                Storyboard.TargetProperty="Margin"
-                From="0,0,0,0"
-                To="-800,0,800,0"
-                Duration="0:0:0.4">
-                <ThicknessAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseIn"/>
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-        </Storyboard>
-
-        <Style x:Key="ListBoxPortraits" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="Template" Value="{StaticResource CharacterPortraitFrameTemplate}"/>
-            <Setter Property="Height" Value="168"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="noesis:StyleInteraction.Triggers">
-                <Setter.Value>
-                    <noesis:StyleTriggerCollection>
-                        <b:EventTrigger EventName="MouseLeftButtonUp">
-                            <ls:LSPlaySound Sound="UI_Shared_Click"/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseLeftButtonDown">
-                            <ls:LSPlaySound Sound="UI_Shared_Press"/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                        </b:EventTrigger>
-                    </noesis:StyleTriggerCollection>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
+        </ResourceDictionary>
     </ls:UIWidget.Resources>
 
     <ls:UIWidget.Template>
@@ -299,7 +305,7 @@
                                     </Grid>
 
                                     <!-- ======== TRAVELLER CHEST PAGE ======== -->
-                                    <Control x:Name="TravellerChestPage" DataContext="{Binding SelectedItem, ElementName=CampPortraits}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Margin="12,0,0,12" VerticalAlignment="Stretch" Template="{StaticResource ContainerInventoryTemplate}"/>
+                                    <Control x:Name="TravellerChestPage" DataContext="{Binding SelectedItem, ElementName=CampPortraits}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Margin="12,0,0,12" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_ContainerInventoryTemplate}"/>
                                 </Grid>
 
                             </Grid>

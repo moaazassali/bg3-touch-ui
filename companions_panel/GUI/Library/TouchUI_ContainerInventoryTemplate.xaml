@@ -1,0 +1,119 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <!--===== CONTAINER INVENTORY TEMPLATE =====-->
+
+    <ControlTemplate x:Key="TouchUI_ContainerInventoryTemplate" TargetType="Control">
+        <Grid x:Name="InventoryPanelHolder">
+            
+            <Grid x:Name="InventoryColumnHolder">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <b:Interaction.Triggers>
+                    <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=InventoryHolder}" Value="False">
+                        <b:ChangePropertyAction TargetName="InventoryHolder" PropertyName="SelectedIndex" Value="-1" />
+                    </b:DataTrigger>
+                    <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                        <b:Interaction.Behaviors>
+                            <b:ConditionBehavior>
+                                <b:ConditionalExpression>
+                                    <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=InventoryHolder}" Operator="Equal" RightOperand="False"/>
+                                </b:ConditionalExpression>
+                            </b:ConditionBehavior>
+                        </b:Interaction.Behaviors>
+                        <b:ChangePropertyAction TargetName="InventoryHolder" PropertyName="SelectedIndex" Value="-1" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+
+                <ls:LSInputBinding BoundEvent="ActionCancel" EatInput="False" IsEnabled="True" PlayerId="{Binding PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="LSInputBindingPressed">
+                            <b:ChangePropertyAction TargetName="InventoryHolder" PropertyName="SelectedIndex" Value="-1" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ls:LSInputBinding>
+
+                <!-- Inventory -->
+
+                <ListBox Grid.Row="1" x:Name="InventoryHolder" ItemsSource="{Binding Inventories[0].Slots}" ItemsPanel="{StaticResource InventoryGridTemplate}" SelectionMode="Extended" ls:MultiSelect.IsEnabled="False" ItemTemplate="{StaticResource Template.InventorySlot}" ls:AttachedProperties.InheritedNumber="{Binding ActualWidth, ElementName=InventoryColumnHolder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" ItemContainerStyle="{StaticResource InvContainerItemStyle}">
+
+                    <b:Interaction.Behaviors>
+                        <ls:DragGenericBehavior StartDragCommand="{Binding DataContext.DragInventoryCommand , RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                        <ls:WidgetDataConnectionBehavior/>
+                    </b:Interaction.Behaviors>
+
+                    <ListBox.Template>
+                        <ControlTemplate TargetType="ListBox">
+                            <Grid x:Name="TemplateRoot" >
+                                <Border x:Name="InventoryTint" Background="{StaticResource InventoryBGShade}" Margin="-6,-4,20,-6" BorderBrush="Transparent" IsHitTestVisible="False"/>
+                                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Right" Style="{StaticResource NoForcedScrollViewerStyle}" HorizontalScrollBarVisibility="Disabled" Padding="0,0,0,0" >
+                                    <b:Interaction.Behaviors>
+                                        <ls:DragScrollingBehavior/>
+                                    </b:Interaction.Behaviors>
+                                    <ItemsPresenter x:Name="itemsContainer"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </ControlTemplate>
+                    </ListBox.Template>
+                </ListBox>
+
+                <!-- Filter -->
+                <Grid x:Name="FiltersControl" Grid.Row="0" VerticalAlignment="Top" Height="88">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--SORT BY-->
+                    <Border HorizontalAlignment="Left">
+                        <ls:LSComboBox x:Name="ContainerSortList" SoundID="UI_HUD_Inventory_Sort"
+                                        Template="{StaticResource SortListTemplate}"
+                                        ItemsSource="{Binding DataContext.CurrentPlayer.UIData.InventorySortOptions, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="SelectionChanged">
+                                    <b:InvokeCommandAction Command="{Binding DataContext.SortContainerInventoryCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                        <b:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource PassThroughConverter}">
+                                                <Binding Path="SelectedItem" ElementName="ContainerSortList"/>
+                                                <Binding Path="LootInventory"/>
+                                            </MultiBinding>
+                                        </b:InvokeCommandAction.CommandParameter>
+                                    </b:InvokeCommandAction>
+                                    <!-- Clear selecting to allow re-selecting -->
+                                    <b:ChangePropertyAction PropertyName="SelectedIndex" Value="-1"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ls:LSComboBox>
+                    </Border>
+
+
+                    <TextBlock Text="{Binding name}" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap"/>                        
+
+                    <!--Infotip-->
+                    <Control Grid.Column="2" Template="{StaticResource CharacterSheetInfotipTemplate}" VerticalAlignment="Center" Margin="-8,-8,8,0"  HorizontalAlignment="Right" ToolTipService.Placement="Right"/>
+                </Grid>
+
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding SelectedItems.Count,ElementName=InventoryHolder,Converter={StaticResource GreaterThanConverter},ConverterParameter=1}" Value="True">
+                <Setter TargetName="InventoryHolder" Property="ls:MultiSelect.IsEnabled" Value="True"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Inventory.IsCampChestInventory}" Value="True">
+                <Setter TargetName="InventoryHolder" Property="ItemContainerStyle" Value="{StaticResource InvWorldContainerItemStyle}"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>
