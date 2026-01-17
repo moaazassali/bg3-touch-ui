@@ -96,7 +96,7 @@
                         <ControlTemplate TargetType="ListBox">
                             <Grid x:Name="TemplateRoot" >
                                 <Border x:Name="InventoryTint" Background="{StaticResource InventoryBGShade}" Margin="-6,-4,20,-6" BorderBrush="Transparent" IsHitTestVisible="False"/>
-                                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Right" Style="{StaticResource NoForcedScrollViewerStyle}" HorizontalScrollBarVisibility="Disabled" Padding="0,0,0,0" >
+                                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Right" Style="{StaticResource NoForcedScrollViewerStyle}" HorizontalScrollBarVisibility="Disabled" Padding="0,0,0,0" CanContentScroll="False">
                                     <b:Interaction.Behaviors>
                                         <ls:DragScrollingBehavior/>
                                     </b:Interaction.Behaviors>
