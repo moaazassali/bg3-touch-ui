@@ -69,7 +69,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Grid Grid.Column="0" VerticalAlignment="Stretch" Margin="20,20,20,0" ZIndex="1">
+                            <Grid Grid.Column="0" VerticalAlignment="Stretch" Margin="0,20,20,0" ZIndex="1">
+                                <Grid.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </Grid.LayoutTransform>
+
                                 <StackPanel Panel.ZIndex="1" VerticalAlignment="Top">
                                     <!-- Copied from TouchUI_CharacterPanel.xaml -->
                                     <StackPanel.Resources>
