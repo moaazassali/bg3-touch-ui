@@ -86,9 +86,25 @@
             </MultiBinding>
         </Grid.Tag>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"/> <!-- Touch UI - Only used to properly wrap left text content -->
+            <ColumnDefinition Width="65*"/>
+        </Grid.ColumnDefinitions>
+
+
         <Control Template="{DynamicResource SoundEventsTemplate}"/>
 
-        <Grid x:Name="PanelHolder">
+        <!-- Touch UI - Put it at high z index so that the black overlay from the panel background does not dim it -->
+        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="100,260,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="800" ZIndex="10">
+            <StackPanel.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </StackPanel.LayoutTransform>
+
+            <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h54a9edbag9cf2g4f2egb188g1431d56c3159', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource MassiveFontSize}" Foreground="{DynamicResource LS_extraspecialTxtColor}" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap"/>
+            <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hd87d1a54g859cg4384g97bag802a2071e49e', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource LS_baseTxtColor}" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <Grid x:Name="PanelHolder" Grid.ColumnSpan="2">
 
             <!-- Background of the whole window-->
             <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_bg.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-750,0,0">
@@ -98,11 +114,6 @@
             </Image>
 
             <ls:LSButton Style="{DynamicResource CloseButton}" Command="{Binding CancelCampCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="900,210,0,0" SoundID="UI_HUD_MakeCamp_Cancel" BoundEvent="ToggleInGameMenu"/>
-            
-            <StackPanel Orientation="Vertical" Margin="0,260,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="920">
-                <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h54a9edbag9cf2g4f2egb188g1431d56c3159', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource MassiveFontSize}" Foreground="{DynamicResource LS_extraspecialTxtColor}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hd87d1a54g859cg4384g97bag802a2071e49e', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource LS_baseTxtColor}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
-            </StackPanel>
 
                 <!-- Background and holder for the camp supplies selection-->
             <Grid x:Name="RingHolder" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,110,0,0" Height="390">
