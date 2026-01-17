@@ -12,6 +12,47 @@
     <!--===== CONTAINER INVENTORY TEMPLATE =====-->
 
     <ControlTemplate x:Key="TouchUI_ContainerInventoryTemplate" TargetType="Control">
+        <ControlTemplate.Resources>
+            <!-- Touch UI - Coped from the same original CharacterSheetTemplates_k.xaml but added 2x scaling -->
+            <ItemsPanelTemplate x:Key="TouchUI_InventoryGridTemplate">
+                <ls:LSGrid x:Name="InvGrid" Style="{StaticResource InventoryGridStyle}" ContainerData="{Binding Inventory}">
+                    <ls:LSGrid.LayoutTransform>
+                        <ScaleTransform ScaleX="2.0" ScaleY="2.0"/>
+                    </ls:LSGrid.LayoutTransform>
+
+                    <b:Interaction.Behaviors>
+                        <ls:DropOnInventoryGridBehavior DropCommand="{Binding DataContext.DropOnInventorySlotCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                    </b:Interaction.Behaviors>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="PreviewDrop">
+                            <ls:LSPlaySound Sound="UI_State_MouseOverInventory"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <ls:LSPlaySound Sound="UI_State_MouseOverInventory"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseLeave">
+                            <ls:LSPlaySound Sound="UI_State_MouseOverInventory_Off"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="WidgetClosing">
+                            <b:InvokeCommandAction Command="{Binding DataContext.ClearInventoryNewFlags, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding }"/>
+                        </b:EventTrigger>
+
+                        <b:EventTrigger EventName="WidgetClosing" >
+                            <b:Interaction.Behaviors>
+                                <b:ConditionBehavior>
+                                    <b:ConditionalExpression>
+                                        <b:ComparisonCondition LeftOperand="{Binding IsVisible, ElementName=CharacterPanelHolder}" Operator="Equal" RightOperand="True"/>
+                                    </b:ConditionalExpression>
+                                </b:ConditionBehavior>
+                            </b:Interaction.Behaviors>
+                            <!-- Tutorial UI Event - Inventory Closed-->
+                            <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="3b433da9-3bd4-4273-8e7f-f85e03ee1601"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ls:LSGrid>
+            </ItemsPanelTemplate>
+        </ControlTemplate.Resources>
+
         <Grid x:Name="InventoryPanelHolder">
             
             <Grid x:Name="InventoryColumnHolder">
@@ -45,8 +86,7 @@
 
                 <!-- Inventory -->
 
-                <ListBox Grid.Row="1" x:Name="InventoryHolder" ItemsSource="{Binding Inventories[0].Slots}" ItemsPanel="{StaticResource InventoryGridTemplate}" SelectionMode="Extended" ls:MultiSelect.IsEnabled="False" ItemTemplate="{StaticResource Template.InventorySlot}" ls:AttachedProperties.InheritedNumber="{Binding ActualWidth, ElementName=InventoryColumnHolder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" ItemContainerStyle="{StaticResource InvContainerItemStyle}">
-
+                <ListBox Grid.Row="1" x:Name="InventoryHolder" ItemsSource="{Binding Inventories[0].Slots}" ItemsPanel="{StaticResource TouchUI_InventoryGridTemplate}" SelectionMode="Extended" ls:MultiSelect.IsEnabled="False" ItemTemplate="{StaticResource Template.InventorySlot}" ls:AttachedProperties.InheritedNumber="{Binding ActualWidth, ElementName=InventoryColumnHolder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" ItemContainerStyle="{StaticResource InvContainerItemStyle}">
                     <b:Interaction.Behaviors>
                         <ls:DragGenericBehavior StartDragCommand="{Binding DataContext.DragInventoryCommand , RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                         <ls:WidgetDataConnectionBehavior/>
