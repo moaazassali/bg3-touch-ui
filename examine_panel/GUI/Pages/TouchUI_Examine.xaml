@@ -62,7 +62,7 @@
                     <b:Interaction.Behaviors>
                         <ls:LSMouseDragElementBehavior HitArea="{Binding ElementName=DragHit,Mode=OneWay}"/>
                     </b:Interaction.Behaviors>
-                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBG}" Width="{StaticResource ExaminePanelWidth}" Height="{StaticResource CSContentHeight}">
+                    <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBG}" Height="{StaticResource CSContentHeight}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MinWidth="110"/>
@@ -156,6 +156,10 @@
                                 </Grid>
 
                                 <Grid x:Name="EntityInfo">
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    </Grid.LayoutTransform>
+
                                     <!--FOR ITEMS-->
                                     <ls:LSNineSliceImage x:Name="ItemInfoPanel" Style="{StaticResource WorldTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Right">
                                         <StackPanel>
@@ -200,7 +204,7 @@
 
                                     <!-- ===== INFO PANEL ===== -->
                                     <!--FOR CHARACTERS-->
-                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" Width="{StaticResource CSColumnWidth}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,8,8,8"/>
+                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" Width="{StaticResource CSColumnWidth}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,8,8"/>
                                 </Grid>
                             </Grid>
                         </Grid>
