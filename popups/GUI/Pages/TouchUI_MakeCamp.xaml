@@ -102,6 +102,9 @@
 
             <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h54a9edbag9cf2g4f2egb188g1431d56c3159', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource MassiveFontSize}" Foreground="{DynamicResource LS_extraspecialTxtColor}" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap"/>
             <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hd87d1a54g859cg4384g97bag802a2071e49e', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource LS_baseTxtColor}" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap"/>
+            <!-- Touch UI - Removed partial rest tool tip and added it here -->
+            <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h7e75fd8fgc164g436fgbbf7gc0b993f7fee8', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource MassiveFontSize}" Foreground="{DynamicResource LS_extraspecialTxtColor}" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap" Margin="0,100,0,0"/>
+            <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hae826c89g4f7eg4a64g976fgf6cbebab7564', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource LS_baseTxtColor}" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap"/>
         </StackPanel>
 
         <Grid x:Name="PanelHolder" Grid.ColumnSpan="2">
@@ -228,7 +231,8 @@
                         </Style.Triggers>
                     </Style>
                 </ls:LSButton.Style>
-                <ls:LSButton.ToolTip>
+                <!-- Touch UI - Removed partial rest tooltip and made it always visible with long rest text -->
+                <!-- <ls:LSButton.ToolTip>
                     <ls:LSTooltip ToolTipService.Placement="Top" Template="{StaticResource BaseTooltipTemplate}">
                         <TextBlock TextWrapping="Wrap">
                                 <TextBlock.Style>
@@ -243,7 +247,7 @@
                                 </TextBlock.Style>
                             </TextBlock>
                     </ls:LSTooltip>
-                </ls:LSButton.ToolTip>
+                </ls:LSButton.ToolTip> -->
             </ls:LSButton>
         </Grid>
         
