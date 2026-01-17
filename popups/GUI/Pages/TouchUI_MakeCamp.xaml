@@ -91,7 +91,11 @@
         <Grid x:Name="PanelHolder">
 
             <!-- Background of the whole window-->
-            <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_bg.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_bg.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-750,0,0">
+                <Image.LayoutTransform>
+                    <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
+                </Image.LayoutTransform>
+            </Image>
 
             <ls:LSButton Style="{DynamicResource CloseButton}" Command="{Binding CancelCampCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="900,210,0,0" SoundID="UI_HUD_MakeCamp_Cancel" BoundEvent="ToggleInGameMenu"/>
             
