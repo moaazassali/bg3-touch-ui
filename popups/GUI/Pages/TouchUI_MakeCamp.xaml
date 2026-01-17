@@ -88,7 +88,8 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35*"/> <!-- Touch UI - Only used to properly wrap left text content -->
-            <ColumnDefinition Width="65*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="35*"/> <!-- Touch UI - Only used to properly position autoselect and rest buttons -->
         </Grid.ColumnDefinitions>
 
 
@@ -112,7 +113,7 @@
             <ls:LSButton Style="{DynamicResource BrownButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Command="{Binding CancelCampCommand}" Content="{Binding Source='h0d98c8cbg811eg40a5g958dg2552a3f4e350', Converter={StaticResource TranslatedStringConverter}}" SoundID="UI_HUD_MakeCamp_Cancel"/>
         </Grid>
 
-        <Grid x:Name="PanelHolder" Grid.ColumnSpan="2">
+        <Grid x:Name="PanelHolder" Grid.ColumnSpan="3">
 
             <!-- Background of the whole window-->
             <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_bg.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-750,0,0">
@@ -175,11 +176,15 @@
                 </Image>
             </Grid>
 
-            <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h3cef439fg92cdg4b5bgb3fdg5fd5db63d33a', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource LS_extraspecialTxtColor}" 
-                       HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="344" Margin="0,912,0,0" Height="96"/>
+            <!-- <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h3cef439fg92cdg4b5bgb3fdg5fd5db63d33a', Converter={StaticResource TranslatedStringConverter}}" FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource LS_extraspecialTxtColor}" 
+                       HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="344" Margin="0,912,0,0" Height="96"/> -->
 
             <ls:LSListBox x:Name="SuppliesView" ItemsSource="{Binding PartyCampSupplies.Slots}" ItemContainerStyle="{StaticResource ItemIconStyle}" HorizontalAlignment="Center" VerticalAlignment="Top"
-                          Margin="60, 1020, 0, 0" Background="Transparent" BorderThickness="0" Height="560" SelectionMode="Multiple" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                          Margin="60, 720, 0, 0" Background="Transparent" BorderThickness="0" Height="520" SelectionMode="Multiple" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ls:LSListBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </ls:LSListBox.LayoutTransform>
+
                 <ls:LSListBox.Template>
                     <ControlTemplate>
                         <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,14,0" HorizontalAlignment="Right" Template="{DynamicResource ScrollViewerTemplate}" HorizontalScrollBarVisibility="Disabled">
@@ -192,7 +197,7 @@
                 </ls:LSListBox.Template>
                 <ls:LSListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ls:LSGrid x:Name="ContainerGrid" Columns="5" Rows="5" ContainerData="{Binding PartyCampSupplies}" Style="{StaticResource ContainerGridStyle}" DisableScrolling="False" AutoIndex="True">
+                        <ls:LSGrid x:Name="ContainerGrid" Columns="4" Rows="7" ContainerData="{Binding PartyCampSupplies}" Style="{StaticResource ContainerGridStyle}" DisableScrolling="False" AutoIndex="True">
                         </ls:LSGrid>
                     </ItemsPanelTemplate>
                 </ls:LSListBox.ItemsPanel>
@@ -215,45 +220,53 @@
                     </b:PropertyChangedTrigger>
                 </b:Interaction.Triggers>
             </ls:LSListBox>
+        </Grid>
 
-            <Grid x:Name="AutoSelectHolder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,380">
-                <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_btnDecoration.png" Stretch="None" IsHitTestVisible="False"/>
-                <ls:LSButton x:Name="AutoSelectBtn" Style="{DynamicResource BrownButtonStyle}" Command="{Binding AutoSelectCommand}" CommandParameter="{Binding ElementName=SuppliesView, Path=SelectedItems}" 
-                                 Content="{Binding Source='h520e6ffag14aag4d3aga15dg1ed8d9a0b852', Converter={StaticResource TranslatedStringConverter}}"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center"  SoundID="UI_HUD_LongRest_AutoSelect"/>
-                        </Grid>
+        <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform>
 
-            <ls:LSButton x:Name="StartRestBtn" Command="{Binding ProcessRestCommand}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,220">
-                <ls:LSButton.Style>
-                    <Style BasedOn="{StaticResource BlueEdgeButtonStyle}" TargetType="ls:LSButton">
-                        <Setter Property="Content" Value="{Binding Source='h7e75fd8fgc164g436fgbbf7gc0b993f7fee8', Converter={StaticResource TranslatedStringConverter}}"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Tag, ElementName=root}" Value="True">
-                                <Setter Property="Content" Value="{Binding Source='h8eb28360g171eg47a7g8915g31d5ebd7198d', Converter={StaticResource TranslatedStringConverter}}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource LS_specialTxtColor}"/>
-                                <Setter Property="SoundID" Value="UI_HUD_LongRest"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ls:LSButton.Style>
-                <!-- Touch UI - Removed partial rest tooltip and made it always visible with long rest text -->
-                <!-- <ls:LSButton.ToolTip>
-                    <ls:LSTooltip ToolTipService.Placement="Top" Template="{StaticResource BaseTooltipTemplate}">
-                        <TextBlock TextWrapping="Wrap">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                    <Setter Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hae826c89g4f7eg4a64g976fgf6cbebab7564', Converter={StaticResource TranslatedStringConverter}}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Tag, ElementName=root}" Value="True">
-                                            <Setter Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h0400598cg92a9g4a17g9b6agf2a78bb93ab3', Converter={StaticResource TranslatedStringConverter}}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                    </ls:LSTooltip>
-                </ls:LSButton.ToolTip> -->
-            </ls:LSButton>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" >
+                <Grid x:Name="AutoSelectHolder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
+                    <Image Source="pack://application:,,,/Core;component/Assets/MakeCamp/campSupplies_btnDecoration.png" Stretch="None" IsHitTestVisible="False"/>
+                    <ls:LSButton x:Name="AutoSelectBtn" Style="{DynamicResource BrownButtonStyle}" Command="{Binding AutoSelectCommand}" CommandParameter="{Binding ElementName=SuppliesView, Path=SelectedItems}" 
+                                    Content="{Binding Source='h520e6ffag14aag4d3aga15dg1ed8d9a0b852', Converter={StaticResource TranslatedStringConverter}}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"  SoundID="UI_HUD_LongRest_AutoSelect"/>
+                            </Grid>
+
+                <ls:LSButton x:Name="StartRestBtn" Command="{Binding ProcessRestCommand}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,60,0,0">
+                    <ls:LSButton.Style>
+                        <Style BasedOn="{StaticResource BlueEdgeButtonStyle}" TargetType="ls:LSButton">
+                            <Setter Property="Content" Value="{Binding Source='h7e75fd8fgc164g436fgbbf7gc0b993f7fee8', Converter={StaticResource TranslatedStringConverter}}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Tag, ElementName=root}" Value="True">
+                                    <Setter Property="Content" Value="{Binding Source='h8eb28360g171eg47a7g8915g31d5ebd7198d', Converter={StaticResource TranslatedStringConverter}}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource LS_specialTxtColor}"/>
+                                    <Setter Property="SoundID" Value="UI_HUD_LongRest"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ls:LSButton.Style>
+                    <!-- Touch UI - Removed partial rest tooltip and made it always visible with long rest text -->
+                    <!-- <ls:LSButton.ToolTip>
+                        <ls:LSTooltip ToolTipService.Placement="Top" Template="{StaticResource BaseTooltipTemplate}">
+                            <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                        <Setter Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hae826c89g4f7eg4a64g976fgf6cbebab7564', Converter={StaticResource TranslatedStringConverter}}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Tag, ElementName=root}" Value="True">
+                                                <Setter Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h0400598cg92a9g4a17g9b6agf2a78bb93ab3', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                        </ls:LSTooltip>
+                    </ls:LSButton.ToolTip> -->
+                </ls:LSButton>
+            </StackPanel>
         </Grid>
         
     </Grid>
