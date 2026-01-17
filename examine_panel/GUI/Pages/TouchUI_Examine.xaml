@@ -15,6 +15,10 @@
 
     <ls:UIWidget.Resources>
         <ResourceDictionary>
+            <!-- Touch UI - Import custom resources -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_CloseButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
             <!-- Touch UI - Copied from TouchUI_CharacterPanel.xaml -->
             <!-- ===== HEADER TEMPLATE ===== -->
@@ -65,33 +69,46 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="20,20,0,0" Panel.ZIndex="1">
-                                <!-- Copied from TouchUI_CharacterPanel.xaml -->
-                                <StackPanel.Resources>
-                                    <Style TargetType="ls:LSRadioButton">
-                                        <Setter Property="Template" Value="{StaticResource RoundTabsTemplate}"/>
-                                        <Setter Property="GroupName" Value="CategoryToggleButtons"/>
-                                        <Setter Property="Margin" Value="0,0,00,0"/>
-                                        <Setter Property="Height" Value="90"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsChecked" Value="False">
-                                                <Setter Property="IsEnabled" Value="True" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </StackPanel.Resources>
+                            <Grid Grid.Column="0" VerticalAlignment="Stretch" Margin="20,20,20,0" ZIndex="1">
+                                <StackPanel Panel.ZIndex="1" VerticalAlignment="Top">
+                                    <!-- Copied from TouchUI_CharacterPanel.xaml -->
+                                    <StackPanel.Resources>
+                                        <Style TargetType="ls:LSRadioButton">
+                                            <Setter Property="Template" Value="{StaticResource RoundTabsTemplate}"/>
+                                            <Setter Property="GroupName" Value="CategoryToggleButtons"/>
+                                            <Setter Property="Margin" Value="0,0,00,0"/>
+                                            <Setter Property="Height" Value="90"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="False">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Resources>
 
-                                <ls:LSRadioButton x:Name="EntityInfoButton" IsChecked="True">
-                                    <RadioButton.Resources>
-                                        <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
-                                    </RadioButton.Resources>
-                                </ls:LSRadioButton>
-                                <ls:LSRadioButton x:Name="PaperdollButton">
-                                    <RadioButton.Resources>
-                                        <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
-                                    </RadioButton.Resources>
-                                </ls:LSRadioButton>
-                            </StackPanel>   
+                                    <ls:LSRadioButton x:Name="EntityInfoButton" IsChecked="True">
+                                        <RadioButton.Resources>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+                                    <ls:LSRadioButton x:Name="PaperdollButton">
+                                        <RadioButton.Resources>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                        </RadioButton.Resources>
+                                    </ls:LSRadioButton>
+                                </StackPanel>   
+
+                                <!--CLOSE BUTTON-->
+                                <ls:LSButton x:Name="CloseExamine" Style="{DynamicResource TouchUI_CloseButton}" SoundID="UI_Shared_Cancel" Width="100" Height="100" Margin="1,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" BoundEvent="UICancel">
+                                    <ls:LSButton.Triggers>
+                                        <EventTrigger RoutedEvent="Button.Click">
+                                            <BeginStoryboard x:Name="CloseAnimation" >
+                                                <Storyboard Children="{StaticResource ClosePanelAnim}"/>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </ls:LSButton.Triggers>
+                                </ls:LSButton>
+                            </Grid>
 
                             <!--DRAG AREA-->
                             <Grid x:Name="DragHit" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
@@ -181,17 +198,6 @@
                                     <!--FOR CHARACTERS-->
                                     <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" Width="{StaticResource CSColumnWidth}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,8,8,8"/>
                                 </Grid>
-
-                                <!--CLOSE BUTTON-->
-                                <ls:LSButton x:Name="CloseExamine" Style="{DynamicResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" BoundEvent="UICancel" Margin="0,0,0,0">
-                                <ls:LSButton.Triggers>
-                                    <EventTrigger RoutedEvent="Button.Click">
-                                        <BeginStoryboard x:Name="CloseAnimation" >
-                                            <Storyboard Children="{StaticResource ClosePanelAnim}"/>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </ls:LSButton.Triggers>
-                                </ls:LSButton>
                             </Grid>
                         </Grid>
                     </ls:LSNineSliceImage>
