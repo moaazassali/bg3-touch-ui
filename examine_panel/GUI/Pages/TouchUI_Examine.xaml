@@ -92,12 +92,12 @@
 
                                     <ls:LSRadioButton x:Name="EntityInfoButton" IsChecked="True">
                                         <RadioButton.Resources>
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                            <ImageSource x:Key="Icon">../Assets/touchui_characterpanel_info.png</ImageSource>
                                         </RadioButton.Resources>
                                     </ls:LSRadioButton>
                                     <ls:LSRadioButton x:Name="PaperdollButton">
                                         <RadioButton.Resources>
-                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/CharacterPanel/ico_sheet_active_d.png</ImageSource>
+                                            <ImageSource x:Key="Icon">pack://application:,,,/Core;component/Assets/Equipment/ico_visibility_d.png</ImageSource>
                                         </RadioButton.Resources>
                                     </ls:LSRadioButton>
                                 </StackPanel>   
