@@ -1,0 +1,74 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <ControlTemplate x:Key="TouchUI_VanityButtonTemplate" TargetType="ls:LSButton">
+        <ControlTemplate.Resources>
+            <ImageSource x:Key="ActiveFrame">pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_d_active.png</ImageSource>
+        </ControlTemplate.Resources>
+
+        <Grid x:Name="ButtonContainer" Width="60" Height="86" Background="Transparent">
+            <!-- Use LSNineSliceImage to stretch the frame from the inside but keep border 12px wide regardless of button size -->
+            <ls:LSNineSliceImage x:Name="frame" 
+                                ImageSource="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_d.png" 
+                                Slices="12"
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"/>
+
+            <Image x:Name="icon" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Source="{DynamicResource IconNormal}" 
+                Stretch="None">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Resources>
+                            <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/Shared/ico_EQ_selected.png</ImageSource>
+                            <ImageSource x:Key="IconHighlight">pack://application:,,,/Core;component/Assets/Shared/ico_EQ_selected.png</ImageSource>
+                            <ImageSource x:Key="IconPressed">pack://application:,,,/Core;component/Assets/Shared/ico_EQ_selected.png</ImageSource>
+                        </Style.Resources>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <Rectangle Fill="{StaticResource LS_DisabledPanelColor}" 
+                    Visibility="{Binding Tag, ElementName=CharacterPanelHolder, Converter={StaticResource BoolToCollapsedConverter}}"
+                    IsHitTestVisible="False"/>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding PlayerCharacterProperties.ArmorSetVisibility}" Value="Vanity">
+                <Setter Property="Style" TargetName="icon">
+                    <Setter.Value>
+                        <Style TargetType="Image">
+                            <Style.Resources>
+                                <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/BottomBar/ico_camp_d.png</ImageSource>
+                                <ImageSource x:Key="IconHighlight">pack://application:,,,/Core;component/Assets/BottomBar/ico_camp_h.png</ImageSource>
+                                <ImageSource x:Key="IconPressed">pack://application:,,,/Core;component/Assets/BottomBar/ico_camp_h.png</ImageSource>
+                            </Style.Resources>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ImageSource" Value="{StaticResource ActiveFrame}" TargetName="frame"/>
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_h_active.png" TargetName="frame"/>
+                <Setter Property="Source" Value="{DynamicResource IconHighlight}" TargetName="icon"/>
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Equipment/toggle_visibility_h_active.png" TargetName="frame"/>
+                <Setter Property="Source" Value="{DynamicResource IconPressed}" TargetName="icon"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

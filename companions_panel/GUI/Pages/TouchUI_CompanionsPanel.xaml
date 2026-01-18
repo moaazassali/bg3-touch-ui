@@ -29,6 +29,7 @@
             <!-- Touch UI - Import custom resources -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Library/TouchUI_ContainerInventoryTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Storyboard x:Key="HideCharacterSelectAnim" FillBehavior="Stop">
@@ -141,7 +142,7 @@
         <ControlTemplate>
             <Grid x:Name="bgFade" Margin="-1400,0,-1400,-1400">
                 <Grid x:Name="Panel" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-               RenderTransformOrigin="0.5,0.5" Margin="0,0,1672,1560" Width="1426">
+               RenderTransformOrigin="0.5,0.5" Margin="0,0,1672,1560" Width="2500">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -231,14 +232,18 @@
                                         </Grid>
                                         <Grid ClipToBounds="True">
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1070"/>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
                                             <!-- EQUIPMENT COLUMN -->
                                                 <Grid Name="EquipmentColumn" Grid.Column="0">
                                                 <!-- EQUIP -->
-                                                <Control x:Name="EquipmentHolder" VerticalAlignment="Stretch" Template="{StaticResource CharacterEquipmentTemplate}" Margin="20,60,40,44"/>
+                                                <Control x:Name="EquipmentHolder" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="0,0,40,0">
+                                                    <Grid.LayoutTransform>
+                                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                    </Grid.LayoutTransform>
+                                                </Control>
                                                 <Grid Height="88" VerticalAlignment="Top">
                                                     <!-- NAME -->
 
