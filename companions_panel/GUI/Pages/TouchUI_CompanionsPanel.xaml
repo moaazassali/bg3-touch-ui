@@ -30,6 +30,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Library/TouchUI_ContainerInventoryTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_WeightBarTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Storyboard x:Key="HideCharacterSelectAnim" FillBehavior="Stop">
@@ -324,7 +325,11 @@
                                                     <Control x:Name="PanelTemplateHolder" Template="{StaticResource CharacterInventoryTemplate}"/>
                                                 </Border>
                                                 <!-- Weight bar -->
-                                                <Control Template="{StaticResource WeightBarTemplate}" Margin="0,16,0,16" Grid.Row="1" HorizontalAlignment="Center"/>
+                                                <Control Template="{StaticResource TouchUI_WeightBarTemplate}" Margin="0,24,0,24" Grid.Row="1" HorizontalAlignment="Center">
+                                                    <Control.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                                    </Control.LayoutTransform>
+                                                </Control>
                                             </Grid>
 
                                         </Grid>
