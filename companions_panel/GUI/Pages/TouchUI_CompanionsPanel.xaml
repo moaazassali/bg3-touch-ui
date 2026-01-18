@@ -253,7 +253,12 @@
                                                 <Grid Height="88" VerticalAlignment="Top">
                                                     <!-- NAME -->
 
-                                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap">
+                                                        <TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+
                                                     <!-- TOGGLE VIEW BTN -->
                                                     <ls:LSToggleButton x:Name="ToggleCSView" SoundID="UI_HUD_Options_ToggleButton" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True">
                                                         <ls:LSToggleButton.Template>
