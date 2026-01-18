@@ -108,7 +108,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <!-- <ColumnDefinition Width="Auto"/> -->
                     </Grid.ColumnDefinitions>
                     <b:Interaction.Behaviors>
                         <ls:InventoriesMergerBehavior x:Name="InventoriesMerger" Inventories="{Binding Inventories}"/>
@@ -160,7 +160,7 @@
                     </ls:FilteringContainer>
 
                     <!--Infotip-->
-                    <Control Grid.Column="2" Template="{StaticResource CharacterSheetInfotipTemplate}" VerticalAlignment="Center" Margin="-8,-8,8,0"  HorizontalAlignment="Right" ToolTipService.Placement="Right"/>
+                    <!-- <Control Grid.Column="2" Template="{StaticResource CharacterSheetInfotipTemplate}" VerticalAlignment="Center" Margin="-8,-8,8,0"  HorizontalAlignment="Right" ToolTipService.Placement="Right"/> -->
                 </Grid>
 
             </Grid>
