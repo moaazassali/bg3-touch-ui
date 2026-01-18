@@ -308,13 +308,19 @@
                                             </Grid>
 
                                             <!-- INVENTORY COLUMN -->
-                                                <Grid x:Name="InventoryColumn" Grid.Column="1" Opacity="1" VerticalAlignment="Stretch" Width="{StaticResource InventoryColumnWidth}">
+                                            <!-- Touch UI - By having a defined width, we can scale the inventory grid without worrying about it potentially overflowing -->
+                                            <!-- Touch UI - If we were to use stretch for example, the 2x scaling would cause half of the inventory to be cut off and we wouldn't know -->
+                                            <Grid x:Name="InventoryColumn" Grid.Column="1" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1200">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
                                                 <!-- INVENTORY HOLDER -->
                                                 <Border Grid.Row="0" VerticalAlignment="Stretch" >
+                                                    <Border.LayoutTransform>
+                                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                    </Border.LayoutTransform>
+
                                                     <Control x:Name="PanelTemplateHolder" Template="{StaticResource CharacterInventoryTemplate}"/>
                                                 </Border>
                                                 <!-- Weight bar -->
