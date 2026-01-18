@@ -291,7 +291,11 @@
                                             </Grid>
 
                                             <!-- INFO COLUMN -->
-                                            <Grid Name="CharacterInfoColumn" Grid.Column="0" Visibility="Collapsed">
+                                            <Grid Name="CharacterInfoColumn" Grid.ColumnSpan="2" Width="700" HorizontalAlignment="Left" Visibility="Collapsed" ZIndex="1">
+                                                <Grid.LayoutTransform>
+                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                </Grid.LayoutTransform>
+
                                                 <Control Name="CharacterInfoPanel"  Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                                                 <!--Close column-->
                                                 <ls:LSButton Style="{StaticResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top">
