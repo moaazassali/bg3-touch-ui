@@ -361,7 +361,7 @@
                         <!--CHEST & COMPANION LINE-->
                         <!-- <ls:LSNineSliceImage x:Name="CompanionPanelListHolder" Style="{StaticResource DecorBookendHorizontal}" Margin="0,0,0,-112"> -->
                             <Grid VerticalAlignment="Stretch">
-                                <ls:LSScrollViewer x:Name="PART_ScrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"  MaxHeight="{StaticResource ClippingWidth}" Margin="0,60,0,60">
+                                <ls:LSScrollViewer x:Name="PART_ScrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"  MaxHeight="{StaticResource ClippingWidth}" Margin="0,90,0,90">
                                     <Grid x:Name="ScrollContent" HorizontalAlignment="Left">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -406,31 +406,65 @@
                                 </ls:LSScrollViewer>
 
                                 <!--ScrollNavigation-->
-                                <Grid Visibility="Visible"  Margin="24,0,24,0">
+                                <Grid Visibility="Visible"  Margin="0,0,0,0">
 
-                                    <ls:LSButton x:Name="LeftScrollButton" IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource SmallRoundButtonStyleArrow}" RenderTransformOrigin="0.5,0.5">  
+                                    <ls:LSButton x:Name="UpScrollButton" 
+                                                 IsEnabled="True" 
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalAlignment="Top" 
+                                                 Background="Transparent"
+                                                 MinHeight="90">
+                                        
+                                        <ls:LSButton.Template>
+                                            <ControlTemplate TargetType="ls:LSButton">
+                                                <Grid Background="{TemplateBinding Background}">
+                                                    <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
+                                                                 IsHitTestVisible="False"
+                                                                 HorizontalAlignment="Center" 
+                                                                 VerticalAlignment="Center"
+                                                                 RenderTransformOrigin="0.5,0.5"
+                                                                 IsEnabled="{TemplateBinding IsEnabled}">
+                                                        <ls:LSButton.RenderTransform>
+                                                            <RotateTransform Angle="-90"/>
+                                                        </ls:LSButton.RenderTransform>
+                                                    </ls:LSButton>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </ls:LSButton.Template>
+                                        
                                         <b:Interaction.Behaviors>
                                             <ls:ScrollBehavior Orientation="{x:Static Orientation.Vertical}" ScrollViewer="{Binding ElementName=PART_ScrollViewer}" Offset="-500" ScrollRate="100"/>
                                         </b:Interaction.Behaviors>
-                                        <ls:LSButton.RenderTransform>
-                                            <RotateTransform Angle="-90"/> <!-- Point Up -->
-                                        </ls:LSButton.RenderTransform>
                                     </ls:LSButton>
 
-                                    <ls:LSButton x:Name="RightScrollButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource SmallRoundButtonStyleArrow}" IsEnabled="True" RenderTransformOrigin="0.5,0.5">
-                                        <ls:LSButton.RenderTransform>
-                                            <RotateTransform Angle="90"/> <!-- Point Down -->
-                                        </ls:LSButton.RenderTransform>
-                                        <ls:LSButton.Tag>
-                                            <MultiBinding Converter="{StaticResource EqualConverter}">
-                                                <Binding Path="ScrollableHeight" ElementName="PART_ScrollViewer"/>
-                                                <Binding Path="VerticalOffset" ElementName="PART_ScrollViewer"/>
-                                            </MultiBinding>
-                                        </ls:LSButton.Tag>
+                                    <ls:LSButton x:Name="DownScrollButton" 
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalAlignment="Bottom" 
+                                                 Background="Transparent"
+                                                 MinHeight="90">
+
+                                        <ls:LSButton.Template>
+                                            <ControlTemplate TargetType="ls:LSButton">
+                                                <Grid Background="{TemplateBinding Background}">
+                                                    <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
+                                                                 IsHitTestVisible="False"
+                                                                 HorizontalAlignment="Center" 
+                                                                 VerticalAlignment="Center"
+                                                                 RenderTransformOrigin="0.5,0.5"
+                                                                 IsEnabled="{TemplateBinding IsEnabled}">
+                                                        <ls:LSButton.RenderTransform>
+                                                            <RotateTransform Angle="90"/>
+                                                        </ls:LSButton.RenderTransform>
+                                                    </ls:LSButton>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </ls:LSButton.Template>
+                                        
                                         <b:Interaction.Behaviors>
                                             <ls:ScrollBehavior Orientation="{x:Static Orientation.Vertical}" ScrollViewer="{Binding ElementName=PART_ScrollViewer}" Offset="500" ScrollRate="100"/>
                                         </b:Interaction.Behaviors>
                                     </ls:LSButton>
+
                                 </Grid>
                             </Grid>
 
