@@ -222,9 +222,9 @@
                                             <ls:LSToggleButton.Template>
                                                 <ControlTemplate TargetType="ls:LSToggleButton">
                                                     <Grid ToolTipService.Placement="Top">
-                                                        <Grid.ToolTip>
+                                                        <!-- <Grid.ToolTip>
                                                             <ls:LSTooltip x:Name="Tooltip" Content="{Binding Source='hf76cbcb4g83ddg49d3gb01cgd00359f84713', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                        </Grid.ToolTip>
+                                                        </Grid.ToolTip> -->
                                                         <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_d.png" Stretch="None"/>
                                                         <Image x:Name="icon" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_d.png" Stretch="None"/>
                                                     </Grid>
