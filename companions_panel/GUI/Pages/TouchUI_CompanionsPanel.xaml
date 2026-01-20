@@ -217,7 +217,7 @@
                                                     </Grid>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsChecked" Value="False">
-                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                            <!-- <Setter Property="Visibility" Value="Hidden"/> -->
                                                         </Trigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_h.png"/>
@@ -310,13 +310,13 @@
 
                                                 <Control Name="CharacterInfoPanel"  Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                                                 <!--Close column-->
-                                                <ls:LSButton Style="{StaticResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                <!-- <ls:LSButton Style="{StaticResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                     <b:Interaction.Triggers>
                                                         <b:EventTrigger EventName="Click">
                                                             <b:ChangePropertyAction TargetName="ToggleCSView" PropertyName="IsChecked" Value="True"/>
                                                         </b:EventTrigger>
                                                     </b:Interaction.Triggers>
-                                                </ls:LSButton>
+                                                </ls:LSButton> -->
                                             </Grid>
 
                                             <!-- INVENTORY COLUMN -->
