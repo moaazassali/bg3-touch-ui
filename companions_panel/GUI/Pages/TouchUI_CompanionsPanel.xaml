@@ -397,7 +397,7 @@
                                         </Grid.RowDefinitions>
                                         
                                         <!--COMPANIONS-->
-                                        <ListBox Grid.Row="1" x:Name="CompanionPortraits" HorizontalAlignment="Center" ItemsSource="{Binding Data.CampNonPartyCharacters}" ItemTemplate="{StaticResource CharacterPortraitTemplate}"  VirtualizingPanel.VirtualizationMode="Recycling" ItemContainerStyle="{StaticResource ListBoxPortraits}" SelectedIndex="0">
+                                        <ListBox Grid.Row="1" x:Name="CompanionPortraits" HorizontalAlignment="Center" ItemsSource="{Binding Data.CampNonPartyCharacters}" ItemTemplate="{StaticResource CharacterPortraitTemplate}"  VirtualizingPanel.VirtualizationMode="Recycling" ItemContainerStyle="{StaticResource ListBoxPortraits}">
                                             <b:Interaction.Triggers>
                                                 <!--toggle list and page-->
                                                 <b:EventTrigger EventName="Selected">
@@ -414,7 +414,7 @@
                                         </ListBox>
                                         
                                         <!--CHESTS-->
-                                        <ListBox Grid.Row="0" x:Name="CampPortraits" HorizontalAlignment="Center" ItemsSource="{Binding CurrentPlayer.UIData.CampChests}" ItemTemplate="{StaticResource CharacterPortraitTemplate}"  VirtualizingPanel.VirtualizationMode="Recycling" ItemContainerStyle="{StaticResource ListBoxPortraits}">
+                                        <ListBox Grid.Row="0" x:Name="CampPortraits" HorizontalAlignment="Center" ItemsSource="{Binding CurrentPlayer.UIData.CampChests}" ItemTemplate="{StaticResource CharacterPortraitTemplate}"  VirtualizingPanel.VirtualizationMode="Recycling" ItemContainerStyle="{StaticResource ListBoxPortraits}" SelectedIndex="0">
                                             <b:Interaction.Triggers>
                                                 <!--toggle list and page-->
                                                 <b:EventTrigger EventName="Selected">
