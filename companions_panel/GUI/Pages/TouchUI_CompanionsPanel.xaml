@@ -144,7 +144,7 @@
         <ControlTemplate>
             <Grid x:Name="bgFade" Margin="-1400,0,-1400,-1400">
                 <Grid x:Name="Panel" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-               RenderTransformOrigin="0.5,0.5" Margin="0,0,1672,1760" Width="2500">
+               RenderTransformOrigin="0.5,0.5" Margin="0,0,1672,1760" Width="2540">
                     <!-- <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -256,7 +256,7 @@
                                     <!-- ======== COMPANION PAGE ======== -->
                                     <Grid x:Name="CharacterSheetPage" DataContext="{Binding SelectedItem, ElementName=CompanionPortraits}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" ls:TooltipExtender.Owner="{Binding SelectedItem, ElementName=CompanionPortraits}">
                                         <!-- PAPERDOLL-->
-                                        <Grid Name="PaperdollHolder" Margin="-208,0,0,4" ClipToBounds="True" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                                        <Grid Name="PaperdollHolder" Margin="-188,0,0,4" ClipToBounds="True" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Stretch">
                                             <ls:LSPaperdoll HorizontalAlignment="Center" Margin="0,0,0,-100" x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1712" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                             <!--DOLL CONTROLS-->
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="-660,0,0,405">
@@ -299,7 +299,7 @@
                                             <!-- EQUIPMENT COLUMN -->
                                                 <Grid Name="EquipmentColumn" Grid.Column="0">
                                                 <!-- EQUIP -->
-                                                <Control x:Name="EquipmentHolder" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="0,0,40,0">
+                                                <Control x:Name="EquipmentHolder" VerticalAlignment="Stretch" Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="20,0,20,0">
                                                     <Grid.LayoutTransform>
                                                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                                                     </Grid.LayoutTransform>

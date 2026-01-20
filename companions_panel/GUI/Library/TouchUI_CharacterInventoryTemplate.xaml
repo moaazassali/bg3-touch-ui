@@ -104,10 +104,10 @@
                 </ListBox>
 
                 <!-- Filter -->
-                <Grid x:Name="FiltersControl" Grid.Row="0" VerticalAlignment="Top" Height="88">
+                <Grid x:Name="FiltersControl" Grid.Row="0" VerticalAlignment="Top" Height="88" Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                         <!-- <ColumnDefinition Width="Auto"/> -->
                     </Grid.ColumnDefinitions>
                     <b:Interaction.Behaviors>
@@ -137,7 +137,7 @@
                         </b:Interaction.Triggers>
                     </ls:LSComboBox>
 
-                    <ls:FilteringContainer Grid.Column="1" x:Name="FilteringContainerHolder" Margin="4,0,4,0" FilterPredicate="{Binding PlayerCharacterProperties.InventoryPredicate}" Template="{StaticResource FilterHolderTemplate}"
+                    <ls:FilteringContainer Grid.Column="1" x:Name="FilteringContainerHolder" Margin="0,0,0,0" FilterPredicate="{Binding PlayerCharacterProperties.InventoryPredicate}" Template="{StaticResource FilterHolderTemplate}"
                                            CurrentFilter="{Binding DataContext.CurrentPlayer.UIData.GlobalSelectedFilter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Mode=OneWay}"
                                            ItemsList="{Binding InventoriesSlots, ElementName=InventoriesMerger}" DefaultViewItemsList="{Binding Inventory.Slots}" MaxDisplayedFilters="12"
                                            SortComparer="{Binding DataContext.Data.InventoryIndexSortComparer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
