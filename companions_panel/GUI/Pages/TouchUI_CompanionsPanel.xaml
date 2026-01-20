@@ -194,10 +194,23 @@
 
                                     <Grid VerticalAlignment="Top">
                                         <!-- NAME -->
-                                        <TextBlock Text="{Binding SelectedItem.Name, ElementName=CompanionPortraits}" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap">
+                                        <TextBlock Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap">
                                             <TextBlock.LayoutTransform>
                                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                                             </TextBlock.LayoutTransform>
+
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <!-- Touch UI - Default: Show companion name -->
+                                                    <Setter Property="Text" Value="{Binding SelectedItem.Name, ElementName=CompanionPortraits}"/>
+                                                    <Style.Triggers>
+                                                        <!-- Touch UI - If companion list is not selected, show chest name -->
+                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=CompanionPortraits}" Value="-1">
+                                                            <Setter Property="Text" Value="{Binding SelectedItem.Name, ElementName=CampPortraits}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
                                         </TextBlock>
 
                                         <!-- TOGGLE VIEW BTN -->
