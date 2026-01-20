@@ -451,6 +451,9 @@
                                                         BorderThickness="4" 
                                                         CornerRadius="10,10,0,0">
                                                     <Grid Background="{TemplateBinding Background}">
+                                                        <Grid.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                                                        </Grid.LayoutTransform>
                                                         <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
                                                                     IsHitTestVisible="False"
                                                                     HorizontalAlignment="Center" 
@@ -500,6 +503,9 @@
                                                         BorderThickness="4" 
                                                         CornerRadius="0,0,10,10" >
                                                     <Grid Background="{TemplateBinding Background}">
+                                                        <Grid.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                                                        </Grid.LayoutTransform>
                                                         <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
                                                                     IsHitTestVisible="False"
                                                                     HorizontalAlignment="Center" 
