@@ -191,6 +191,49 @@
                                             </b:EventTrigger>
                                         </b:Interaction.Triggers>
                                     </Border>
+
+                                    <Grid VerticalAlignment="Top">
+                                        <!-- NAME -->
+                                        <TextBlock Text="{Binding SelectedItem.Name, ElementName=CompanionPortraits}" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap">
+                                            <TextBlock.LayoutTransform>
+                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                            </TextBlock.LayoutTransform>
+                                        </TextBlock>
+
+                                        <!-- TOGGLE VIEW BTN -->
+                                        <ls:LSToggleButton x:Name="ToggleCSView" SoundID="UI_HUD_Options_ToggleButton" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True">
+                                            <ls:LSToggleButton.LayoutTransform>
+                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                            </ls:LSToggleButton.LayoutTransform>
+                                        
+                                            <ls:LSToggleButton.Template>
+                                                <ControlTemplate TargetType="ls:LSToggleButton">
+                                                    <Grid ToolTipService.Placement="Top">
+                                                        <Grid.ToolTip>
+                                                            <ls:LSTooltip x:Name="Tooltip" Content="{Binding Source='hf76cbcb4g83ddg49d3gb01cgd00359f84713', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                        </Grid.ToolTip>
+                                                        <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_d.png" Stretch="None"/>
+                                                        <Image x:Name="icon" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_d.png" Stretch="None"/>
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsChecked" Value="False">
+                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_h.png"/>
+                                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_h.png"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_p.png"/>
+                                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_p.png"/>
+                                                            <Setter TargetName="icon" Property="Margin" Value="0,0,0,-2"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </ls:LSToggleButton.Template>
+                                        </ls:LSToggleButton>
+                                    </Grid>
+
                                     <!--CLOSE BUTTON-->
                                     <ls:LSButton Style="{StaticResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" BoundEvent="UICancel" Margin="0,0,0,0"
                                                  Command="{Binding DataContext.CloseCampContainersCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
@@ -210,7 +253,7 @@
                                     <Grid x:Name="CharacterSheetPage" DataContext="{Binding SelectedItem, ElementName=CompanionPortraits}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" ls:TooltipExtender.Owner="{Binding SelectedItem, ElementName=CompanionPortraits}">
                                         <!-- PAPERDOLL-->
                                         <Grid Name="PaperdollHolder" Margin="-208,0,0,4" ClipToBounds="True" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                                            <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1712" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                            <ls:LSPaperdoll HorizontalAlignment="Center" Margin="0,0,0,-100" x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1712" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                             <!--DOLL CONTROLS-->
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="-660,0,0,405">
                                                 <StackPanel.LayoutTransform>
@@ -257,44 +300,6 @@
                                                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                                                     </Grid.LayoutTransform>
                                                 </Control>
-                                                <Grid Height="88" VerticalAlignment="Top">
-                                                    <!-- NAME -->
-
-                                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="{StaticResource ScaledIntermediateFontSize}" Foreground="{StaticResource LS_accent100TxtColor}" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" TextWrapping="Wrap">
-                                                        <TextBlock.LayoutTransform>
-                                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                                        </TextBlock.LayoutTransform>
-                                                    </TextBlock>
-
-                                                    <!-- TOGGLE VIEW BTN -->
-                                                    <ls:LSToggleButton x:Name="ToggleCSView" SoundID="UI_HUD_Options_ToggleButton" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True">
-                                                        <ls:LSToggleButton.Template>
-                                                            <ControlTemplate TargetType="ls:LSToggleButton">
-                                                                <Grid ToolTipService.Placement="Top">
-                                                                    <Grid.ToolTip>
-                                                                        <ls:LSTooltip x:Name="Tooltip" Content="{Binding Source='hf76cbcb4g83ddg49d3gb01cgd00359f84713', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                    </Grid.ToolTip>
-                                                                    <Image x:Name="btn" Source="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_d.png" Stretch="None"/>
-                                                                    <Image x:Name="icon" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_d.png" Stretch="None"/>
-                                                                </Grid>
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsChecked" Value="False">
-                                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_h.png"/>
-                                                                        <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_h.png"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsPressed" Value="True">
-                                                                        <Setter TargetName="btn" Property="Source" Value="pack://application:,,,/Core;component/Assets/CharacterSheet/btn_round_medium_p.png"/>
-                                                                        <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_p.png"/>
-                                                                        <Setter TargetName="icon" Property="Margin" Value="0,0,0,-2"/>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </ls:LSToggleButton.Template>
-                                                    </ls:LSToggleButton>
-                                                </Grid>
                                             </Grid>
 
                                             <!-- INFO COLUMN -->
