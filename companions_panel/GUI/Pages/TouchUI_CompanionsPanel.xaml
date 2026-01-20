@@ -355,6 +355,12 @@
                             <ScaleTransform ScaleX="2" ScaleY="2"/>
                         </Grid.LayoutTransform>
 
+                        <Border x:Name="PART_Border" 
+                                BorderBrush="#4a321c" 
+                                BorderThickness="4" 
+                                CornerRadius="10" 
+                                Background="#B3000000"/>
+
                         <Grid.Resources>
                             <System:Double x:Key="ClippingWidth">800</System:Double>
                         </Grid.Resources>
@@ -417,18 +423,39 @@
                                         
                                         <ls:LSButton.Template>
                                             <ControlTemplate TargetType="ls:LSButton">
-                                                <Grid Background="{TemplateBinding Background}">
-                                                    <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
-                                                                 IsHitTestVisible="False"
-                                                                 HorizontalAlignment="Center" 
-                                                                 VerticalAlignment="Center"
-                                                                 RenderTransformOrigin="0.5,0.5"
-                                                                 IsEnabled="{TemplateBinding IsEnabled}">
-                                                        <ls:LSButton.RenderTransform>
-                                                            <RotateTransform Angle="-90"/>
-                                                        </ls:LSButton.RenderTransform>
-                                                    </ls:LSButton>
-                                                </Grid>
+
+                                                <Border x:Name="PART_Border" 
+                                                        BorderBrush="#4a321c" 
+                                                        BorderThickness="4" 
+                                                        CornerRadius="10,10,0,0">
+                                                    <Grid Background="{TemplateBinding Background}">
+                                                        <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
+                                                                    IsHitTestVisible="False"
+                                                                    HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"
+                                                                    RenderTransformOrigin="0.5,0.5"
+                                                                    IsEnabled="{TemplateBinding IsEnabled}">
+                                                            <ls:LSButton.RenderTransform>
+                                                                <RotateTransform Angle="-90"/>
+                                                            </ls:LSButton.RenderTransform>
+                                                        </ls:LSButton>
+                                                    </Grid>
+                                                </Border>
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="#FFFFFFFF"/>
+                                                        <Setter TargetName="PART_Border" Property="Background" Value="#E6000000"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="PART_Border" Property="Background" Value="#FF000000"/>
+                                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="#FFC99757"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="PART_Border" Property="Opacity" Value="0.4"/>
+                                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="Gray"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </ls:LSButton.Template>
                                         
@@ -445,18 +472,39 @@
 
                                         <ls:LSButton.Template>
                                             <ControlTemplate TargetType="ls:LSButton">
-                                                <Grid Background="{TemplateBinding Background}">
-                                                    <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
-                                                                 IsHitTestVisible="False"
-                                                                 HorizontalAlignment="Center" 
-                                                                 VerticalAlignment="Center"
-                                                                 RenderTransformOrigin="0.5,0.5"
-                                                                 IsEnabled="{TemplateBinding IsEnabled}">
-                                                        <ls:LSButton.RenderTransform>
-                                                            <RotateTransform Angle="90"/>
-                                                        </ls:LSButton.RenderTransform>
-                                                    </ls:LSButton>
-                                                </Grid>
+
+                                                <Border x:Name="PART_Border" 
+                                                        BorderBrush="#4a321c" 
+                                                        BorderThickness="4" 
+                                                        CornerRadius="0,0,10,10" >
+                                                    <Grid Background="{TemplateBinding Background}">
+                                                        <ls:LSButton Style="{StaticResource SmallRoundButtonStyleArrow}" 
+                                                                    IsHitTestVisible="False"
+                                                                    HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"
+                                                                    RenderTransformOrigin="0.5,0.5"
+                                                                    IsEnabled="{TemplateBinding IsEnabled}">
+                                                            <ls:LSButton.RenderTransform>
+                                                                <RotateTransform Angle="90"/>
+                                                            </ls:LSButton.RenderTransform>
+                                                        </ls:LSButton>
+                                                    </Grid>
+                                                </Border>
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="#FFFFFFFF"/>
+                                                        <Setter TargetName="PART_Border" Property="Background" Value="#E6000000"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="PART_Border" Property="Background" Value="#FF000000"/>
+                                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="#FFC99757"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="PART_Border" Property="Opacity" Value="0.4"/>
+                                                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="Gray"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </ls:LSButton.Template>
                                         
