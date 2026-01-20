@@ -235,8 +235,12 @@
                                     </Grid>
 
                                     <!--CLOSE BUTTON-->
-                                    <ls:LSButton Style="{StaticResource SmallCloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" BoundEvent="UICancel" Margin="0,0,0,0"
+                                    <ls:LSButton Style="{StaticResource CloseButton}" SoundID="UI_Shared_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" BoundEvent="UICancel" Margin="0,-6,0,-6"
                                                  Command="{Binding DataContext.CloseCampContainersCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                            <ls:LSButton.LayoutTransform>
+                                                <ScaleTransform ScaleX="2.2" ScaleY="2.2"/>
+                                            </ls:LSButton.LayoutTransform>
+
                                         <ls:LSButton.Triggers>
                                             <EventTrigger RoutedEvent="Button.Click">
                                                 <BeginStoryboard x:Name="CloseAnimation" >
