@@ -167,7 +167,7 @@
                     </b:Interaction.Behaviors>
                     <!--===== PANEL CONTENTS =====-->
                     <Grid Grid.Column="1" VerticalAlignment="Stretch">
-                        <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" VerticalAlignment="Stretch">
+                        <ls:LSNineSliceImage x:Name="BGpanel" Style="{StaticResource Generic9SliceBGFaded}" Height="1800">
                             <Grid Name="CharacterPanelContents">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
