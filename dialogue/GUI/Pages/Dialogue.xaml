@@ -126,8 +126,12 @@
                 <ls:LSButton x:Name="btnStopListening" Style="{DynamicResource CloseButton}" SoundID="UI_HUD_Dialogue_StopListening" Command="{Binding DataContext.StopListeningCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         VerticalAlignment="Top" HorizontalAlignment="Right" Margin="30" Visibility="{Binding DataContext.ActiveDialogueIsListening, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource BoolToVisibleConverter}}"/>
 
-                <Grid Name="ButtonsHitbox" Background="Transparent" Height="460" Width="600" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <StackPanel Name="ButtonsContainer" Orientation="Vertical" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="40,0,0,20">
+                <Grid Name="ButtonsHitbox" Background="Transparent" Width="600" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    </StackPanel.LayoutTransform>
+
+                    <StackPanel Name="ButtonsContainer" Orientation="Vertical" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,10">
 
                         <!-- Privacy Toggle -->
                         <StackPanel x:Name="PrivacyToggle" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Margin="4,0,0,16"
@@ -204,7 +208,7 @@
                         </ContentControl>
                         <!--#endregion-->
 
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
                             <ls:LSButton x:Name="btnMenu" Style="{StaticResource GameMenuButtonStyle}" Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu" Content="{Binding Shortcut}" SoundID="UI_HUD_EscapeMenu_Open"
                                     DataContext="{Binding DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='Menu', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100"
                                     IsEnabled="{Binding DataContext.CurrentPlayer.UIData.IsGameMenuAllowed, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
