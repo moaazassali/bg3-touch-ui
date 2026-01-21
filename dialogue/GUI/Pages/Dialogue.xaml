@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Core;component/Library/DialogueTemplates.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_Dialogue.BodyAndAnswersContainer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ls:LSMessageBoxData x:Key="OnAttackMessageBox" Text="{Binding Source='h3de62469gbf26g4390ga9a5g530b768217fe', Converter={StaticResource TranslatedStringConverter}}" Title="{Binding Source='h4ce24528g0b74g4dc1g8ba6g80071f09ac12', Converter={StaticResource TranslatedStringConverter}}" UUID="UUID">
@@ -91,7 +92,7 @@
                 <!-- dialogue text and answers -->
                 <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
                     <Control Template="{StaticResource Dialogue.TradeNotificationControl}" HorizontalAlignment="Center"/>
-                    <Control Template="{StaticResource Dialogue.BodyAndAnswersContainer}" VerticalAlignment="Bottom"/>
+                    <Control Template="{StaticResource TouchUI_Dialogue.BodyAndAnswersContainer}" VerticalAlignment="Bottom"/>
                 </StackPanel>
 
                 <!-- tabs -->
