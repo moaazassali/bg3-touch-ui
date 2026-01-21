@@ -127,11 +127,10 @@
                         VerticalAlignment="Top" HorizontalAlignment="Right" Margin="30" Visibility="{Binding DataContext.ActiveDialogueIsListening, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource BoolToVisibleConverter}}"/>
 
                 <Grid Name="ButtonsHitbox" Background="Transparent" Width="600" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <StackPanel.LayoutTransform>
-                        <ScaleTransform ScaleX="3" ScaleY="3"/>
-                    </StackPanel.LayoutTransform>
-
                     <StackPanel Name="ButtonsContainer" Orientation="Vertical" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,10">
+                        <StackPanel.LayoutTransform>
+                            <ScaleTransform ScaleX="3" ScaleY="3"/>
+                        </StackPanel.LayoutTransform>
 
                         <!-- Privacy Toggle -->
                         <StackPanel x:Name="PrivacyToggle" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Margin="4,0,0,16"
@@ -141,72 +140,6 @@
                             </Border>
                             <TextBlock Text="{Binding Source='h4c3d66a9g8aa4g46e0g9557g3cc7418bdaf2',Converter={StaticResource TranslatedStringConverter}}" FontSize="{StaticResource LargeFontSize}" Style="{StaticResource Dialogue.BodyTextStyle}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </StackPanel>
-
-                        <!--#region Character selection-->
-                        <ContentControl IsHitTestVisible="{Binding Path=IsChecked, ElementName=btnToggleCharacters}" Opacity="0" Visibility="Collapsed" DataContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
-                            <ItemsControl x:Name="PortraitHolder" ItemsSource="{Binding CurrentPlayer.AssignedCharacters}" Background="Transparent" Template="{StaticResource MinimalItemsControlTemplate}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel IsItemsHost="True" Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ContentPresenter}">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource Dialogue.InactivePortrait}" />
-                                        <Setter Property="VerticalAlignment" Value="Bottom"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Value="True">
-                                                <DataTrigger.Binding>
-                                                    <MultiBinding Converter="{StaticResource EqualConverter}" Mode="OneWay">
-                                                        <Binding Path="DataContext.CurrentPlayer.SelectedCharacter" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
-                                                        <Binding Path="."/>
-                                                    </MultiBinding>
-                                                </DataTrigger.Binding>
-                                                <Setter Property="ContentTemplate" Value="{StaticResource Dialogue.ActivePortrait}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ItemsControl.ItemContainerStyle>
-                            </ItemsControl>
-
-                            <ContentControl.Style>
-                                <Style TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=btnToggleCharacters}" Value="True">
-                                            <DataTrigger.EnterActions>
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <CubicEase EasingMode="EaseOut"/>
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </DataTrigger.EnterActions>
-                                            <DataTrigger.ExitActions>
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <CubicEase EasingMode="EaseOut"/>
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}"/>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </DataTrigger.ExitActions>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>
-                        </ContentControl>
-                        <!--#endregion-->
 
                         <StackPanel Orientation="Vertical">
                             <ls:LSButton x:Name="btnMenu" Style="{StaticResource GameMenuButtonStyle}" Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu" Content="{Binding Shortcut}" SoundID="UI_HUD_EscapeMenu_Open"
@@ -261,6 +194,76 @@
 
                         </StackPanel>
                     </StackPanel>
+
+                    <!--#region Character selection-->
+                    <ContentControl IsHitTestVisible="{Binding Path=IsChecked, ElementName=btnToggleCharacters}" Margin="400,0,0,20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Opacity="0" Visibility="Collapsed" DataContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
+                        <ContentControl.LayoutTransform>
+                            <ScaleTransform ScaleX="2.5" ScaleY="2.5"/>
+                        </ContentControl.LayoutTransform>
+                        
+                        <ItemsControl x:Name="PortraitHolder" ItemsSource="{Binding CurrentPlayer.AssignedCharacters}" Background="Transparent" Template="{StaticResource MinimalItemsControlTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel IsItemsHost="True" Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="{x:Type ContentPresenter}">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource Dialogue.InactivePortrait}" />
+                                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource EqualConverter}" Mode="OneWay">
+                                                    <Binding Path="DataContext.CurrentPlayer.SelectedCharacter" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                                    <Binding Path="."/>
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="ContentTemplate" Value="{StaticResource Dialogue.ActivePortrait}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked, ElementName=btnToggleCharacters}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2">
+                                                        <DoubleAnimation.EasingFunction>
+                                                            <CubicEase EasingMode="EaseOut"/>
+                                                        </DoubleAnimation.EasingFunction>
+                                                    </DoubleAnimation>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2">
+                                                        <DoubleAnimation.EasingFunction>
+                                                            <CubicEase EasingMode="EaseOut"/>
+                                                        </DoubleAnimation.EasingFunction>
+                                                    </DoubleAnimation>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                    <!--#endregion-->
                 </Grid>
 
                 <TextBlock VerticalAlignment="Top"
