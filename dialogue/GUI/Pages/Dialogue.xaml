@@ -220,6 +220,8 @@
                                                 </MultiBinding>
                                             </DataTrigger.Binding>
                                             <Setter Property="ContentTemplate" Value="{StaticResource Dialogue.ActivePortrait}" />
+                                            <!-- Touch UI - Push right to counter the template's negative left margin of active portrait -->
+                                            <Setter Property="Margin" Value="8,0,0,0"/> 
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
