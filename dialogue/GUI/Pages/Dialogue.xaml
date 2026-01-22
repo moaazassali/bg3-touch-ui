@@ -146,36 +146,36 @@
                             <ls:LSButton x:Name="btnMenu" Style="{StaticResource GameMenuButtonStyle}" Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu" Content="{Binding Shortcut}" SoundID="UI_HUD_EscapeMenu_Open"
                                     DataContext="{Binding DataContext.CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='Menu', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100"
                                     IsEnabled="{Binding DataContext.CurrentPlayer.UIData.IsGameMenuAllowed, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                                <ls:LSButton.ToolTip>
+                                <!-- <ls:LSButton.ToolTip>
                                     <ls:LSTooltip Content="{Binding Source='hb9a8dd57g134fg425fg9da0g1dc579af0c60',Converter={StaticResource TranslatedStringConverter}, ConverterParameter='Loca'}"/>
-                                </ls:LSButton.ToolTip>
+                                </ls:LSButton.ToolTip> -->
                             </ls:LSButton>
 
                             <ls:LSToggleButton x:Name="btnToggleCharacters" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100" HorizontalAlignment="Left" Style="{StaticResource Dialogue.ExpandCharactersButtonStyle}" Visibility="{Binding DataContext.CanShowToggleCharactersButton, ElementName=Dialogue, Converter={StaticResource BoolToVisibleConverter}}" SoundID="UI_HUD_Dialogue_ExpandCharacters">
-                                <ls:LSToggleButton.ToolTip>
+                                <!-- <ls:LSToggleButton.ToolTip>
                                     <ls:LSTooltip Content="{Binding Source='h455c1b64g1c6dg4ac4ga9aegb3f0d761858a',Converter={StaticResource TranslatedStringConverter}}"/>
-                                </ls:LSToggleButton.ToolTip>
+                                </ls:LSToggleButton.ToolTip> -->
                             </ls:LSToggleButton>
 
                             <ls:LSButton x:Name="btnTrade" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100" IsEnabled="{Binding DataContext.ActiveDialogueIsListening, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource InvertBoolConverter}}" Style="{StaticResource TradeButtonStyle}" Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.CanTrade, Converter={StaticResource BoolToVisibleConverter}}" SoundID="UI_HUD_Dialogue_Trade" Command="{Binding DataContext.StartTrade, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.DialogueCharacter}">
-                                <ls:LSButton.ToolTip>
+                                <!-- <ls:LSButton.ToolTip>
                                     <ls:LSTooltip Content="{Binding Source='he4fdff4dga552g4023gb49bg333f39b77015',Converter={StaticResource TranslatedStringConverter}}"/>
-                                </ls:LSButton.ToolTip>
+                                </ls:LSButton.ToolTip> -->
                             </ls:LSButton>
                             <ls:LSButton x:Name="btnAttack" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100" IsEnabled="{Binding DataContext.ActiveDialogueIsListening, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource InvertBoolConverter}}" Style="{StaticResource AttackButtonStyle}" Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.AllowAttack, Converter={StaticResource BoolToVisibleConverter}}" Command="{Binding DataContext.OpenMessageBox, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{DynamicResource OnAttackMessageBox}">
-                                <ls:LSButton.ToolTip>
+                                <!-- <ls:LSButton.ToolTip>
                                     <ls:LSTooltip Content="{Binding Source='hc2b3a4e3ge669g4919ga291ged7ebad9c1b1',Converter={StaticResource TranslatedStringConverter}}"/>
-                                </ls:LSButton.ToolTip>
+                                </ls:LSButton.ToolTip> -->
                             </ls:LSButton>
                             <ls:LSButton x:Name="btnHistory" Style="{StaticResource HistoryButtonStyle}" Command="{Binding DataContext.CustomEvent, ElementName=Dialogue}" CommandParameter="OpenDialogueHistory" Visibility="{Binding DataContext.CanShowHistoryButton, ElementName=Dialogue, Converter={StaticResource BoolToVisibleConverter}}" SoundID="UI_HUD_Dialogue_History" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100" BoundEvent="ToggleJournal">
-                                <ls:LSButton.ToolTip>
+                                <!-- <ls:LSButton.ToolTip>
                                     <ls:LSTooltip Content="{Binding Source='he9e4a39fg8a5dg4ac5gacffgaea214260c69',Converter={StaticResource TranslatedStringConverter}}"/>
-                                </ls:LSButton.ToolTip>
+                                </ls:LSButton.ToolTip> -->
                             </ls:LSButton>
                             <ls:LSButton x:Name="btnPoll" ToolTipService.Placement="Right" ToolTipService.VerticalOffset="-96" ToolTipService.HorizontalOffset="-200" Command="{Binding CommunityPollRequest}">
-                                <ls:LSButton.ToolTip>
+                                <!-- <ls:LSButton.ToolTip>
                                     <ls:LSTooltip Content="{Binding Source='hf83a94cbg15c8g4c48gba78g87ac8711afa4',Converter={StaticResource TranslatedStringConverter}}"/>
-                                </ls:LSButton.ToolTip>
+                                </ls:LSButton.ToolTip> -->
                                 <ls:LSButton.Style>
                                     <Style TargetType="ls:LSButton" BasedOn="{StaticResource Dialogue.PollButtonStyle}">
                                         <Setter Property="Visibility" Value="Collapsed" />
