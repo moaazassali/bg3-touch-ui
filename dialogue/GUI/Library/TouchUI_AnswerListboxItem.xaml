@@ -27,7 +27,7 @@
                     </ControlTemplate.Resources>
 
                     <!-- layout -->
-                    <Grid x:Name="AnswerRoot" Width="2120">
+                    <Grid x:Name="AnswerRoot" Width="2000">
                         <Grid.RowDefinitions>
                             <RowDefinition x:Name="AnswerRowDefinition"/>
                             <RowDefinition x:Name="SuggestionRowDefinition"/>
