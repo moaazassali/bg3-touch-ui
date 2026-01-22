@@ -10,6 +10,7 @@
                     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Core;component/Theme/DialogShared.Styles.xaml"/>
+        <ResourceDictionary Source="./TouchUI_AnswerListboxItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_Dialogue.BodyAndAnswersContainer">
@@ -96,7 +97,7 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Control">
                                                 <ls:LSListBox x:Name="answerList" ItemsSource="{Binding Answers}" SelectionMode="Single" SelectedItem="{Binding LocalHighlightedAnswer}"
-                                                    ItemContainerStyle="{StaticResource AnswerListboxItem}" MaxHeight="490" Margin="26,0,0,0" AutoScrollSelectedIntoView="True">
+                                                    ItemContainerStyle="{StaticResource TouchUI_AnswerListboxItem}" MaxHeight="490" Margin="26,0,0,0" AutoScrollSelectedIntoView="True">
                                                     <ls:LSListBox.Template>
                                                         <ControlTemplate TargetType="ls:LSListBox">
                                                             <ls:LSScrollViewer Template="{StaticResource ScrollViewerTemplate}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" x:Name="listScrollBar">
@@ -177,7 +178,7 @@
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Control">
                                                         <ls:LSListBox x:Name="continueList" Margin="826,0,0,0" SelectionMode="Single" Background="Transparent" BorderBrush="Transparent" AutoScrollSelectedIntoView="{DynamicResource AutoScrollSelectedIntoView}">
-                                                            <ls:LSListBoxItem DataContext="{Binding ContinueAnswer}" Style="{StaticResource AnswerListboxItem}" IsSelected="True" />
+                                                            <ls:LSListBoxItem DataContext="{Binding ContinueAnswer}" Style="{StaticResource TouchUI_AnswerListboxItem}" IsSelected="True" />
                                                         </ls:LSListBox>
                                                         <ControlTemplate.Triggers>
                                                             <DataTrigger Binding="{Binding DataContext.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Controller">

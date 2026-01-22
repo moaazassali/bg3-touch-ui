@@ -1,0 +1,257 @@
+<!-- Copied from Game\Public\Game\GUI\Library\DialogueTemplates.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    mc:Ignorable="d">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Core;component/Theme/DialogShared.Styles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- answer listbox item template -->
+    <Style x:Key="TouchUI_AnswerListboxItem" TargetType="ls:LSListBoxItem" BasedOn="{StaticResource {x:Type ls:LSListBoxItem}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ls:LSListBoxItem">
+                    <ControlTemplate.Resources>
+
+                        <BitmapImage x:Key="PollMostVotedImage" UriSource="pack://application:,,,/Core;component/Assets/Tutorial/ico_navRight_h.png"/>
+                        <BitmapImage x:Key="SelectedArrow" UriSource="pack://application:,,,/Core;component/Assets/Dialogue/answerArrow_active.png"/>
+                        <BitmapImage x:Key="PollBarBackground" UriSource="pack://application:,,,/Core;component/Assets/CommunityPoll/bar_poll_bg.png"/>
+                        <BitmapImage x:Key="PollBarFill" UriSource="pack://application:,,,/Core;component/Assets/CommunityPoll/bar_poll_fill.png"/>
+
+                    </ControlTemplate.Resources>
+
+                    <!-- layout -->
+                    <Grid x:Name="AnswerRoot" Width="2120">
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="AnswerRowDefinition"/>
+                            <RowDefinition x:Name="SuggestionRowDefinition"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.Resources>
+                            <Storyboard x:Key="ArrowBounce" TargetName="PollMostVoted">
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="-16" Duration="0:0:0.3" DecelerationRatio="0.5" AutoReverse="True" RepeatBehavior="Forever"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.6" Duration="0:0:0.3" AutoReverse="True" RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </Grid.Resources>
+
+                        <ls:LSWrapPanel Grid.Row="0">
+
+                            <ls:LSButton BoundEvent="{Binding BoundEvent}"
+                                         Command="{Binding DataContext.SelectAnswerCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}"
+                                         Visibility="{Binding Visibility, RelativeSource={RelativeSource AncestorType={x:Type Expander}}}"
+                                         BorderBrush="{x:Null}" BorderThickness="0"
+                                         HorizontalContentAlignment="Left" HorizontalAlignment="Left"
+                                         Margin="0,0,-52,0">
+
+                                <Grid x:Name="AnswerHolder" MaxWidth="2120">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Grid.Column="0" Name="AnswerTextArrow" Source="{StaticResource SelectedArrow}" Visibility="Hidden" Stretch="None" VerticalAlignment="Center" Margin="-24,0,-16,0"/>
+
+                                    <!-- Poll Data -->
+                                    <DockPanel x:Name="PollResultColumn" Grid.Column="1" Margin="0,0,20,0" MinWidth="132" VerticalAlignment="Center" LastChildFill="False" Visibility="Collapsed">
+                                        <TextBlock DockPanel.Dock="Right" Name="AnswerPollPercent" Style="{StaticResource Dialogue.AnswerTextStyle}" Foreground="{StaticResource Dialogue.Poll.Normal}">
+                                            <Run Text="{Binding PollResultPercent, Converter={StaticResource FloatToPercentStringConverter}}" />
+                                            <Run Text="%" />
+                                        </TextBlock>
+                                        <Image DockPanel.Dock="Right" x:Name="PollMostVoted" Source="{StaticResource PollMostVotedImage}"
+                                               Height="48" Stretch="Uniform" Visibility="Hidden" Effect="{StaticResource HUD.DropShadow}" Margin="0,-2,0,2">
+                                            <Image.RenderTransform>
+                                                <TranslateTransform/>
+                                            </Image.RenderTransform>
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="Loaded">
+                                                    <b:ControlStoryboardAction Storyboard="{StaticResource ArrowBounce}" ControlStoryboardOption="Play"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Image>
+                                    </DockPanel>
+
+                                    <!-- Answer Prefix -->
+                                    <TextBlock Grid.Column="2" Name="AnswerTextPrefix" Style="{StaticResource Dialogue.AnswerPrefixTextStyle}" Margin="20,0,0,0">
+                                        <Run Text="{Binding AnswerIdx, Converter={StaticResource AddConverter}, ConverterParameter='1'}" /><Run Text=". " />
+                                    </TextBlock>
+
+                                    <!-- Answer Line -->
+                                    <StackPanel Grid.Column="3">
+                                        <TextBlock x:Name="AnswerText" Style="{StaticResource Dialogue.AnswerTextStyle}">
+                                            <b:Interaction.Behaviors>
+                                                <ls:CtxTransStringRunGeneratorBehavior Source="{Binding CtxAnswer}">
+                                                    <ls:CtxTransStringRunGeneratorBehavior.ParamRunStyle>
+                                                        <Style TargetType="ls:LSRun">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Type}" Value="Tag">
+                                                                    <Setter Property="Text" Value="{Binding Text, StringFormat='{}[{0}] ', Converter={StaticResource StringToUpperConverter}}"/>
+                                                                    <Setter Property="ToolTip" >
+                                                                        <Setter.Value>
+                                                                            <ls:LSTooltip Placement="Relative" VerticalOffset="0" HorizontalOffset="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource MultiplierConverter}, ConverterParameter=-1}" Content="{Binding Path=Inline.DataContext.TooltipCustomData, RelativeSource={RelativeSource Mode=Self}}" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="ToolTipService.PlacementTarget" Value="{Binding ElementName=AnswerHolder}"/>
+                                                                    <Setter Property="Foreground" Value="{StaticResource Dialogue.Answer.Tag}" />
+                                                                    <Setter Property="FontSize" Value="{Binding DataContext.CurrentPlayer.UIOptions.DialogueFontSizeModifier, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource AddConverter}, ConverterParameter={StaticResource LargeFontSize}}"/>
+                                                                    <Setter Property="noesis:Text.Stroke" Value="{StaticResource Dialogue.Stroke}"/>
+                                                                    <Setter Property="noesis:Text.StrokeThickness" Value="8"/>
+                                                                </DataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Type}" Value="Tag"/>
+                                                                        <Condition Binding="{Binding Path=IsMouseOver, ElementName=AnswerText}" Value="True"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Foreground" Value="{StaticResource Dialogue.Answer.Highlighted}"/>
+                                                                </MultiDataTrigger>
+                                                                <DataTrigger Binding="{Binding DataContext.SuggestedByPlayers.Count, RelativeSource={RelativeSource AncestorType={x:Type TextBlock}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                                                    <Setter Property="Foreground" Value="{StaticResource LS_guestTxtColor}"/>
+                                                                </DataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Type}" Value="Tag"/>
+                                                                        <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ls:LSListBoxItem}}" Value="True"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Foreground" Value="{StaticResource Dialogue.Answer.Highlighted}"/>
+                                                                </MultiDataTrigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Dialogue.Answer.TagHighlighted}"/>
+                                                                </Trigger>
+                                                                <DataTrigger Binding="{Binding DataContext.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Controller">
+                                                                    <!-- Put all the Controller setters here -->
+                                                                    <Setter Property="FontSize" Value="{Binding DataContext.CurrentPlayer.UIOptions.DialogueFontSizeModifier, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource AddConverter}, ConverterParameter={StaticResource DefaultFontSize}}" />
+                                                                    <Setter Property="noesis:Text.Stroke" Value="#AC000000" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ls:CtxTransStringRunGeneratorBehavior.ParamRunStyle>
+                                                </ls:CtxTransStringRunGeneratorBehavior>
+                                            </b:Interaction.Behaviors>
+                                        </TextBlock>
+
+                                        <!-- Poll Percentage Bar -->
+                                        <Canvas>
+                                            <Grid Margin="0 -6 0 0">
+                                                <ls:LSProgressBar Width="464" Height="16" Value="{Binding PollResultPercent, Mode=OneWay}" Maximum="1" Minimum="0" BorderBrush="Transparent">
+                                                    <ls:LSProgressBar.Background>
+                                                        <ImageBrush ImageSource="{StaticResource PollBarBackground}" />
+                                                    </ls:LSProgressBar.Background>
+                                                    <ls:LSProgressBar.Foreground>
+                                                        <ImageBrush ImageSource="{StaticResource PollBarFill}" />
+                                                    </ls:LSProgressBar.Foreground>
+                                                </ls:LSProgressBar>
+                                            </Grid>
+                                            <Canvas.Style>
+                                                <Style TargetType="Canvas">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding DataContext.Data.IsCommunityPollEnabled, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True" />
+                                                                <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.ShowPollResults, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Canvas.Style>
+                                        </Canvas>
+                                    </StackPanel>
+                                </Grid>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseEnter">
+                                        <b:InvokeCommandAction Command="{Binding DataContext.HighlightAnswerCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" />
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+
+                            <!-- Player Suggestions -->
+                            <ItemsControl x:Name="PlayerSuggestionsPanel" Margin="80,0,0,0" VerticalAlignment="Center" ItemsSource="{Binding SuggestedByPlayers}" Visibility="{Binding SuggestedByPlayers.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" MaxWidth="1900"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type ls:Player}">
+                                        <StackPanel x:Name="SuggestionContainer" Orientation="Horizontal">
+                                            <StackPanel.ToolTip>
+                                                <ls:LSTooltip Content="{Binding DataContext.Name, ElementName=SuggestionContainer}" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="-8"/>
+                                            </StackPanel.ToolTip>
+                                            <Ellipse Fill="{Binding CommunityIcon}"
+                                                     Height="{Binding DataContext.CurrentPlayer.UIOptions.DialogueFontSizeModifier, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource AddConverter}, ConverterParameter={StaticResource Dialogue.SuggestedAnswer.LineHeight}}"
+                                                     Width="{Binding DataContext.CurrentPlayer.UIOptions.DialogueFontSizeModifier, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource AddConverter}, ConverterParameter={StaticResource Dialogue.SuggestedAnswer.LineHeight}}"/>
+                                            <TextBlock Style="{StaticResource Dialogue.SuggestionTextStyle}" Text="{Binding Name}" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ls:LSWrapPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <!-- Polling Triggers -->
+                        <DataTrigger Binding="{Binding PollResultIsMostVoted}" Value="True">
+                            <Setter TargetName="PollMostVoted" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding DataContext.Data.IsCommunityPollEnabled, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True" />
+                                <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.ShowPollResults, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PollResultColumn" Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+
+                        <!-- style when item is enabled and selected -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="True" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="AnswerText" Property="Foreground" Value="{StaticResource Dialogue.Answer.Highlighted}" />
+                            <Setter TargetName="AnswerTextPrefix" Property="Foreground" Value="{StaticResource Dialogue.Answer.Highlighted}" />
+                            <Setter TargetName="AnswerPollPercent" Property="Foreground" Value="{StaticResource Dialogue.Poll.Highlighted}" />
+                        </MultiTrigger>
+
+                        <!-- style when item is selected by host-->
+                        <DataTrigger Binding="{Binding HighlightedByHost}" Value="true">
+                            <Setter TargetName="AnswerTextArrow" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+
+                        <!-- disabled behavior -->
+                        <DataTrigger Binding="{Binding Enabled}" Value="False">
+                            <!--<Setter Property="IsEnabled" Value="False" />-->
+                            <Setter TargetName="AnswerText" Property="Foreground" Value="{StaticResource Dialogue.Answer.Disabled}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding DataContext.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Controller">
+                            <!-- Put all the Controller setters here -->
+                            <Setter TargetName="AnswerRoot" Property="Width" Value="1700"/>
+                            <Setter TargetName="AnswerHolder" Property="Width" Value="1700"/>
+                        </DataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding DataContext.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Controller"/>
+                                <Condition Binding="{Binding DataContext.Layout, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Common"/>
+                                <!-- 0.5625 = 16/9 ratio -->
+                                <Condition Binding="{Binding DataContext.Data.AspectRatio, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0.5625, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <!-- Put all the fullscreen Controller setters here -->
+                            <Setter TargetName="AnswerRoot" Property="Width" Value="2120"/>
+                            <Setter TargetName="AnswerHolder" Property="Width" Value="2120"/>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
