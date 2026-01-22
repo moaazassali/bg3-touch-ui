@@ -17,6 +17,9 @@
             <BitmapImage x:Key="MoreIndicatorImg" UriSource="pack://application:,,,/Core;component/Assets/Dialogue/dialogue_moreIndicator.png"/>
         </ControlTemplate.Resources>
 	    <Grid>
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform>
 
             <!-- Background for the dialogue to have it visible at all times -->
             <ls:LSNineSliceImage x:Name="BackgroundDialogue"
@@ -25,15 +28,15 @@
                                  Width="{Binding ActualWidth, ElementName=BodyAndAnswersContainer, Converter={StaticResource AddConverter}, ConverterParameter=120}"
                                  Height="{Binding ElementName=BodyAndAnswersContainer, Path=ActualHeight, Converter={StaticResource AddConverter}, ConverterParameter=60}"/>
 
-            <StackPanel x:Name="BodyAndAnswersContainer" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 0 0 80">
+            <StackPanel x:Name="BodyAndAnswersContainer" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 0 0 40">
                 <StackPanel x:Name="CinematicContextContainer" Orientation="Vertical" Visibility="{Binding DataContext.Data.ShowDialogCinematicContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}},Converter={StaticResource BoolToVisibleConverter}}">
                     <TextBlock x:Name="DialogueFilename" Style="{StaticResource Dialogue.BodyTextStyle}"
-                              Foreground="{StaticResource Dialogue.Answer.Highlighted}" Margin="0,0,0,20" MaxWidth="2600"
+                              Foreground="{StaticResource Dialogue.Answer.Highlighted}" Margin="0,0,0,20" MaxWidth="2000"
                               Text="DIALOG: " >
                         <Run Text="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.DialogFileName, Mode=OneWay}"/>
                     </TextBlock>
                     <TextBlock x:Name="DialogueContext" Style="{StaticResource Dialogue.BodyTextStyle}"
-                              Foreground="{StaticResource Dialogue.Answer.Highlighted}" Margin="0,0,0,20" MaxWidth="2600"
+                              Foreground="{StaticResource Dialogue.Answer.Highlighted}" Margin="0,0,0,20" MaxWidth="2000"
                               Text="CONTEXT: " >
                         <Run Text="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.CinematicContextText, Mode=OneWay}"/>
                     </TextBlock>
@@ -64,7 +67,7 @@
                 </TextBlock>
 
                 <Border x:Name="DialogueContainer" HorizontalAlignment="Center" DataContext="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue}" Visibility="Collapsed">
-                    <TextBlock Style="{StaticResource Dialogue.BodyTextStyle}" x:Name="TextBodyContainer" Visibility="{Binding BodyText, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" MaxWidth="2400">
+                    <TextBlock Style="{StaticResource Dialogue.BodyTextStyle}" x:Name="TextBodyContainer" Visibility="{Binding BodyText, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Width="2000">
                         <Span x:Name="speakerName"/>
                         <Span ls:TextBlockFormatter.SourceText="{Binding BodyText, Mode=OneWay}"/>
                     </TextBlock>
@@ -251,19 +254,19 @@
 
             <!-- FontSize width modifier -->
             <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.DialogueFontSizeModifier, Converter={StaticResource GreaterThanConverter}}" Value="True">
-                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="2500" />
+                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="2000" />
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.DialogueFontSizeModifier, Converter={StaticResource GreaterThanConverter}}" Value="True">
-                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="2600" />
+                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="2000" />
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.DialogueFontSizeModifier, Converter={StaticResource GreaterThanConverter}}" Value="True">
-                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="3000" />
+                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="2000" />
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIOptions.DialogueFontSizeModifier, Converter={StaticResource GreaterThanConverter}}" Value="True">
-                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="3600" />
+                <Setter TargetName="TextBodyContainer" Property="MaxWidth" Value="2000" />
             </DataTrigger>
 
             <!-- Controller modifiers -->
