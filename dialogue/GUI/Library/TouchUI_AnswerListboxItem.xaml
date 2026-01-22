@@ -27,7 +27,7 @@
                     </ControlTemplate.Resources>
 
                     <!-- layout -->
-                    <Grid x:Name="AnswerRoot" Width="2000">
+                    <Grid x:Name="AnswerRoot">
                         <Grid.RowDefinitions>
                             <RowDefinition x:Name="AnswerRowDefinition"/>
                             <RowDefinition x:Name="SuggestionRowDefinition"/>
@@ -49,7 +49,7 @@
                                          HorizontalContentAlignment="Left" HorizontalAlignment="Left"
                                          Margin="0,0,-52,0">
 
-                                <Grid x:Name="AnswerHolder" MaxWidth="2120">
+                                <Grid x:Name="AnswerHolder">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -176,7 +176,7 @@
                             <ItemsControl x:Name="PlayerSuggestionsPanel" Margin="80,0,0,0" VerticalAlignment="Center" ItemsSource="{Binding SuggestedByPlayers}" Visibility="{Binding SuggestedByPlayers.Count, Converter={StaticResource CountToVisibilityConverter}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" MaxWidth="1900"/>
+                                        <WrapPanel Orientation="Horizontal"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
