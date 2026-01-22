@@ -129,7 +129,7 @@
                                                                             <Setter.Value>
                                                                                 <ControlTemplate TargetType="ScrollBar">
                                                                                     <!-- This margin is to move the graphics of the scrollbar away from the edge to the center of the elements -->
-                                                                                    <Grid Margin="-20,0,20,0">
+                                                                                    <Grid Margin="20,0,0,-40">
                                                                                         <Grid.RowDefinitions>
                                                                                             <RowDefinition Height="Auto" />
                                                                                             <RowDefinition Height="*" />
