@@ -106,8 +106,12 @@
                          HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,14,0"
                          SoundID="UI_HUD_Dialogue_CloseHistory"/>
 
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <Image Source="{StaticResource Footer}" Stretch="None" Margin="0,30,0,0"/>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-40">
+                <Image Source="{StaticResource Footer}" Stretch="None" Margin="0,30,0,0">
+                    <Image.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Image.LayoutTransform>
+                </Image>
                 <StackPanel x:Name="ButtonsContainer" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <!-- Close-->
                     <ls:LSButton HorizontalAlignment="Center" 
@@ -117,6 +121,9 @@
                                  BoundEvent="UIAccept"
                                  SoundID="UI_Shared_Accept"
                                  Style="{StaticResource BlueButtonStyle}">
+                        <ls:LSButton.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </ls:LSButton.LayoutTransform>
                     </ls:LSButton>
                 </StackPanel>
             </Grid>
