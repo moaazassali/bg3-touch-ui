@@ -49,7 +49,13 @@
             <Grid Width="2800" Height="1650" Margin="0 60 0 0">
                 <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" Background="Transparent">
                     <ScrollViewer.Resources>
-                        <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
+                        <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
                         <GridLength x:Key="Top">76</GridLength>
                         <GridLength x:Key="Bottom">56</GridLength>
                     </ScrollViewer.Resources>
@@ -58,7 +64,7 @@
                         <ItemsControl ItemsSource="{Binding Items}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding BodyText}" Width="2372"
+                                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding BodyText}"
                                            FontSize="{StaticResource ScaledLargeFontSize}" LineHeight="48" TextWrapping="Wrap" Margin="0 30 0 0">
                                         <TextBlock.LayoutTransform>
                                             <ScaleTransform ScaleX="2" ScaleY="2"/>
