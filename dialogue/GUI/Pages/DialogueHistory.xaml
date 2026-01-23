@@ -24,8 +24,16 @@
         </Grid.Background>
 
         <Grid Background="{StaticResource LS_PanelBackground}">
-            <Image Source="{StaticResource Header}" Stretch="None" VerticalAlignment="Top"  HorizontalAlignment="Center" Margin="0 80 0 80"/>
-            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 100 0 0">
+            <Image Source="{StaticResource Header}" Stretch="None" VerticalAlignment="Top"  HorizontalAlignment="Center" Margin="0 0 0 0">
+                <Image.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </Image.LayoutTransform>
+            </Image>
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 40 0 0">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
+
                 <Image Source="{StaticResource DialogueHistoryIcon}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBlock Text="{Binding Source='he9e4a39fg8a5dg4ac5gacffgaea214260c69', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledMassiveFontSize}"/>
             </StackPanel>
