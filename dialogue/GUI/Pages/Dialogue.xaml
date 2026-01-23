@@ -17,6 +17,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Core;component/Library/DialogueTemplates.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_Dialogue.BodyAndAnswersContainer.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_SkipDialogueButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ls:LSMessageBoxData x:Key="OnAttackMessageBox" Text="{Binding Source='h3de62469gbf26g4390ga9a5g530b768217fe', Converter={StaticResource TranslatedStringConverter}}" Title="{Binding Source='h4ce24528g0b74g4dc1g8ba6g80071f09ac12', Converter={StaticResource TranslatedStringConverter}}" UUID="UUID">
@@ -266,6 +267,13 @@
                     </ContentControl>
                     <!--#endregion-->
                 </Grid>
+
+                <!-- Touch UI - New skip button -->
+                <ContentControl Template="{StaticResource TouchUI_SkipButtonTemplate}"  Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,300,0">
+                    <ContentControl.LayoutTransform>
+                        <ScaleTransform ScaleX="4" ScaleY="4"/>
+                    </ContentControl.LayoutTransform>
+                </ContentControl>    
 
                 <TextBlock VerticalAlignment="Top"
                            HorizontalAlignment="Right"

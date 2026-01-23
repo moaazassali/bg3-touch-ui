@@ -1,0 +1,98 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    mc:Ignorable="d">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Core;component/Theme/DialogShared.Styles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Touch UI - custom base button without default trade image icon -->
+    <!-- Copied from Game\Public\Game\GUI\Library\DialogueTemplates.xaml -->
+    <Style x:Key="TouchUI_Dialogue.BaseButtonStyle" TargetType="{x:Type Button}">
+        <Style.Resources>
+            <!-- default images; these are meant to be overridden by derived styles -->
+            <ImageBrush x:Key="imgNormal" ImageSource="pack://application:,,,/Core;component/Assets/Dialogue/btn_round_d.png" Stretch="None" />
+            <ImageBrush x:Key="imgHover" ImageSource="pack://application:,,,/Core;component/Assets/Dialogue/btn_round_h.png" Stretch="None" />
+            <ImageBrush x:Key="imgDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Dialogue/btn_round_disabled.png" Stretch="None" />
+            <ImageBrush x:Key="imgPressed" ImageSource="pack://application:,,,/Core;component/Assets/Dialogue/btn_round_p.png" Stretch="None" />
+            <!-- <BitmapImage x:Key="imgIcon" UriSource="pack://application:,,,/Core;component/Assets/Dialogue/ico_trade_d.png" />
+            <BitmapImage x:Key="imgIconHover" UriSource="pack://application:,,,/Core;component/Assets/Dialogue/ico_trade_h.png" /> -->
+        </Style.Resources>
+
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Width" Value="120" />
+        <Setter Property="Height" Value="120" />
+        <Setter Property="Margin" Value="-8,0,-8,2" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="ClipToBounds" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <!-- button images are larger than what appeared on guide image -->
+                    <Border x:Name="img" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderBrush="{x:Null}" BorderThickness="0" Background="{StaticResource imgNormal}">
+                        <Image x:Name="icon" Source="{DynamicResource imgIcon}" Width="auto" Height="auto" Stretch="None" SnapsToDevicePixels="True" Margin="-2,0,0,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="img" Property="Background" Value="{StaticResource imgHover}"/>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource imgIconHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="img" Property="Background" Value="{StaticResource imgPressed}"/>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource imgIconHover}"/>
+                            <Setter TargetName="icon" Property="Margin" Value="-2,6,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="img" Property="Background" Value="{StaticResource imgDisabled}"/>
+                            <Setter TargetName="icon" Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="TouchUI_SkipButtonTemplate">
+        <Grid DataContext="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <!-- Hide during choices -->
+                        <DataTrigger Binding="{Binding ShowAnswers}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <ls:LSButton Command="{Binding DataContext.SelectorSkipCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" 
+                         CommandParameter="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                <ls:LSButton.Style>
+                    <Style TargetType="ls:LSButton" BasedOn="{StaticResource TouchUI_Dialogue.BaseButtonStyle}"/>
+                </ls:LSButton.Style>
+            </ls:LSButton>
+
+            <!-- The Text Overlay -->
+            <TextBlock Text="SKIP" 
+                       Style="{StaticResource Dialogue.BodyTextStyle}" 
+                       Foreground="{StaticResource Dialogue.Answer.Highlighted}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       IsHitTestVisible="False">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="Black" Opacity="0.8" BlurRadius="2"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Grid>
+    </ControlTemplate>
+
+</ResourceDictionary>
