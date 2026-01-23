@@ -101,10 +101,10 @@
             </Grid>
 
             <!-- Close button -->
-            <ls:LSButton Style="{StaticResource SmallCloseButton}"
+            <!-- <ls:LSButton Style="{StaticResource SmallCloseButton}"
                          Command="{Binding DataContext.CustomEvent, ElementName=DialogueHistory}" CommandParameter="CloseDialogueHistory"
                          HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,14,0"
-                         SoundID="UI_HUD_Dialogue_CloseHistory"/>
+                         SoundID="UI_HUD_Dialogue_CloseHistory"/> -->
 
             <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-40">
                 <Image Source="{StaticResource Footer}" Stretch="None" Margin="0,30,0,0">
