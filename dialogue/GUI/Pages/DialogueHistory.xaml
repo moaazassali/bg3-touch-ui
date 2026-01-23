@@ -46,7 +46,7 @@
 	                   FontWeight="Bold"
 	                   Visibility="{Binding ., Converter={StaticResource NullToCollapsedConverter}}" />
 
-            <Grid Width="2800" Height="1650" Margin="0 100 0 0">
+            <Grid Width="2800" Height="1650" Margin="0 60 0 0">
                 <ScrollViewer Template="{StaticResource ScrollViewerTemplate}" Background="Transparent">
                     <ScrollViewer.Resources>
                         <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}"/>
@@ -60,6 +60,10 @@
                                 <DataTemplate>
                                     <TextBlock ls:TextBlockFormatter.SourceText="{Binding BodyText}" Width="2372"
                                            FontSize="{StaticResource ScaledLargeFontSize}" LineHeight="48" TextWrapping="Wrap" Margin="0 30 0 0">
+                                        <TextBlock.LayoutTransform>
+                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                        </TextBlock.LayoutTransform>
+
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="Foreground" Value="{StaticResource LS_PrimaryColor}" />
