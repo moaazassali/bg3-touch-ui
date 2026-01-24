@@ -162,11 +162,11 @@
                                                     <!-- Touch UI - Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml to match the hover tooltip -->
                                                     <!-- Touch UI - But also added the default tooltip background because that doesn't come with VMDialogueAnswerTag -->
                                                     <DataTemplate DataType="{x:Type ls:VMDialogueAnswerTag}">
-                                                        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}">
+                                                        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" MaxWidth="600">
                                                             <StackPanel Orientation="Vertical">
-                                                                <TextBlock Style="{StaticResource TooltipTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Name}"/>
-                                                                <TextBlock Style="{StaticResource TooltipSubTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Category}"/>
-                                                                <TextBlock Style="{StaticResource TooltipDescriptionStyle}" Margin="{StaticResource DefaultMarginTop}" ls:TextBlockFormatter.SourceText="{Binding Tooltip}"/>
+                                                                <TextBlock Style="{StaticResource TooltipTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Name}" Width="Auto"/>
+                                                                <TextBlock Style="{StaticResource TooltipSubTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Category}" Width="Auto"/>
+                                                                <TextBlock Style="{StaticResource TooltipDescriptionStyle}" Margin="{StaticResource DefaultMarginTop}" ls:TextBlockFormatter.SourceText="{Binding Tooltip}" Width="Auto"/>
 
                                                                 <StackPanel Orientation="Vertical" Visibility="{Binding IsRoll, Converter={StaticResource BoolToVisibleConverter}}">
                                                                     <ContentControl x:Name="durationDis" Template="{StaticResource TooltipStripTemplate}" >
