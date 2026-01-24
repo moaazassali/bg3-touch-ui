@@ -151,10 +151,10 @@
                                         </TextBlock>
 
                                         <!-- Touch UI - Answer tags section -->
-                                        <ItemsControl ItemsSource="{Binding AnswerTags}" Visibility="{Binding AnswerTags.Count, Converter={StaticResource CountToVisibilityConverter}}" HorizontalAlignment="Left">
+                                        <ItemsControl ItemsSource="{Binding AnswerTags}" Visibility="{Binding AnswerTags.Count, Converter={StaticResource CountToVisibilityConverter}}" HorizontalAlignment="Stretch">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
+                                                    <WrapPanel Orientation="Horizontal"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             
