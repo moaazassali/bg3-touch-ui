@@ -107,11 +107,11 @@
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding Type}" Value="Tag">
                                                                     <Setter Property="Text" Value="{Binding Text, StringFormat='{}[{0}] ', Converter={StaticResource StringToUpperConverter}}"/>
-                                                                    <Setter Property="ToolTip" >
+                                                                    <!-- <Setter Property="ToolTip" >
                                                                         <Setter.Value>
                                                                             <ls:LSTooltip Placement="Relative" VerticalOffset="0" HorizontalOffset="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource MultiplierConverter}, ConverterParameter=-1}" Content="{Binding Path=Inline.DataContext.TooltipCustomData, RelativeSource={RelativeSource Mode=Self}}" />
                                                                         </Setter.Value>
-                                                                    </Setter>
+                                                                    </Setter> -->
                                                                     <Setter Property="ToolTipService.PlacementTarget" Value="{Binding ElementName=AnswerHolder}"/>
                                                                     <Setter Property="Foreground" Value="{StaticResource Dialogue.Answer.Tag}" />
                                                                     <Setter Property="FontSize" Value="{Binding DataContext.CurrentPlayer.UIOptions.DialogueFontSizeModifier, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource AddConverter}, ConverterParameter={StaticResource LargeFontSize}}"/>
