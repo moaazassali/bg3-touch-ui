@@ -43,11 +43,25 @@
                         <ls:LSWrapPanel Grid.Row="0">
 
                             <ls:LSButton BoundEvent="{Binding BoundEvent}"
-                                         Command="{Binding DataContext.SelectAnswerCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}"
+                                         CommandParameter="{Binding .}"
                                          Visibility="{Binding Visibility, RelativeSource={RelativeSource AncestorType={x:Type Expander}}}"
                                          BorderBrush="{x:Null}" BorderThickness="0"
                                          HorizontalContentAlignment="Left" HorizontalAlignment="Left"
                                          Margin="0,0,0,0">
+
+                                <!-- Touch UI - If answer has tags, disable default clicking behavior so we can show the tooltips first -->
+                                <ls:LSButton.Style>
+                                    <Style TargetType="ls:LSButton" BasedOn="{StaticResource {x:Type ls:LSButton}}">
+                                        <!-- Default -->
+                                        <Setter Property="Command" Value="{Binding DataContext.SelectAnswerCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                        <Style.Triggers>
+                                            <!-- If we have tags (Count > 0), REMOVE the command so clicking does nothing -->
+                                            <DataTrigger Binding="{Binding AnswerTags.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                                <Setter Property="Command" Value="{x:Null}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ls:LSButton.Style>
 
                                 <Grid x:Name="AnswerHolder">
                                     <Grid.ColumnDefinitions>
