@@ -1598,7 +1598,7 @@
                 </Grid>
 
 
-                <Grid x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
+                <Grid x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="500,500,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -4421,7 +4421,7 @@
 
                 <!--OUTSIDE OF MAIN GRID-->
                 <!-- Level up button -->
-                <ls:LSNineSliceImage x:Name="LevelUpHolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="292,0,0,8" ImageSource="{StaticResource LevelUPFrame}" Slices="130,0" Padding="44,0" MinHeight="78">
+                <ls:LSNineSliceImage x:Name="LevelUpHolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="792,500,0,8" ImageSource="{StaticResource LevelUPFrame}" Slices="130,0" Padding="44,0" MinHeight="78">
 
                     <ls:LSButton x:Name="HotBarLevelUpButton" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16,0" Command="{Binding StartLevelUp}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter}" ls:TutorialProperties.TargetID="TUT_LevelUp" ls:TutorialProperties.ModalType="Bottom" RenderTransformOrigin="0.5,0.5">
                         <ls:LSButton.Template>
@@ -4478,7 +4478,7 @@
 
 
                 <!--Concentration-->
-                <Grid x:Name="ConcentrationHolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="104,0,0,-4"
+                <Grid x:Name="ConcentrationHolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="604,500,0,-4"
                       ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
                       Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
 
@@ -4517,7 +4517,7 @@
                 </Grid>
 
                 <!--Call Forth Allies-->
-                <StackPanel x:Name="CallForthAllies" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="420,0,0,320"
+                <StackPanel x:Name="CallForthAllies" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="920,500,0,320"
                             Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies, Converter={StaticResource NullToCollapsedConverter}}">
                     <ls:LSButton x:Name="CallAlliesBtn" Template="{StaticResource FloatingFrameButton}" SoundID="UI_HUD_HotbarSlot"
                                  BoundEvent="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies.BoundEvent}"
