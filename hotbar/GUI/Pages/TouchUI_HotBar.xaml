@@ -115,7 +115,7 @@
 
                 <ControlTemplate x:Key="FilterButton" TargetType="{x:Type ls:LSButton}">
                     <Grid>
-                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource FilterButtonBackground}" Slices="36" Padding="10" MinWidth="{Binding MaxWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}">
+                        <ls:LSNineSliceImage x:Name="bg" VerticalAlignment="Stretch" ImageSource="{StaticResource FilterButtonBackground}" Slices="36" Padding="10" MinWidth="{Binding MaxWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}">
                             <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource BtnTextGlow}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                         </ls:LSNineSliceImage>
 
@@ -164,7 +164,7 @@
 
                 <ControlTemplate x:Key="ActiveFilterButton" TargetType="{x:Type ls:LSButton}">
                     <Grid>
-                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource ActiveFilterButtonBackground}" Slices="36" Padding="10"  MinWidth="{Binding MaxWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}">
+                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource ActiveFilterButtonBackground}" Slices="36" Padding="10" VerticalAlignment="Stretch" MinWidth="{Binding MaxWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}">
                             <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource BtnTextGlow}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                         </ls:LSNineSliceImage>
 
@@ -217,6 +217,8 @@
                     <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
                     <Setter Property="Margin" Value="-4,0"/>
                     <Setter Property="Template" Value="{StaticResource FilterButton}"/>
+                    <Setter Property="Width" Value="160"/>
+                    <Setter Property="Height" Value="160"/>
                 </Style>
 
                 <Style x:Key="BottomDividerImageStyle" TargetType="Image">
@@ -1154,7 +1156,7 @@
                             </ListBox.ItemContainerStyle>
 
                             <ListBoxItem x:Name="HotbarDeckButton_Reset">
-                                <ls:LSButton x:Name="InvalidHotBar" Margin="0,0,-4,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                <ls:LSButton x:Name="InvalidHotBar" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     <ls:LSButton.Content>
                                         <Image Source="{StaticResource IconConcertina}" Stretch="None" Margin="10,0"/>
                                     </ls:LSButton.Content>
@@ -1166,11 +1168,14 @@
                                     </b:Interaction.Triggers>
                                     <ls:LSButton.Style>
                                         <Style TargetType="{x:Type ls:LSButton}">
+                                            <Setter Property="Width" Value="160"/>
+                                            <Setter Property="Height" Value="160"/>
+
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ls:LSButton">
-                                                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource BtnConcertina}" Slices="36" Padding="10">
-                                                            <ContentPresenter x:Name="Content" Margin="10, 5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        <ls:LSNineSliceImage x:Name="bg" VerticalAlignment="Stretch" ImageSource="{StaticResource BtnConcertina}" Slices="36" Padding="10">
+                                                            <ContentPresenter x:Name="Content" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                         </ls:LSNineSliceImage>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
@@ -1198,8 +1203,8 @@
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="ls:LSButton">
                                                                     <Grid>
-                                                                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource BtnConcertinaActive}" Slices="36" Padding="10">
-                                                                            <ContentPresenter x:Name="Content" Margin="10, 5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                        <ls:LSNineSliceImage x:Name="bg" VerticalAlignment="Stretch" ImageSource="{StaticResource BtnConcertinaActive}" Slices="36" Padding="10">
+                                                                            <ContentPresenter x:Name="Content" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                         </ls:LSNineSliceImage>
 
                                                                         <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Visibility="Visible"
