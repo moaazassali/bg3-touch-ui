@@ -1658,13 +1658,18 @@
                     </Grid>
 
                     <!-- HOTBAR CENTRAL DECK AREA -->
-                    <ls:LSNineSliceImage x:Name="HotbarsBg" ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Top" Padding="0,0,0,0" Height="240">
+                    <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <ls:LSNineSliceImage ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="0,0,0,0"
+                            Width="{Binding ActualHeight, ElementName=MainBars}" Height="{Binding ActualWidth, ElementName=MainBars}">
+                            <ls:LSNineSliceImage.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </ls:LSNineSliceImage.LayoutTransform>
+                        </ls:LSNineSliceImage>
 
                         <!--MAIN DECK-->
-                        <Border x:Name="MainBars" Width="{StaticResource DeckWidth}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="52,26,36,16">
-
+                        <Border x:Name="MainBars" Width="{StaticResource DeckWidth}" VerticalAlignment="Top" HorizontalAlignment="Left" >
                             <!--ls:AttachedProperties.InheritedTag has the AutoIndex property for internal LSGrids-->
-                            <Grid x:Name="MainContent">
+                            <Grid x:Name="MainContent" Margin="16,32,36,16">
                                 <Grid.Resources>
                                     <Storyboard x:Key="TimeoutInputStoryboard">
                                         <BooleanAnimationUsingKeyFrames Storyboard.TargetName="Concertina" Storyboard.TargetProperty="IsEnabled">
@@ -2014,7 +2019,7 @@
                             </Grid>
                         </Border>
 
-                    </ls:LSNineSliceImage>
+                    </Grid>
                 </StackPanel>
 
 
