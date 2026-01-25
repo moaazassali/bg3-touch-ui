@@ -1424,13 +1424,13 @@
                                                 <b:ConditionBehavior>
                                                     <b:ConditionalExpression>
                                                         <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingPassivesDeck}" Operator="Equal" RightOperand="{StaticResource FalseValue}" />
-                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                        <!-- <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" /> -->
                                                     </b:ConditionalExpression>
                                                 </b:ConditionBehavior>
                                             </b:Interaction.Behaviors>
-                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
+                                            <!-- <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" /> -->
                                             <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowPassivesHotBar}"/>
+                                            <!-- <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowPassivesHotBar}"/> -->
                                         </b:EventTrigger>
                                         <b:StoryboardCompletedTrigger Storyboard="{StaticResource ShowPassivesHotBar}">
                                             <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
@@ -1440,16 +1440,17 @@
                                                 <b:ConditionBehavior>
                                                     <b:ConditionalExpression>
                                                         <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingPassivesDeck}" Operator="Equal" RightOperand="{StaticResource TrueValue}" />
-                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                        <!-- <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" /> -->
                                                     </b:ConditionalExpression>
                                                 </b:ConditionBehavior>
                                             </b:Interaction.Behaviors>
-                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
-                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HidePassivesHotBar}"/>
+                                            <!-- <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" /> -->
+                                            <!-- <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HidePassivesHotBar}"/> -->
+                                            <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
                                         </b:EventTrigger>
                                         <b:StoryboardCompletedTrigger Storyboard="{StaticResource HidePassivesHotBar}">
-                                            <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
+                                            <!-- <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" /> -->
                                         </b:StoryboardCompletedTrigger>
                                     </b:Interaction.Triggers>
 
@@ -1482,13 +1483,13 @@
                                                 <b:ConditionBehavior>
                                                     <b:ConditionalExpression>
                                                         <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingCustomDeck}" Operator="Equal" RightOperand="{StaticResource FalseValue}" />
-                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                        <!-- <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" /> -->
                                                     </b:ConditionalExpression>
                                                 </b:ConditionBehavior>
                                             </b:Interaction.Behaviors>
-                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
+                                            <!-- <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" /> -->
                                             <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowCustomHotBar}"/>
+                                            <!-- <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowCustomHotBar}"/> -->
                                         </b:EventTrigger>
                                         <b:StoryboardCompletedTrigger Storyboard="{StaticResource ShowCustomHotBar}">
                                             <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
@@ -1498,16 +1499,17 @@
                                                 <b:ConditionBehavior>
                                                     <b:ConditionalExpression>
                                                         <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingCustomDeck}" Operator="Equal" RightOperand="{StaticResource TrueValue}" />
-                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                        <!-- <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" /> -->
                                                     </b:ConditionalExpression>
                                                 </b:ConditionBehavior>
                                             </b:Interaction.Behaviors>
-                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
-                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideCustomHotBar}"/>
+                                            <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
+                                            <!-- <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" /> -->
+                                            <!-- <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideCustomHotBar}"/> -->
                                         </b:EventTrigger>
                                         <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideCustomHotBar}">
-                                            <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
+                                            <!-- <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" /> -->
                                         </b:StoryboardCompletedTrigger>
                                     </b:Interaction.Triggers>
 
