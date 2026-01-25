@@ -98,15 +98,20 @@
                 </ControlTemplate>
 
                 <Style x:Key="BottomLinksMarkerStyle" TargetType="ls:LSNineSliceImage" BasedOn="{StaticResource {x:Type ls:LSNineSliceImage}}">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="IsHitTestVisible" Value="False"/>
                     <Setter Property="ImageSource" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_inactivemod_d.png"/>
                     <Setter Property="Slices" Value="12"/>
                     <Setter Property="MinWidth" Value="44"/>
                     <Setter Property="Height" Value="20"/>
-                    <Setter Property="Margin" Value="0,-8,0,0"/>
+                    <Setter Property="Margin" Value="0,0,-8,0"/>
                     <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="LayoutTransform">
+                        <Setter.Value>
+                            <RotateTransform Angle="90"/>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
 
                 <BitmapImage x:Key="FilterButtonBackground" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" />
@@ -168,7 +173,7 @@
                             <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource BtnTextGlow}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                         </ls:LSNineSliceImage>
 
-                        <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Width="{Binding ActualWidth, ElementName=bg, Converter={StaticResource AddConverter}, ConverterParameter=-80}" Visibility="Visible">
+                        <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Width="80" Visibility="Visible">
                             <Image Source="{StaticResource ActiveModArrow}" Stretch="None" VerticalAlignment="Center" Margin="0,4,0,-4"/>
                         </ls:LSNineSliceImage>
 
@@ -1215,8 +1220,7 @@
                                                                             <ContentPresenter x:Name="Content" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                         </ls:LSNineSliceImage>
 
-                                                                        <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Visibility="Visible"
-                                                                Width="{Binding ActualWidth, ElementName=Content, Converter={StaticResource AddConverter}, ConverterParameter=-20}">
+                                                                        <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Visibility="Visible" Width="80">
                                                                             <Image Source="{StaticResource BtnActiveModArrowRed}" Stretch="None" VerticalAlignment="Center" Margin="0,4,0,-4"/>
                                                                         </ls:LSNineSliceImage>
                                                                     </Grid>
