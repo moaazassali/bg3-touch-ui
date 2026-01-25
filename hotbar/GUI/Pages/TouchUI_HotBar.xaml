@@ -46,7 +46,7 @@
                 <Thickness x:Key="EndTurnButtonMargin">0,0,183,42</Thickness>
                 <Thickness x:Key="FleeButtonMargin">0,0,25,76</Thickness>
 
-                <Thickness x:Key="FixedHotbarHiddenMargin">1600,6,0,-6</Thickness>
+                <Thickness x:Key="FixedHotbarHiddenMargin">0,6,0,-6</Thickness>
                 <Thickness x:Key="FixedHotbarMargin">0,6,0,-6</Thickness>
                 <Thickness x:Key="SingleHotbarHiddenMargin">0,300,0,-300</Thickness>
                 <Thickness x:Key="SingleHotbarMargin">0,0,0,1</Thickness>
@@ -245,7 +245,7 @@
 
                 <!--ITEMS eg THROW-->
                 <ControlTemplate x:Key="ItemsControlDeckTemplate" TargetType="ListBox">
-                    <ScrollViewer x:Name="ContainerScroller" Style="{StaticResource NoForcedScrollViewerStyle}" ls:ScrollViewerHelper.MouseWheelScrollsHorizontally="True" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Padding="0,0,0,28" Focusable="False" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible"  CanContentScroll="{Binding CellColumns, Converter={StaticResource GreaterThanConverter}, ConverterParameter={StaticResource MaxDeckColumns}}" Margin="0,0,0,-28">
+                    <ScrollViewer x:Name="ContainerScroller" Style="{StaticResource NoForcedScrollViewerStyle}" ls:ScrollViewerHelper.MouseWheelScrollsHorizontally="False" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Padding="0,0,0,0" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  CanContentScroll="True" Margin="25,50,35,50">
                         <ItemsPresenter />
                     </ScrollViewer>
 
@@ -265,8 +265,8 @@
                 </ControlTemplate>
 
                 <DataTemplate x:Key="HotBarTemplate" DataType="{x:Type ls:VMHotBar}">
-                    <Grid HorizontalAlignment="Stretch" Background="{x:Null}">
-                        <ListBox x:Name="HotbarItemsList" HorizontalContentAlignment="Right" ItemsSource="{Binding SlotList}" Width="{Binding ContainerWidth, RelativeSource={RelativeSource AncestorType=ls:ConcertinaItem}}" Template="{DynamicResource ItemsControlDeckTemplate}">
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{x:Null}">
+                        <ListBox x:Name="HotbarItemsList" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" ItemsSource="{Binding SlotList}" Template="{DynamicResource ItemsControlDeckTemplate}">
                             <b:Interaction.Behaviors>
                                 <ls:WidgetDataConnectionBehavior/>
                             </b:Interaction.Behaviors>
@@ -295,10 +295,10 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <ls:LSGrid x:Name="Container" Columns="{Binding CellColumns}" Rows="{Binding NumberOfBars}" ExtendedRows="False" Orientation="Vertical" Background="{x:Null}"
+                                    <ls:LSGrid x:Name="Container" Columns="{Binding DataContext.NumberOfRows, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" Rows="{Binding CellColumns}" ExtendedRows="False" Orientation="Horizontal" Background="{x:Null}"
                                                            CellWidth="{StaticResource HotbarSlotIconSize}" CellHeight="{StaticResource HotbarSlotIconSize}" IndexParam="SlotIndex"
                                                            HorizontalSpacing="{StaticResource HotbarSlotSpacing}" VerticalSpacing="{StaticResource HotbarSlotSpacing}"
-                                                           AutoIndex="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=Self}}" VerticalAlignment="Top">
+                                                           AutoIndex="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=Self}}" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                                         <b:Interaction.Behaviors>
                                             <!--AllowDrop is an inherited property for any FrameworkElement, so the first one we find is ok-->
                                             <ls:DropOnInventoryGridBehavior DropCommand="{Binding DataContext.DropOnHotBarCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" AllowDrop="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=AllowDrop}"/>
@@ -337,14 +337,14 @@
                     </Grid>
                     <DataTemplate.Triggers>
                         <Trigger Property="ActualWidth" Value="{StaticResource FullWidth}">
-                            <Setter TargetName="HotbarItemsList" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                            <!-- <Setter TargetName="HotbarItemsList" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/> -->
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Path=IsAnimatingFullyResizedItem, RelativeSource={RelativeSource AncestorType={x:Type ls:Concertina}}, FallbackValue=False}" Value="False"/>
                                 <Condition Binding="{Binding IsFullSize, RelativeSource={RelativeSource AncestorType={x:Type ls:ConcertinaItem}}}" Value="True"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="HotbarItemsList" Property="Width" Value="{StaticResource FullWidth}"/>
+                            <!-- <Setter TargetName="HotbarItemsList" Property="Width" Value="{StaticResource FullWidth}"/> -->
                         </MultiDataTrigger>
                         <DataTrigger Binding="{Binding Tag,RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="HideScrollbar">
                             <Setter TargetName="HotbarItemsList" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -399,9 +399,9 @@
                 <BitmapImage x:Key="ConcertinaShutterMore" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shutter_more.png" />
 
                 <ControlTemplate x:Key="HotbarItemTemplate" TargetType="ls:ConcertinaItem">
-                    <StackPanel x:Name="Root" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" ClipToBounds="False" d:DataContext="{d:DesignInstance {x:Type ls:VMHotBar}}">
+                    <StackPanel x:Name="Root" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Stretch" ClipToBounds="False" d:DataContext="{d:DesignInstance {x:Type ls:VMHotBar}}">
                         <ContentPresenter ContentTemplate="{StaticResource HotBarTemplate}"/>
-                        <Border x:Name="PART_SizerThumb" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                        <Border x:Name="PART_SizerThumb" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="MouseEnter">
                                     <b:InvokeCommandAction Command="{Binding DataContext.SetCursorCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="Resize"/>
@@ -411,6 +411,9 @@
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                             <Grid x:Name="ShutterZone" Width="36" ClipToBounds="False" HorizontalAlignment="Right">
+                                <Grid.LayoutTransform>
+                                    <RotateTransform Angle="90"/>
+                                </Grid.LayoutTransform>
 
                                 <Image x:Name="Shutter" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Stretch" Source="{StaticResource ConcertinaShutter}" Margin="0,0,0,-8">
                                     <Image.Effect>
@@ -1658,8 +1661,8 @@
                     </Grid>
 
                     <!-- HOTBAR CENTRAL DECK AREA -->
-                    <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <ls:LSNineSliceImage ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="0,0,0,0"
+                    <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left" Height="1508">
+                        <ls:LSNineSliceImage ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Stretch" HorizontalAlignment="Left" Padding="0,0,0,0"
                             Width="{Binding ActualHeight, ElementName=MainBars}" Height="{Binding ActualWidth, ElementName=MainBars}">
                             <ls:LSNineSliceImage.LayoutTransform>
                                 <RotateTransform Angle="90"/>
@@ -1667,9 +1670,9 @@
                         </ls:LSNineSliceImage>
 
                         <!--MAIN DECK-->
-                        <Border x:Name="MainBars" Width="{StaticResource DeckWidth}" VerticalAlignment="Top" HorizontalAlignment="Left" >
+                        <Border x:Name="MainBars" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                             <!--ls:AttachedProperties.InheritedTag has the AutoIndex property for internal LSGrids-->
-                            <Grid x:Name="MainContent" Margin="16,32,36,16">
+                            <Grid x:Name="MainContent">
                                 <Grid.Resources>
                                     <Storyboard x:Key="TimeoutInputStoryboard">
                                         <BooleanAnimationUsingKeyFrames Storyboard.TargetName="Concertina" Storyboard.TargetProperty="IsEnabled">
@@ -1688,7 +1691,7 @@
                                         </BooleanAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </Grid.Resources>
-                                <Image x:Name="ShutterSlideRail" Margin="-12,0,-12,-2" Source="{StaticResource ShutterSlideBg}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                                <!-- <Image x:Name="ShutterSlideRail" Margin="-12,0,-12,-2" Source="{StaticResource ShutterSlideBg}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/> -->
 
                                 <ls:LSInputBinding x:Name="InputCooldown" AnyKey="True" PlayerId="{Binding CurrentPlayer.PlayerId}" EatInput="False">
                                     <b:Interaction.Triggers>
@@ -1699,7 +1702,7 @@
                                 </ls:LSInputBinding>
 
                                 <!--CONCERTINA-->
-                                <ls:Concertina x:Name="Concertina" HorizontalAlignment="Stretch" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.KeyboardHotBars}"
+                                <ls:Concertina Visibility="Collapsed" x:Name="Concertina" HorizontalAlignment="Left" VerticalAlignment="Stretch" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.KeyboardHotBars}"
                                     AlternationCount="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.KeyboardHotBars.Count}" AllowDrop="True"
                                     ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}"
                                     ColumnWidth="{StaticResource HotbarSlotSize}"
@@ -1707,7 +1710,7 @@
                                     FullyResizedItem="{Binding CurrentShownDeck}" Opacity="1" VirtualizingPanel.VirtualizationMode="Recycling">
                                     <ls:Concertina.Resources>
                                         <ControlTemplate x:Key="ItemsControlDeckTemplate" TargetType="ListBox">
-                                            <Border VerticalAlignment="Bottom" x:Name="BorderC">
+                                            <Border VerticalAlignment="Top" x:Name="BorderC">
                                                 <Border.OpacityMask>
                                                     <LinearGradientBrush MappingMode="Absolute">
                                                         <LinearGradientBrush.StartPoint>
@@ -1727,7 +1730,7 @@
                                                     </LinearGradientBrush>
                                                 </Border.OpacityMask>
 
-                                                <ScrollViewer x:Name="ContainerScroller" Style="{StaticResource NoForcedScrollViewerStyle}" ls:ScrollViewerHelper.MouseWheelScrollsHorizontally="True" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Focusable="False" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled"  CanContentScroll="{Binding CellColumns, Converter={StaticResource GreaterThanConverter}, ConverterParameter={StaticResource MaxDeckColumns}}">
+                                                <ScrollViewer x:Name="ContainerScroller" Style="{StaticResource NoForcedScrollViewerStyle}" ls:ScrollViewerHelper.MouseWheelScrollsHorizontally="False" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  CanContentScroll="True">
                                                     <AdornerDecorator x:Name="DeckAdorner" Margin="-50,-50,-20,-50" ClipToBounds="True">
                                                         <ItemsPresenter Margin="50,50,20,50"/>
                                                     </AdornerDecorator>
@@ -1812,7 +1815,7 @@
                                     </ls:Concertina.Resources>
                                     <ls:Concertina.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel Orientation="Horizontal" VirtualizationMode="Recycling"/>
+                                            <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling"/>
                                         </ItemsPanelTemplate>
                                     </ls:Concertina.ItemsPanel>
                                     <ls:Concertina.ItemContainerStyle>
@@ -1877,17 +1880,60 @@
                                     </ls:Concertina.ItemContainerStyle>
                                 </ls:Concertina>
                                 <!--EXTRA DECKS-->
-                                <AdornerDecorator Margin="-40,-40,-40,0" ClipToBounds="True">
-                                    <Grid Margin="40,40,40,0">
-                                        <AdornerDecorator x:Name="HotbarsBehindSingleHotbar" ClipToBounds="True"   Margin="-40,-40,-40, 0">
-                                            <Grid Margin="40,40,40,0">
-                                                <ContentControl x:Name="PassivesHotBar" Background="#30000000" HorizontalAlignment="Stretch" VerticalAlignment="Top" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
-                                                                Height="{Binding ActualHeight, ElementName=Concertina, Converter={StaticResource AddConverter}, ConverterParameter=-14}"
+                                <AdornerDecorator Margin="0,0,0,0" ClipToBounds="True">
+                                    <Grid Margin="0,0,0,0">
+                                        <AdornerDecorator x:Name="HotbarsBehindSingleHotbar" ClipToBounds="True"   Margin="0,0,0,0">
+                                            <Grid Margin="0,0,0,0">
+                                                <ContentControl x:Name="CommonHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
+                                                                Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CommonHotBar}"
+                                                                ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True">
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="ContentControl">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="CommonHotBar">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+
+                                                <ContentControl x:Name="ClassHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
+                                                                Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClassHotBar}"
+                                                                ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True">
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="ContentControl">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ClassHotBar">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+
+                                                <ContentControl x:Name="ItemsHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
+                                                                Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ItemHotBar}"
+                                                                ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True">
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="ContentControl">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ItemHotBar">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+
+                                                <ContentControl x:Name="PassivesHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
                                                                 Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.PassivesHotBar}" Visibility="{Binding IsShowingPassivesDeck, Converter={StaticResource BoolToVisibleConverter}}"
                                                                 ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="False"/>
 
-                                                <ContentControl x:Name="CustomHotBar" Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
-                                                                Height="{Binding ActualHeight, ElementName=Concertina, Converter={StaticResource AddConverter}, ConverterParameter=-14}"
+                                                <ContentControl x:Name="CustomHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
                                                                 Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CustomHotBar}" Visibility="{Binding IsShowingCustomDeck, Converter={StaticResource BoolToVisibleConverter}}"
                                                                 ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True"/>
                                             </Grid>
