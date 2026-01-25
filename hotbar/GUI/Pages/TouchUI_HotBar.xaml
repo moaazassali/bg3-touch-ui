@@ -1661,7 +1661,11 @@
                     </Grid>
 
                     <!-- HOTBAR CENTRAL DECK AREA -->
-                    <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left" Height="1508">
+                    <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left" Height="804" Margin="0,-30,0,0">
+                        <Grid.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </Grid.LayoutTransform>
+
                         <ls:LSNineSliceImage ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Stretch" HorizontalAlignment="Left" Padding="0,0,0,0"
                             Width="{Binding ActualHeight, ElementName=MainBars}" Height="{Binding ActualWidth, ElementName=MainBars}">
                             <ls:LSNineSliceImage.LayoutTransform>
