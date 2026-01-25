@@ -1168,7 +1168,7 @@
                                 </Style>
                             </ListBox.ItemContainerStyle>
 
-                            <ListBoxItem x:Name="HotbarDeckButton_Reset">
+                            <ListBoxItem x:Name="HotbarDeckButton_Reset" Visibility="Collapsed">
                                 <ls:LSButton x:Name="InvalidHotBar" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     <ls:LSButton.Content>
                                         <Image Source="{StaticResource IconConcertina}" Stretch="None" Margin="10,0">
