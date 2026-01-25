@@ -1074,7 +1074,7 @@
                 <BitmapImage x:Key="ExitFTBIconHighlight" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_exit_h.png" />
             </ControlTemplate.Resources>
 
-            <Grid x:Name="HotbarRoot" Opacity="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}"
+            <Grid x:Name="HotbarRoot" Opacity="1" VerticalAlignment="Top" HorizontalAlignment="Left" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}"
                   Visibility="{Binding CurrentPlayer.SelectedCharacter, Converter={StaticResource NullToCollapsedConverter}}">
 
                 <ls:LSInputBinding x:Name="LaunchJumpActionBinding" Command="{Binding LaunchDefaultActionCommand}" CommandParameter="Jump" BoundEvent="Jump"/>
@@ -1088,6 +1088,515 @@
                 <!-- ================================== -->
                 <!-- ========= HOTBAR CONTENT ========= -->
                 <!-- ================================== -->
+
+                <!-- ===== DECKTAB BAR ===== -->
+                <Grid Margin="0,0,0,0" Background="Transparent">
+                    <Grid x:Name="BottomFeatures" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                        <!-- <Grid.MaxWidth>
+                            <MultiBinding Converter="{StaticResource AddMultipleConverter}">
+                                <Binding Path="ActualWidth" ElementName="WeaponSlots"/>
+                                <Binding Path="ActualWidth" ElementName="MainBars"/>
+                                <Binding Path="ActualWidth" ElementName="FixedSideBar"/>
+                                <Binding Source="-88"/>
+                            </MultiBinding>
+                        </Grid.MaxWidth> -->
+
+                        <!-- Bottom buttons -->
+                        <!-- <ls:LSNineSliceImage x:Name="BottomLinksBg" HorizontalAlignment="Center" Height="84" Width="{Binding ActualWidth, ElementName=BottomLinks, Converter={StaticResource AddConverter}, ConverterParameter=240}"
+                                    ImageSource="{StaticResource BarBottom}" Slices="170,0, 170, 0" Visibility="{Binding Visibility, ElementName=BottomLinks}"/> -->
+
+                        <ListBox x:Name="BottomLinks" HorizontalAlignment="Center" AlternationCount="6" Visibility="{Binding Path=Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BoolToVisibleConverter}, ConverterParameter={StaticResource TrueValue}}">
+                            <ListBox.Tag>
+                                <MultiBinding Converter="{StaticResource BoolAndConverter}">
+                                    <Binding Path="IsVisible" ElementName="SingleHotBar" Converter="{StaticResource InvertBoolConverter}"/>
+                                    <Binding Path="IsVisible" ElementName="SummonHotBar" Converter="{StaticResource InvertBoolConverter}"/>
+                                </MultiBinding>
+                            </ListBox.Tag>
+
+                            <ListBox.Resources>
+                                <System:Int16 x:Key="DoingAnimation">8</System:Int16>
+                            </ListBox.Resources>
+
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <!--DECK TABS-->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image x:Name="Separator" Style="{StaticResource BottomDividerImageStyle}" Visibility="{Binding }"/>
+                                                    <ContentPresenter>
+                                                        <ContentPresenter.MaxWidth>
+                                                            <MultiBinding Converter="{StaticResource DivideMultiConverter}">
+                                                                <Binding Path="MaxWidth" ElementName="BottomFeatures"/>
+                                                                <Binding Path="AlternationCount" ElementName="BottomLinks"/>
+                                                            </MultiBinding>
+                                                        </ContentPresenter.MaxWidth>
+                                                    </ContentPresenter>
+                                                </StackPanel>
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                                        <Setter TargetName="Separator" Property="Visibility" Value="Collapsed"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                            <ListBoxItem x:Name="HotbarDeckButton_Reset">
+                                <ls:LSButton x:Name="InvalidHotBar" Margin="0,0,-4,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <ls:LSButton.Content>
+                                        <Image Source="{StaticResource IconConcertina}" Stretch="None" Margin="10,0"/>
+                                    </ls:LSButton.Content>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ls:LSButton">
+                                                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource BtnConcertina}" Slices="36" Padding="10">
+                                                            <ContentPresenter x:Name="Content" Margin="10, 5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </ls:LSNineSliceImage>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_h.png"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_p.png"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsEnabled"  Value="False">
+                                                                <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_disabled.png"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding CurrentShownDeck, Converter={StaticResource NullToBoolFalseConverter}}" Value="False"/>
+                                                        <Condition Binding="{Binding IsShowingPassivesDeck}" Value="False"/>
+                                                        <Condition Binding="{Binding IsShowingCustomDeck}" Value="False"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ls:LSButton">
+                                                                    <Grid>
+                                                                        <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource BtnConcertinaActive}" Slices="36" Padding="10">
+                                                                            <ContentPresenter x:Name="Content" Margin="10, 5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                        </ls:LSNineSliceImage>
+
+                                                                        <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Visibility="Visible"
+                                                                Width="{Binding ActualWidth, ElementName=Content, Converter={StaticResource AddConverter}, ConverterParameter=-20}">
+                                                                            <Image Source="{StaticResource BtnActiveModArrowRed}" Stretch="None" VerticalAlignment="Center" Margin="0,4,0,-4"/>
+                                                                        </ls:LSNineSliceImage>
+                                                                    </Grid>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_h.png"/>
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsPressed" Value="True">
+                                                                            <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png"/>
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsEnabled"  Value="False">
+                                                                            <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_disabled.png"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </ListBoxItem>
+
+                            <ListBoxItem x:Name="HotbarDeckButton_Common">
+                                <ls:LSButton Content="{Binding Source='haf48b625gb2f0g449egb3aegfddfa1be81c2',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="CommonHotBar" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="CommonHotBar"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="CommonHotBar" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="CommonHotBar">
+                                                    <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CommonHotBar.HasNewContent}" Value="True">
+                                                    <Setter Property="Tag" Value="NewContent"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+
+                                </ls:LSButton>
+                            </ListBoxItem>
+
+                            <!--CLASS PLATE-->
+                            <ListBoxItem x:Name="HotbarDeckButton_Class" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.IsShapeShifted, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource BoolToCollapsedConverter}}">
+
+                                <ls:LSButton Content="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="ClassHotBar" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="ClassHotBar"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="ClassHotBar" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ClassHotBar">
+                                                    <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClassHotBar.HasNewContent}" Value="True">
+                                                    <Setter Property="Tag" Value="NewContent"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </ListBoxItem>
+
+                            <!--ITEMS PLATE-->
+                            <ListBoxItem x:Name="HotbarDeckButton_Items">
+                                <ls:LSButton Content="{Binding Source='h9dc5cd87g62b9g452ag8b97gdb226aa037d8',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="ItemHotBar" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="ItemHotBar"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="ItemHotBar" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ItemHotBar">
+                                                    <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+
+                                </ls:LSButton>
+                            </ListBoxItem>
+
+                            <!--PASSIVES DECK-->
+                            <ListBoxItem x:Name="HotbarDeckButton_Passives">
+                                <ls:LSButton Content="{Binding Source='hccb74959ga789g46f6g8cc2g73edf1536b6a',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingPassivesDeck}" Operator="Equal" RightOperand="{StaticResource FalseValue}" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
+                                            <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowPassivesHotBar}"/>
+                                        </b:EventTrigger>
+                                        <b:StoryboardCompletedTrigger Storyboard="{StaticResource ShowPassivesHotBar}">
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
+                                        </b:StoryboardCompletedTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingPassivesDeck}" Operator="Equal" RightOperand="{StaticResource TrueValue}" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HidePassivesHotBar}"/>
+                                        </b:EventTrigger>
+                                        <b:StoryboardCompletedTrigger Storyboard="{StaticResource HidePassivesHotBar}">
+                                            <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
+                                        </b:StoryboardCompletedTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsShowingPassivesDeck}" Value="True">
+                                                    <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </ListBoxItem>
+
+                            <!--CUSTOM DECK-->
+                            <ListBoxItem x:Name="HotbarDeckButton_Custom">
+                                <ls:LSButton Content="{Binding Source='he8bcb230g4306g4c9cg9e7eg60623c783f61',Converter={StaticResource TranslatedStringConverter}}" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingCustomDeck}" Operator="Equal" RightOperand="{StaticResource FalseValue}" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
+                                            <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowCustomHotBar}"/>
+                                        </b:EventTrigger>
+                                        <b:StoryboardCompletedTrigger Storyboard="{StaticResource ShowCustomHotBar}">
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
+                                        </b:StoryboardCompletedTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingCustomDeck}" Operator="Equal" RightOperand="{StaticResource TrueValue}" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideCustomHotBar}"/>
+                                        </b:EventTrigger>
+                                        <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideCustomHotBar}">
+                                            <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
+                                        </b:StoryboardCompletedTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsShowingCustomDeck}" Value="True">
+                                                    <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </ListBoxItem>
+                        </ListBox>
+
+                        <!-- Hotbar bottom tabs -->
+                        <Grid HorizontalAlignment="Center" Visibility="{Binding Visibility, ElementName=TabsBg}" IsHitTestVisible="False" >
+                            <ls:LSNineSliceImage x:Name="TabsBg" HorizontalAlignment="Center" VerticalAlignment="Center" Height="84" ImageSource="{StaticResource BarBottom}" Slices="170,0, 170, 0" MinWidth="340">
+                                <ls:LSNineSliceImage.Style>
+                                    <Style TargetType="ls:LSNineSliceImage" BasedOn="{StaticResource {x:Type ls:LSNineSliceImage}}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="Width" Value="0"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Visibility, ElementName=SummonBarBottomGrid}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="Width" Value="{Binding ActualWidth, ElementName=SummonBarBottomContent, Converter={StaticResource AddConverter}, ConverterParameter=340}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=Visibility, ElementName=SingleHotBarBottomGrid}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="Width" Value="{Binding ActualWidth, ElementName=SingleHotBarBottomGrid, Converter={StaticResource AddConverter}, ConverterParameter=340}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ls:LSNineSliceImage.Style>
+                            </ls:LSNineSliceImage>
+
+                            <ls:LSNineSliceImage HorizontalAlignment="Center" VerticalAlignment="Top" ImageSource="{StaticResource BtnActiveMod}" Slices="12, 0" MinWidth="44" Height="18"
+                                        Width="{Binding ActualWidth, ElementName=TabsBg, Converter={StaticResource AddConverter}, ConverterParameter=-380}" Margin="0,-10,0,0">
+                                <Image Source="{StaticResource ActiveModArrow}" Stretch="UniformToFill" VerticalAlignment="Center" Width="40"/>
+                            </ls:LSNineSliceImage>
+                        </Grid>
+
+                        <Grid x:Name="SummonBarBottomGrid" HorizontalAlignment="Center">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Path=Visibility, ElementName=SummonHotBar}" Value="Visible"/>
+                                                <Condition Binding="{Binding Path=Visibility, ElementName=SingleHotBarBottomGrid}" Value="Collapsed"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.Setters>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </MultiDataTrigger.Setters>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <TextBlock x:Name="SummonBarBottomContent" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding CurrentPlayer.SelectedCharacter.Name}"/>
+                        </Grid>
+
+                        <!--NAMEPLATE FOR SINGLE DECKS-->
+                        <StackPanel x:Name="SingleHotBarBottomGrid" Orientation="Horizontal" HorizontalAlignment="Center"  Visibility="{Binding Path=Visibility, ElementName=SingleHotBar}">
+                            <TextBlock x:Name="SingleHotBarBottomContent" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+                    <Run x:Name="SingleHotbarResourceFilterText" Text="{Binding ResourceFilter.Name, StringFormat='{}{0} - '}"/>
+                    <Run x:Name="SingleHotbarFilterText" Text="{Binding CurrentSingleHotbarFilter}"/>
+                            </TextBlock>
+
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Center" Margin="16,0,0,0">
+                                <ls:LSRadioButton x:Name="AllButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="None" SoundID="UI_HUD_Options_Default" IsChecked="True">
+                                    <ls:LSRadioButton.ToolTip>
+                                        <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Source='h6675c3a8gbf70g4dc8gb7a5gef27b366fc6c', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipDefaultTextStyle}" />
+                                        </ls:LSTooltip>
+                                    </ls:LSRadioButton.ToolTip>
+                                    <ls:LSRadioButton.Resources>
+                                        <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_all.png</ImageSource>
+                                        <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_all_active.png</ImageSource>
+                                    </ls:LSRadioButton.Resources>
+                                </ls:LSRadioButton>
+
+                                <ls:LSRadioButton x:Name="WeaponsButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="Weapons" SoundID="UI_HUD_Options_Default" Margin="-16,0">
+                                    <ls:LSRadioButton.ToolTip>
+                                        <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Source='h813aa7e0g1398g4c7dg9f50g5c1669738c72', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipDefaultTextStyle}" />
+                                        </ls:LSTooltip>
+                                    </ls:LSRadioButton.ToolTip>
+                                    <ls:LSRadioButton.Resources>
+                                        <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_EQ.png</ImageSource>
+                                        <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_EQ_active.png</ImageSource>
+                                    </ls:LSRadioButton.Resources>
+                                </ls:LSRadioButton>
+
+                                <ls:LSRadioButton x:Name="GrenadesPotionsButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="GrenadesAndPotions" SoundID="UI_HUD_Options_Default">
+                                    <ls:LSRadioButton.ToolTip>
+                                        <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
+                                            <TextBlock VerticalAlignment="Center" Style="{StaticResource TooltipDefaultTextStyle}" Visibility="Visible">
+                                    <Run Text="{Binding Source='hd51768e9g4666g46ffg88c5gef09745da53e', Converter={StaticResource TranslatedStringConverter}}"/>
+                                    <Run Text="{Binding Source='hd64bfe4cgadadg4468g8b0ag70330ffc717c', Converter={StaticResource TranslatedStringConverter}}"/>
+                                    <Run Text="{Binding Source='h7f9eb342ge980g4848gbd7dgb8f61667c6a7', Converter={StaticResource TranslatedStringConverter}}"/>
+                                            </TextBlock>
+                                        </ls:LSTooltip>
+                                    </ls:LSRadioButton.ToolTip>
+                                    <ls:LSRadioButton.Resources>
+                                        <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_pots.png</ImageSource>
+                                        <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_pots_active.png</ImageSource>
+                                    </ls:LSRadioButton.Resources>
+                                </ls:LSRadioButton>
+                            </StackPanel>
+
+                            <ls:LSButton x:Name="CloseFilterBtn" Style="{StaticResource SmallCloseButton}" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="32,0,-32,0">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Click">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=HotBar}" Operator="Equal" RightOperand="Left" />
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideSingleHotBarToLeft}"/>
+                                        <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="False"/>
+                                        <b:InvokeCommandAction Command="{Binding Path=DataContext.CancelTaskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="Click">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=HotBar}" Operator="NotEqual" RightOperand="Left" />
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideSingleHotBar}"/>
+                                        <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="False"/>
+                                        <b:InvokeCommandAction Command="{Binding Path=DataContext.CancelTaskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                    </b:EventTrigger>
+                                    <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideSingleHotBar}">
+                                        <b:InvokeCommandAction Command="{Binding ClearSingleHotbarCommand}"/>
+                                        <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="True"/>
+                                    </b:StoryboardCompletedTrigger>
+                                    <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideSingleHotBarToLeft}">
+                                        <b:InvokeCommandAction Command="{Binding ClearSingleHotbarCommand}"/>
+                                        <b:ChangePropertyAction TargetName="HotBar" PropertyName="Tag" Value="{x:Null}"/>
+                                        <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="True"/>
+                                    </b:StoryboardCompletedTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
 
                 <Grid x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
@@ -2730,513 +3239,6 @@
 
                         </Grid>
 
-                        <!-- ===== DECKTAB BAR ===== -->
-                        <Grid Grid.Row="2" Margin="0,-8,0,0" Background="Transparent">
-                            <Grid x:Name="BottomFeatures" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="88" Margin="0,0,0,9">
-                                <Grid.MaxWidth>
-                                    <MultiBinding Converter="{StaticResource AddMultipleConverter}">
-                                        <Binding Path="ActualWidth" ElementName="WeaponSlots"/>
-                                        <Binding Path="ActualWidth" ElementName="MainBars"/>
-                                        <Binding Path="ActualWidth" ElementName="FixedSideBar"/>
-                                        <Binding Source="-88"/>
-                                    </MultiBinding>
-                                </Grid.MaxWidth>
-
-                                <!-- Bottom buttons -->
-                                <ls:LSNineSliceImage x:Name="BottomLinksBg" HorizontalAlignment="Center" Height="84" Width="{Binding ActualWidth, ElementName=BottomLinks, Converter={StaticResource AddConverter}, ConverterParameter=240}"
-                                         ImageSource="{StaticResource BarBottom}" Slices="170,0, 170, 0" Visibility="{Binding Visibility, ElementName=BottomLinks}"/>
-
-                                <ListBox x:Name="BottomLinks" HorizontalAlignment="Center" AlternationCount="6" Visibility="{Binding Path=Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BoolToVisibleConverter}, ConverterParameter={StaticResource TrueValue}}">
-                                    <ListBox.Tag>
-                                        <MultiBinding Converter="{StaticResource BoolAndConverter}">
-                                            <Binding Path="IsVisible" ElementName="SingleHotBar" Converter="{StaticResource InvertBoolConverter}"/>
-                                            <Binding Path="IsVisible" ElementName="SummonHotBar" Converter="{StaticResource InvertBoolConverter}"/>
-                                        </MultiBinding>
-                                    </ListBox.Tag>
-
-                                    <ListBox.Resources>
-                                        <System:Int16 x:Key="DoingAnimation">8</System:Int16>
-                                    </ListBox.Resources>
-
-                                    <ListBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ListBox.ItemsPanel>
-                                    <!--DECK TABS-->
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="{x:Type ListBoxItem}">
-                                            <Setter Property="Margin" Value="0"/>
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image x:Name="Separator" Style="{StaticResource BottomDividerImageStyle}" Visibility="{Binding }"/>
-                                                            <ContentPresenter>
-                                                                <ContentPresenter.MaxWidth>
-                                                                    <MultiBinding Converter="{StaticResource DivideMultiConverter}">
-                                                                        <Binding Path="MaxWidth" ElementName="BottomFeatures"/>
-                                                                        <Binding Path="AlternationCount" ElementName="BottomLinks"/>
-                                                                    </MultiBinding>
-                                                                </ContentPresenter.MaxWidth>
-                                                            </ContentPresenter>
-                                                        </StackPanel>
-
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                                                                <Setter TargetName="Separator" Property="Visibility" Value="Collapsed"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ListBox.ItemContainerStyle>
-
-                                    <ListBoxItem x:Name="HotbarDeckButton_Reset">
-                                        <ls:LSButton x:Name="InvalidHotBar" Margin="0,0,-4,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
-                                            <ls:LSButton.Content>
-                                                <Image Source="{StaticResource IconConcertina}" Stretch="None" Margin="10,0"/>
-                                            </ls:LSButton.Content>
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
-                                                </b:EventTrigger>
-                                            </b:Interaction.Triggers>
-                                            <ls:LSButton.Style>
-                                                <Style TargetType="{x:Type ls:LSButton}">
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="ls:LSButton">
-                                                                <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource BtnConcertina}" Slices="36" Padding="10">
-                                                                    <ContentPresenter x:Name="Content" Margin="10, 5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </ls:LSNineSliceImage>
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_h.png"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsPressed" Value="True">
-                                                                        <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_p.png"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsEnabled"  Value="False">
-                                                                        <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_disabled.png"/>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding CurrentShownDeck, Converter={StaticResource NullToBoolFalseConverter}}" Value="False"/>
-                                                                <Condition Binding="{Binding IsShowingPassivesDeck}" Value="False"/>
-                                                                <Condition Binding="{Binding IsShowingCustomDeck}" Value="False"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <MultiDataTrigger.Setters>
-                                                                <Setter Property="Template">
-                                                                    <Setter.Value>
-                                                                        <ControlTemplate TargetType="ls:LSButton">
-                                                                            <Grid>
-                                                                                <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource BtnConcertinaActive}" Slices="36" Padding="10">
-                                                                                    <ContentPresenter x:Name="Content" Margin="10, 5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                                </ls:LSNineSliceImage>
-
-                                                                                <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Visibility="Visible"
-                                                                        Width="{Binding ActualWidth, ElementName=Content, Converter={StaticResource AddConverter}, ConverterParameter=-20}">
-                                                                                    <Image Source="{StaticResource BtnActiveModArrowRed}" Stretch="None" VerticalAlignment="Center" Margin="0,4,0,-4"/>
-                                                                                </ls:LSNineSliceImage>
-                                                                            </Grid>
-                                                                            <ControlTemplate.Triggers>
-                                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                                    <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_h.png"/>
-                                                                                </Trigger>
-                                                                                <Trigger Property="IsPressed" Value="True">
-                                                                                    <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png"/>
-                                                                                </Trigger>
-                                                                                <Trigger Property="IsEnabled"  Value="False">
-                                                                                    <Setter Property="ImageSource" TargetName="bg" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_disabled.png"/>
-                                                                                </Trigger>
-                                                                            </ControlTemplate.Triggers>
-                                                                        </ControlTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </MultiDataTrigger.Setters>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ls:LSButton.Style>
-                                        </ls:LSButton>
-                                    </ListBoxItem>
-
-                                    <ListBoxItem x:Name="HotbarDeckButton_Common">
-                                        <ls:LSButton Content="{Binding Source='haf48b625gb2f0g449egb3aegfddfa1be81c2',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="CommonHotBar" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="CommonHotBar"/>
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
-                                                </b:EventTrigger>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="CommonHotBar" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
-                                                </b:EventTrigger>
-                                            </b:Interaction.Triggers>
-
-                                            <ls:LSButton.Style>
-                                                <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="CommonHotBar">
-                                                            <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CommonHotBar.HasNewContent}" Value="True">
-                                                            <Setter Property="Tag" Value="NewContent"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ls:LSButton.Style>
-
-                                        </ls:LSButton>
-                                    </ListBoxItem>
-
-                                    <!--CLASS PLATE-->
-                                    <ListBoxItem x:Name="HotbarDeckButton_Class" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.IsShapeShifted, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource BoolToCollapsedConverter}}">
-
-                                        <ls:LSButton Content="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="ClassHotBar" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="ClassHotBar"/>
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
-                                                </b:EventTrigger>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="ClassHotBar" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
-                                                </b:EventTrigger>
-                                            </b:Interaction.Triggers>
-
-                                            <ls:LSButton.Style>
-                                                <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ClassHotBar">
-                                                            <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClassHotBar.HasNewContent}" Value="True">
-                                                            <Setter Property="Tag" Value="NewContent"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ls:LSButton.Style>
-                                        </ls:LSButton>
-                                    </ListBoxItem>
-
-                                    <!--ITEMS PLATE-->
-                                    <ListBoxItem x:Name="HotbarDeckButton_Items">
-                                        <ls:LSButton Content="{Binding Source='h9dc5cd87g62b9g452ag8b97gdb226aa037d8',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="ItemHotBar" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="ItemHotBar"/>
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
-                                                </b:EventTrigger>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="ItemHotBar" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
-                                                </b:EventTrigger>
-                                            </b:Interaction.Triggers>
-
-                                            <ls:LSButton.Style>
-                                                <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ItemHotBar">
-                                                            <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ls:LSButton.Style>
-
-                                        </ls:LSButton>
-                                    </ListBoxItem>
-
-                                    <!--PASSIVES DECK-->
-                                    <ListBoxItem x:Name="HotbarDeckButton_Passives">
-                                        <ls:LSButton Content="{Binding Source='hccb74959ga789g46f6g8cc2g73edf1536b6a',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingPassivesDeck}" Operator="Equal" RightOperand="{StaticResource FalseValue}" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
-                                                    <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowPassivesHotBar}"/>
-                                                </b:EventTrigger>
-                                                <b:StoryboardCompletedTrigger Storyboard="{StaticResource ShowPassivesHotBar}">
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
-                                                </b:StoryboardCompletedTrigger>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingPassivesDeck}" Operator="Equal" RightOperand="{StaticResource TrueValue}" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HidePassivesHotBar}"/>
-                                                </b:EventTrigger>
-                                                <b:StoryboardCompletedTrigger Storyboard="{StaticResource HidePassivesHotBar}">
-                                                    <b:InvokeCommandAction Command="{Binding SetIsShowingPassivesDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
-                                                </b:StoryboardCompletedTrigger>
-                                            </b:Interaction.Triggers>
-
-                                            <ls:LSButton.Style>
-                                                <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsShowingPassivesDeck}" Value="True">
-                                                            <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ls:LSButton.Style>
-                                        </ls:LSButton>
-                                    </ListBoxItem>
-
-                                    <!--CUSTOM DECK-->
-                                    <ListBoxItem x:Name="HotbarDeckButton_Custom">
-                                        <ls:LSButton Content="{Binding Source='he8bcb230g4306g4c9cg9e7eg60623c783f61',Converter={StaticResource TranslatedStringConverter}}" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingCustomDeck}" Operator="Equal" RightOperand="{StaticResource FalseValue}" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
-                                                    <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowCustomHotBar}"/>
-                                                </b:EventTrigger>
-                                                <b:StoryboardCompletedTrigger Storyboard="{StaticResource ShowCustomHotBar}">
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
-                                                </b:StoryboardCompletedTrigger>
-                                                <b:EventTrigger EventName="Click">
-                                                    <b:Interaction.Behaviors>
-                                                        <b:ConditionBehavior>
-                                                            <b:ConditionalExpression>
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsShowingCustomDeck}" Operator="Equal" RightOperand="{StaticResource TrueValue}" />
-                                                                <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=BottomFeatures}" Operator="NotEqual" RightOperand="{StaticResource DoingAnimation}" />
-                                                            </b:ConditionalExpression>
-                                                        </b:ConditionBehavior>
-                                                    </b:Interaction.Behaviors>
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{StaticResource DoingAnimation}" />
-                                                    <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideCustomHotBar}"/>
-                                                </b:EventTrigger>
-                                                <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideCustomHotBar}">
-                                                    <b:InvokeCommandAction Command="{Binding SetIsShowingCustomDeckCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                    <b:ChangePropertyAction PropertyName="Tag" TargetName="BottomFeatures" Value="{x:Null}" />
-                                                </b:StoryboardCompletedTrigger>
-                                            </b:Interaction.Triggers>
-
-                                            <ls:LSButton.Style>
-                                                <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsShowingCustomDeck}" Value="True">
-                                                            <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ls:LSButton.Style>
-                                        </ls:LSButton>
-                                    </ListBoxItem>
-                                </ListBox>
-
-                                <!-- Hotbar bottom tabs -->
-                                <Grid HorizontalAlignment="Center" Visibility="{Binding Visibility, ElementName=TabsBg}" IsHitTestVisible="False" >
-                                    <ls:LSNineSliceImage x:Name="TabsBg" HorizontalAlignment="Center" VerticalAlignment="Center" Height="84" ImageSource="{StaticResource BarBottom}" Slices="170,0, 170, 0" MinWidth="340">
-                                        <ls:LSNineSliceImage.Style>
-                                            <Style TargetType="ls:LSNineSliceImage" BasedOn="{StaticResource {x:Type ls:LSNineSliceImage}}">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Setter Property="Width" Value="0"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=Visibility, ElementName=SummonBarBottomGrid}" Value="Visible">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=SummonBarBottomContent, Converter={StaticResource AddConverter}, ConverterParameter=340}"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Path=Visibility, ElementName=SingleHotBarBottomGrid}" Value="Visible">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=SingleHotBarBottomGrid, Converter={StaticResource AddConverter}, ConverterParameter=340}"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ls:LSNineSliceImage.Style>
-                                    </ls:LSNineSliceImage>
-
-                                    <ls:LSNineSliceImage HorizontalAlignment="Center" VerticalAlignment="Top" ImageSource="{StaticResource BtnActiveMod}" Slices="12, 0" MinWidth="44" Height="18"
-                                             Width="{Binding ActualWidth, ElementName=TabsBg, Converter={StaticResource AddConverter}, ConverterParameter=-380}" Margin="0,-10,0,0">
-                                        <Image Source="{StaticResource ActiveModArrow}" Stretch="UniformToFill" VerticalAlignment="Center" Width="40"/>
-                                    </ls:LSNineSliceImage>
-                                </Grid>
-
-                                <Grid x:Name="SummonBarBottomGrid" HorizontalAlignment="Center">
-                                    <Grid.Style>
-                                        <Style TargetType="Grid">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding Path=Visibility, ElementName=SummonHotBar}" Value="Visible"/>
-                                                        <Condition Binding="{Binding Path=Visibility, ElementName=SingleHotBarBottomGrid}" Value="Collapsed"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Style>
-                                    <TextBlock x:Name="SummonBarBottomContent" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding CurrentPlayer.SelectedCharacter.Name}"/>
-                                </Grid>
-
-                                <!--NAMEPLATE FOR SINGLE DECKS-->
-                                <StackPanel x:Name="SingleHotBarBottomGrid" Orientation="Horizontal" HorizontalAlignment="Center"  Visibility="{Binding Path=Visibility, ElementName=SingleHotBar}">
-                                    <TextBlock x:Name="SingleHotBarBottomContent" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
-                            <Run x:Name="SingleHotbarResourceFilterText" Text="{Binding ResourceFilter.Name, StringFormat='{}{0} - '}"/>
-                            <Run x:Name="SingleHotbarFilterText" Text="{Binding CurrentSingleHotbarFilter}"/>
-                                    </TextBlock>
-
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Center" Margin="16,0,0,0">
-                                        <ls:LSRadioButton x:Name="AllButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="None" SoundID="UI_HUD_Options_Default" IsChecked="True">
-                                            <ls:LSRadioButton.ToolTip>
-                                                <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
-                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Source='h6675c3a8gbf70g4dc8gb7a5gef27b366fc6c', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipDefaultTextStyle}" />
-                                                </ls:LSTooltip>
-                                            </ls:LSRadioButton.ToolTip>
-                                            <ls:LSRadioButton.Resources>
-                                                <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_all.png</ImageSource>
-                                                <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_all_active.png</ImageSource>
-                                            </ls:LSRadioButton.Resources>
-                                        </ls:LSRadioButton>
-
-                                        <ls:LSRadioButton x:Name="WeaponsButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="Weapons" SoundID="UI_HUD_Options_Default" Margin="-16,0">
-                                            <ls:LSRadioButton.ToolTip>
-                                                <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
-                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Source='h813aa7e0g1398g4c7dg9f50g5c1669738c72', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipDefaultTextStyle}" />
-                                                </ls:LSTooltip>
-                                            </ls:LSRadioButton.ToolTip>
-                                            <ls:LSRadioButton.Resources>
-                                                <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_EQ.png</ImageSource>
-                                                <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_EQ_active.png</ImageSource>
-                                            </ls:LSRadioButton.Resources>
-                                        </ls:LSRadioButton>
-
-                                        <ls:LSRadioButton x:Name="GrenadesPotionsButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="GrenadesAndPotions" SoundID="UI_HUD_Options_Default">
-                                            <ls:LSRadioButton.ToolTip>
-                                                <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
-                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource TooltipDefaultTextStyle}" Visibility="Visible">
-                                            <Run Text="{Binding Source='hd51768e9g4666g46ffg88c5gef09745da53e', Converter={StaticResource TranslatedStringConverter}}"/>
-                                            <Run Text="{Binding Source='hd64bfe4cgadadg4468g8b0ag70330ffc717c', Converter={StaticResource TranslatedStringConverter}}"/>
-                                            <Run Text="{Binding Source='h7f9eb342ge980g4848gbd7dgb8f61667c6a7', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                    </TextBlock>
-                                                </ls:LSTooltip>
-                                            </ls:LSRadioButton.ToolTip>
-                                            <ls:LSRadioButton.Resources>
-                                                <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_pots.png</ImageSource>
-                                                <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_pots_active.png</ImageSource>
-                                            </ls:LSRadioButton.Resources>
-                                        </ls:LSRadioButton>
-                                    </StackPanel>
-
-                                    <ls:LSButton x:Name="CloseFilterBtn" Style="{StaticResource SmallCloseButton}" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="32,0,-32,0">
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="Click">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=HotBar}" Operator="Equal" RightOperand="Left" />
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideSingleHotBarToLeft}"/>
-                                                <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="False"/>
-                                                <b:InvokeCommandAction Command="{Binding Path=DataContext.CancelTaskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger EventName="Click">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=HotBar}" Operator="NotEqual" RightOperand="Left" />
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideSingleHotBar}"/>
-                                                <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="False"/>
-                                                <b:InvokeCommandAction Command="{Binding Path=DataContext.CancelTaskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
-                                            </b:EventTrigger>
-                                            <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideSingleHotBar}">
-                                                <b:InvokeCommandAction Command="{Binding ClearSingleHotbarCommand}"/>
-                                                <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="True"/>
-                                            </b:StoryboardCompletedTrigger>
-                                            <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideSingleHotBarToLeft}">
-                                                <b:InvokeCommandAction Command="{Binding ClearSingleHotbarCommand}"/>
-                                                <b:ChangePropertyAction TargetName="HotBar" PropertyName="Tag" Value="{x:Null}"/>
-                                                <b:ChangePropertyAction TargetName="CloseFilterBtn" PropertyName="IsEnabled" Value="True"/>
-                                            </b:StoryboardCompletedTrigger>
-                                        </b:Interaction.Triggers>
-                                    </ls:LSButton>
-                                </StackPanel>
-                            </Grid>
-                        </Grid>
                     </Grid>
 
                     <!-- ========= RIGHT HOTBAR CONTENT ========= -->
