@@ -1251,9 +1251,9 @@
                                 <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
 
                                     <ls:LSButton.Content>
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Source='haf48b625gb2f0g449egb3aegfddfa1be81c2',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Tooltips/Icons/Action_UnarmedAttack.png" Stretch="Uniform" Width="70" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='haf48b625gb2f0g449egb3aegfddfa1be81c2',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                                         </StackPanel>
                                     </ls:LSButton.Content>
 
@@ -1305,9 +1305,12 @@
                                 <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     
                                     <ls:LSButton.Content>
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <Grid Width="80">
+                                                <!-- <Image x:Name="Background" Source="{StaticResource BtnSheet}" Stretch="UniformToFill"/> -->
+                                                <Image DataContext="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0]}" Style="{StaticResource ClassIconHotbarStyle}" Stretch="Uniform" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
+                                            </Grid>
+                                            <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                                         </StackPanel>
                                     </ls:LSButton.Content>
                                 
@@ -1357,9 +1360,9 @@
                                 <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     
                                     <ls:LSButton.Content>
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Source='h9dc5cd87g62b9g452ag8b97gdb226aa037d8',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/ControllerUIIcons/items_png/Item_LOOT_GEN_Backpack_A_Posed_A.png" Stretch="Uniform" Height="70" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='h9dc5cd87g62b9g452ag8b97gdb226aa037d8',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                                         </StackPanel>
                                     </ls:LSButton.Content>
                                 
@@ -1406,9 +1409,9 @@
                                 <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     
                                     <ls:LSButton.Content>
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Source='hccb74959ga789g46f6g8cc2g73edf1536b6a',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Tooltips/Icons/PassiveFeature_Generic.png" Stretch="Uniform" Height="70" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='hccb74959ga789g46f6g8cc2g73edf1536b6a',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                                         </StackPanel>
                                     </ls:LSButton.Content>
 
@@ -1464,9 +1467,9 @@
                                 <ls:LSButton Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     
                                     <ls:LSButton.Content>
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Source='he8bcb230g4306g4c9cg9e7eg60623c783f61',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Lobby/ico_textedit_d.png" Stretch="Uniform" Height="70" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='he8bcb230g4306g4c9cg9e7eg60623c783f61',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                                         </StackPanel>
                                     </ls:LSButton.Content>
                                 
