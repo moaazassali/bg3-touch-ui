@@ -121,7 +121,7 @@
                 <ControlTemplate x:Key="FilterButton" TargetType="{x:Type ls:LSButton}">
                     <Grid>
                         <ls:LSNineSliceImage x:Name="bg" VerticalAlignment="Stretch" ImageSource="{StaticResource FilterButtonBackground}" Slices="36" Padding="10" MinWidth="{Binding MaxWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}">
-                            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource BtnTextGlow}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>    
                         </ls:LSNineSliceImage>
 
                         <Image x:Name="NewContentMarker" Visibility="Collapsed" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,-26,10,0" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
@@ -170,7 +170,8 @@
                 <ControlTemplate x:Key="ActiveFilterButton" TargetType="{x:Type ls:LSButton}">
                     <Grid>
                         <ls:LSNineSliceImage x:Name="bg" ImageSource="{StaticResource ActiveFilterButtonBackground}" Slices="36" Padding="10" VerticalAlignment="Stretch" MinWidth="{Binding MaxWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}">
-                            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource BtnTextGlow}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <!-- <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource BtnTextGlow}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/> -->
                         </ls:LSNineSliceImage>
 
                         <ls:LSNineSliceImage x:Name="Marker" Style="{StaticResource BottomLinksMarkerStyle}" Width="80" Visibility="Visible">
@@ -1153,11 +1154,11 @@
                                                     </ContentPresenter>
                                                 </StackPanel>
 
-                                                <ControlTemplate.Triggers>
+                                                <!-- <ControlTemplate.Triggers>
                                                     <Trigger Property="ItemsControl.AlternationIndex" Value="0">
                                                         <Setter TargetName="Separator" Property="Visibility" Value="Collapsed"/>
                                                     </Trigger>
-                                                </ControlTemplate.Triggers>
+                                                </ControlTemplate.Triggers> -->
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -1247,7 +1248,15 @@
                             </ListBoxItem>
 
                             <ListBoxItem x:Name="HotbarDeckButton_Common">
-                                <ls:LSButton Content="{Binding Source='haf48b625gb2f0g449egb3aegfddfa1be81c2',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='haf48b625gb2f0g449egb3aegfddfa1be81c2',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:Interaction.Behaviors>
@@ -1293,7 +1302,15 @@
                             <!--CLASS PLATE-->
                             <ListBoxItem x:Name="HotbarDeckButton_Class" Visibility="{Binding DataContext.CurrentPlayer.SelectedCharacter.IsShapeShifted, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource BoolToCollapsedConverter}}">
 
-                                <ls:LSButton Content="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+                                
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:Interaction.Behaviors>
@@ -1337,7 +1354,15 @@
 
                             <!--ITEMS PLATE-->
                             <ListBoxItem x:Name="HotbarDeckButton_Items">
-                                <ls:LSButton Content="{Binding Source='h9dc5cd87g62b9g452ag8b97gdb226aa037d8',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='h9dc5cd87g62b9g452ag8b97gdb226aa037d8',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+                                
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:Interaction.Behaviors>
@@ -1378,7 +1403,15 @@
 
                             <!--PASSIVES DECK-->
                             <ListBoxItem x:Name="HotbarDeckButton_Passives">
-                                <ls:LSButton Content="{Binding Source='hccb74959ga789g46f6g8cc2g73edf1536b6a',Converter={StaticResource TranslatedStringConverter}}" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='hccb74959ga789g46f6g8cc2g73edf1536b6a',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:Interaction.Behaviors>
@@ -1428,7 +1461,15 @@
 
                             <!--CUSTOM DECK-->
                             <ListBoxItem x:Name="HotbarDeckButton_Custom">
-                                <ls:LSButton Content="{Binding Source='he8bcb230g4306g4c9cg9e7eg60623c783f61',Converter={StaticResource TranslatedStringConverter}}" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                <ls:LSButton Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_concertina_active_p.png" Stretch="Uniform" Height="50" Margin="0,0,0,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Source='he8bcb230g4306g4c9cg9e7eg60623c783f61',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+                                
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:Interaction.Behaviors>
