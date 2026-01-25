@@ -1120,7 +1120,7 @@
                         <!-- <ls:LSNineSliceImage x:Name="BottomLinksBg" HorizontalAlignment="Center" Height="84" Width="{Binding ActualWidth, ElementName=BottomLinks, Converter={StaticResource AddConverter}, ConverterParameter=240}"
                                     ImageSource="{StaticResource BarBottom}" Slices="170,0, 170, 0" Visibility="{Binding Visibility, ElementName=BottomLinks}"/> -->
 
-                        <ListBox x:Name="BottomLinks" HorizontalAlignment="Center" AlternationCount="6" Visibility="{Binding Path=Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BoolToVisibleConverter}, ConverterParameter={StaticResource TrueValue}}">
+                        <ListBox x:Name="BottomLinks" HorizontalAlignment="Center" AlternationCount="6" Visibility="Visible">
                             <ListBox.Tag>
                                 <MultiBinding Converter="{StaticResource BoolAndConverter}">
                                     <Binding Path="IsVisible" ElementName="SingleHotBar" Converter="{StaticResource InvertBoolConverter}"/>
@@ -1521,6 +1521,58 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </ListBoxItem>
+
+                            <!-- Touch UI - Custom cancel button -->
+                            <ListBoxItem x:Name="HotbarDeckButton_Cancel" Visibility="{Binding Path=Visibility, ElementName=SingleHotBar}">
+                                <ls:LSButton x:Name="HotbarDeckButton_CancelButton" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Notification/ico_notice_cross.png" Stretch="Uniform" Height="70" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="Cancel" Style="{StaticResource BtnTextGlow}" Foreground="#FC3041" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=HotBar}" Operator="Equal" RightOperand="Left" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideSingleHotBarToLeft}"/>
+                                            <b:ChangePropertyAction TargetName="HotbarDeckButton_CancelButton" PropertyName="IsEnabled" Value="False"/>
+                                            <b:InvokeCommandAction Command="{Binding Path=DataContext.CancelTaskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=Tag, ElementName=HotBar}" Operator="NotEqual" RightOperand="Left" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource HideSingleHotBar}"/>
+                                            <b:ChangePropertyAction TargetName="HotbarDeckButton_CancelButton" PropertyName="IsEnabled" Value="False"/>
+                                            <b:InvokeCommandAction Command="{Binding Path=DataContext.CancelTaskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                        </b:EventTrigger>
+                                        <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideSingleHotBar}">
+                                            <b:InvokeCommandAction Command="{Binding ClearSingleHotbarCommand}"/>
+                                            <b:ChangePropertyAction TargetName="HotbarDeckButton_CancelButton" PropertyName="IsEnabled" Value="True"/>
+                                        </b:StoryboardCompletedTrigger>
+                                        <b:StoryboardCompletedTrigger Storyboard="{StaticResource HideSingleHotBarToLeft}">
+                                            <b:InvokeCommandAction Command="{Binding ClearSingleHotbarCommand}"/>
+                                            <b:ChangePropertyAction TargetName="HotBar" PropertyName="Tag" Value="{x:Null}"/>
+                                            <b:ChangePropertyAction TargetName="HotbarDeckButton_CancelButton" PropertyName="IsEnabled" Value="True"/>
+                                        </b:StoryboardCompletedTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}"/>
                                     </ls:LSButton.Style>
                                 </ls:LSButton>
                             </ListBoxItem>
