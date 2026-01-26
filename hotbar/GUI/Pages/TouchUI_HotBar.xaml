@@ -2085,6 +2085,234 @@
                                 </Grid>
                             </Border>
 
+                            <!-- UPCAST / MULTITARGET TWO STEP DECK -->
+                            <StackPanel x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Background="{x:Null}">
+                                <ItemsControl x:Name="ContainerItems" Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding CurrentActiveSlot.Content.SpellUpcast}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Background="{x:Null}"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.Template>
+                                        <ControlTemplate TargetType="ItemsControl">
+                                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <!--Show SorceryPoint of the selected spell-->
+                                                    <ItemsControl x:Name="CastingResource" ItemsSource="{Binding CurrentPlayer.UIData.ActiveTask.Upcast.CostSummary}" VerticalAlignment="Center">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate DataType="ls:VMActionResource">
+                                                                <Grid x:Name="resourceDisplay" Visibility="Collapsed" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,30,0">
+                                                                    <Image Stretch="None" Style="{DynamicResource SectionImageStyle}" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" ls:TextBlockFormatter.SourceText="{Binding MaxValue}" Visibility="{Binding MaxValue, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter='1'}" Margin="0,24,0,0" TextAlignment="Center" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4"/>
+                                                                </Grid>
+                                                                <DataTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding TypeId}" Value="SorceryPoint">
+                                                                        <Setter Property="Visibility" Value="Visible" TargetName="resourceDisplay"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Collapsed" TargetName="resourceDisplay"/>
+                                                                    </DataTrigger>
+                                                                </DataTemplate.Triggers>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                    <Grid x:Name="MainSpellIcon" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,0,24,0" Visibility="{Binding IsShowingAContainerWithVariants, Converter={StaticResource BoolToCollapsedConverter},FallbackValue=Collapsed}">
+                                                        <Rectangle Fill="{Binding CurrentActiveSlot.Content.Icon}" />
+                                                        <Control x:Name="SpellModifiedGlow" Visibility="Collapsed" DataContext="{Binding CurrentActiveSlot}" Tag="True"  IsHitTestVisible="False" Template="{StaticResource HotbarSlotGlow}"/>
+
+                                                    </Grid>
+                                                    <Grid Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,-8,0,8" Visibility="{Binding CurrentActiveSlot.Content.Icon, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}">
+                                                        <Rectangle Fill="{Binding CurrentActiveSlot.Content.Icon}"  />
+                                                        <Control x:Name="ItemModifiedGlow" DataContext="{Binding CurrentActiveSlot}" Tag="True"  IsHitTestVisible="False" Visibility="Collapsed" Template="{StaticResource HotbarSlotGlow}"/>
+                                                    </Grid>
+                                                    <ItemsPresenter VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+
+                                                <DataTrigger Binding="{Binding CurrentActiveSlot.Content.IsModified}" Value="True" >
+                                                    <Setter TargetName="ItemModifiedGlow" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CurrentActiveSlot.Content.IsModified}" Value="True" >
+                                                    <Setter TargetName="SpellModifiedGlow" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CurrentActiveSlot.Content, Converter={StaticResource NullToBoolFalseConverter}}" Value="True" >
+                                                    <Setter TargetName="MainSpellIcon" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+
+                                    <ItemsControl.ItemContainerStyle>
+                                        <Style TargetType="ContentPresenter">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter  Property="Panel.ZIndex" Value="99"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+
+                                    <ItemsControl.ItemTemplate>
+
+                                        <DataTemplate DataType="ls:VMUpcast">
+                                            <Border x:Name="contentContainer" VerticalAlignment="Center" Width="{StaticResource MinimalistSlotSize}" Height="{StaticResource MinimalistSlotSize}" Background="{StaticResource HotbarSlotBackground}">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="MouseEnter">
+                                                        <b:InvokeCommandAction Command="{Binding DataContext.HighlightResourcesCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="MouseLeave">
+                                                        <b:InvokeCommandAction Command="{Binding DataContext.ClearResourceHighlightsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="Unloaded">
+                                                        <b:ChangePropertyAction TargetName="HotbarslotBtn" PropertyName="CommandParameter" Value="{x:Null}"/>
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+
+                                                <ls:LSButton x:Name="HotbarslotBtn" ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Style="{StaticResource HotBarSlotStyle}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.VerticalOffset="-110" ls:TooltipExtender.Context="Hotbar" CommandParameter="{Binding .}" IsEnabled="{Binding CanUse}" ToolTipService.ShowOnDisabled="True">
+                                                    <ls:LSButton.Template>
+                                                        <ControlTemplate TargetType="ls:LSButton">
+                                                            <ControlTemplate.Resources>
+                                                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CellTextStyle}">
+                                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                                </Style>
+                                                            </ControlTemplate.Resources>
+                                                            <Grid Background="Transparent">
+                                                                <Grid Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}">
+                                                                    <Image x:Name="Background" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_d.png" Stretch="None"/>
+
+                                                                    <TextBlock x:Name="SpellSlotLevel" Foreground="{StaticResource LS_accent100TxtColor}" VerticalAlignment="Top" HorizontalAlignment="Center" Height="35" Margin="0,8,0,0" FontSize="{StaticResource MediumFontSize}"  noesis:Text.StrokeThickness="5"/>
+
+                                                                    <Image x:Name="ResourceImage" Stretch="Uniform" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,18,0,-18"/>
+
+                                                                    <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_upcasting.png" Stretch="None" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-4,0,0" Visibility="{Binding IsUpcasted, Converter={StaticResource BoolToVisibleConverter}}"/>
+                                                                </Grid>
+
+                                                                <Border x:Name="SelectedMarker" BorderBrush="{StaticResource LS_tint100}" BorderThickness="2" Visibility="Collapsed" />
+                                                                <Control x:Name="SelectedGlow" IsHitTestVisible="False" Visibility="Collapsed" Template="{StaticResource HotBarActiveSlotIndicator}"/>
+
+
+                                                            </Grid>
+
+                                                            <ControlTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                                    <Setter TargetName="SelectedGlow" Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_h.png"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="True">
+                                                                    <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_p.png"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_d.png"/>
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Opacity" Value="0.5"/>
+                                                                </Trigger>
+                                                                <DataTrigger Binding="{Binding IsFake}" Value="True">
+                                                                    <Setter TargetName="ResourceImage" Property="Opacity" Value="0.5"/>
+                                                                    <Setter TargetName="Background" Property="Opacity" Value="0.5"/>
+                                                                </DataTrigger>
+
+                                                                <!-- Action Resource Icon from TypeId/ResourceName -->
+                                                                <DataTrigger Binding="{Binding ResourceName, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False">
+                                                                    <Setter TargetName="ResourceImage" Property="Source">
+                                                                        <Setter.Value>
+                                                                            <MultiBinding Converter="{StaticResource IconIdToSourceConverter}" FallbackValue="{StaticResource TypeIdToSourceFallback}">
+                                                                                <Binding Source="{StaticResource ActionResourceIconsPath}"/>
+                                                                                <Binding Path="ResourceName"/>
+                                                                            </MultiBinding>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding CanUse}" Value="False"/>
+                                                                        <Condition Binding="{Binding IsFake}" Value="False"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter TargetName="ResourceImage" Property="Source">
+                                                                            <Setter.Value>
+                                                                                <MultiBinding Converter="{StaticResource IconIdToSourceConverter}" FallbackValue="{StaticResource TypeIdToSourceFallback}">
+                                                                                    <Binding Source="{StaticResource ActionResourceUsedIconsPath}"/>
+                                                                                    <Binding Path="ResourceName"/>
+                                                                                </MultiBinding>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Strength">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h1579d774gdbcdg4a97gb3fage409138d104d', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Dexterity">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h8d7356d7g4c37g41e4gb8a2gef3459e12b97', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Constitution">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h20676a9ag9216g47dbgba3ag82bd734cfd53', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Intelligence">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='ha1a41e74g2804g4a70g9a85g6235163d41da', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Wisdom">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h2e9f1067g2dceg4640g8816gc6394e9f0303', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Charisma">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='ha2fc9b3dg3305g404eg9256gf25a06d0b2aa', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding SlotLevel, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding SlotLevel, Converter={StaticResource DecimalToRomanConverter}}"/>
+                                                                </DataTrigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </ls:LSButton.Template>
+                                                </ls:LSButton>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Grid x:Name="UpcastDescription" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,-8" MaxWidth="1200">
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource HotbarGeneralDescriptionStyle}"/>
+                                    </Grid.Resources>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image x:Name="UpcastIcon" Grid.Column="0" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_upcasting.png" Stretch="None" IsHitTestVisible="False" VerticalAlignment="Center" Margin="0,-8,0,8"/>
+
+                                    <TextBlock x:Name="UpcastTitle" Grid.Column="1">
+                                        <TextBlock.ToolTip>
+                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
+                                                <TextBlock Text="{Binding Source='hd91a3907gcb08g4a23g8262gd64018de7e15', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                            </ls:LSTooltip>
+                                        </TextBlock.ToolTip>
+                                        <Run Text="{Binding Source='h0f8acaadgd1f6g4a7ega71ageda041426536', Converter={StaticResource TranslatedStringConverter}}"/>
+                                        <Run Text="{Binding Source='hb897c56egaa6fg460bg8676g8ebfa0340954', Converter={StaticResource TranslatedStringConverter}}"/>
+                                    </TextBlock>
+
+                                    <TextBlock x:Name="DefaultUpcastText" Grid.Column="2" Text="{Binding Source='ha2469e2agb7b2g4458ga4cfga39870149940', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_baseTxtColor}"/>
+                                    <TextBlock x:Name="UpcastText" Grid.Column="2" Foreground="{StaticResource LS_baseTxtColor}" Visibility="Collapsed" TextTrimming="CharacterEllipsis" ls:TextTrimmedProperties.CheckTrim="True" ToolTipService.IsEnabled="{Binding (ls:TextTrimmedProperties.IsWidthTrimmed), ElementName=UpcastText}">
+                                        <b:Interaction.Behaviors>
+                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding UpcastGeneralDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                                        </b:Interaction.Behaviors>
+                                        <TextBlock.ToolTip>
+                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
+                                                <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
+                                        <b:Interaction.Behaviors>
+                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding DataContext.UpcastGeneralDescription, ElementName=HotBar}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                                        </b:Interaction.Behaviors>
+                                                </TextBlock>
+                                            </ls:LSTooltip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+                                </Grid>
+                            </StackPanel>
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
@@ -2664,235 +2892,6 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </Grid>
-
-                            <!-- UPCAST / MULTITARGET TWO STEP DECK -->
-                            <StackPanel x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Background="{x:Null}">
-                                <ItemsControl x:Name="ContainerItems" Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding CurrentActiveSlot.Content.SpellUpcast}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Background="{x:Null}"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-
-                                    <ItemsControl.Template>
-                                        <ControlTemplate TargetType="ItemsControl">
-                                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <!--Show SorceryPoint of the selected spell-->
-                                                    <ItemsControl x:Name="CastingResource" ItemsSource="{Binding CurrentPlayer.UIData.ActiveTask.Upcast.CostSummary}" VerticalAlignment="Center">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate DataType="ls:VMActionResource">
-                                                                <Grid x:Name="resourceDisplay" Visibility="Collapsed" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,30,0">
-                                                                    <Image Stretch="None" Style="{DynamicResource SectionImageStyle}" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                                                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" ls:TextBlockFormatter.SourceText="{Binding MaxValue}" Visibility="{Binding MaxValue, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter='1'}" Margin="0,24,0,0" TextAlignment="Center" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4"/>
-                                                                </Grid>
-                                                                <DataTemplate.Triggers>
-                                                                    <DataTrigger Binding="{Binding TypeId}" Value="SorceryPoint">
-                                                                        <Setter Property="Visibility" Value="Visible" TargetName="resourceDisplay"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding IsHidden}" Value="True">
-                                                                        <Setter Property="Visibility" Value="Collapsed" TargetName="resourceDisplay"/>
-                                                                    </DataTrigger>
-                                                                </DataTemplate.Triggers>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                    <Grid x:Name="MainSpellIcon" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,0,24,0" Visibility="{Binding IsShowingAContainerWithVariants, Converter={StaticResource BoolToCollapsedConverter},FallbackValue=Collapsed}">
-                                                        <Rectangle Fill="{Binding CurrentActiveSlot.Content.Icon}" />
-                                                        <Control x:Name="SpellModifiedGlow" Visibility="Collapsed" DataContext="{Binding CurrentActiveSlot}" Tag="True"  IsHitTestVisible="False" Template="{StaticResource HotbarSlotGlow}"/>
-
-                                                    </Grid>
-                                                    <Grid Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,-8,0,8" Visibility="{Binding CurrentActiveSlot.Content.Icon, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}">
-                                                        <Rectangle Fill="{Binding CurrentActiveSlot.Content.Icon}"  />
-                                                        <Control x:Name="ItemModifiedGlow" DataContext="{Binding CurrentActiveSlot}" Tag="True"  IsHitTestVisible="False" Visibility="Collapsed" Template="{StaticResource HotbarSlotGlow}"/>
-                                                    </Grid>
-                                                    <ItemsPresenter VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-
-                                                <DataTrigger Binding="{Binding CurrentActiveSlot.Content.IsModified}" Value="True" >
-                                                    <Setter TargetName="ItemModifiedGlow" Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding CurrentActiveSlot.Content.IsModified}" Value="True" >
-                                                    <Setter TargetName="SpellModifiedGlow" Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding CurrentActiveSlot.Content, Converter={StaticResource NullToBoolFalseConverter}}" Value="True" >
-                                                    <Setter TargetName="MainSpellIcon" Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </ItemsControl.Template>
-
-                                    <ItemsControl.ItemContainerStyle>
-                                        <Style TargetType="ContentPresenter">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                    <Setter  Property="Panel.ZIndex" Value="99"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ItemsControl.ItemContainerStyle>
-
-                                    <ItemsControl.ItemTemplate>
-
-                                        <DataTemplate DataType="ls:VMUpcast">
-                                            <Border x:Name="contentContainer" VerticalAlignment="Center" Width="{StaticResource MinimalistSlotSize}" Height="{StaticResource MinimalistSlotSize}" Background="{StaticResource HotbarSlotBackground}">
-                                                <b:Interaction.Triggers>
-                                                    <b:EventTrigger EventName="MouseEnter">
-                                                        <b:InvokeCommandAction Command="{Binding DataContext.HighlightResourcesCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
-                                                    </b:EventTrigger>
-                                                    <b:EventTrigger EventName="MouseLeave">
-                                                        <b:InvokeCommandAction Command="{Binding DataContext.ClearResourceHighlightsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
-                                                    </b:EventTrigger>
-                                                    <b:EventTrigger EventName="Unloaded">
-                                                        <b:ChangePropertyAction TargetName="HotbarslotBtn" PropertyName="CommandParameter" Value="{x:Null}"/>
-                                                    </b:EventTrigger>
-                                                </b:Interaction.Triggers>
-
-                                                <ls:LSButton x:Name="HotbarslotBtn" ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Style="{StaticResource HotBarSlotStyle}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.VerticalOffset="-110" ls:TooltipExtender.Context="Hotbar" CommandParameter="{Binding .}" IsEnabled="{Binding CanUse}" ToolTipService.ShowOnDisabled="True">
-                                                    <ls:LSButton.Template>
-                                                        <ControlTemplate TargetType="ls:LSButton">
-                                                            <ControlTemplate.Resources>
-                                                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CellTextStyle}">
-                                                                    <Setter Property="FontWeight" Value="Bold" />
-                                                                </Style>
-                                                            </ControlTemplate.Resources>
-                                                            <Grid Background="Transparent">
-                                                                <Grid Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}">
-                                                                    <Image x:Name="Background" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_d.png" Stretch="None"/>
-
-                                                                    <TextBlock x:Name="SpellSlotLevel" Foreground="{StaticResource LS_accent100TxtColor}" VerticalAlignment="Top" HorizontalAlignment="Center" Height="35" Margin="0,8,0,0" FontSize="{StaticResource MediumFontSize}"  noesis:Text.StrokeThickness="5"/>
-
-                                                                    <Image x:Name="ResourceImage" Stretch="Uniform" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,18,0,-18"/>
-
-                                                                    <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_upcasting.png" Stretch="None" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-4,0,0" Visibility="{Binding IsUpcasted, Converter={StaticResource BoolToVisibleConverter}}"/>
-                                                                </Grid>
-
-                                                                <Border x:Name="SelectedMarker" BorderBrush="{StaticResource LS_tint100}" BorderThickness="2" Visibility="Collapsed" />
-                                                                <Control x:Name="SelectedGlow" IsHitTestVisible="False" Visibility="Collapsed" Template="{StaticResource HotBarActiveSlotIndicator}"/>
-
-
-                                                            </Grid>
-
-                                                            <ControlTemplate.Triggers>
-                                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                                    <Setter TargetName="SelectedGlow" Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_h.png"/>
-                                                                </Trigger>
-                                                                <Trigger Property="IsPressed" Value="True">
-                                                                    <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_p.png"/>
-                                                                </Trigger>
-                                                                <Trigger Property="IsEnabled" Value="False">
-                                                                    <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/slot_upcasting_d.png"/>
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Opacity" Value="0.5"/>
-                                                                </Trigger>
-                                                                <DataTrigger Binding="{Binding IsFake}" Value="True">
-                                                                    <Setter TargetName="ResourceImage" Property="Opacity" Value="0.5"/>
-                                                                    <Setter TargetName="Background" Property="Opacity" Value="0.5"/>
-                                                                </DataTrigger>
-
-                                                                <!-- Action Resource Icon from TypeId/ResourceName -->
-                                                                <DataTrigger Binding="{Binding ResourceName, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False">
-                                                                    <Setter TargetName="ResourceImage" Property="Source">
-                                                                        <Setter.Value>
-                                                                            <MultiBinding Converter="{StaticResource IconIdToSourceConverter}" FallbackValue="{StaticResource TypeIdToSourceFallback}">
-                                                                                <Binding Source="{StaticResource ActionResourceIconsPath}"/>
-                                                                                <Binding Path="ResourceName"/>
-                                                                            </MultiBinding>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </DataTrigger>
-
-                                                                <MultiDataTrigger>
-                                                                    <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding CanUse}" Value="False"/>
-                                                                        <Condition Binding="{Binding IsFake}" Value="False"/>
-                                                                    </MultiDataTrigger.Conditions>
-                                                                    <MultiDataTrigger.Setters>
-                                                                        <Setter TargetName="ResourceImage" Property="Source">
-                                                                            <Setter.Value>
-                                                                                <MultiBinding Converter="{StaticResource IconIdToSourceConverter}" FallbackValue="{StaticResource TypeIdToSourceFallback}">
-                                                                                    <Binding Source="{StaticResource ActionResourceUsedIconsPath}"/>
-                                                                                    <Binding Path="ResourceName"/>
-                                                                                </MultiBinding>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                    </MultiDataTrigger.Setters>
-                                                                </MultiDataTrigger>
-
-                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Strength">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h1579d774gdbcdg4a97gb3fage409138d104d', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Dexterity">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h8d7356d7g4c37g41e4gb8a2gef3459e12b97', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Constitution">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h20676a9ag9216g47dbgba3ag82bd734cfd53', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Intelligence">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='ha1a41e74g2804g4a70g9a85g6235163d41da', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Wisdom">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='h2e9f1067g2dceg4640g8816gc6394e9f0303', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding CastAbility}" Value="Charisma">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding Source='ha2fc9b3dg3305g404eg9256gf25a06d0b2aa', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding SlotLevel, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
-                                                                    <Setter TargetName="SpellSlotLevel" Property="Text" Value="{Binding SlotLevel, Converter={StaticResource DecimalToRomanConverter}}"/>
-                                                                </DataTrigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </ls:LSButton.Template>
-                                                </ls:LSButton>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <Grid x:Name="UpcastDescription" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,-8" MaxWidth="1200">
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource HotbarGeneralDescriptionStyle}"/>
-                                    </Grid.Resources>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Image x:Name="UpcastIcon" Grid.Column="0" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_upcasting.png" Stretch="None" IsHitTestVisible="False" VerticalAlignment="Center" Margin="0,-8,0,8"/>
-
-                                    <TextBlock x:Name="UpcastTitle" Grid.Column="1">
-                                        <TextBlock.ToolTip>
-                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
-                                                <TextBlock Text="{Binding Source='hd91a3907gcb08g4a23g8262gd64018de7e15', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                            </ls:LSTooltip>
-                                        </TextBlock.ToolTip>
-                            <Run Text="{Binding Source='h0f8acaadgd1f6g4a7ega71ageda041426536', Converter={StaticResource TranslatedStringConverter}}"/><Run
-                                Text="{Binding Source='hb897c56egaa6fg460bg8676g8ebfa0340954', Converter={StaticResource TranslatedStringConverter}}"/>
-                        </TextBlock>
-
-                                    <TextBlock x:Name="DefaultUpcastText" Grid.Column="2" Text="{Binding Source='ha2469e2agb7b2g4458ga4cfga39870149940', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_baseTxtColor}"/>
-                                    <TextBlock x:Name="UpcastText" Grid.Column="2" Foreground="{StaticResource LS_baseTxtColor}" Visibility="Collapsed" TextTrimming="CharacterEllipsis" ls:TextTrimmedProperties.CheckTrim="True" ToolTipService.IsEnabled="{Binding (ls:TextTrimmedProperties.IsWidthTrimmed), ElementName=UpcastText}">
-                            <b:Interaction.Behaviors>
-                                <ls:CtxTransStringRunGeneratorBehavior Source="{Binding UpcastGeneralDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                            </b:Interaction.Behaviors>
-                                        <TextBlock.ToolTip>
-                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
-                                                <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
-                                        <b:Interaction.Behaviors>
-                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding DataContext.UpcastGeneralDescription, ElementName=HotBar}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                                        </b:Interaction.Behaviors>
-                                                </TextBlock>
-                                            </ls:LSTooltip>
-                                        </TextBlock.ToolTip>
-                        </TextBlock>
-                                </Grid>
-                            </StackPanel>
 
                             <!-- CUSTOM DECK (EMPTY) -->
                             <ls:LSNineSliceImage x:Name="EmptyDeckMessage" HorizontalAlignment="Center" VerticalAlignment="Center" ImageSource="{StaticResource OverlayMessageBackground}"  Slices="110,0,110,0" MinHeight="112" IsHitTestVisible="False">
