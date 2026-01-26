@@ -2087,6 +2087,46 @@
 
                             <!-- UPCAST / MULTITARGET TWO STEP DECK -->
                             <StackPanel x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Background="{x:Null}" Width="{Binding ActualWidth, ElementName=MainBars}">
+                                <Grid x:Name="UpcastDescription" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16">
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource HotbarGeneralDescriptionStyle}"/>
+                                    </Grid.Resources>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image x:Name="UpcastIcon" Grid.Column="0" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_upcasting.png" Stretch="None" IsHitTestVisible="False" VerticalAlignment="Center" Margin="0,-8,0,8"/>
+
+                                    <TextBlock x:Name="UpcastTitle" Grid.Column="1">
+                                        <TextBlock.ToolTip>
+                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
+                                                <TextBlock Text="{Binding Source='hd91a3907gcb08g4a23g8262gd64018de7e15', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                            </ls:LSTooltip>
+                                        </TextBlock.ToolTip>
+                                        <Run Text="{Binding Source='h0f8acaadgd1f6g4a7ega71ageda041426536', Converter={StaticResource TranslatedStringConverter}}"/>
+                                        <Run Text="{Binding Source='hb897c56egaa6fg460bg8676g8ebfa0340954', Converter={StaticResource TranslatedStringConverter}}"/>
+                                    </TextBlock>
+
+                                    <TextBlock x:Name="DefaultUpcastText" Grid.Column="2" Text="{Binding Source='ha2469e2agb7b2g4458ga4cfga39870149940', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_baseTxtColor}"/>
+                                    <TextBlock x:Name="UpcastText" Grid.Column="2" Foreground="{StaticResource LS_baseTxtColor}" Visibility="Collapsed" TextTrimming="CharacterEllipsis" ls:TextTrimmedProperties.CheckTrim="True" ToolTipService.IsEnabled="{Binding (ls:TextTrimmedProperties.IsWidthTrimmed), ElementName=UpcastText}">
+                                        <b:Interaction.Behaviors>
+                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding UpcastGeneralDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                                        </b:Interaction.Behaviors>
+                                        <TextBlock.ToolTip>
+                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
+                                                <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
+                                        <b:Interaction.Behaviors>
+                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding DataContext.UpcastGeneralDescription, ElementName=HotBar}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                                        </b:Interaction.Behaviors>
+                                                </TextBlock>
+                                            </ls:LSTooltip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+                                </Grid>
+
                                 <ItemsControl x:Name="ContainerItems" Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding CurrentActiveSlot.Content.SpellUpcast}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -2273,45 +2313,6 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Grid x:Name="UpcastDescription" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,-8">
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource HotbarGeneralDescriptionStyle}"/>
-                                    </Grid.Resources>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Image x:Name="UpcastIcon" Grid.Column="0" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_upcasting.png" Stretch="None" IsHitTestVisible="False" VerticalAlignment="Center" Margin="0,-8,0,8"/>
-
-                                    <TextBlock x:Name="UpcastTitle" Grid.Column="1">
-                                        <TextBlock.ToolTip>
-                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
-                                                <TextBlock Text="{Binding Source='hd91a3907gcb08g4a23g8262gd64018de7e15', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                            </ls:LSTooltip>
-                                        </TextBlock.ToolTip>
-                                        <Run Text="{Binding Source='h0f8acaadgd1f6g4a7ega71ageda041426536', Converter={StaticResource TranslatedStringConverter}}"/>
-                                        <Run Text="{Binding Source='hb897c56egaa6fg460bg8676g8ebfa0340954', Converter={StaticResource TranslatedStringConverter}}"/>
-                                    </TextBlock>
-
-                                    <TextBlock x:Name="DefaultUpcastText" Grid.Column="2" Text="{Binding Source='ha2469e2agb7b2g4458ga4cfga39870149940', Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_baseTxtColor}"/>
-                                    <TextBlock x:Name="UpcastText" Grid.Column="2" Foreground="{StaticResource LS_baseTxtColor}" Visibility="Collapsed" TextTrimming="CharacterEllipsis" ls:TextTrimmedProperties.CheckTrim="True" ToolTipService.IsEnabled="{Binding (ls:TextTrimmedProperties.IsWidthTrimmed), ElementName=UpcastText}">
-                                        <b:Interaction.Behaviors>
-                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding UpcastGeneralDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                                        </b:Interaction.Behaviors>
-                                        <TextBlock.ToolTip>
-                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Top" VerticalOffset="50">
-                                                <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
-                                        <b:Interaction.Behaviors>
-                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding DataContext.UpcastGeneralDescription, ElementName=HotBar}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                                        </b:Interaction.Behaviors>
-                                                </TextBlock>
-                                            </ls:LSTooltip>
-                                        </TextBlock.ToolTip>
-                                    </TextBlock>
-                                </Grid>
                             </StackPanel>
                         </Grid>
 
