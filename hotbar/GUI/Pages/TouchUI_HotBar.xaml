@@ -2090,14 +2090,14 @@
                                 <ItemsControl x:Name="ContainerItems" Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding CurrentActiveSlot.Content.SpellUpcast}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Background="{x:Null}"/>
+                                            <StackPanel Orientation="Vertical" Background="{x:Null}"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
 
                                     <ItemsControl.Template>
                                         <ControlTemplate TargetType="ItemsControl">
                                             <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                                                <StackPanel Orientation="Horizontal">
+                                                <StackPanel Orientation="Vertical">
                                                     <!--Show SorceryPoint of the selected spell-->
                                                     <ItemsControl x:Name="CastingResource" ItemsSource="{Binding CurrentPlayer.UIData.ActiveTask.Upcast.CostSummary}" VerticalAlignment="Center">
                                                         <ItemsControl.ItemTemplate>
