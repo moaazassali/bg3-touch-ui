@@ -1676,8 +1676,8 @@
                     </Grid>
 
                     <!-- HOTBAR CENTRAL DECK AREA -->
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left" Height="804" Margin="0,-30,0,0">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0">
+                        <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left" Height="804">
                             <Grid.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </Grid.LayoutTransform>
@@ -2087,7 +2087,11 @@
 
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Center" Margin="16,0,0,0">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="3" ScaleY="3"/>
+                            </StackPanel.LayoutTransform>
+                            
                             <ls:LSRadioButton x:Name="AllButton" GroupName="ThrowFilter" VerticalAlignment="Center" Template="{StaticResource ThrowFilterToggleIconButtonTemplate}" Command="{Binding ChangeThrowFilter}" CommandParameter="None" SoundID="UI_HUD_Options_Default" IsChecked="True">
                                 <ls:LSRadioButton.ToolTip>
                                     <ls:LSTooltip IsHitTestVisible="False" Placement="Top">
