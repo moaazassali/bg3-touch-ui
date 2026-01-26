@@ -2086,8 +2086,13 @@
                             </Border>
 
                             <!-- UPCAST / MULTITARGET TWO STEP DECK -->
-                            <StackPanel x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{x:Null}" Width="{Binding ActualWidth, ElementName=MainBars}" Margin="0,30,0,0">
-                                <Grid x:Name="UpcastDescription" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="16,16,32,16">
+                            <Grid x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{x:Null}" Width="{Binding ActualWidth, ElementName=MainBars}" Margin="0,30,0,30">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid x:Name="UpcastDescription" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="16,16,32,16">
                                     <Grid.Resources>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource HotbarGeneralDescriptionStyle}"/>
                                     </Grid.Resources>
@@ -2129,19 +2134,25 @@
                                     </TextBlock>
                                 </Grid>
 
-                                <ItemsControl x:Name="ContainerItems" Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding CurrentActiveSlot.Content.SpellUpcast}">
+                                <ItemsControl x:Name="ContainerItems" Grid.Row="1" Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding CurrentActiveSlot.Content.SpellUpcast}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical" Background="{x:Null}"/>
+                                            <WrapPanel Orientation="Vertical" Background="{x:Null}"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
 
                                     <ItemsControl.Template>
                                         <ControlTemplate TargetType="ItemsControl">
                                             <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                                                <StackPanel Orientation="Vertical">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
                                                     <!--Show SorceryPoint of the selected spell-->
-                                                    <ItemsControl x:Name="CastingResource" ItemsSource="{Binding CurrentPlayer.UIData.ActiveTask.Upcast.CostSummary}" VerticalAlignment="Center">
+                                                    <ItemsControl x:Name="CastingResource" Grid.Row="0" ItemsSource="{Binding CurrentPlayer.UIData.ActiveTask.Upcast.CostSummary}" VerticalAlignment="Center">
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate DataType="ls:VMActionResource">
                                                                 <Grid x:Name="resourceDisplay" Visibility="Collapsed" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,30,0">
@@ -2159,17 +2170,17 @@
                                                             </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
-                                                    <Grid x:Name="MainSpellIcon" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,0,24,0" Visibility="{Binding IsShowingAContainerWithVariants, Converter={StaticResource BoolToCollapsedConverter},FallbackValue=Collapsed}">
+                                                    <Grid x:Name="MainSpellIcon" Grid.Row="1" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,0,24,0" Visibility="{Binding IsShowingAContainerWithVariants, Converter={StaticResource BoolToCollapsedConverter},FallbackValue=Collapsed}">
                                                         <Rectangle Fill="{Binding CurrentActiveSlot.Content.Icon}" />
                                                         <Control x:Name="SpellModifiedGlow" Visibility="Collapsed" DataContext="{Binding CurrentActiveSlot}" Tag="True"  IsHitTestVisible="False" Template="{StaticResource HotbarSlotGlow}"/>
 
                                                     </Grid>
-                                                    <Grid Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,-8,0,8" Visibility="{Binding CurrentActiveSlot.Content.Icon, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}">
+                                                    <Grid Grid.Row="2" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" Margin="0,-8,0,8" Visibility="{Binding CurrentActiveSlot.Content.Icon, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}">
                                                         <Rectangle Fill="{Binding CurrentActiveSlot.Content.Icon}"  />
                                                         <Control x:Name="ItemModifiedGlow" DataContext="{Binding CurrentActiveSlot}" Tag="True"  IsHitTestVisible="False" Visibility="Collapsed" Template="{StaticResource HotbarSlotGlow}"/>
                                                     </Grid>
-                                                    <ItemsPresenter VerticalAlignment="Center"/>
-                                                </StackPanel>
+                                                    <ItemsPresenter Grid.Row="3" VerticalAlignment="Center"/>
+                                                </Grid>
                                             </Border>
                                             <ControlTemplate.Triggers>
 
@@ -2315,7 +2326,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </StackPanel>
+                            </Grid>
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
