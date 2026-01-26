@@ -1606,7 +1606,8 @@
                             </ls:LSNineSliceImage>
                         </Grid>
 
-                        <Grid x:Name="SummonBarBottomGrid" HorizontalAlignment="Center">
+                        <!-- Touch UI - Disable it -->
+                        <Grid x:Name="SummonBarBottomGrid" HorizontalAlignment="Center" Visibility="Collapsed">
                             <Grid.Style>
                                 <Style TargetType="Grid">
                                     <Setter Property="Visibility" Value="Collapsed"/>
