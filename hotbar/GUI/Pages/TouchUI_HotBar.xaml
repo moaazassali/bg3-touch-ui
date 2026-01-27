@@ -2327,6 +2327,85 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </Grid>
+
+                            <!--TWO STEP DECK-->
+                            <Grid  x:Name="MinimalistContainer" Visibility="Collapsed">
+                                <TextBlock x:Name="MinimalistContainerDescription" Text="{Binding Source='h79b6dc4egf450g4037gad34g8bfd57289b9a', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource HotbarGeneralDescriptionStyle}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-40,0,0" Foreground="{StaticResource LS_baseTxtColor}"/>
+
+                                <ItemsControl Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding SingleHotBar.SlotList}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <b:Interaction.Behaviors>
+                                        <ls:WidgetDataConnectionBehavior/>
+                                    </b:Interaction.Behaviors>
+
+                                    <ItemsControl.Template>
+                                        <ControlTemplate TargetType="ItemsControl">
+                                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Margin="-24,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image x:Name="ContainerIcon" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,0,24,0" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Top">
+                                                        <Image.ToolTip>
+                                                            <ls:LSTooltip Content="{Binding DataContext.CurrentActiveSlot.Content, ElementName=HotBar}" VerticalOffset="-60"/>
+                                                        </Image.ToolTip>
+                                                    </Image>
+                                                    <ItemsPresenter VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <!--
+                                                    This seems complex on first sight, it could be done by just having the Source always be the MultiBinding and hiding when it's an item, for example, instead of having 2 DataTriggers.
+                                                    But that makes the MultiBinding go through the converter for one frame and IconIdToSourceConverter reads from disk, so that's going to be worse for performance no matter what. It also
+                                                    throws an assert because in the case of items the path doesn't exist.
+                                                -->
+                                                <DataTrigger Binding="{Binding DataContext.CurrentActiveSlot.SlotType, ElementName=HotBar}" Value="Spell">
+                                                    <Setter TargetName="ContainerIcon" Property="Source">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
+                                                                <Binding Source="Assets/Tooltips/Icons/"/>
+                                                                <Binding Path="DataContext.CurrentActiveSlot.Content.IconName" ElementName="HotBar"/>
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DataContext.CurrentActiveSlot.SlotType, ElementName=HotBar}" Value="Action">
+                                                    <Setter TargetName="ContainerIcon" Property="Source">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
+                                                                <Binding Source="Assets/Tooltips/Icons/"/>
+                                                                <Binding Path="DataContext.CurrentActiveSlot.Content.IconName" ElementName="HotBar"/>
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="ls:VMHotBarSlot">
+                                            <Border x:Name="contentContainer" ToolTipService.IsEnabled="True" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"  Background="{StaticResource HotbarSlotBackground}" Width="{StaticResource MinimalistSlotSize}" Height="{StaticResource MinimalistSlotSize}">
+                                                <Border.ToolTip>
+                                                    <ls:LSTooltip Content="{Binding DataContext.Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Context="Hotbar" VerticalOffset="-60" ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), ElementName=contentContainer}"/>
+                                                </Border.ToolTip>
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="MouseEnter">
+                                                        <b:InvokeCommandAction Command="{Binding DataContext.HighlightResourcesCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="MouseLeave">
+                                                        <b:InvokeCommandAction Command="{Binding DataContext.ClearResourceHighlightsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                                <ls:LSButton x:Name="HotbarslotBtn" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource HotBarSlotStyle}" Content="{Binding Content}"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
@@ -2827,85 +2906,6 @@
                         <!--DYNAMIC DECK CONTENT ALIGNMENT-->
 
                         <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-
-                            <!--TWO STEP DECK-->
-                            <Grid  x:Name="MinimalistContainer" Visibility="Collapsed">
-                                <TextBlock x:Name="MinimalistContainerDescription" Text="{Binding Source='h79b6dc4egf450g4037gad34g8bfd57289b9a', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource HotbarGeneralDescriptionStyle}"
-                                           HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-40,0,0" Foreground="{StaticResource LS_baseTxtColor}"/>
-
-                                <ItemsControl Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding SingleHotBar.SlotList}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-
-                                    <b:Interaction.Behaviors>
-                                        <ls:WidgetDataConnectionBehavior/>
-                                    </b:Interaction.Behaviors>
-
-                                    <ItemsControl.Template>
-                                        <ControlTemplate TargetType="ItemsControl">
-                                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Margin="-24,0,0,0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image x:Name="ContainerIcon" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,0,24,0" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Top">
-                                                        <Image.ToolTip>
-                                                            <ls:LSTooltip Content="{Binding DataContext.CurrentActiveSlot.Content, ElementName=HotBar}" VerticalOffset="-60"/>
-                                                        </Image.ToolTip>
-                                                    </Image>
-                                                    <ItemsPresenter VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <!--
-                                                    This seems complex on first sight, it could be done by just having the Source always be the MultiBinding and hiding when it's an item, for example, instead of having 2 DataTriggers.
-                                                    But that makes the MultiBinding go through the converter for one frame and IconIdToSourceConverter reads from disk, so that's going to be worse for performance no matter what. It also
-                                                    throws an assert because in the case of items the path doesn't exist.
-                                                -->
-                                                <DataTrigger Binding="{Binding DataContext.CurrentActiveSlot.SlotType, ElementName=HotBar}" Value="Spell">
-                                                    <Setter TargetName="ContainerIcon" Property="Source">
-                                                        <Setter.Value>
-                                                            <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
-                                                                <Binding Source="Assets/Tooltips/Icons/"/>
-                                                                <Binding Path="DataContext.CurrentActiveSlot.Content.IconName" ElementName="HotBar"/>
-                                                            </MultiBinding>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding DataContext.CurrentActiveSlot.SlotType, ElementName=HotBar}" Value="Action">
-                                                    <Setter TargetName="ContainerIcon" Property="Source">
-                                                        <Setter.Value>
-                                                            <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
-                                                                <Binding Source="Assets/Tooltips/Icons/"/>
-                                                                <Binding Path="DataContext.CurrentActiveSlot.Content.IconName" ElementName="HotBar"/>
-                                                            </MultiBinding>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </ItemsControl.Template>
-
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="ls:VMHotBarSlot">
-                                            <Border x:Name="contentContainer" ToolTipService.IsEnabled="True" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"  Background="{StaticResource HotbarSlotBackground}" Width="{StaticResource MinimalistSlotSize}" Height="{StaticResource MinimalistSlotSize}">
-                                                <Border.ToolTip>
-                                                    <ls:LSTooltip Content="{Binding DataContext.Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Context="Hotbar" VerticalOffset="-60" ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), ElementName=contentContainer}"/>
-                                                </Border.ToolTip>
-                                                <b:Interaction.Triggers>
-                                                    <b:EventTrigger EventName="MouseEnter">
-                                                        <b:InvokeCommandAction Command="{Binding DataContext.HighlightResourcesCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
-                                                    </b:EventTrigger>
-                                                    <b:EventTrigger EventName="MouseLeave">
-                                                        <b:InvokeCommandAction Command="{Binding DataContext.ClearResourceHighlightsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
-                                                    </b:EventTrigger>
-                                                </b:Interaction.Triggers>
-                                                <ls:LSButton x:Name="HotbarslotBtn" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource HotBarSlotStyle}" Content="{Binding Content}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Grid>
 
                             <!-- CUSTOM DECK (EMPTY) -->
                             <ls:LSNineSliceImage x:Name="EmptyDeckMessage" HorizontalAlignment="Center" VerticalAlignment="Center" ImageSource="{StaticResource OverlayMessageBackground}"  Slices="110,0,110,0" MinHeight="112" IsHitTestVisible="False">
