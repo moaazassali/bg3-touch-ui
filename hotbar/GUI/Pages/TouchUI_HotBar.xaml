@@ -2330,8 +2330,8 @@
 
                             <!--TWO STEP DECK-->
                             <Grid  x:Name="MinimalistContainer" Visibility="Collapsed">
-                                <TextBlock x:Name="MinimalistContainerDescription" Text="{Binding Source='h79b6dc4egf450g4037gad34g8bfd57289b9a', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource HotbarGeneralDescriptionStyle}"
-                                           HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-40,0,0" Foreground="{StaticResource LS_baseTxtColor}"/>
+                                <!-- <TextBlock x:Name="MinimalistContainerDescription" Text="{Binding Source='h79b6dc4egf450g4037gad34g8bfd57289b9a', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource HotbarGeneralDescriptionStyle}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-40,0,0" Foreground="{StaticResource LS_baseTxtColor}"/> -->
 
                                 <ItemsControl Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding SingleHotBar.SlotList}">
                                     <ItemsControl.ItemsPanel>
