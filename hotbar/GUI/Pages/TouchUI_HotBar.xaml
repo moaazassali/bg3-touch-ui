@@ -2329,14 +2329,14 @@
                             </Grid>
 
                             <!--TWO STEP DECK-->
-                            <Grid  x:Name="MinimalistContainer" Visibility="Collapsed">
+                            <Grid  x:Name="MinimalistContainer" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,80,0,30">
                                 <!-- <TextBlock x:Name="MinimalistContainerDescription" Text="{Binding Source='h79b6dc4egf450g4037gad34g8bfd57289b9a', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource HotbarGeneralDescriptionStyle}"
                                            HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-40,0,0" Foreground="{StaticResource LS_baseTxtColor}"/> -->
 
-                                <ItemsControl Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding SingleHotBar.SlotList}">
+                                <ItemsControl Width="Auto" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding SingleHotBar.SlotList}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
+                                            <WrapPanel Orientation="Vertical"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
 
@@ -2346,15 +2346,20 @@
 
                                     <ItemsControl.Template>
                                         <ControlTemplate TargetType="ItemsControl">
-                                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Margin="-24,0,0,0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image x:Name="ContainerIcon" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,0,24,0" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Top">
+                                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Margin="0,0,0,0">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Image x:Name="ContainerIcon" Grid.Row="0" Width="{StaticResource HotbarSlotIconSize}" Height="{StaticResource HotbarSlotIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,0,0,0" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Top">
                                                         <Image.ToolTip>
                                                             <ls:LSTooltip Content="{Binding DataContext.CurrentActiveSlot.Content, ElementName=HotBar}" VerticalOffset="-60"/>
                                                         </Image.ToolTip>
                                                     </Image>
-                                                    <ItemsPresenter VerticalAlignment="Center"/>
-                                                </StackPanel>
+                                                    <ItemsPresenter Grid.Row="1" VerticalAlignment="Top"/>
+                                                </Grid>
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <!--
