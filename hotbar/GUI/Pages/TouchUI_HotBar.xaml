@@ -1526,7 +1526,7 @@
                             </ListBoxItem>
 
                             <!-- Touch UI - Custom cancel button -->
-                            <ListBoxItem x:Name="HotbarDeckButton_Cancel" Visibility="{Binding Path=Visibility, ElementName=SingleHotBar}">
+                            <ListBoxItem x:Name="HotbarDeckButton_Cancel">
                                 <ls:LSButton x:Name="HotbarDeckButton_CancelButton" Margin="-4,0,0,0" OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
                                     <ls:LSButton.Content>
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
@@ -1571,8 +1571,21 @@
                                         </b:StoryboardCompletedTrigger>
                                     </b:Interaction.Triggers>
 
+                                    <!-- Touch UI - Also show cancel button if CurrentSpellTask is active in addition to the SingleHotBar being visible -->
                                     <ls:LSButton.Style>
-                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}"/>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=Visibility, ElementName=SingleHotBar}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSpellTask, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
                                     </ls:LSButton.Style>
                                 </ls:LSButton>
                             </ListBoxItem>
