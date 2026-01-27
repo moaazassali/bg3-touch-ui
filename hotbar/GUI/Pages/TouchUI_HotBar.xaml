@@ -1905,7 +1905,7 @@
                                             <AdornerDecorator x:Name="HotbarsBehindSingleHotbar" ClipToBounds="True"   Margin="0,0,0,0">
                                                 <Grid Margin="0,0,0,0">
                                                     <ContentControl x:Name="CommonHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
-                                                                    Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CommonHotBar}"
+                                                                    Content="{Binding CurrentShownDeck}"
                                                                     ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True">
                                                         <ContentControl.Style>
                                                             <Style TargetType="ContentControl">
@@ -1920,7 +1920,7 @@
                                                     </ContentControl>
 
                                                     <ContentControl x:Name="ClassHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
-                                                                    Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClassHotBar}"
+                                                                    Content="{Binding CurrentShownDeck}"
                                                                     ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True">
                                                         <ContentControl.Style>
                                                             <Style TargetType="ContentControl">
@@ -1935,7 +1935,7 @@
                                                     </ContentControl>
 
                                                     <ContentControl x:Name="ItemsHotBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
-                                                                    Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ItemHotBar}"
+                                                                    Content="{Binding CurrentShownDeck}"
                                                                     ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="True">
                                                         <ContentControl.Style>
                                                             <Style TargetType="ContentControl">
