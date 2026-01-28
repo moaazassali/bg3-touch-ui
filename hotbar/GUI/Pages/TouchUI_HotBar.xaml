@@ -2177,7 +2177,7 @@
                                                     <ItemsControl x:Name="CastingResource" Grid.Row="0" ItemsSource="{Binding CurrentPlayer.UIData.ActiveTask.Upcast.CostSummary}" VerticalAlignment="Center">
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate DataType="ls:VMActionResource">
-                                                                <Grid x:Name="resourceDisplay" Visibility="Collapsed" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,30,0">
+                                                                <Grid x:Name="resourceDisplay" Visibility="Collapsed" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,0,0">
                                                                     <Image Stretch="None" Style="{DynamicResource SectionImageStyle}" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" ls:TextBlockFormatter.SourceText="{Binding MaxValue}" Visibility="{Binding MaxValue, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter='1'}" Margin="0,24,0,0" TextAlignment="Center" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4"/>
                                                                 </Grid>
