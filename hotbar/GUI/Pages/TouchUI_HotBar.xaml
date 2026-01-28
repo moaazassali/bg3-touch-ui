@@ -1689,18 +1689,27 @@
                     </Grid>
 
                     <!-- HOTBAR CENTRAL DECK AREA -->
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0">
-                        <Grid x:Name="HotbarsBg" VerticalAlignment="Top" HorizontalAlignment="Left" Height="804">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ls:LSNineSliceImage Grid.Row="0" ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Stretch" HorizontalAlignment="Left" Padding="0,0,0,0"
+                            Width="{Binding ActualHeight, ElementName=HotbarsBg}" Height="{Binding ActualWidth, ElementName=HotbarsBg}">
+                            <ls:LSNineSliceImage.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    <RotateTransform Angle="90"/>
+                                </TransformGroup>
+                            </ls:LSNineSliceImage.LayoutTransform>
+                        </ls:LSNineSliceImage>
+
+                        <Grid x:Name="HotbarsBg" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="804">
                             <Grid.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </Grid.LayoutTransform>
 
-                            <ls:LSNineSliceImage ImageSource="{StaticResource BarBody}" Slices="100,100" VerticalAlignment="Stretch" HorizontalAlignment="Left" Padding="0,0,0,0"
-                                Width="{Binding ActualHeight, ElementName=MainBars}" Height="{Binding ActualWidth, ElementName=MainBars}">
-                                <ls:LSNineSliceImage.LayoutTransform>
-                                    <RotateTransform Angle="90"/>
-                                </ls:LSNineSliceImage.LayoutTransform>
-                            </ls:LSNineSliceImage>
 
                             <!--MAIN DECK-->
                             <Border x:Name="MainBars" VerticalAlignment="Stretch" HorizontalAlignment="Left">
@@ -2099,13 +2108,13 @@
                             </Border>
 
                             <!-- UPCAST / MULTITARGET TWO STEP DECK -->
-                            <Grid x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{x:Null}" Width="{Binding ActualWidth, ElementName=MainBars}" Margin="0,30,0,30">
+                            <Grid x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{x:Null}" Margin="25,50,35,50">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <Grid x:Name="UpcastDescription" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="16,16,32,16">
+                                <Grid x:Name="UpcastDescription" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,16">
                                     <Grid.Resources>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource HotbarGeneralDescriptionStyle}"/>
                                     </Grid.Resources>
@@ -2426,7 +2435,7 @@
                             </Grid>
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsShowingItemsToThrow, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
                             <StackPanel.LayoutTransform>
                                 <ScaleTransform ScaleX="3" ScaleY="3"/>
                             </StackPanel.LayoutTransform>
@@ -2471,7 +2480,7 @@
                                 </ls:LSRadioButton.Resources>
                             </ls:LSRadioButton>
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </StackPanel>
 
 
