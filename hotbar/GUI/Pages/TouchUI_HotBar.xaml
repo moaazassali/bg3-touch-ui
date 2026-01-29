@@ -2246,14 +2246,14 @@
                                     <Image Source="{StaticResource ExtraTargetBg}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
                                     <ls:LSButton x:Name="ForceCastButton" IsEnabled="{Binding CurrentPlayer.UIData.ActiveTask.CanForceCast}" Command="{Binding Path=ForceCastCommand}" ToolTipService.ShowOnDisabled="True" HorizontalAlignment="Right" Margin="0,0,2,0">
-                                        <ls:LSButton.ToolTip>
+                                        <!-- <ls:LSButton.ToolTip>
                                             <ls:LSTooltip IsHitTestVisible="False" Placement="Center" VerticalOffset="-126">
                                                 <StackPanel>
                                                     <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleStyle}" Margin="{StaticResource TitleWithoutSubtitleMargin}" Text="{Binding Source='h2bb01606gdea8g4ae9gbab7ge50b79a088dc', Converter={StaticResource TranslatedStringConverter}}"/>
                                                     <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" Text="{Binding Source='h51aabbb7ga214g41e0ga817gcf00d25250d7', Converter={StaticResource TranslatedStringConverter}}" TextWrapping="Wrap" />
                                                 </StackPanel>
                                             </ls:LSTooltip>
-                                        </ls:LSButton.ToolTip>
+                                        </ls:LSButton.ToolTip> -->
                                         <ls:LSButton.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <ControlTemplate.Resources>
