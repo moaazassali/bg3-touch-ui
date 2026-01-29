@@ -3000,8 +3000,9 @@
 
                         <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
+                            <!-- Touch UI - Disable custom deck overlay text when it's empty -->
                             <!-- CUSTOM DECK (EMPTY) -->
-                            <ls:LSNineSliceImage x:Name="EmptyDeckMessage" HorizontalAlignment="Center" VerticalAlignment="Center" ImageSource="{StaticResource OverlayMessageBackground}"  Slices="110,0,110,0" MinHeight="112" IsHitTestVisible="False">
+                            <ls:LSNineSliceImage Visibility="Collapsed" x:Name="EmptyDeckMessage" HorizontalAlignment="Center" VerticalAlignment="Center" ImageSource="{StaticResource OverlayMessageBackground}"  Slices="110,0,110,0" MinHeight="112" IsHitTestVisible="False">
                                 <ls:LSNineSliceImage.Style>
                                     <Style TargetType="ls:LSNineSliceImage" BasedOn="{StaticResource {x:Type ls:LSNineSliceImage}}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
