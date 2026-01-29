@@ -1407,6 +1407,59 @@
                                 </ls:LSButton>
                             </ListBoxItem>
 
+                            <!-- Touch UI - Fixed sidebar turned to hotbar like the other categories -->
+                            <ListBoxItem x:Name="HotbarDeckButton_Sidebar" Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.FixedSideBar.SlotList.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                                <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
+
+                                    <ls:LSButton.Content>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
+                                            <!-- <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Tooltips/Icons/Action_UnarmedAttack.png" Stretch="Uniform" Width="70" HorizontalAlignment="Center"/> -->
+                                            <TextBlock Text="Sidebar" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </ls:LSButton.Content>
+
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="NotEqual" RightOperand="FixedSideBar" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="FixedSideBar"/>
+                                            <b:ControlStoryboardAction ControlStoryboardOption="Play" Storyboard="{StaticResource ShowConcertina}" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentShownDeck.HotBarType}" Operator="Equal" RightOperand="FixedSideBar" />
+                                                        <b:ComparisonCondition LeftOperand="{Binding Path=IsAnimatingFullyResizedItem, ElementName=Concertina}" Operator="NotEqual" RightOperand="{StaticResource TrueValue}" />
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetCurrentShownDeckCommand}" CommandParameter="InvalidHotBar"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="{x:Type ls:LSButton}" BasedOn="{StaticResource BottomLinksStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="FixedSideBar">
+                                                    <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
+                                                </DataTrigger>
+
+                                                <!-- <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.FixedSideBar.HasNewContent}" Value="True">
+                                                    <Setter Property="Tag" Value="NewContent"/>
+                                                </DataTrigger> -->
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+
+                                </ls:LSButton>
+                            </ListBoxItem>
+
                             <!--PASSIVES DECK-->
                             <ListBoxItem x:Name="HotbarDeckButton_Passives">
                                 <ls:LSButton OverwriteClickSound="UI_HUD_Hotbar_Filter_Click">
@@ -1964,6 +2017,21 @@
                                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="ItemHotBar">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ContentControl.Style>
+                                                    </ContentControl>
+
+                                                    <ContentControl x:Name="FixedSideBar" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Tag="HideScrollbar" Margin="{StaticResource FixedHotbarHiddenMargin}" ContentTemplate="{StaticResource HotBarTemplate}"
+                                                                    Content="{Binding CurrentShownDeck}"
+                                                                    ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}" AllowDrop="False">
+                                                        <ContentControl.Style>
+                                                            <Style TargetType="ContentControl">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding CurrentShownDeck.HotBarType}" Value="FixedSideBar">
                                                                         <Setter Property="Visibility" Value="Visible"/>
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
@@ -2922,13 +2990,6 @@
                                 </Grid>
                             </Grid>
 
-                            <!-- FIXED SIDE BAR -->
-                            <ls:LSNineSliceImage x:Name="FixedSideBar" ImageSource="{StaticResource SideBarBody}" Slices="120,100" VerticalAlignment="Bottom" Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.FixedSideBar.SlotList.Count, Converter={StaticResource CountToVisibilityConverter}}" ls:TutorialProperties.TargetID="TUT_Metamagic" ls:TutorialProperties.Padding="0,0,0,6" ls:TutorialProperties.ModalType="Bottom" Height="{Binding ElementName=HotbarsBg, Path=ActualHeight}" HorizontalAlignment="Left" Margin="-28,0,0,0" MinWidth="232" MaxWidth="520">
-                                <Border x:Name="SideBar" Margin="28,0,38,26" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
-                                    <ContentControl x:Name="FixedSideBarContent" ContentTemplate="{StaticResource HotBarTemplate}" Content="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.FixedSideBar}" AllowDrop="False"
-                                                    ls:AttachedProperties.InheritedTag="{StaticResource FalseValue}"/>
-                                </Border>
-                            </ls:LSNineSliceImage>
                         </StackPanel>
 
                         <!--DYNAMIC DECK CONTENT ALIGNMENT-->
