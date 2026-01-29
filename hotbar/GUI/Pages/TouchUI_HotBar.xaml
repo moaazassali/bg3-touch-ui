@@ -2553,6 +2553,78 @@
                                 </ls:LSRadioButton.Resources>
                             </ls:LSRadioButton>
                         </StackPanel>
+
+                        <!-- ==== OPTIONS STACK ===== -->
+                        <StackPanel Name="hotbarOptions" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
+
+                            <!--PADLOCK-->
+                            <ls:LSButton x:Name="LockHotbarButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding DataContext.LockHotBarCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding }" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="4" Margin="0,0,0,0">
+                                <ls:LSButton.ToolTip>
+                                    <ls:LSTooltip IsHitTestVisible="False">
+                                        <TextBlock Text="{Binding Source='h6fed2e67g5cc1g4834gaf05ga5c1af5ede0c', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                    </ls:LSTooltip>
+                                </ls:LSButton.ToolTip>
+                                <ls:LSButton.Style>
+                                    <Style TargetType="ls:LSButton">
+                                        <Setter Property="Template" Value="{StaticResource LockHotbarButtonUnlocked}"/>
+                                        <Setter Property="SoundID" Value="UI_HUD_Hotbar_Unlocked"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.HotBarUnlocked}" Value="False">
+                                                <Setter Property="Template" Value="{StaticResource LockHotbarButtonLocked}"/>
+                                                <Setter Property="SoundID" Value="UI_HUD_Hotbar_Locked"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterType}" Value="Follower">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterType}" Value="Summon">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ls:LSButton.Style>
+                            </ls:LSButton>
+
+                            <ls:LSButton x:Name="IncreaseHotbarRowsButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding IncreaseRowsCommand}">
+                                <ls:LSButton.Resources>
+                                    <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
+                                    <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
+                                    <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_p.png</ImageSource>
+                                    <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_disabled.png</ImageSource>
+                                    <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_d.png</ImageSource>
+                                    <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_h.png</ImageSource>
+                                    <ImageSource x:Key="IconPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_h.png</ImageSource>
+                                    <ImageSource x:Key="IconDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_disabled.png</ImageSource>
+                                    <System:Double x:Key="IconWidth">32</System:Double>
+                                    <System:Double x:Key="IconHeight">32</System:Double>
+                                </ls:LSButton.Resources>
+                                <ls:LSButton.ToolTip>
+                                    <ls:LSTooltip IsHitTestVisible="False">
+                                        <TextBlock Text="{Binding Source='ha8ff798ag50e4g49f7g9d0bg4a22f0e6ed13', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                    </ls:LSTooltip>
+                                </ls:LSButton.ToolTip>
+                            </ls:LSButton>
+
+                            <ls:LSButton x:Name="DecreaseHotbarRowsButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding DecreaseRowsCommand}">
+                                <ls:LSButton.Resources>
+                                    <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
+                                    <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
+                                    <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_p.png</ImageSource>
+                                    <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_disabled.png</ImageSource>
+                                    <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_d.png</ImageSource>
+                                    <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_h.png</ImageSource>
+                                    <ImageSource x:Key="IconPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_h.png</ImageSource>
+                                    <ImageSource x:Key="IconDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_disabled.png</ImageSource>
+                                    <System:Double x:Key="IconWidth">32</System:Double>
+                                    <System:Double x:Key="IconHeight">32</System:Double>
+                                </ls:LSButton.Resources>
+                                <ls:LSButton.ToolTip>
+                                    <ls:LSTooltip IsHitTestVisible="False">
+                                        <TextBlock Text="{Binding Source='h51c66f89g3ffcg460egb9c2gb93afd73558e', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                    </ls:LSTooltip>
+                                </ls:LSButton.ToolTip>
+                            </ls:LSButton>
+                        </StackPanel>
+
                     </Grid>
                 </StackPanel>
 
@@ -4624,80 +4696,6 @@
                                     </Grid>
                                 </StackPanel>
                             </ls:LSNineSliceImage>
-                        </Grid>
-
-
-                        <!-- ==== OPTIONS STACK ===== -->
-                        <Grid Name="hotbarOptions"  Margin="-48,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-
-                            <!--PADLOCK-->
-                            <ls:LSButton x:Name="LockHotbarButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding DataContext.LockHotBarCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding }" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="4" Margin="0,0,0,204">
-                                <ls:LSButton.ToolTip>
-                                    <ls:LSTooltip IsHitTestVisible="False">
-                                        <TextBlock Text="{Binding Source='h6fed2e67g5cc1g4834gaf05ga5c1af5ede0c', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                    </ls:LSTooltip>
-                                </ls:LSButton.ToolTip>
-                                <ls:LSButton.Style>
-                                    <Style TargetType="ls:LSButton">
-                                        <Setter Property="Template" Value="{StaticResource LockHotbarButtonUnlocked}"/>
-                                        <Setter Property="SoundID" Value="UI_HUD_Hotbar_Unlocked"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.HotBarUnlocked}" Value="False">
-                                                <Setter Property="Template" Value="{StaticResource LockHotbarButtonLocked}"/>
-                                                <Setter Property="SoundID" Value="UI_HUD_Hotbar_Locked"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterType}" Value="Follower">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterType}" Value="Summon">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ls:LSButton.Style>
-                            </ls:LSButton>
-
-                            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,72">
-                                <!--RESIZE ROWS-->
-                                <ls:LSButton x:Name="IncreaseHotbarRowsButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding IncreaseRowsCommand}">
-                                    <ls:LSButton.Resources>
-                                        <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
-                                        <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
-                                        <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_p.png</ImageSource>
-                                        <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_disabled.png</ImageSource>
-                                        <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_d.png</ImageSource>
-                                        <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_h.png</ImageSource>
-                                        <ImageSource x:Key="IconPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_h.png</ImageSource>
-                                        <ImageSource x:Key="IconDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_disabled.png</ImageSource>
-                                        <System:Double x:Key="IconWidth">32</System:Double>
-                                        <System:Double x:Key="IconHeight">32</System:Double>
-                                    </ls:LSButton.Resources>
-                                    <ls:LSButton.ToolTip>
-                                        <ls:LSTooltip IsHitTestVisible="False">
-                                            <TextBlock Text="{Binding Source='ha8ff798ag50e4g49f7g9d0bg4a22f0e6ed13', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                        </ls:LSTooltip>
-                                    </ls:LSButton.ToolTip>
-                                </ls:LSButton>
-                                <ls:LSButton x:Name="DecreaseHotbarRowsButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding DecreaseRowsCommand}">
-                                    <ls:LSButton.Resources>
-                                        <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
-                                        <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
-                                        <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_p.png</ImageSource>
-                                        <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_disabled.png</ImageSource>
-                                        <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_d.png</ImageSource>
-                                        <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_h.png</ImageSource>
-                                        <ImageSource x:Key="IconPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_h.png</ImageSource>
-                                        <ImageSource x:Key="IconDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_disabled.png</ImageSource>
-                                        <System:Double x:Key="IconWidth">32</System:Double>
-                                        <System:Double x:Key="IconHeight">32</System:Double>
-                                    </ls:LSButton.Resources>
-                                    <ls:LSButton.ToolTip>
-                                        <ls:LSTooltip IsHitTestVisible="False">
-                                            <TextBlock Text="{Binding Source='h51c66f89g3ffcg460egb9c2gb93afd73558e', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                        </ls:LSTooltip>
-                                    </ls:LSButton.ToolTip>
-                                </ls:LSButton>
-                            </StackPanel>
                         </Grid>
 
                     </Grid>
