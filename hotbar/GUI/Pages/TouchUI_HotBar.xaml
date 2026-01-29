@@ -1413,8 +1413,12 @@
 
                                     <ls:LSButton.Content>
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15">
-                                            <!-- <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Tooltips/Icons/Action_UnarmedAttack.png" Stretch="Uniform" Width="70" HorizontalAlignment="Center"/> -->
-                                            <TextBlock Text="Sidebar" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_tab_magic.png" Stretch="Uniform" Width="70" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                            <TextBlock Text="Special" Style="{StaticResource BtnTextGlow}" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource SmallFontSize}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                                         </StackPanel>
                                     </ls:LSButton.Content>
 
