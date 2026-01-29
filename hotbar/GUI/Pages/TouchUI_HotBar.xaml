@@ -2575,6 +2575,11 @@
                                         <DataTrigger Binding="{Binding IsShowingCustomDeck}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+
+                                        <!-- Override: Hide if throwing items -->
+                                        <DataTrigger Binding="{Binding IsShowingItemsToThrow}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </StackPanel.Style>
