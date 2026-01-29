@@ -2613,16 +2613,16 @@
 
                             <ls:LSButton x:Name="IncreaseHotbarRowsButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding IncreaseRowsCommand}">
                                 <ls:LSButton.Resources>
-                                    <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
-                                    <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
-                                    <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_p.png</ImageSource>
-                                    <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_disabled.png</ImageSource>
+                                    <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnMediumRound}}"/>
+                                    <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_round_medium_h.png</ImageSource>
+                                    <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_round_medium_p.png</ImageSource>
+                                    <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/CharacterPanel/ico_lock_disabled_d.png</ImageSource>
                                     <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_d.png</ImageSource>
                                     <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_h.png</ImageSource>
                                     <ImageSource x:Key="IconPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_h.png</ImageSource>
                                     <ImageSource x:Key="IconDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_plus_disabled.png</ImageSource>
-                                    <System:Double x:Key="IconWidth">32</System:Double>
-                                    <System:Double x:Key="IconHeight">32</System:Double>
+                                    <System:Double x:Key="IconWidth">48</System:Double>
+                                    <System:Double x:Key="IconHeight">48</System:Double>
                                 </ls:LSButton.Resources>
                                 <ls:LSButton.ToolTip>
                                     <ls:LSTooltip IsHitTestVisible="False">
@@ -2633,16 +2633,16 @@
 
                             <ls:LSButton x:Name="DecreaseHotbarRowsButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding DecreaseRowsCommand}">
                                 <ls:LSButton.Resources>
-                                    <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
-                                    <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
-                                    <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_p.png</ImageSource>
-                                    <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_disabled.png</ImageSource>
+                                    <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnMediumRound}}"/>
+                                    <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_round_medium_h.png</ImageSource>
+                                    <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_round_medium_p.png</ImageSource>
+                                    <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/CharacterPanel/ico_lock_disabled_d.png</ImageSource>
                                     <ImageSource x:Key="IconNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_d.png</ImageSource>
                                     <ImageSource x:Key="IconHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_h.png</ImageSource>
                                     <ImageSource x:Key="IconPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_h.png</ImageSource>
                                     <ImageSource x:Key="IconDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Minimap/ico_minus_disabled.png</ImageSource>
-                                    <System:Double x:Key="IconWidth">32</System:Double>
-                                    <System:Double x:Key="IconHeight">32</System:Double>
+                                    <System:Double x:Key="IconWidth">48</System:Double>
+                                    <System:Double x:Key="IconHeight">48</System:Double>
                                 </ls:LSButton.Resources>
                                 <ls:LSButton.ToolTip>
                                     <ls:LSTooltip IsHitTestVisible="False">
