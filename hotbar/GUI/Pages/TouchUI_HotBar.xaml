@@ -2556,6 +2556,10 @@
 
                         <!-- ==== OPTIONS STACK ===== -->
                         <StackPanel Name="hotbarOptions" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </StackPanel.LayoutTransform>
+                            
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
                                     <!-- Hidden by default -->
@@ -2585,7 +2589,7 @@
                             </StackPanel.Style>
 
                             <!--PADLOCK-->
-                            <ls:LSButton x:Name="LockHotbarButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding DataContext.LockHotBarCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding }" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="4" Margin="0,0,0,0">
+                            <ls:LSButton x:Name="LockHotbarButton" Command="{Binding DataContext.LockHotBarCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding }" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="4" Margin="0,0,0,0">
                                 <ls:LSButton.ToolTip>
                                     <ls:LSTooltip IsHitTestVisible="False">
                                         <TextBlock Text="{Binding Source='h6fed2e67g5cc1g4834gaf05ga5c1af5ede0c', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
