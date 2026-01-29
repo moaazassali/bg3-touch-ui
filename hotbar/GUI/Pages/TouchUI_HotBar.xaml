@@ -1292,9 +1292,9 @@
                                                     <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
                                                 </DataTrigger>
 
-                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CommonHotBar.HasNewContent}" Value="True">
+                                                <!-- <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CommonHotBar.HasNewContent}" Value="True">
                                                     <Setter Property="Tag" Value="NewContent"/>
-                                                </DataTrigger>
+                                                </DataTrigger> -->
                                             </Style.Triggers>
                                         </Style>
                                     </ls:LSButton.Style>
@@ -1349,9 +1349,9 @@
                                                     <Setter Property="Template" Value="{StaticResource ActiveFilterButton}"/>
                                                 </DataTrigger>
 
-                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClassHotBar.HasNewContent}" Value="True">
+                                                <!-- <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClassHotBar.HasNewContent}" Value="True">
                                                     <Setter Property="Tag" Value="NewContent"/>
-                                                </DataTrigger>
+                                                </DataTrigger> -->
                                             </Style.Triggers>
                                         </Style>
                                     </ls:LSButton.Style>
