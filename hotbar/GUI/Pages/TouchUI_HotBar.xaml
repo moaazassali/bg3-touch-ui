@@ -2556,6 +2556,28 @@
 
                         <!-- ==== OPTIONS STACK ===== -->
                         <StackPanel Name="hotbarOptions" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-30,0,0">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <!-- Hidden by default -->
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <!-- Show if Common, Class, Items, or Sidebar is active -->
+                                        <DataTrigger Binding="{Binding CurrentShownDeck, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+
+                                        <!-- Show if the Passives tab is active -->
+                                        <DataTrigger Binding="{Binding IsShowingPassivesDeck}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+
+                                        <!-- Show if the Custom tab is active -->
+                                        <DataTrigger Binding="{Binding IsShowingCustomDeck}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
 
                             <!--PADLOCK-->
                             <ls:LSButton x:Name="LockHotbarButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding DataContext.LockHotBarCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding }" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="4" Margin="0,0,0,0">
