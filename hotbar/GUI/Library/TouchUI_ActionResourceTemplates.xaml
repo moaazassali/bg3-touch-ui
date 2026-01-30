@@ -11,7 +11,6 @@
 					mc:Ignorable="d">
 
     <!-- Touch UI - Copy this ImageSource definition from Patch8_HotFix1\Public\Game\GUI\Library\DataTemplates_c.xaml -->
-    <!-- Touch UI - This is the sole reason for copying this file instead of just importing it -->
     <!-- Touch UI - This template doesn't define this ImageSource and relies on DataTemplates_c.xaml being loaded, which we don't load because it's for controller -->
     <ImageSource x:Key="DefaultActionResourceAvailable">pack://application:,,,/GustavNoesisGUI;component/Assets/ActionResources_c/Icons/SpellSlot.png</ImageSource>
 

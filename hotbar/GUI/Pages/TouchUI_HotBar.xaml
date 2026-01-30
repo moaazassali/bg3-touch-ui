@@ -4861,7 +4861,11 @@
                 </StackPanel>
 
                 <!-- Touch UI - New action resources element based on controller action resources -->
-                <Control Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                <Control Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <Control.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Control.LayoutTransform>
+                </Control>
 
                 <!--Clear active filter -->
                 <ls:LSInputBinding x:Name="CancelBinding" BoundEvent="ActionCancel" IsEnabled="False">

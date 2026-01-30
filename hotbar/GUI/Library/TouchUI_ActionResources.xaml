@@ -79,7 +79,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition x:Name="resourceBarRightPadding" Width="600"/>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="ResourceContainer" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Margin="0,0,0,28">
+            <StackPanel x:Name="ResourceContainer" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Margin="0,0,0,0">
                 <StackPanel x:Name="SplitScreenContainerPrompts" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,14" Style="{StaticResource ButtonHint.Container.BaseStyle}">
                     <!-- Select for context menu -->
                     <ls:LSButton x:Name="SelectButtonPrompt" ContentTemplate="{StaticResource ControllerButtonHint}" Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UIAccept, Converter={StaticResource FindInputEventConverter}}" Tag="{Binding Source='h04f38549g65b8g4b72g834eg87ee8863fdc5', Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Left" Visibility="Collapsed"/>
