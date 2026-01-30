@@ -763,6 +763,11 @@
                 <Setter TargetName="MovementResources" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>
 
+            <!-- Touch UI - Hide movement resources if we are not in turn based because we made the resource actions bar always visible outside of turn based where movement resources isn't relevant -->
+            <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False">
+                <Setter TargetName="MovementResources" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
             <!-- We need to detect the first and the last elements in the container, so we're checking it here by checking Count properties and passing it deeper through this inherited property -->
             <!-- Values: -1 (none) / 0 (only first) / 1 (first and last) / 2 (only last) -->
             <MultiDataTrigger>
