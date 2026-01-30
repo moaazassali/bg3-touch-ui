@@ -70,7 +70,7 @@
 
             </ResourceDictionary>
         </ControlTemplate.Resources>
-        <Grid x:Name="Root" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" IsEnabled="False" Opacity="0" d:DataContext="{StaticResource {x:Type ls:Widget}}">
+        <Grid x:Name="Root" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" IsEnabled="True" Opacity="1" d:DataContext="{StaticResource {x:Type ls:Widget}}">
             <b:Interaction.Behaviors>
                 <ls:NeighboringUpcastsBehavior x:Name="UpcastBehavior" UpcastList="{Binding CurrentPlayer.UIData.ActiveTask.RootCastSpell.SpellUpcast}" CurrentUpcast="{Binding CurrentPlayer.UIData.ActiveTask.Upcast}"/>
             </b:Interaction.Behaviors>
@@ -597,23 +597,23 @@
             </Trigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}" Value="Examine">
-                <Setter TargetName="Root" Property="IsEnabled" Value="False"/>
+                <!-- <Setter TargetName="Root" Property="IsEnabled" Value="False"/> -->
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}" Value="ContainerInventory">
-                <Setter TargetName="Root" Property="IsEnabled" Value="False"/>
+                <!-- <Setter TargetName="Root" Property="IsEnabled" Value="False"/> -->
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}" Value="Pickpocket">
-                <Setter TargetName="Root" Property="IsEnabled" Value="False"/>
+                <!-- <Setter TargetName="Root" Property="IsEnabled" Value="False"/> -->
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}" Value="ShortcutMenu">
-                <Setter TargetName="Root" Property="IsEnabled" Value="False"/>
+                <!-- <Setter TargetName="Root" Property="IsEnabled" Value="False"/> -->
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}" Value="ReactionsPopup">
-                <Setter TargetName="Root" Property="IsEnabled" Value="False"/>
+                <!-- <Setter TargetName="Root" Property="IsEnabled" Value="False"/> -->
             </DataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.InTurnBasedMode}" Value="True">
@@ -675,7 +675,7 @@
 
             <!-- Hide button prompts and resource bar when book is open -->
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}" Value="Book">
-                <Setter TargetName="Root" Property="Visibility" Value="Collapsed" />
+                <!-- <Setter TargetName="Root" Property="Visibility" Value="Collapsed" /> -->
             </DataTrigger>
 
             <!-- Hide button prompts when in ping mode -->
