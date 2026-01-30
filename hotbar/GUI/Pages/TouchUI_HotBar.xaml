@@ -1093,7 +1093,7 @@
                 <BitmapImage x:Key="ExitFTBIconHighlight" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_exit_h.png" />
             </ControlTemplate.Resources>
 
-            <Grid x:Name="HotbarRoot" Opacity="1" VerticalAlignment="Top" HorizontalAlignment="Left" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}"
+            <Grid x:Name="HotbarRoot" Opacity="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}"
                   Visibility="{Binding CurrentPlayer.SelectedCharacter, Converter={StaticResource NullToCollapsedConverter}}">
 
                 <ls:LSInputBinding x:Name="LaunchJumpActionBinding" Command="{Binding LaunchDefaultActionCommand}" CommandParameter="Jump" BoundEvent="Jump"/>
@@ -2668,7 +2668,7 @@
                 </StackPanel>
 
 
-                <Grid x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="1000,500,0,12">
+                <Grid x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,500,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -4744,7 +4744,7 @@
 
                 <!--OUTSIDE OF MAIN GRID-->
                 <!-- Level up button -->
-                <ls:LSNineSliceImage x:Name="LevelUpHolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="1292,500,0,8" ImageSource="{StaticResource LevelUPFrame}" Slices="130,0" Padding="44,0" MinHeight="78">
+                <ls:LSNineSliceImage x:Name="LevelUpHolder" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="292,500,0,8" ImageSource="{StaticResource LevelUPFrame}" Slices="130,0" Padding="44,0" MinHeight="78">
 
                     <ls:LSButton x:Name="HotBarLevelUpButton" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16,0" Command="{Binding StartLevelUp}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter}" ls:TutorialProperties.TargetID="TUT_LevelUp" ls:TutorialProperties.ModalType="Bottom" RenderTransformOrigin="0.5,0.5">
                         <ls:LSButton.Template>
@@ -4801,7 +4801,7 @@
 
 
                 <!--Concentration-->
-                <Grid x:Name="ConcentrationHolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="1104,500,0,-4"
+                <Grid x:Name="ConcentrationHolder" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="104,500,0,-4"
                       ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
                       Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
 
@@ -4840,7 +4840,7 @@
                 </Grid>
 
                 <!--Call Forth Allies-->
-                <StackPanel x:Name="CallForthAllies" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="1420,500,0,320"
+                <StackPanel x:Name="CallForthAllies" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="420,500,0,320"
                             Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies, Converter={StaticResource NullToCollapsedConverter}}">
                     <ls:LSButton x:Name="CallAlliesBtn" Template="{StaticResource FloatingFrameButton}" SoundID="UI_HUD_HotbarSlot"
                                  BoundEvent="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies.BoundEvent}"
