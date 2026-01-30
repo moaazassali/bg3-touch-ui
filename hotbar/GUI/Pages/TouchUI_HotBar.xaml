@@ -3168,8 +3168,9 @@
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
 
+                            <!-- Touch UI - Disable it because we are using the controller action resources element -->
                             <!-- Action Resources -->
-                            <Grid x:Name="ActionResourcesContainer" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                            <Grid x:Name="ActionResourcesContainer" Visibility="Collapsed" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
                                 <ls:LSNineSliceImage x:Name="HotbarBodyResourcesBg" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="64" MinWidth="208"
                                          Width="{Binding ActualWidth, ElementName=ActionResources, Converter={StaticResource AddConverter}, ConverterParameter=208}"
                                          ImageSource="{StaticResource BarResources}" Slices="104,0"/>
@@ -4744,7 +4745,7 @@
 
                 <!--OUTSIDE OF MAIN GRID-->
                 <!-- Level up button -->
-                <ls:LSNineSliceImage x:Name="LevelUpHolder" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="292,500,0,8" ImageSource="{StaticResource LevelUPFrame}" Slices="130,0" Padding="44,0" MinHeight="78">
+                <ls:LSNineSliceImage x:Name="LevelUpHolder" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-1500,500,0,8" ImageSource="{StaticResource LevelUPFrame}" Slices="130,0" Padding="44,0" MinHeight="78">
 
                     <ls:LSButton x:Name="HotBarLevelUpButton" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16,0" Command="{Binding StartLevelUp}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter}" ls:TutorialProperties.TargetID="TUT_LevelUp" ls:TutorialProperties.ModalType="Bottom" RenderTransformOrigin="0.5,0.5">
                         <ls:LSButton.Template>
@@ -4858,6 +4859,9 @@
                                  Command="{Binding UseSlotCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies}"/>
 
                 </StackPanel>
+
+                <!-- Touch UI - New action resources element based on controller action resources -->
+                <Control Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
 
                 <!--Clear active filter -->
                 <ls:LSInputBinding x:Name="CancelBinding" BoundEvent="ActionCancel" IsEnabled="False">
