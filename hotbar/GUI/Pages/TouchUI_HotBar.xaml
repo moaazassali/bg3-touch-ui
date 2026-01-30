@@ -15,6 +15,14 @@
              Style="{StaticResource hud.root.Style}"
              ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}">
 
+    <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_ActionResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ls:UIWidget.Resources>
+
     <ls:UIWidget.Template>
         <ControlTemplate>
             <ControlTemplate.Resources>
