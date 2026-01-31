@@ -3451,8 +3451,9 @@
                                 </StackPanel>
                             </Grid>
 
+                            <!-- Touch UI - Disable it because we can't fit it nicely for touch ui. Reactions are easily accessibly in the inventory anyways; they aren't a frequently used feature -->
                             <!--REACTIONS/INTERRUPTS-->
-                            <Grid x:Name="ActiveInterruptList" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,32,12" ls:TutorialProperties.TargetID="TUT_Reactions" ls:TutorialProperties.ModalType="BottomRight">
+                            <Grid x:Name="ActiveInterruptList" Visibility="Collapsed" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,32,12" ls:TutorialProperties.TargetID="TUT_Reactions" ls:TutorialProperties.ModalType="BottomRight">
                                 <Grid.Resources>
                                     <System:Double x:Key="InterruptIconSize">48</System:Double>
                                     <System:Double x:Key="InterruptQuestionSize">34</System:Double>
