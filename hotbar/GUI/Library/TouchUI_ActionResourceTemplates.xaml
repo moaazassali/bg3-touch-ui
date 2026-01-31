@@ -420,21 +420,27 @@
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="SorceryPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.SorceryPoint}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.SorceryPoint}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h2b304762g10e7g4f6cg96c4g1432137ef83e', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="KiPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.KiPoint}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.KiPoint}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h65345978g6d61g4572g87e0ga850a81ca9bc', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="LayOnHandsCharge">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.LayOnHands}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.LayOnHands}"/>
@@ -442,35 +448,45 @@
 
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="RitualPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.RitualPoint}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.RitualPoint}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h5615f8c3gb113g45dagada6gaf1794083c92', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="NaturalRecoveryPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.NaturalRecovery}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.NaturalRecovery}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h17002d15gd024g41f7ga17bg49b42c867b42', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="WildShape">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.WildShape}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.WildShape}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='hde7c0e66g9526g4e3bgb10cg1f7f82300b96', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="TidesOfChaos">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.TidesOfChaos}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.TidesOfChaos}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h1fbdf74dge1fdg4835g86d7gac64fc3a18b3', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="ArcaneRecoveryPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="LevelImage" Property="Margin" Value="-10,0,-6,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.ArcaneRecovery}"/>
@@ -478,40 +494,52 @@
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h7d59230fg2bf7g436dgb436g08e0b4e9234e', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="SuperiorityDie">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.SuperiorityDie}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.SuperiorityDie}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="ChannelOath">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.ChannelOath}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.ChannelOath}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h2da99030g63cbg4d3egb77bg91a0985eee6d', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="ChannelDivinity">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.ChannelDivinity}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.ChannelDivinity}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="BardicInspiration">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="LevelImage" Property="Margin" Value="-10,0,-10,0"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <!-- <Setter TargetName="LevelImage" Property="Margin" Value="-10,0,-10,0"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.InspirationPoint}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.InspirationPoint}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="Rage">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.RagePoint}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.RagePoint}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h509b8e00gacb9g4eafgb41dgc56656969a2b', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="WarPriestActionPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.WarPriest}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.WarPriest}"/>
@@ -527,14 +555,18 @@
                         </MultiDataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="FungalInfestationCharge">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.FungalInfestation}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.FungalInfestation}"/>
                             <Setter TargetName="ResourceLabel" Property="Text" Value="{Binding Source='h8de4539cgd476g4fb8gacf6g2b527fae71b5', Converter={StaticResource TranslatedStringConverter}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="LuckPoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.FungalInfestation}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.FungalInfestation}"/>
@@ -542,7 +574,9 @@
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="ShadowSpellSlot">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.ShadowSpellSlot}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.ShadowSpellSlot}"/>
@@ -550,7 +584,9 @@
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="ArcaneShot">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.ArcaneRecovery}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.ArcaneRecovery}"/>
@@ -567,28 +603,36 @@
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="StarMapPoint">
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.SpellSlot}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.SpellSlot}"/>
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="CosmicOmen">
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.SpellSlot}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.SpellSlot}"/>
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="Bladesong">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="LevelImage" Property="Margin" Value="-10,0,-6,0"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <!-- <Setter TargetName="LevelImage" Property="Margin" Value="-10,0,-6,0"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.ArcaneRecovery}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.ArcaneRecovery}"/>
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding ActionResource.TypeId}" Value="WrithingTidePoint">
-                            <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="LevelImage" Property="Visibility" Value="Visible"/> -->
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
                             <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="-56"/>
                             <Setter TargetName="ActionResourceBackground" Property="Fill" Value="{StaticResource ActionResource.WildShape}"/>
                             <Setter TargetName="ActionResourceBackgroundStroke" Property="Stroke" Value="{StaticResource ActionResource.WildShape}"/>
