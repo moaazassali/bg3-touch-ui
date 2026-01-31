@@ -326,10 +326,6 @@
                             <Setter TargetName="SpellSlotLabel" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding ActionResource.MaxValue}" Value="1">
-                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="16,0,30,0"/>
-                        </DataTrigger>
-
                         <!-- Hide Resource Bar Labels At Level 5-->
                         <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.Stats.Level.Value, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=4}" Value="True">
                             <Setter TargetName="SpellSlotLabel" Property="Visibility" Value="Collapsed"/>
@@ -680,6 +676,23 @@
                             <Setter TargetName="ActionResourceBackground" Property="Opacity" Value="1"/>
                             <Setter TargetName="ResourceAmount" Property="TextBlock.Foreground" Value="{StaticResource LS_accent00TxtColor}"/>
                         </DataTrigger>
+
+                        <!-- Touch UI - This is simply moved from above to prevent other setters overriding it -->
+                        <DataTrigger Binding="{Binding ActionResource.MaxValue}" Value="1">
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="16,0,30,0"/>
+                        </DataTrigger>
+
+                        <!-- Touch UI - Since we hide the level image, we need to handle the margins of those resource actions differently to center them -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Visibility, ElementName=LevelImage}" Value="Collapsed"/>
+                                <Condition Binding="{Binding Visibility, ElementName=ResourceAmount}" Value="Collapsed"/>
+                                <Condition Binding="{Binding ActionResource.MaxValue}" Value="1"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="ResourcePointsStack" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="Margin" Value="0,0,0,0"/>
+                            <Setter TargetName="ResourcePoints" Property="ActionPointInBetweenMargin" Value="0"/>
+                        </MultiDataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
