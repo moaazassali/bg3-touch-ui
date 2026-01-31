@@ -2914,11 +2914,14 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
+                        <!-- Touch UI - Disable it; nothing in here is needed anymore -->
                         <!--DECKAREA BAR-->
-                        <StackPanel x:Name="HotbarDynamicContent" Grid.Row="1" Orientation="Horizontal">
+                        <StackPanel Visibility="Collapsed" x:Name="HotbarDynamicContent" Grid.Row="1" Orientation="Horizontal">
 
+                            <!-- Touch UI - The weapon slots themselves aren't that useful. The Melee/Ranged clicks are just like using the melee/ranged ability. -->
+                            <!-- Touch UI - However, we will be missing the weapon toggles like ranged, dual wield, torch. Those will be added to some expandable menu (most likely next to minimap along with buttons around the minimap) -->
                             <!-- WEAPONS & TOGGLES -->
-                            <Grid x:Name="WeaponSlots" VerticalAlignment="Bottom" Margin="-32,-60,-20,-16" Visibility="Visible">
+                            <Grid x:Name="WeaponSlots" VerticalAlignment="Bottom" Margin="-32,-60,-20,-16" Visibility="Collapsed">
                                 <Image x:Name="WeaponsBar" Source="{StaticResource WeaponsBarX2}" Stretch="None" VerticalAlignment="Bottom"/>
                                 <Grid Margin="18,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                     <Grid.RowDefinitions>
