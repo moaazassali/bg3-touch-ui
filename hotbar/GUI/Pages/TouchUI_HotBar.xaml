@@ -3117,7 +3117,8 @@
 
                         <!--DYNAMIC DECK CONTENT ALIGNMENT-->
 
-                        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <!-- Touch UI - Disable it; nothing in here is needed anymore  -->
+                        <Grid Grid.Row="1" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
                             <!-- Touch UI - Disable custom deck overlay text when it's empty -->
                             <!-- CUSTOM DECK (EMPTY) -->
