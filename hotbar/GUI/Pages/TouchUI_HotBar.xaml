@@ -4846,8 +4846,13 @@
 
                 <!-- Touch UI - Move outside to place above action resources bar -->
                 <!-- Status list -->
-                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,200"
+                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,160"
                         Visibility="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Grid.LayoutTransform>
+
                     <!-- <Rectangle x:Name="Gradient" Margin="10,0,10,36" IsHitTestVisible="False">
                         <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" >
@@ -4897,9 +4902,21 @@
                             </ls:LSToggleButton>
                         </Grid>
 
-                        <!-- Touch UI - Width matches the action resources bar minus the padding it has -->
-                        <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                            MaxWidth="{Binding ActualWidth, ElementName=TouchUI_ActionResourcesControl, Converter={StaticResource AddConverter}, ConverterParameter=-600}" Margin="0,0,0,32">
+                        <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,0,32">
+                            <!-- Touch UI - Width (y) should match the action resources bar minus the padding (600) it has from each side -->
+                            <!-- Touch UI - ActualWidth = 2x + y ==> y = ActualWidth - 2x -->
+                            <!-- Touch UI - However, we have 1.5x scaling on action resources bar but 2x on status panel, so we need to adjust the values by 1.5/2 = 0.75 -->
+                            <ItemsControl.Width>
+                                <MultiBinding Converter="{StaticResource AddMultipleConverter}">
+                                    <Binding Path="ActualWidth" 
+                                            ElementName="TouchUI_ActionResourcesControl" 
+                                            Converter="{StaticResource MultiplierConverter}" 
+                                            ConverterParameter="0.75"/>
+                                    <!-- Touch UI - 2x = 1200 ==> 1200 * 0.75 = 900 -->
+                                    <Binding Source="-900"/>
+                                </MultiBinding>
+                            </ItemsControl.Width>
+
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
@@ -5200,7 +5217,7 @@
 
                 <!-- Touch UI - Needed because the movement bar is visible in turn based mode which otherwise overlaps with status effects -->
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.InTurnBasedMode}" Value="False">
-                    <Setter TargetName="StatusPanel" Property="Margin" Value="0,0,0,160"/>
+                    <Setter TargetName="StatusPanel" Property="Margin" Value="0,0,0,120"/>
                 </DataTrigger>
 
                 <!--IS SHAPESHIFTED-->
