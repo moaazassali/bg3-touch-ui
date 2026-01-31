@@ -2683,13 +2683,13 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Image Grid.ColumnSpan="3" Source="{StaticResource BarBottomBg}" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Panel.ZIndex="-1"/>
-                    <Image Grid.Column="3" Source="{StaticResource HotbarDivider}" Margin="-24,0,0,72" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <!-- <Image Grid.ColumnSpan="3" Source="{StaticResource BarBottomBg}" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Panel.ZIndex="-1"/> -->
+                    <!-- <Image Grid.Column="3" Source="{StaticResource HotbarDivider}" Margin="-24,0,0,72" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Left"/> -->
 
 
                     <!-- ========= LEFT HOTBAR CONTENT ========= -->
                     <Grid Grid.Column="0" VerticalAlignment="Bottom" x:Name="LeftPart" Panel.ZIndex="1" Margin="0,0,0,16">
-                        <Image Source="{StaticResource BarBodyPortrait}" Stretch="None" VerticalAlignment="Bottom"/>
+                        <!-- <Image Source="{StaticResource BarBodyPortrait}" Stretch="None" VerticalAlignment="Bottom"/> -->
                         
                         <!-- Touch UI - Disable it since we will be move this to an expandable menu with the minimap buttons -->
                         <!--ClassBtn-->
