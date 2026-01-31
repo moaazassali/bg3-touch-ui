@@ -815,8 +815,8 @@
                     <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
                     <Condition Binding="{Binding DataContext.CurrentPlayer.UIData.ActiveTask.RootCastSpell, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource NullToBoolFalseConverter}, FallbackValue=False}" Value="True"/>
                 </MultiDataTrigger.Conditions>
-                <Setter TargetName="BasicResources" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="MovementResources" Property="Visibility" Value="Collapsed"/>
+                <!-- <Setter TargetName="BasicResources" Property="Visibility" Value="Collapsed"/> -->
+                <!-- <Setter TargetName="MovementResources" Property="Visibility" Value="Collapsed"/> -->
             </MultiDataTrigger>
 
             <!-- Touch UI - Hide movement resources if we are not in turn based because we made the resource actions bar always visible outside of turn based where movement resources isn't relevant -->
