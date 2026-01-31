@@ -451,7 +451,8 @@
                     <Condition Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CanEndTurn}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="Root" Property="IsEnabled" Value="True"/>
-                <Setter TargetName="BackToPlayableCombatantButton" Property="Visibility" Value="Visible"/>
+                <!-- Touch UI - Disable as we are relying on HotBar.xaml -->
+                <!-- <Setter TargetName="BackToPlayableCombatantButton" Property="Visibility" Value="Visible"/> -->
             </MultiDataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveTask.CanForceCast}" Value="True">
