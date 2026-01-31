@@ -4876,14 +4876,14 @@
                             <ScaleTransform ScaleX="0.76" ScaleY="0.76"/>
                         </ls:LSButton.LayoutTransform>
 
-                        <ls:LSButton.ToolTip>
+                        <!-- <ls:LSButton.ToolTip>
                             <ls:LSTooltip IsHitTestVisible="False" Placement="Right" VerticalOffset="-16">
                                 <TextBlock Text="{Binding Source='hc2461743gdd3eg49fegbeddgd62c3ab303a1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
                             </ls:LSTooltip>
-                        </ls:LSButton.ToolTip>
+                        </ls:LSButton.ToolTip> -->
                         <ls:LSButton.Style>
                             <Style TargetType="ls:LSButton">
-                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
