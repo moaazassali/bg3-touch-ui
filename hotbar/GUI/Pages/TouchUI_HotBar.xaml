@@ -4391,7 +4391,8 @@
                 </Control>
 
                 <!-- Touch UI - Move some hotbar elements outside to position them at bottom right of screen -->
-                <Grid Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50">
+                <!-- Touch UI - We need ZIndex to make the menu list appear on top of other HUD elements like the minimap when expanded -->
+                <Grid Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50" Panel.ZIndex="100">
                     <Menu.layoutTransform>
                         <ScaleTransform ScaleX="3" ScaleY="3"/>
                     </Menu.layoutTransform>
