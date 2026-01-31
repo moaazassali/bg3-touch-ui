@@ -4535,6 +4535,11 @@
                 <Menu x:Name="RestMenu" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50"
                         ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}"
                         IsEnabled="{Binding Data.LongRest.IsActive, Converter={StaticResource InvertBoolConverter}}">
+
+                    <Menu.layoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Menu.layoutTransform>
+
                     <!-- Container Item -->
                     <MenuItem x:Name="RestItem">
                         <MenuItem.Template>
@@ -4545,11 +4550,11 @@
                                     </Grid>
 
                                     <Grid x:Name="RestButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTipService.Placement="Right">
-                                        <Grid.ToolTip>
+                                        <!-- <Grid.ToolTip>
                                             <ls:LSTooltip IsHitTestVisible="False" Placement="Right">
                                                 <TextBlock Text="{Binding Source='hedd2ea0cgc98cg4faega9b6g72105a66f28b', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
                                             </ls:LSTooltip>
-                                        </Grid.ToolTip>
+                                        </Grid.ToolTip> -->
 
                                         <Image x:Name="RestButtonBg" Source="{StaticResource BtnSmallDefault}" Stretch="None"/>
                                         <Image x:Name="RestButtonIcon" Source="{StaticResource IconCamp}" Stretch="None"/>
@@ -4653,7 +4658,7 @@
                             </b:Interaction.Behaviors>
 
                             <MenuItem.ToolTip>
-                                <ls:LSTooltip IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}" ls:AttachedProperties.InheritedTag="{Binding ModifierEnabled, ElementName=ShortRestFullyHealsModifier}">
+                                <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}" ls:AttachedProperties.InheritedTag="{Binding ModifierEnabled, ElementName=ShortRestFullyHealsModifier}">
                                     <ls:LSTooltip.ContentTemplate>
                                         <DataTemplate>
                                             <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
@@ -4745,7 +4750,7 @@
                         <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
                         <MenuItem x:Name="LongRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding CampTravel}" ls:TutorialProperties.TargetID="TUT_LongRest" ls:TutorialProperties.ModalType="RightBottom" ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
                             <MenuItem.ToolTip>
-                                <ls:LSTooltip IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:AttachedProperties.InheritedTag="{Binding DataContext.CurrentPlayer, ElementName=HotBar}">
+                                <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:AttachedProperties.InheritedTag="{Binding DataContext.CurrentPlayer, ElementName=HotBar}">
                                     <ls:LSTooltip.ContentTemplate>
                                         <DataTemplate>
                                             <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
@@ -4818,7 +4823,7 @@
 
                         <MenuItem x:Name="GoToCampItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding GoToCamp}" IsEnabled="False">
                             <MenuItem.ToolTip>
-                                <ls:LSTooltip x:Name="GoToCampTooltip" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}">
+                                <ls:LSTooltip Visibility="Collapsed" x:Name="GoToCampTooltip" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}">
                                     <ls:LSTooltip.ContentTemplate>
                                         <DataTemplate>
                                             <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
