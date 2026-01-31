@@ -4204,7 +4204,7 @@
                 </Grid>
 
                 <!-- Touch UI - New action resources element based on controller action resources -->
-                <Control Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Control x:Name="TouchUI_ActionResourcesControl" Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <Control.LayoutTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                     </Control.LayoutTransform>
@@ -4896,27 +4896,19 @@
                                 </ls:LSToggleButton.Style>
                             </ls:LSToggleButton>
                         </Grid>
-                        <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxWidth="240" Margin="0,0,0,32">
+
+                        <!-- Touch UI - Width matches the action resources bar minus the padding it has -->
+                        <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            MaxWidth="{Binding ActualWidth, ElementName=TouchUI_ActionResourcesControl, Converter={StaticResource AddConverter}, ConverterParameter=-600}" Margin="0,0,0,32">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                                        <!-- Flip the list left/right and up/down. This also affects the items so we have to 'unflip' those individually as well -->
-                                        <WrapPanel.LayoutTransform>
-                                            <ScaleTransform ScaleX="-1" ScaleY="-1"/>
-                                        </WrapPanel.LayoutTransform>
-                                    </WrapPanel>
+                                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 
                             <ItemsControl.ItemContainerStyle>
                                 <Style TargetType="ContentPresenter">
                                     <Setter Property="Margin" Value="-2"/>
-                                    <Setter Property="LayoutTransform">
-                                        <Setter.Value>
-                                            <!-- 'Negates' the flipping of the list -->
-                                            <ScaleTransform ScaleX="-1" ScaleY="-1"/>
-                                        </Setter.Value>
-                                    </Setter>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <!-- Always allow showing up to at least the limit -->
