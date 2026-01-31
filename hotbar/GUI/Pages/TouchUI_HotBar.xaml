@@ -3963,56 +3963,6 @@
                             </ls:LSButton.Style>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="ExitFTBButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,0,0,48"
-                             IsEnabled="{Binding Path=DataContext.CurrentPlayer.IsCurrentTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
-                             Command="{Binding DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
-                             DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UILeaveTurnBased'}"
-                             BoundEvent="UILeaveTurnBased" SoundID="UI_HUD_Hotbar_ExitFTB">
-                            <ls:LSButton.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </ls:LSButton.RenderTransform>
-                            <ls:LSButton.Template>
-                                <ControlTemplate TargetType="ls:LSButton">
-                                    <Grid ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-84">
-                                        <Image x:Name="ExitFTButtonBg" Source="{StaticResource ExitFTBBg}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="None" Margin="0,0,-220,0"/>
-                                        <Border x:Name="ExitFTBText" Width="184" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-300,0">
-                                            <TextBlock Text="{Binding Source=h5afd053agafd1g4111gbea5gc7bccff65ffd, Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"/>
-                                        </Border>
-                                        <Image x:Name="img" Source="{StaticResource BtnSmallDefault}" Stretch="None"/>
-                                        <Image x:Name="ico" Source="{StaticResource ExitFTBIcon}" Stretch="None"/>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_h.png"/>
-                                            <Setter TargetName="ico" Property="Source" Value="{StaticResource ExitFTBIconHighlight}"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_p.png"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="img" Property="Source" Value="{StaticResource BtnSmallDefault}"/>
-                                            <Setter TargetName="ico" Property="Opacity" Value="0.75"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </ls:LSButton.Template>
-                            <ls:LSButton.Style>
-                                <Style TargetType="ls:LSButton">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="InFTB">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ls:LSButton.Style>
-                        </ls:LSButton>
-
                         <ls:LSInputBinding x:Name="ShortRestShortcut" BoundEvent="ShortRest" PlayerId="{Binding CurrentPlayer.PlayerId}" Command="{Binding ShortRest}"
                                            IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsShortRestAvailable}" >
                             <b:Interaction.Triggers>
@@ -4513,371 +4463,423 @@
                     </Control.LayoutTransform>
                 </Control>
 
-                <!-- Touch UI - Move outside to position at bottom right of screen -->
-                <Menu x:Name="RestMenu" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50"
-                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}"
-                        IsEnabled="{Binding Data.LongRest.IsActive, Converter={StaticResource InvertBoolConverter}}">
-
+                <!-- Touch UI - Move some hotbar elements outside to position them at bottom right of screen -->
+                <Grid Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50">
                     <Menu.layoutTransform>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                     </Menu.layoutTransform>
 
-                    <!-- Container Item -->
-                    <MenuItem x:Name="RestItem">
-                        <MenuItem.Template>
-                            <ControlTemplate TargetType="MenuItem">
-                                <Grid Margin="-16" ClipToBounds="False">
-                                    <Grid x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Height="0" Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}" >
-                                        <ItemsPresenter />
+                    <Menu x:Name="RestMenu" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}"
+                            IsEnabled="{Binding Data.LongRest.IsActive, Converter={StaticResource InvertBoolConverter}}">
+
+                        <!-- Container Item -->
+                        <MenuItem x:Name="RestItem">
+                            <MenuItem.Template>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <Grid Margin="-16" ClipToBounds="False">
+                                        <Grid x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Height="0" Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}" >
+                                            <ItemsPresenter />
+                                        </Grid>
+
+                                        <Grid x:Name="RestButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTipService.Placement="Right">
+                                            <!-- <Grid.ToolTip>
+                                                <ls:LSTooltip IsHitTestVisible="False" Placement="Right">
+                                                    <TextBlock Text="{Binding Source='hedd2ea0cgc98cg4faega9b6g72105a66f28b', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                                </ls:LSTooltip>
+                                            </Grid.ToolTip> -->
+
+                                            <Image x:Name="RestButtonBg" Source="{StaticResource BtnPop}" Stretch="None"/>
+                                            <Image x:Name="RestButtonIcon" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_upArrow_d.png" Stretch="Uniform" Height="25"/>
+
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseEnter">
+                                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                </b:EventTrigger>
+
+                                                <b:EventTrigger EventName="MouseDown">
+                                                    <ls:LSPlaySound Sound="UI_HUD_RestMenu_Open_Click"/>
+                                                </b:EventTrigger>
+
+                                                <b:PropertyChangedTrigger Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                    <b:Interaction.Behaviors>
+                                                        <b:ConditionBehavior>
+                                                            <b:ConditionalExpression>
+                                                                <b:ComparisonCondition LeftOperand="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="True"/>
+                                                            </b:ConditionalExpression>
+                                                        </b:ConditionBehavior>
+                                                    </b:Interaction.Behaviors>
+                                                    <!-- Tutorial UI Event - Rest Menu Opened-->
+                                                    <b:InvokeCommandAction Command="{Binding TutorialEvent}" CommandParameter="394c5454-28a2-433d-9dca-02a663e93cd1"/>
+                                                </b:PropertyChangedTrigger>
+
+                                                <b:PropertyChangedTrigger Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                    <b:Interaction.Behaviors>
+                                                        <b:ConditionBehavior>
+                                                            <b:ConditionalExpression>
+                                                                <b:ComparisonCondition LeftOperand="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="False"/>
+                                                            </b:ConditionalExpression>
+                                                        </b:ConditionBehavior>
+                                                    </b:Interaction.Behaviors>
+                                                </b:PropertyChangedTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
                                     </Grid>
 
-                                    <Grid x:Name="RestButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTipService.Placement="Right">
-                                        <!-- <Grid.ToolTip>
-                                            <ls:LSTooltip IsHitTestVisible="False" Placement="Right">
-                                                <TextBlock Text="{Binding Source='hedd2ea0cgc98cg4faega9b6g72105a66f28b', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                            </ls:LSTooltip>
-                                        </Grid.ToolTip> -->
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+                                            <Setter TargetName="RestButtonIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_upArrow_d.png"/>
+                                        </Trigger>
 
-                                        <Image x:Name="RestButtonBg" Source="{StaticResource BtnPop}" Stretch="None"/>
-                                        <Image x:Name="RestButtonIcon" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_upArrow_d.png" Stretch="Uniform" Height="25"/>
+                                        <Trigger Property="IsSubmenuOpen" Value="True">
+                                            <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
 
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="MouseEnter">
-                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                            </b:EventTrigger>
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
+                                            </Trigger.EnterActions>
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard Storyboard="{StaticResource HideRestButtonsAnimation}"/>
+                                            </Trigger.ExitActions>
+                                        </Trigger>
 
-                                            <b:EventTrigger EventName="MouseDown">
-                                                <ls:LSPlaySound Sound="UI_HUD_RestMenu_Open_Click"/>
-                                            </b:EventTrigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="{StaticResource DisabledOpacity}" />
+                                        </Trigger>
 
-                                            <b:PropertyChangedTrigger Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="True"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                                <!-- Tutorial UI Event - Rest Menu Opened-->
-                                                <b:InvokeCommandAction Command="{Binding TutorialEvent}" CommandParameter="394c5454-28a2-433d-9dca-02a663e93cd1"/>
-                                            </b:PropertyChangedTrigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                        </Trigger>
 
-                                            <b:PropertyChangedTrigger Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                                <b:Interaction.Behaviors>
-                                                    <b:ConditionBehavior>
-                                                        <b:ConditionalExpression>
-                                                            <b:ComparisonCondition LeftOperand="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="False"/>
-                                                        </b:ConditionalExpression>
-                                                    </b:ConditionBehavior>
-                                                </b:Interaction.Behaviors>
-                                            </b:PropertyChangedTrigger>
-                                        </b:Interaction.Triggers>
-                                    </Grid>
+                                        <!-- Tutorial checks -->
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
+                                                <Condition Binding="{Binding Tag, ElementName=ShortRestItem}" Value="True"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
+                                            </MultiDataTrigger.EnterActions>
+                                            <MultiDataTrigger.ExitActions>
+                                                <BeginStoryboard Storyboard="{StaticResource HideRestButtonsAnimation}"/>
+                                            </MultiDataTrigger.ExitActions>
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
+                                                <Condition Binding="{Binding Tag, ElementName=LongRestItem}" Value="True"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
+                                            </MultiDataTrigger.EnterActions>
+                                            <MultiDataTrigger.ExitActions>
+                                                <BeginStoryboard Storyboard="{StaticResource HideRestButtonsAnimation}"/>
+                                            </MultiDataTrigger.ExitActions>
+                                        </MultiDataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </MenuItem.Template>
+
+                            <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
+                            <!-- Tag is used to expose if this subitem is showing any tutorial -->
+                            <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
+                            <MenuItem x:Name="ShortRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding ShortRest}"
+                                        IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsShortRestAvailable}" ls:TutorialProperties.TargetID="TUT_ShortRestDowned" ls:TutorialProperties.ModalType="RightBottom"
+                                        ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
+                                <b:Interaction.Behaviors>
+                                    <ls:RuleSetModifierValueBehavior x:Name="ShortRestFullyHealsModifier" Modifiers="{Binding DataContext.Data.CurrentRuleSetModifiers, ElementName=HotBar}" ModifierName="SHORT_REST_FULLY_HEALS"/>
+                                </b:Interaction.Behaviors>
+
+                                <MenuItem.ToolTip>
+                                    <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}" ls:AttachedProperties.InheritedTag="{Binding ModifierEnabled, ElementName=ShortRestFullyHealsModifier}">
+                                        <ls:LSTooltip.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
+                                                    <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='h199b711fg12f1g49c1ga68dg576a864a1fc2',Converter={StaticResource TranslatedStringConverter}}"/>
+
+                                                    <TextBlock Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                                <Binding Source="h06b622ccg2ab1g4647g8339g6ea9f40583bc"/>
+                                                                <Binding Path="(ls:TooltipExtender.Owner).Stats.ShortRestPointsResource.Value" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
+                                                                <Binding Path="(ls:TooltipExtender.Owner).Stats.ShortRestPointsResource.MaxValue" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+
+                                                    <TextBlock x:Name="DescriptionText" ls:TextBlockFormatter.SourceText="{Binding Source='h5f8707edgc150g4445gaefeg8fe0236fca03', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                                </StackPanel>
+
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Self}}" Value="True">
+                                                        <Setter TargetName="DescriptionText" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h4126ffbfga055g4bbcgac93g8462ec3759e3', Converter={StaticResource TranslatedStringConverter}}"/>
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ls:LSTooltip.ContentTemplate>
+                                    </ls:LSTooltip>
+                                </MenuItem.ToolTip>
+                                <MenuItem.Template>
+                                    <ControlTemplate TargetType="MenuItem">
+                                        <Grid x:Name="ShortRestGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" ls:TutorialProperties.TargetID="TUT_ShortRest" ls:TutorialProperties.ModalType="RightBottom">
+                                            <Image x:Name="bgImg" Source="{StaticResource BtnPop}" Stretch="None"/>
+                                            <Image x:Name="ico" Source="{StaticResource IconShortRest}" Stretch="None"/>
+                                            <StackPanel x:Name="DotsPanel" Orientation="Horizontal"  Margin="34,0,0,-28">
+                                                <Image x:Name="dot1" Source="{StaticResource IconShortRestNode}" Stretch="None" Margin="-8,-12,-8,-8"/>
+                                                <Image x:Name="dot2" Source="{StaticResource IconShortRestNode}" Stretch="None" Margin="-10,-12,-8,-8"/>
+                                            </StackPanel>
+
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseEnter">
+                                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                </b:EventTrigger>
+
+                                                <b:EventTrigger EventName="MouseDown">
+                                                    <ls:LSPlaySound Sound="UI_HUD_ShortRest_Press"/>
+                                                </b:EventTrigger>
+                                                <b:EventTrigger EventName="MouseUp">
+                                                    <ls:LSPlaySound Sound="UI_HUD_ShortRest_Click"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png" TargetName="bgImg"/>
+                                                <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_h.png" TargetName="ico"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" TargetName="bgImg"/>
+                                                <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_h.png" TargetName="ico"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png" TargetName="bgImg"/>
+                                                <Setter Property="Source" Value="{StaticResource IconShortRest}" TargetName="ico"/>
+                                                <Setter Property="Opacity" Value="0.5" TargetName="ico"/>
+                                                <Setter Property="Opacity" Value="0.7" TargetName="DotsPanel" />
+                                            </Trigger>
+
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="0">
+                                                <Setter TargetName="dot1" Property="Visibility" Value="Collapsed"/>
+                                                <Setter TargetName="dot2" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="1">
+                                                <Setter TargetName="dot2" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                                                <Setter Property="Tag" Value="True"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), ElementName=ShortRestGrid}" Value="True">
+                                                <Setter Property="Tag" Value="True"/>
+                                            </DataTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </MenuItem.Template>
+                            </MenuItem>
+
+                            <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
+                            <!-- Tag is used to expose if this subitem is showing any tutorial -->
+                            <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
+                            <MenuItem x:Name="LongRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding CampTravel}" ls:TutorialProperties.TargetID="TUT_LongRest" ls:TutorialProperties.ModalType="RightBottom" ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
+                                <MenuItem.ToolTip>
+                                    <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:AttachedProperties.InheritedTag="{Binding DataContext.CurrentPlayer, ElementName=HotBar}">
+                                        <ls:LSTooltip.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
+                                                    <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='h54a9edbag9cf2g4f2egb188g1431d56c3159',Converter={StaticResource TranslatedStringConverter}}"/>
+
+                                                    <TextBlock Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
+                                                        <Run Text="{Binding Source='h836ff844g6a45g48edgbfddgf254f3e614de', Converter={StaticResource TranslatedStringConverter}}"/><Run
+                                                            Text="{Binding Source='hb897c56egaa6fg460bg8676g8ebfa0340954', Converter={StaticResource TranslatedStringConverter}}"/><Run
+                                                            Text="{Binding (ls:AttachedProperties.InheritedTag).PartySupplies, RelativeSource={RelativeSource Mode=Self}}"/><Run
+                                                            Text="{Binding Source='hd64bfe4cgadadg4468g8b0ag70330ffc717c', Converter={StaticResource TranslatedStringConverter}}"/><Run
+                                                            Text="{Binding (ls:AttachedProperties.InheritedTag).RequiredPartySupplies, RelativeSource={RelativeSource Mode=Self}}"/>
+                                                    </TextBlock>
+
+                                                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h5c980d92gdc9bg4a6dg998bg74dca19575e1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ls:LSTooltip.ContentTemplate>
+                                    </ls:LSTooltip>
+                                </MenuItem.ToolTip>
+                                <MenuItem.Template>
+                                    <ControlTemplate TargetType="MenuItem">
+                                        <Grid x:Name="LongRestGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" ls:TutorialProperties.TargetID="TUT_Camp" ls:TutorialProperties.ModalType="RightBottom">
+                                            <Image x:Name="BtnBg" Source="{StaticResource BtnPop}" Stretch="None"/>
+                                            <Image x:Name="icon" Source="{StaticResource IconLongRest}" Stretch="None"/>
+
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseEnter">
+                                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                </b:EventTrigger>
+
+                                                <b:EventTrigger EventName="MouseDown">
+                                                    <ls:LSPlaySound Sound="UI_HUD_Party_Campsite"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPlayer.EndTheDayState}" Value="Disabled">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentPlayer.EndTheDayState}" Value="Unavailable">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+                                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_longRest_h.png" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" />
+                                                <Setter TargetName="icon" Property="Source" Value="{StaticResource IconLongRest}" />
+                                                <Setter TargetName="icon" Property="Margin" Value="0,4,0,0" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png" />
+                                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_longRest_disabled.png" />
+                                                <Setter TargetName="icon" Property="Opacity" Value="0.5" />
+                                            </Trigger>
+
+                                            <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                                                <Setter Property="Tag" Value="True"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), ElementName=LongRestGrid}" Value="True">
+                                                <Setter Property="Tag" Value="True"/>
+                                            </DataTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </MenuItem.Template>
+                            </MenuItem>
+
+                            <MenuItem x:Name="GoToCampItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding GoToCamp}" IsEnabled="False">
+                                <MenuItem.ToolTip>
+                                    <ls:LSTooltip Visibility="Collapsed" x:Name="GoToCampTooltip" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}">
+                                        <ls:LSTooltip.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
+                                                    <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='hc7281314gd545g490fgbfc8g1be95db0df3b',Converter={StaticResource TranslatedStringConverter}}"/>
+                                                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h4d8321bdg8abfg4ab4g8077g9e691472f7ad', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ls:LSTooltip.ContentTemplate>
+                                    </ls:LSTooltip>
+                                </MenuItem.ToolTip>
+                                <MenuItem.Template>
+                                    <ControlTemplate TargetType="MenuItem">
+                                        <Grid x:Name="LongRestGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                            <Image x:Name="BtnBg" Source="{StaticResource BtnPop}" Stretch="None"/>
+                                            <Image x:Name="icon" Source="{StaticResource IconCamp}" Stretch="None"/>
+
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseEnter">
+                                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                </b:EventTrigger>
+
+                                                <b:EventTrigger EventName="MouseDown">
+                                                    <ls:LSPlaySound Sound="UI_HUD_Party_Campsite_Confirm_Click"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+                                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_h.png" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" />
+                                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_h.png" />
+                                                <Setter TargetName="icon" Property="Margin" Value="0,4,0,0" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png" />
+                                                <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_disabled.png" />
+                                                <Setter TargetName="icon" Property="Opacity" Value="0.4" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </MenuItem.Template>
+                            </MenuItem>
+
+                            <MenuItem x:Name="EnterFTBItem" Style="{StaticResource SubMenuItemStyle}">
+                                <MenuItem.Template>
+                                    <ControlTemplate TargetType="MenuItem">
+                                        <ls:LSButton x:Name="EnterFTBButton" ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                                            <ls:LSButton.Style>
+                                                <Style TargetType="ls:LSButton">
+                                                    <Setter Property="Command" Value="{Binding Path=DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                                    <Setter Property="DataContext" Value="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"/>
+                                                    <Setter Property="BoundEvent" Value="UIEnterTurnBased"/>
+                                                    <Setter Property="Template" Value="{StaticResource EnterFTBTemplate}"/>
+                                                    <Setter Property="SoundID" Value="UI_HUD_Hotbar_EnterFTB"/>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ls:LSButton.Style>
+                                        </ls:LSButton>
+                                    </ControlTemplate>
+                                </MenuItem.Template>
+                            </MenuItem>
+                        </MenuItem>
+                    </Menu>
+
+                    <ls:LSButton x:Name="ExitFTBButton" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                            IsEnabled="{Binding Path=DataContext.CurrentPlayer.IsCurrentTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                            Command="{Binding DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                            DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UILeaveTurnBased'}"
+                            BoundEvent="UILeaveTurnBased" SoundID="UI_HUD_Hotbar_ExitFTB">
+                        <ls:LSButton.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ls:LSButton.RenderTransform>
+                        <ls:LSButton.Template>
+                            <ControlTemplate TargetType="ls:LSButton">
+                                <Grid ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-84">
+                                    <Image x:Name="ExitFTButtonBg" Source="{StaticResource ExitFTBBg}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="None" Margin="0,0,-220,0"/>
+                                    <Border x:Name="ExitFTBText" Width="184" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-300,0">
+                                        <TextBlock Text="{Binding Source=h5afd053agafd1g4111gbea5gc7bccff65ffd, Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"/>
+                                    </Border>
+                                    <Image x:Name="img" Source="{StaticResource BtnSmallDefault}" Stretch="None"/>
+                                    <Image x:Name="ico" Source="{StaticResource ExitFTBIcon}" Stretch="None"/>
                                 </Grid>
-
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
-                                        <Setter TargetName="RestButtonIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_upArrow_d.png"/>
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_h.png"/>
+                                        <Setter TargetName="ico" Property="Source" Value="{StaticResource ExitFTBIconHighlight}"/>
                                     </Trigger>
-
-                                    <Trigger Property="IsSubmenuOpen" Value="True">
-                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
-
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
-                                        </Trigger.EnterActions>
-                                        <Trigger.ExitActions>
-                                            <BeginStoryboard Storyboard="{StaticResource HideRestButtonsAnimation}"/>
-                                        </Trigger.ExitActions>
-                                    </Trigger>
-
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Opacity" Value="{StaticResource DisabledOpacity}" />
-                                    </Trigger>
-
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_p.png"/>
                                     </Trigger>
-
-                                    <!-- Tutorial checks -->
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
-                                            <Condition Binding="{Binding Tag, ElementName=ShortRestItem}" Value="True"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <MultiDataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
-                                        </MultiDataTrigger.EnterActions>
-                                        <MultiDataTrigger.ExitActions>
-                                            <BeginStoryboard Storyboard="{StaticResource HideRestButtonsAnimation}"/>
-                                        </MultiDataTrigger.ExitActions>
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
-                                            <Condition Binding="{Binding Tag, ElementName=LongRestItem}" Value="True"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <MultiDataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
-                                        </MultiDataTrigger.EnterActions>
-                                        <MultiDataTrigger.ExitActions>
-                                            <BeginStoryboard Storyboard="{StaticResource HideRestButtonsAnimation}"/>
-                                        </MultiDataTrigger.ExitActions>
-                                    </MultiDataTrigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="img" Property="Source" Value="{StaticResource BtnSmallDefault}"/>
+                                        <Setter TargetName="ico" Property="Opacity" Value="0.75"/>
+                                    </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
-                        </MenuItem.Template>
-
-                        <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
-                        <!-- Tag is used to expose if this subitem is showing any tutorial -->
-                        <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
-                        <MenuItem x:Name="ShortRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding ShortRest}"
-                                    IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsShortRestAvailable}" ls:TutorialProperties.TargetID="TUT_ShortRestDowned" ls:TutorialProperties.ModalType="RightBottom"
-                                    ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
-                            <b:Interaction.Behaviors>
-                                <ls:RuleSetModifierValueBehavior x:Name="ShortRestFullyHealsModifier" Modifiers="{Binding DataContext.Data.CurrentRuleSetModifiers, ElementName=HotBar}" ModifierName="SHORT_REST_FULLY_HEALS"/>
-                            </b:Interaction.Behaviors>
-
-                            <MenuItem.ToolTip>
-                                <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}" ls:AttachedProperties.InheritedTag="{Binding ModifierEnabled, ElementName=ShortRestFullyHealsModifier}">
-                                    <ls:LSTooltip.ContentTemplate>
-                                        <DataTemplate>
-                                            <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
-                                                <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='h199b711fg12f1g49c1ga68dg576a864a1fc2',Converter={StaticResource TranslatedStringConverter}}"/>
-
-                                                <TextBlock Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
-                                                    <TextBlock.Text>
-                                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                                            <Binding Source="h06b622ccg2ab1g4647g8339g6ea9f40583bc"/>
-                                                            <Binding Path="(ls:TooltipExtender.Owner).Stats.ShortRestPointsResource.Value" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
-                                                            <Binding Path="(ls:TooltipExtender.Owner).Stats.ShortRestPointsResource.MaxValue" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-
-                                                <TextBlock x:Name="DescriptionText" ls:TextBlockFormatter.SourceText="{Binding Source='h5f8707edgc150g4445gaefeg8fe0236fca03', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                            </StackPanel>
-
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding (ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Self}}" Value="True">
-                                                    <Setter TargetName="DescriptionText" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h4126ffbfga055g4bbcgac93g8462ec3759e3', Converter={StaticResource TranslatedStringConverter}}"/>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </ls:LSTooltip.ContentTemplate>
-                                </ls:LSTooltip>
-                            </MenuItem.ToolTip>
-                            <MenuItem.Template>
-                                <ControlTemplate TargetType="MenuItem">
-                                    <Grid x:Name="ShortRestGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" ls:TutorialProperties.TargetID="TUT_ShortRest" ls:TutorialProperties.ModalType="RightBottom">
-                                        <Image x:Name="bgImg" Source="{StaticResource BtnPop}" Stretch="None"/>
-                                        <Image x:Name="ico" Source="{StaticResource IconShortRest}" Stretch="None"/>
-                                        <StackPanel x:Name="DotsPanel" Orientation="Horizontal"  Margin="34,0,0,-28">
-                                            <Image x:Name="dot1" Source="{StaticResource IconShortRestNode}" Stretch="None" Margin="-8,-12,-8,-8"/>
-                                            <Image x:Name="dot2" Source="{StaticResource IconShortRestNode}" Stretch="None" Margin="-10,-12,-8,-8"/>
-                                        </StackPanel>
-
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="MouseEnter">
-                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                            </b:EventTrigger>
-
-                                            <b:EventTrigger EventName="MouseDown">
-                                                <ls:LSPlaySound Sound="UI_HUD_ShortRest_Press"/>
-                                            </b:EventTrigger>
-                                            <b:EventTrigger EventName="MouseUp">
-                                                <ls:LSPlaySound Sound="UI_HUD_ShortRest_Click"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </Grid>
-
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png" TargetName="bgImg"/>
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_h.png" TargetName="ico"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" TargetName="bgImg"/>
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_h.png" TargetName="ico"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png" TargetName="bgImg"/>
-                                            <Setter Property="Source" Value="{StaticResource IconShortRest}" TargetName="ico"/>
-                                            <Setter Property="Opacity" Value="0.5" TargetName="ico"/>
-                                            <Setter Property="Opacity" Value="0.7" TargetName="DotsPanel" />
-                                        </Trigger>
-
-                                        <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="0">
-                                            <Setter TargetName="dot1" Property="Visibility" Value="Collapsed"/>
-                                            <Setter TargetName="dot2" Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="1">
-                                            <Setter TargetName="dot2" Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Mode=Self}}" Value="True">
-                                            <Setter Property="Tag" Value="True"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), ElementName=ShortRestGrid}" Value="True">
-                                            <Setter Property="Tag" Value="True"/>
-                                        </DataTrigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </MenuItem.Template>
-                        </MenuItem>
-
-                        <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
-                        <!-- Tag is used to expose if this subitem is showing any tutorial -->
-                        <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
-                        <MenuItem x:Name="LongRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding CampTravel}" ls:TutorialProperties.TargetID="TUT_LongRest" ls:TutorialProperties.ModalType="RightBottom" ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
-                            <MenuItem.ToolTip>
-                                <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:AttachedProperties.InheritedTag="{Binding DataContext.CurrentPlayer, ElementName=HotBar}">
-                                    <ls:LSTooltip.ContentTemplate>
-                                        <DataTemplate>
-                                            <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
-                                                <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='h54a9edbag9cf2g4f2egb188g1431d56c3159',Converter={StaticResource TranslatedStringConverter}}"/>
-
-                                                <TextBlock Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
-                                                    <Run Text="{Binding Source='h836ff844g6a45g48edgbfddgf254f3e614de', Converter={StaticResource TranslatedStringConverter}}"/><Run
-                                                        Text="{Binding Source='hb897c56egaa6fg460bg8676g8ebfa0340954', Converter={StaticResource TranslatedStringConverter}}"/><Run
-                                                        Text="{Binding (ls:AttachedProperties.InheritedTag).PartySupplies, RelativeSource={RelativeSource Mode=Self}}"/><Run
-                                                        Text="{Binding Source='hd64bfe4cgadadg4468g8b0ag70330ffc717c', Converter={StaticResource TranslatedStringConverter}}"/><Run
-                                                        Text="{Binding (ls:AttachedProperties.InheritedTag).RequiredPartySupplies, RelativeSource={RelativeSource Mode=Self}}"/>
-                                                </TextBlock>
-
-                                                <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h5c980d92gdc9bg4a6dg998bg74dca19575e1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ls:LSTooltip.ContentTemplate>
-                                </ls:LSTooltip>
-                            </MenuItem.ToolTip>
-                            <MenuItem.Template>
-                                <ControlTemplate TargetType="MenuItem">
-                                    <Grid x:Name="LongRestGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom" ls:TutorialProperties.TargetID="TUT_Camp" ls:TutorialProperties.ModalType="RightBottom">
-                                        <Image x:Name="BtnBg" Source="{StaticResource BtnPop}" Stretch="None"/>
-                                        <Image x:Name="icon" Source="{StaticResource IconLongRest}" Stretch="None"/>
-
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="MouseEnter">
-                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                            </b:EventTrigger>
-
-                                            <b:EventTrigger EventName="MouseDown">
-                                                <ls:LSPlaySound Sound="UI_HUD_Party_Campsite"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </Grid>
-
-                                    <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding CurrentPlayer.EndTheDayState}" Value="Disabled">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding CurrentPlayer.EndTheDayState}" Value="Unavailable">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
-                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_longRest_h.png" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" />
-                                            <Setter TargetName="icon" Property="Source" Value="{StaticResource IconLongRest}" />
-                                            <Setter TargetName="icon" Property="Margin" Value="0,4,0,0" />
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png" />
-                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_longRest_disabled.png" />
-                                            <Setter TargetName="icon" Property="Opacity" Value="0.5" />
-                                        </Trigger>
-
-                                        <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Mode=Self}}" Value="True">
-                                            <Setter Property="Tag" Value="True"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), ElementName=LongRestGrid}" Value="True">
-                                            <Setter Property="Tag" Value="True"/>
-                                        </DataTrigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </MenuItem.Template>
-                        </MenuItem>
-
-                        <MenuItem x:Name="GoToCampItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding GoToCamp}" IsEnabled="False">
-                            <MenuItem.ToolTip>
-                                <ls:LSTooltip Visibility="Collapsed" x:Name="GoToCampTooltip" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}">
-                                    <ls:LSTooltip.ContentTemplate>
-                                        <DataTemplate>
-                                            <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
-                                                <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='hc7281314gd545g490fgbfc8g1be95db0df3b',Converter={StaticResource TranslatedStringConverter}}"/>
-                                                <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h4d8321bdg8abfg4ab4g8077g9e691472f7ad', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ls:LSTooltip.ContentTemplate>
-                                </ls:LSTooltip>
-                            </MenuItem.ToolTip>
-                            <MenuItem.Template>
-                                <ControlTemplate TargetType="MenuItem">
-                                    <Grid x:Name="LongRestGrid" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                                        <Image x:Name="BtnBg" Source="{StaticResource BtnPop}" Stretch="None"/>
-                                        <Image x:Name="icon" Source="{StaticResource IconCamp}" Stretch="None"/>
-
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="MouseEnter">
-                                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                            </b:EventTrigger>
-
-                                            <b:EventTrigger EventName="MouseDown">
-                                                <ls:LSPlaySound Sound="UI_HUD_Party_Campsite_Confirm_Click"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </Grid>
-
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
-                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_h.png" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" />
-                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_h.png" />
-                                            <Setter TargetName="icon" Property="Margin" Value="0,4,0,0" />
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="BtnBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png" />
-                                            <Setter TargetName="icon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_disabled.png" />
-                                            <Setter TargetName="icon" Property="Opacity" Value="0.4" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </MenuItem.Template>
-                        </MenuItem>
-
-                        <MenuItem x:Name="EnterFTBItem" Style="{StaticResource SubMenuItemStyle}">
-                            <MenuItem.Template>
-                                <ControlTemplate TargetType="MenuItem">
-                                    <ls:LSButton x:Name="EnterFTBButton" ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
-                                        <ls:LSButton.Style>
-                                            <Style TargetType="ls:LSButton">
-                                                <Setter Property="Command" Value="{Binding Path=DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
-                                                <Setter Property="DataContext" Value="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"/>
-                                                <Setter Property="BoundEvent" Value="UIEnterTurnBased"/>
-                                                <Setter Property="Template" Value="{StaticResource EnterFTBTemplate}"/>
-                                                <Setter Property="SoundID" Value="UI_HUD_Hotbar_EnterFTB"/>
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ls:LSButton.Style>
-                                    </ls:LSButton>
-                                </ControlTemplate>
-                            </MenuItem.Template>
-                        </MenuItem>
-                    </MenuItem>
-                </Menu>
+                        </ls:LSButton.Template>
+                        <ls:LSButton.Style>
+                            <Style TargetType="ls:LSButton">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="InFTB">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ls:LSButton.Style>
+                    </ls:LSButton>
+                </Grid>
 
 
                 <!--Clear active filter -->
