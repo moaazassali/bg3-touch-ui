@@ -4323,7 +4323,7 @@
 
                 <!-- Touch UI - Move some hotbar elements outside to position them at bottom right of screen -->
                 <!-- Touch UI - We need ZIndex to make the menu list appear on top of other HUD elements like the minimap when expanded -->
-                <Grid Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50" Panel.ZIndex="100">
+                <Grid Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50">
                     <Menu.layoutTransform>
                         <ScaleTransform ScaleX="3" ScaleY="3"/>
                     </Menu.layoutTransform>
@@ -4346,9 +4346,11 @@
                             <MenuItem.Template>
                                 <ControlTemplate TargetType="MenuItem">
                                     <Grid ClipToBounds="False">
-                                        <Grid x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Height="0" Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}" >
+                                        <Popup x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Height="0"
+                                            Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}"
+                                            IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" PopupAnimation="Fade">
                                             <ItemsPresenter />
-                                        </Grid>
+                                        </Popup>
 
                                         <Grid x:Name="RestButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTipService.Placement="Right">
                                             <!-- <Grid.ToolTip>
