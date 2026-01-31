@@ -4873,7 +4873,7 @@
                         </ls:LSButton.Clip>
                     </ls:LSButton>
 
-                    <ls:LSButton x:Name="BackToPlayableCombatantButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,222,0" Template="{StaticResource FloatingFrameButton}"
+                    <ls:LSButton x:Name="BackToPlayableCombatantButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,110,0" Template="{StaticResource FloatingFrameButton}"
                                     Command="{Binding SelectActiveCharacterCombatant}">
 
                         <ls:LSButton.LayoutTransform>
