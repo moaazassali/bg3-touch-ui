@@ -3934,7 +3934,8 @@
                             </b:Interaction.Triggers>
                         </ls:LSButton>
 
-                        <Grid x:Name="EndTurnRecap" Width="852" MinHeight="320" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="-426,0,-296,330" >
+                        <!-- Touch UI - Not very useful and we can't easily make it fit -->
+                        <Grid x:Name="EndTurnRecap" Visibility="Collapsed" Width="852" MinHeight="320" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="-426,0,-296,330" >
                             <Grid.Style>
                                 <Style TargetType="Grid">
                                     <Setter Property="Visibility" Value="Collapsed"/>
