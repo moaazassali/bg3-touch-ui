@@ -4864,13 +4864,27 @@
                         </Grid>
 
                         <Grid>
+                            <!-- Touch UI - Width (y) should match the action resources bar minus the padding (600) it has from each side -->
+                            <!-- Touch UI - ActualWidth = 2x + y ==> y = ActualWidth - 2x -->
+                            <!-- Touch UI - However, we have 1.5x scaling on action resources bar but 2x on status panel, so we need to adjust the values by 1.5/2 = 0.75 -->
+                            <Grid.Width>
+                                <MultiBinding Converter="{StaticResource AddMultipleConverter}">
+                                    <Binding Path="ActualWidth" 
+                                            ElementName="TouchUI_ActionResourcesControl" 
+                                            Converter="{StaticResource MultiplierConverter}" 
+                                            ConverterParameter="0.75"/>
+                                    <!-- Touch UI - 2x = 1200 ==> 1200 * 0.75 = 900 -->
+                                    <Binding Source="-900"/>
+                                </MultiBinding>
+                            </Grid.Width>
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <!--Concentration-->
-                            <Grid x:Name="ConcentrationHolder" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,24"
+                            <Grid x:Name="ConcentrationHolder" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,24"
                                 ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
                                 Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
 
@@ -4908,24 +4922,10 @@
                                 </ls:LSButton>
                             </Grid>
 
-                            <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,0,32">
-                                <!-- Touch UI - Width (y) should match the action resources bar minus the padding (600) it has from each side -->
-                                <!-- Touch UI - ActualWidth = 2x + y ==> y = ActualWidth - 2x -->
-                                <!-- Touch UI - However, we have 1.5x scaling on action resources bar but 2x on status panel, so we need to adjust the values by 1.5/2 = 0.75 -->
-                                <ItemsControl.Width>
-                                    <MultiBinding Converter="{StaticResource AddMultipleConverter}">
-                                        <Binding Path="ActualWidth" 
-                                                ElementName="TouchUI_ActionResourcesControl" 
-                                                Converter="{StaticResource MultiplierConverter}" 
-                                                ConverterParameter="0.75"/>
-                                        <!-- Touch UI - 2x = 1200 ==> 1200 * 0.75 = 900 -->
-                                        <Binding Source="-900"/>
-                                    </MultiBinding>
-                                </ItemsControl.Width>
-
+                            <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="100,0,0,32">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
