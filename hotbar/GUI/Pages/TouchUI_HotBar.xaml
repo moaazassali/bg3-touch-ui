@@ -762,7 +762,7 @@
 
                 <ControlTemplate x:Key="EnterFTBTemplate" TargetType="ls:LSButton">
                     <Grid ToolTip="{StaticResource PlacementParentDCTooltip}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100" ToolTipService.ShowOnDisabled="True">
-                        <Image x:Name="img" Source="{StaticResource DefaultHotBarBtnBg}" Stretch="None"/>
+                        <Image x:Name="img" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
                         <Image x:Name="ico" Source="{StaticResource IconHourglass}" Stretch="None" Visibility="Visible" Margin="0,-4,0,0"/>
                         <Grid x:Name="AnimChrono" Visibility="Hidden">
                             <Image x:Name="icoAnim" Source="{StaticResource IconRTNoArrow}" Stretch="None" Margin="0,-4,0,0"/>
@@ -783,14 +783,14 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_default_h.png"/>
+                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_default_p.png"/>
+                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
                             <Setter TargetName="ico" Property="Margin" Value="0,0,0,0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="img" Property="Source" Value="{StaticResource DefaultHotBarBtnBg}"/>
+                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png"/>
                             <Setter TargetName="ico" Property="Visibility" Value="Hidden"/>
                             <Setter TargetName="AnimChrono" Property="Visibility" Value="Visible"/>
                             <Trigger.EnterActions>
@@ -3833,24 +3833,6 @@
                             </ContentControl.Template>
                         </ContentControl>
 
-                        <ls:LSButton x:Name="EnterFTBButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="{StaticResource TurnButtonMargin}" ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
-                            <ls:LSButton.Style>
-                                <Style TargetType="ls:LSButton">
-                                    <Setter Property="Command" Value="{Binding Path=DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
-                                    <Setter Property="DataContext" Value="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"/>
-                                    <Setter Property="BoundEvent" Value="UIEnterTurnBased"/>
-                                    <Setter Property="Template" Value="{StaticResource EnterFTBTemplate}"/>
-                                    <Setter Property="SoundID" Value="UI_HUD_Hotbar_EnterFTB"/>
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ls:LSButton.Style>
-                        </ls:LSButton>
-
                         <ls:LSButton x:Name="EndTurnButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="{StaticResource EndTurnButtonMargin}" ls:TutorialProperties.TargetID="TUT_EndTurn" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
                             <ls:LSButton.Style>
                                 <Style TargetType="ls:LSButton">
@@ -4545,7 +4527,7 @@
                         <MenuItem.Template>
                             <ControlTemplate TargetType="MenuItem">
                                 <Grid Margin="-16" ClipToBounds="False">
-                                    <Grid x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Height="0" Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}" >
+                                    <Grid x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Height="0" Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}" >
                                         <ItemsPresenter />
                                     </Grid>
 
@@ -4867,6 +4849,30 @@
                                             <Setter TargetName="icon" Property="Opacity" Value="0.4" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </MenuItem.Template>
+                        </MenuItem>
+
+                        <MenuItem x:Name="EnterFTBItem" Style="{StaticResource SubMenuItemStyle}">
+                            <MenuItem.Template>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <ls:LSButton x:Name="EnterFTBButton" ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                                        <ls:LSButton.Style>
+                                            <Style TargetType="ls:LSButton">
+                                                <Setter Property="Command" Value="{Binding Path=DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                                <Setter Property="DataContext" Value="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"/>
+                                                <Setter Property="BoundEvent" Value="UIEnterTurnBased"/>
+                                                <Setter Property="Template" Value="{StaticResource EnterFTBTemplate}"/>
+                                                <Setter Property="SoundID" Value="UI_HUD_Hotbar_EnterFTB"/>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ls:LSButton.Style>
+                                    </ls:LSButton>
                                 </ControlTemplate>
                             </MenuItem.Template>
                         </MenuItem>
