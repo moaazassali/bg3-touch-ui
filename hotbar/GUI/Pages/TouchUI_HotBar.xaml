@@ -4846,17 +4846,17 @@
 
                 <!-- Touch UI - Move outside to place above action resources bar -->
                 <!-- Status list -->
-                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,100"
+                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,200"
                         Visibility="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}}">
-                    <Rectangle x:Name="Gradient" Margin="10,0,10,36" IsHitTestVisible="False">
+                    <!-- <Rectangle x:Name="Gradient" Margin="10,0,10,36" IsHitTestVisible="False">
                         <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" >
                                 <GradientStop Color="#FF000000"/>
                                 <GradientStop Color="#00000000" Offset="1"/>
                             </LinearGradientBrush>
                         </Rectangle.Fill>
-                    </Rectangle>
-                    <Image x:Name="PaneConditionsBg" Source="{StaticResource PaneConditions}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+                    </Rectangle> -->
+                    <!-- <Image x:Name="PaneConditionsBg" Source="{StaticResource PaneConditions}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False"/> -->
                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
                         <Grid x:Name="Overflow" Margin="80,0,0,0" Visibility="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter={StaticResource StatusLimitAmount}}">
                             <Image Source="{StaticResource OverflowNumberBg}" Stretch="None" Visibility="{Binding Path=IsChecked, ElementName=ExpandToggle, Converter={StaticResource BoolToCollapsedConverter}}" Margin="0,-8"/>
@@ -5197,14 +5197,14 @@
                     <!-- <Setter TargetName="SingleHotbarResourceFilterText" Property="Text" Value=""/> -->
                 </DataTrigger>
 
-                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" Value="1">
+                <!-- <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" Value="1">
                     <Setter TargetName="PaneConditionsBg" Property="Source" Value="{StaticResource PaneConditions1}"/>
                     <Setter TargetName="StatusPanel" Property="Margin" Value="3,-180,0,180"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" Value="2">
                     <Setter TargetName="PaneConditionsBg" Property="Source" Value="{StaticResource PaneConditions2}"/>
                     <Setter TargetName="StatusPanel" Property="Margin" Value="-15,-180,0,180"/>
-                </DataTrigger>
+                </DataTrigger> -->
 
                 <!--IS SHAPESHIFTED-->
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.IsShapeShifted}" Value="True">
