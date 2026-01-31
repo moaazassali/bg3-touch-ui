@@ -326,8 +326,9 @@
                             <Setter TargetName="SpellSlotLabel" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
 
+                        <!-- Touch UI - Change it to hide labels at all levels -->
                         <!-- Hide Resource Bar Labels At Level 5-->
-                        <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.Stats.Level.Value, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=4}" Value="True">
+                        <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.Stats.Level.Value, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
                             <Setter TargetName="SpellSlotLabel" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="ResourceLabel" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
@@ -708,7 +709,7 @@
                 <ls:CollectionFilterBehavior x:Name="SpellSlotFilter" ItemsSource="{Binding }" Predicate="{Binding DataContext.Data.ActionResourceSpellSlotPredicate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
             </b:Interaction.Behaviors>
 
-            <ls:AlignableWrapPanel x:Name="resourceBarWrapPanel" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" MinWidth="700">
+            <ls:AlignableWrapPanel x:Name="resourceBarWrapPanel" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center">
                 <ItemsControl Name="BasicResources"
                                        ItemsSource="{Binding Path=(b:Interaction.Behaviors)[0].FilteredItems, ElementName=ResourceContainer, Mode=OneWay}"
                                        Style="{StaticResource ResourcesCollectionStyle}" AlternationCount="{Binding Path=(b:Interaction.Behaviors)[0].FilteredItems.Count, ElementName=ResourceContainer}"
@@ -719,7 +720,8 @@
                 </ItemsControl>
                 <ContentControl Name="MovementResources">
                     <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
-                        <TextBlock x:Name="MovementLabel" Text="{Binding Source='ha9fe36bfg692ag4f8bg8d9eg379bbbf04c87',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource ResourceBarLabelStyle}"/>
+                        <!-- Touch UI - Always hide movement label text -->
+                        <TextBlock x:Name="MovementLabel" Visibility="Collapsed" Text="{Binding Source='ha9fe36bfg692ag4f8bg8d9eg379bbbf04c87',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource ResourceBarLabelStyle}"/>
                         <Grid>
                             <Rectangle x:Name="MovementResourceBackground" HorizontalAlignment="Stretch" Height="72" Fill="{StaticResource ActionResource.MovementBG}" RadiusX="36" RadiusY="36" Opacity="1"/>
                             <Rectangle x:Name="MovementResourceBackgroundStroke" HorizontalAlignment="Stretch" Height="72" Fill="Transparent" RadiusX="36" RadiusY="36" Stroke="{StaticResource ActionResource.Movement}" StrokeThickness="4" Opacity="0.2" />
