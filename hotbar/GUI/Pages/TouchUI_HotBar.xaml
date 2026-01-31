@@ -761,7 +761,7 @@
                 <BitmapImage x:Key="IconRTNoArrow" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_RT_d_noArrow.png" />
 
                 <ControlTemplate x:Key="EnterFTBTemplate" TargetType="ls:LSButton">
-                    <Grid ToolTip="{StaticResource PlacementParentDCTooltip}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-100" ToolTipService.ShowOnDisabled="True">
+                    <Grid>
                         <Image x:Name="img" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
                         <Image x:Name="ico" Source="{StaticResource IconHourglass}" Stretch="None" Visibility="Visible" Margin="0,-4,0,0"/>
                         <Grid x:Name="AnimChrono" Visibility="Hidden">
