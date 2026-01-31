@@ -3877,56 +3877,6 @@
                             </Image.Style>
                         </Image>
 
-                        <ls:LSButton x:Name="BackToPlayableCombatantButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="98,-140,0,0" Template="{StaticResource FloatingFrameButton}"
-                                     Command="{Binding SelectActiveCharacterCombatant}">
-                            <ls:LSButton.ToolTip>
-                                <ls:LSTooltip IsHitTestVisible="False" Placement="Right" VerticalOffset="-16">
-                                    <TextBlock Text="{Binding Source='hc2461743gdd3eg49fegbeddgd62c3ab303a1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                </ls:LSTooltip>
-                            </ls:LSButton.ToolTip>
-                            <ls:LSButton.Style>
-                                <Style TargetType="ls:LSButton">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding Path=DataContext.CurrentPlayer.IsCurrentTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
-                                                <Condition Binding="{Binding Path=DataContext.CurrentPlayer.CanEndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
-                                                <Condition Binding="{Binding  Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, ElementName=ClassIcon}" Value="InCombat"/>
-                                                <Condition Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
-                                                <Condition Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CanEndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ls:LSButton.Style>
-                            <ls:LSButton.ContentTemplate>
-                                <DataTemplate>
-                                    <DataTemplate.Resources>
-                                        <BitmapImage x:Key="IconFocus" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_focus_d.png" />
-                                    </DataTemplate.Resources>
-                                    <Image x:Name="ico" Source="{StaticResource IconFocus}" Stretch="None" Margin="-4,0,4,0"/>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ls:LSButton}}" Value="True">
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_focus_h.png" TargetName="ico"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ls:LSButton}}" Value="True">
-                                            <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_focus_h.png" TargetName="ico"/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </ls:LSButton.ContentTemplate>
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="Click">
-                                    <ls:LSPlaySound Sound="UI_Shared_Selected"/>
-                                </b:EventTrigger>
-                                <b:EventTrigger EventName="MouseEnter">
-                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </ls:LSButton>
-
                         <!-- Touch UI - Not very useful and we can't easily make it fit -->
                         <Grid x:Name="EndTurnRecap" Visibility="Collapsed" Width="852" MinHeight="320" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="-426,0,-296,330" >
                             <Grid.Style>
@@ -4917,6 +4867,61 @@
                         <ls:LSButton.Clip>
                             <EllipseGeometry Center="112,112" RadiusX="112" RadiusY="112" />
                         </ls:LSButton.Clip>
+                    </ls:LSButton>
+
+                    <ls:LSButton x:Name="BackToPlayableCombatantButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,222,0" Template="{StaticResource FloatingFrameButton}"
+                                    Command="{Binding SelectActiveCharacterCombatant}">
+
+                        <ls:LSButton.LayoutTransform>
+                            <ScaleTransform ScaleX="0.76" ScaleY="0.76"/>
+                        </ls:LSButton.LayoutTransform>
+
+                        <ls:LSButton.ToolTip>
+                            <ls:LSTooltip IsHitTestVisible="False" Placement="Right" VerticalOffset="-16">
+                                <TextBlock Text="{Binding Source='hc2461743gdd3eg49fegbeddgd62c3ab303a1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+                            </ls:LSTooltip>
+                        </ls:LSButton.ToolTip>
+                        <ls:LSButton.Style>
+                            <Style TargetType="ls:LSButton">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Path=DataContext.CurrentPlayer.IsCurrentTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                            <Condition Binding="{Binding Path=DataContext.CurrentPlayer.CanEndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                            <Condition Binding="{Binding  Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, ElementName=ClassIcon}" Value="InCombat"/>
+                                            <Condition Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                            <Condition Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CanEndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ls:LSButton.Style>
+                        <ls:LSButton.ContentTemplate>
+                            <DataTemplate>
+                                <DataTemplate.Resources>
+                                    <BitmapImage x:Key="IconFocus" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_focus_d.png" />
+                                </DataTemplate.Resources>
+                                <Image x:Name="ico" Source="{StaticResource IconFocus}" Stretch="None" Margin="-4,0,4,0"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ls:LSButton}}" Value="True">
+                                        <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_focus_h.png" TargetName="ico"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ls:LSButton}}" Value="True">
+                                        <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_focus_h.png" TargetName="ico"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ls:LSButton.ContentTemplate>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <ls:LSPlaySound Sound="UI_Shared_Selected"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
                     </ls:LSButton>
                 </Grid>
 
