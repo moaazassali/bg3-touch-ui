@@ -4883,44 +4883,47 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!--Concentration-->
-                            <Grid x:Name="ConcentrationHolder" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="16,0,32,24"
-                                ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
-                                Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
-
-                                <Grid.ToolTip>
-                                    <ls:LSTooltip x:Name="ConcentrationTooltip" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=ConcentrationHolder}">
-                                        <ls:LSTooltip.Content>
-                                            <MultiBinding Converter="{StaticResource TooltipContextMultiConverter}">
-                                                <Binding Source="Spell" />
-                                                <Binding Path="(ls:TooltipExtender.Owner).ConcentrationSpell.PrototypeID" ElementName="ConcentrationTooltip"/>
-                                            </MultiBinding>
-                                        </ls:LSTooltip.Content>
-                                    </ls:LSTooltip>
-                                </Grid.ToolTip>
-                                <Ellipse Fill="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell.Icon}" Width="42" Height="42"/>
-                                <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/concentration_character_small.png" Stretch="None"/>
-                                <ls:LSButton Template="{DynamicResource ButtonTemplate}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,8,0" SoundID="UI_HUD_ReleaseConcentration"
+                            <ls:LSButton x:Name="ConcentrationHolder" Grid.Column="0" 
+                                        VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="16,0,32,20"
+                                        ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
+                                        Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}"
                                         Command="{Binding DataContext.ReleaseConcentrationCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                        CommandParameter="{Binding CurrentPlayer.SelectedCharacter}">
-                                    <ls:LSButton.Resources>
-                                        <ImageSource x:Key="ButtonNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png</ImageSource>
-                                        <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png</ImageSource>
-                                        <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png</ImageSource>
-                                        <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png</ImageSource>
-                                    </ls:LSButton.Resources>
-                                    <ls:LSButton.Style>
-                                        <Style TargetType="ls:LSButton" >
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClientCanBreakConcentration}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ls:LSButton.Style>
-                                </ls:LSButton>
-                            </Grid>
+                                        CommandParameter="{Binding CurrentPlayer.SelectedCharacter}"
+                                        SoundID="UI_HUD_ReleaseConcentration"
+                                        IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClientCanBreakConcentration}">
+
+                                <ls:LSButton.Template>
+                                    <ControlTemplate TargetType="ls:LSButton">
+                                        <Grid>
+                                            <Ellipse Fill="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell.Icon}" Width="42" Height="42"/>
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/concentration_character_small.png" Stretch="None"/>
+                                            <Image x:Name="CloseIcon" 
+                                                Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png" 
+                                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,8,0" Stretch="None"/>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="CloseIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png"/>
+                                            </Trigger>
+                                            
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="CloseIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png"/>
+                                                <Setter Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <TranslateTransform X="1" Y="1"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="CloseIcon" Property="Visibility" Value="Collapsed"/>
+                                                <Setter Property="Opacity" Value="0.8"/> 
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ls:LSButton.Template>
+                            </ls:LSButton>
 
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="32,0,32,32">
                                 <ItemsControl.ItemsPanel>
