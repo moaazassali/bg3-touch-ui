@@ -456,7 +456,7 @@
             </MultiDataTrigger>
 
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.ActiveTask.CanForceCast}" Value="True">
-                <Setter TargetName="ForceCastButton" Property="Visibility" Value="Visible"/>
+                <!-- <Setter TargetName="ForceCastButton" Property="Visibility" Value="Visible"/> -->
                 <Setter TargetName="callForthAllies" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="ActionWheelButton" Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
