@@ -3649,7 +3649,8 @@
 
                     <!-- ========= RIGHT HOTBAR CONTENT ========= -->
 
-                    <Grid Grid.Column="2" x:Name="RightPart" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" VerticalAlignment="Bottom" Margin="0,0,0,16">
+                    <!-- Touch UI - Disable it; nothing in here is needed anymore  -->
+                    <Grid Grid.Column="2" Visibility="Collapsed" x:Name="RightPart" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" VerticalAlignment="Bottom" Margin="0,0,0,16">
 
                         <Image Source="{StaticResource BarBodyBtnGroup}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
