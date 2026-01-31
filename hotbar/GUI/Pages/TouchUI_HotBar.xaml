@@ -2690,8 +2690,10 @@
                     <!-- ========= LEFT HOTBAR CONTENT ========= -->
                     <Grid Grid.Column="0" VerticalAlignment="Bottom" x:Name="LeftPart" Panel.ZIndex="1" Margin="0,0,0,16">
                         <Image Source="{StaticResource BarBodyPortrait}" Stretch="None" VerticalAlignment="Bottom"/>
+                        
+                        <!-- Touch UI - Disable it since we will be move this to an expandable menu with the minimap buttons -->
                         <!--ClassBtn-->
-                        <ls:LSButton x:Name="ClassIcon" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="{StaticResource ClassIconSize}" Height="{StaticResource ClassIconSize}" Margin="{StaticResource ClassIconMargin}" ToolTipService.Placement="Top" Command="{Binding CustomEvent}" CommandParameter="ToggleCharacterPanel">
+                        <ls:LSButton Visibility="Collapsed" x:Name="ClassIcon" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="{StaticResource ClassIconSize}" Height="{StaticResource ClassIconSize}" Margin="{StaticResource ClassIconMargin}" ToolTipService.Placement="Top" Command="{Binding CustomEvent}" CommandParameter="ToggleCharacterPanel">
                             <ls:LSButton.ToolTip>
                                 <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.CurrentPlayer.UIData.InputEvents, ElementName=ClassIcon, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInventory'}"/>
                             </ls:LSButton.ToolTip>
@@ -2715,8 +2717,9 @@
                             </ls:LSButton.Template>
                         </ls:LSButton>
 
+                        <!-- Touch UI - Disable it since we will be just relying on player portraits. We have to make sure to make player portraits visible even when party has just one character -->
                         <!--Portrait-->
-                        <Grid x:Name="Portrait" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="246" Height="246" Margin="174,0,0,31">
+                        <Grid Visibility="Collapsed" x:Name="Portrait" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="246" Height="246" Margin="174,0,0,31">
                             <Grid.ToolTip>
                                 <ls:LSTooltip Placement="Top">
                                     <StackPanel x:Name="root">
