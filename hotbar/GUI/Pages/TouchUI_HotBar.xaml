@@ -2084,7 +2084,7 @@
                             <!-- UPCAST / MULTITARGET TWO STEP DECK -->
                             <Grid x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{x:Null}" Margin="25,50,35,50">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" MinHeight="100"/>
+                                    <RowDefinition Height="Auto" MinHeight="50"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
@@ -5241,12 +5241,12 @@
 
                 <DataTrigger Binding="{Binding CurrentActiveSlot.Content.SpellSlotLevel}" Value="0">
                     <Setter TargetName="UpcastDescription" Property="Visibility" Value="Collapsed"/>
-                    <Setter TargetName="UpcastSection" Property="Margin" Value="0,0,0,14"/>
+                    <!-- <Setter TargetName="UpcastSection" Property="Margin" Value="0,0,0,14"/> -->
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding IsSelectingUpcastedSpell}" Value="False">
                     <Setter TargetName="UpcastDescription" Property="Visibility" Value="Collapsed"/>
-                    <Setter TargetName="UpcastSection" Property="Margin" Value="0,0,0,14"/>
+                    <!-- <Setter TargetName="UpcastSection" Property="Margin" Value="0,0,0,14"/> -->
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSpellTask.TargetingType}" Value="Projectile">
