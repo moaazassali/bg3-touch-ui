@@ -4813,7 +4813,7 @@
                                     BoundEvent="UIFleeFromCombat" SoundID="UI_HUD_Hotbar_ExitFTB" ToolTipService.Placement="Top" ToolTipService.ShowOnDisabled="True"
                                     IsEnabled="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CanFlee, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
                         <ls:LSButton.ToolTip>
-                            <ls:LSTooltip Content="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}">
+                            <ls:LSTooltip Visibility="Collapsed" Content="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}">
                                 <ls:LSTooltip.ContentTemplate>
                                     <DataTemplate DataType="{x:Type ls:VMPlayerCharacterProperties}">
                                         <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
@@ -4827,22 +4827,6 @@
                                             </TextBlock>
 
                                             <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h6ec208f3g63e7g4eb0g8c22g5e6f893da306', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-
-                                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
-                                                        Visibility="{Binding Path=FleeBlockCause, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
-                                                <Image Source="{StaticResource IconWarning}" VerticalAlignment="Center"/>
-
-                                                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
-                                                    <TextBlock Foreground="{StaticResource TooltipColor.Warning}" Text="{Binding Path=FleeBlockCause}"
-                                                                Style="{StaticResource TooltipStringBodyStyle}"/>
-                                                    <TextBlock Foreground="{StaticResource TooltipColor.Warning}"
-                                                                Visibility="{Binding FleeDistance.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}"
-                                                                Style="{StaticResource TooltipStringBodyStyle}">
-                                                        <Run Text="{Binding FleeDistance.Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance N1', StringFormat=' ({0}'}"/><Run
-                                                            Text="{Binding FleeDistance.Max, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short N1', StringFormat='/{0})'}"/>
-                                                    </TextBlock>
-                                                </StackPanel>
-                                            </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ls:LSTooltip.ContentTemplate>
@@ -4879,6 +4863,30 @@
                             </Style>
                         </ls:LSButton.Style>
                     </ls:LSButton>
+
+                    <!-- Touch UI - Taken from FleeButton tooltip and shown under flee button -->
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-28" Padding="10,0" CornerRadius="10,10,0,0" Background="#AA000000"
+                        DataContext="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}"
+                        Visibility="{Binding Path=FleeBlockCause, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                            </StackPanel.LayoutTransform>
+
+                            <Image Source="{StaticResource IconWarning}" VerticalAlignment="Center" Height="40"/>
+
+                            <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
+                                <TextBlock Foreground="{StaticResource TooltipColor.Warning}" Text="{Binding Path=FleeBlockCause}"
+                                            Style="{StaticResource TooltipStringBodyStyle}"/>
+                                <TextBlock Foreground="{StaticResource TooltipColor.Warning}"
+                                            Visibility="{Binding FleeDistance.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}"
+                                            Style="{StaticResource TooltipStringBodyStyle}">
+                                    <Run Text="{Binding FleeDistance.Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance N1', StringFormat=' ({0}'}"/><Run
+                                        Text="{Binding FleeDistance.Max, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short N1', StringFormat='/{0})'}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </Grid>
 
 
