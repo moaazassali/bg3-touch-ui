@@ -4556,8 +4556,8 @@
                                             </ls:LSTooltip>
                                         </Grid.ToolTip> -->
 
-                                        <Image x:Name="RestButtonBg" Source="{StaticResource BtnSmallDefault}" Stretch="None"/>
-                                        <Image x:Name="RestButtonIcon" Source="{StaticResource IconCamp}" Stretch="None"/>
+                                        <Image x:Name="RestButtonBg" Source="{StaticResource BtnPop}" Stretch="None"/>
+                                        <Image x:Name="RestButtonIcon" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_upArrow_d.png" Stretch="Uniform" Height="25"/>
 
                                         <b:Interaction.Triggers>
                                             <b:EventTrigger EventName="MouseEnter">
@@ -4595,12 +4595,12 @@
 
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_h.png"/>
-                                        <Setter TargetName="RestButtonIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_camp_h.png"/>
+                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+                                        <Setter TargetName="RestButtonIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_upArrow_d.png"/>
                                     </Trigger>
 
                                     <Trigger Property="IsSubmenuOpen" Value="True">
-                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_h.png"/>
+                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
 
                                         <Trigger.EnterActions>
                                             <BeginStoryboard Storyboard="{StaticResource ShowRestButtonsAnimation}"/>
@@ -4615,7 +4615,7 @@
                                     </Trigger>
 
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_p.png"/>
+                                        <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
                                     </Trigger>
 
                                     <!-- Tutorial checks -->
