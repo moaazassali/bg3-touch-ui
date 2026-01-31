@@ -3890,79 +3890,6 @@
                             </Image.Style>
                         </Image>
 
-                        <ls:LSButton x:Name="FleeButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="{StaticResource FleeButtonMargin}"
-                                     Command="{Binding DataContext.Flee, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
-                                     DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIFleeFromCombat'}"
-                                     BoundEvent="UIFleeFromCombat" SoundID="UI_HUD_Hotbar_ExitFTB" ToolTipService.Placement="Top" ToolTipService.ShowOnDisabled="True"
-                                     IsEnabled="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CanFlee, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
-                            <ls:LSButton.ToolTip>
-                                <ls:LSTooltip Content="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}">
-                                    <ls:LSTooltip.ContentTemplate>
-                                        <DataTemplate DataType="{x:Type ls:VMPlayerCharacterProperties}">
-                                            <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
-                                                <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='h4f3e940eg341bg4f48gb10eg417fcfff1064',Converter={StaticResource TranslatedStringConverter}}"/>
-
-                                                <TextBlock Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
-                                                    <Run Text="{Binding DataContext.Caption, ElementName=FleeButton}"/>
-                                                    <Run Text=" ["/>
-                                                    <Run Text="{Binding DataContext.Shortcut, ElementName=FleeButton}" Foreground="{DynamicResource TooltipColor.Secondary}"/>
-                                                    <Run Text="]"/>
-                                                </TextBlock>
-
-                                                <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h6ec208f3g63e7g4eb0g8c22g5e6f893da306', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-
-                                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
-                                                            Visibility="{Binding Path=FleeBlockCause, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
-                                                    <Image Source="{StaticResource IconWarning}" VerticalAlignment="Center"/>
-
-                                                    <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
-                                                        <TextBlock Foreground="{StaticResource TooltipColor.Warning}" Text="{Binding Path=FleeBlockCause}"
-                                                                   Style="{StaticResource TooltipStringBodyStyle}"/>
-                                                        <TextBlock Foreground="{StaticResource TooltipColor.Warning}"
-                                                                   Visibility="{Binding FleeDistance.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}"
-                                                                   Style="{StaticResource TooltipStringBodyStyle}">
-                                                            <Run Text="{Binding FleeDistance.Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance N1', StringFormat=' ({0}'}"/><Run
-                                                                Text="{Binding FleeDistance.Max, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short N1', StringFormat='/{0})'}"/>
-                                                        </TextBlock>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ls:LSTooltip.ContentTemplate>
-                                </ls:LSTooltip>
-                            </ls:LSButton.ToolTip>
-                            <ls:LSButton.Template>
-                                <ControlTemplate TargetType="ls:LSButton">
-                                    <Grid x:Name="buttonPanel">
-                                        <Image x:Name="img" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_esc_d.png" Stretch="None"/>
-                                        <Image x:Name="ico" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_flee.png" Stretch="None"/>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_esc_h.png"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_esc_p.png"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_esc_d.png"/>
-                                            <Setter TargetName="ico" Property="Opacity" Value="0.75"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </ls:LSButton.Template>
-                            <ls:LSButton.Style>
-                                <Style TargetType="ls:LSButton">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="InCombat">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ls:LSButton.Style>
-                        </ls:LSButton>
-
                         <ls:LSInputBinding x:Name="ShortRestShortcut" BoundEvent="ShortRest" PlayerId="{Binding CurrentPlayer.PlayerId}" Command="{Binding ShortRest}"
                                            IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsShortRestAvailable}" >
                             <b:Interaction.Triggers>
@@ -4873,6 +4800,79 @@
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="InFTB">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ls:LSButton.Style>
+                    </ls:LSButton>
+
+                    <ls:LSButton x:Name="FleeButton" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                    Command="{Binding DataContext.Flee, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                                    DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIFleeFromCombat'}"
+                                    BoundEvent="UIFleeFromCombat" SoundID="UI_HUD_Hotbar_ExitFTB" ToolTipService.Placement="Top" ToolTipService.ShowOnDisabled="True"
+                                    IsEnabled="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CanFlee, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
+                        <ls:LSButton.ToolTip>
+                            <ls:LSTooltip Content="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}">
+                                <ls:LSTooltip.ContentTemplate>
+                                    <DataTemplate DataType="{x:Type ls:VMPlayerCharacterProperties}">
+                                        <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
+                                            <TextBlock Style="{StaticResource TooltipTitleStyle}" Text="{Binding Source='h4f3e940eg341bg4f48gb10eg417fcfff1064',Converter={StaticResource TranslatedStringConverter}}"/>
+
+                                            <TextBlock Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
+                                                <Run Text="{Binding DataContext.Caption, ElementName=FleeButton}"/>
+                                                <Run Text=" ["/>
+                                                <Run Text="{Binding DataContext.Shortcut, ElementName=FleeButton}" Foreground="{DynamicResource TooltipColor.Secondary}"/>
+                                                <Run Text="]"/>
+                                            </TextBlock>
+
+                                            <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h6ec208f3g63e7g4eb0g8c22g5e6f893da306', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
+
+                                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
+                                                        Visibility="{Binding Path=FleeBlockCause, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                                                <Image Source="{StaticResource IconWarning}" VerticalAlignment="Center"/>
+
+                                                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
+                                                    <TextBlock Foreground="{StaticResource TooltipColor.Warning}" Text="{Binding Path=FleeBlockCause}"
+                                                                Style="{StaticResource TooltipStringBodyStyle}"/>
+                                                    <TextBlock Foreground="{StaticResource TooltipColor.Warning}"
+                                                                Visibility="{Binding FleeDistance.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}"
+                                                                Style="{StaticResource TooltipStringBodyStyle}">
+                                                        <Run Text="{Binding FleeDistance.Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance N1', StringFormat=' ({0}'}"/><Run
+                                                            Text="{Binding FleeDistance.Max, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short N1', StringFormat='/{0})'}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ls:LSTooltip.ContentTemplate>
+                            </ls:LSTooltip>
+                        </ls:LSButton.ToolTip>
+                        <ls:LSButton.Template>
+                            <ControlTemplate TargetType="ls:LSButton">
+                                <Grid x:Name="buttonPanel">
+                                    <Image x:Name="img" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
+                                    <Image x:Name="ico" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_flee.png" Stretch="None"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png"/>
+                                        <Setter TargetName="ico" Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ls:LSButton.Template>
+                        <ls:LSButton.Style>
+                            <Style TargetType="ls:LSButton">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="InCombat">
                                         <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
                                 </Style.Triggers>
