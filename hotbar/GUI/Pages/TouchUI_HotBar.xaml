@@ -4164,45 +4164,6 @@
                 </ls:LSNineSliceImage>
 
 
-                <!--Concentration-->
-                <Grid x:Name="ConcentrationHolder" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="104,500,0,-4"
-                      ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
-                      Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
-
-                    <Grid.ToolTip>
-                        <ls:LSTooltip x:Name="ConcentrationTooltip" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=ConcentrationHolder}">
-                            <ls:LSTooltip.Content>
-                                <MultiBinding Converter="{StaticResource TooltipContextMultiConverter}">
-                                    <Binding Source="Spell" />
-                                    <Binding Path="(ls:TooltipExtender.Owner).ConcentrationSpell.PrototypeID" ElementName="ConcentrationTooltip"/>
-                                </MultiBinding>
-                            </ls:LSTooltip.Content>
-                        </ls:LSTooltip>
-                    </Grid.ToolTip>
-                    <Ellipse Fill="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell.Icon}" Width="42" Height="42"/>
-                    <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/concentration_character_small.png" Stretch="None"/>
-                    <ls:LSButton Template="{DynamicResource ButtonTemplate}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,8,0" SoundID="UI_HUD_ReleaseConcentration"
-                            Command="{Binding DataContext.ReleaseConcentrationCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                            CommandParameter="{Binding CurrentPlayer.SelectedCharacter}">
-                        <ls:LSButton.Resources>
-                            <ImageSource x:Key="ButtonNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png</ImageSource>
-                            <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png</ImageSource>
-                            <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png</ImageSource>
-                            <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png</ImageSource>
-                        </ls:LSButton.Resources>
-                        <ls:LSButton.Style>
-                            <Style TargetType="ls:LSButton" >
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClientCanBreakConcentration}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ls:LSButton.Style>
-                    </ls:LSButton>
-                </Grid>
-
                 <!-- Touch UI - New action resources element based on controller action resources -->
                 <Control x:Name="TouchUI_ActionResourcesControl" Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <Control.LayoutTransform>
@@ -4902,56 +4863,102 @@
                             </ls:LSToggleButton>
                         </Grid>
 
-                        <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,0,32">
-                            <!-- Touch UI - Width (y) should match the action resources bar minus the padding (600) it has from each side -->
-                            <!-- Touch UI - ActualWidth = 2x + y ==> y = ActualWidth - 2x -->
-                            <!-- Touch UI - However, we have 1.5x scaling on action resources bar but 2x on status panel, so we need to adjust the values by 1.5/2 = 0.75 -->
-                            <ItemsControl.Width>
-                                <MultiBinding Converter="{StaticResource AddMultipleConverter}">
-                                    <Binding Path="ActualWidth" 
-                                            ElementName="TouchUI_ActionResourcesControl" 
-                                            Converter="{StaticResource MultiplierConverter}" 
-                                            ConverterParameter="0.75"/>
-                                    <!-- Touch UI - 2x = 1200 ==> 1200 * 0.75 = 900 -->
-                                    <Binding Source="-900"/>
-                                </MultiBinding>
-                            </ItemsControl.Width>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
+                            <!--Concentration-->
+                            <Grid x:Name="ConcentrationHolder" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,24"
+                                ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
+                                Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
 
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Margin" Value="-2"/>
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <!-- Always allow showing up to at least the limit -->
-                                        <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource Self}, Converter={StaticResource LessThanConverter}, ConverterParameter={StaticResource StatusLimitAmount}}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=ExpandToggle}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
+                                <Grid.ToolTip>
+                                    <ls:LSTooltip x:Name="ConcentrationTooltip" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=ConcentrationHolder}">
+                                        <ls:LSTooltip.Content>
+                                            <MultiBinding Converter="{StaticResource TooltipContextMultiConverter}">
+                                                <Binding Source="Spell" />
+                                                <Binding Path="(ls:TooltipExtender.Owner).ConcentrationSpell.PrototypeID" ElementName="ConcentrationTooltip"/>
+                                            </MultiBinding>
+                                        </ls:LSTooltip.Content>
+                                    </ls:LSTooltip>
+                                </Grid.ToolTip>
+                                <Ellipse Fill="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell.Icon}" Width="42" Height="42"/>
+                                <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/concentration_character_small.png" Stretch="None"/>
+                                <ls:LSButton Template="{DynamicResource ButtonTemplate}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,8,0" SoundID="UI_HUD_ReleaseConcentration"
+                                        Command="{Binding DataContext.ReleaseConcentrationCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                        CommandParameter="{Binding CurrentPlayer.SelectedCharacter}">
+                                    <ls:LSButton.Resources>
+                                        <ImageSource x:Key="ButtonNormal">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png</ImageSource>
+                                        <ImageSource x:Key="ButtonHighlight">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png</ImageSource>
+                                        <ImageSource x:Key="ButtonPressed">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png</ImageSource>
+                                        <ImageSource x:Key="ButtonDisabled">pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png</ImageSource>
+                                    </ls:LSButton.Resources>
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="ls:LSButton" >
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClientCanBreakConcentration}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </Grid>
 
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right" >
-                                        <Image Source="{StaticResource StatusBg}" Stretch="None"/>
-                                        <Ellipse Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Icon}" />
-                                        <ls:LSPie x:Name="Progression" Value="{Binding RemainingPercentage}" SweepDirection="Clockwise" RenderTransformOrigin="0.5 0.5">
-                                            <Image Source="{StaticResource StatusBgFill}" Stretch="UniformToFill" Width="60" Height="60" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </ls:LSPie>
-                                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" Content="{Binding Duration}" Margin="0,0,0,-8" Foreground="{StaticResource LS_tint100}" FontWeight="Bold" FontSize="{StaticResource SmallFontSize}" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4" Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,0,32">
+                                <!-- Touch UI - Width (y) should match the action resources bar minus the padding (600) it has from each side -->
+                                <!-- Touch UI - ActualWidth = 2x + y ==> y = ActualWidth - 2x -->
+                                <!-- Touch UI - However, we have 1.5x scaling on action resources bar but 2x on status panel, so we need to adjust the values by 1.5/2 = 0.75 -->
+                                <ItemsControl.Width>
+                                    <MultiBinding Converter="{StaticResource AddMultipleConverter}">
+                                        <Binding Path="ActualWidth" 
+                                                ElementName="TouchUI_ActionResourcesControl" 
+                                                Converter="{StaticResource MultiplierConverter}" 
+                                                ConverterParameter="0.75"/>
+                                        <!-- Touch UI - 2x = 1200 ==> 1200 * 0.75 = 900 -->
+                                        <Binding Source="-900"/>
+                                    </MultiBinding>
+                                </ItemsControl.Width>
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Margin" Value="-2"/>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <!-- Always allow showing up to at least the limit -->
+                                            <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource Self}, Converter={StaticResource LessThanConverter}, ConverterParameter={StaticResource StatusLimitAmount}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=ExpandToggle}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right" >
+                                            <Image Source="{StaticResource StatusBg}" Stretch="None"/>
+                                            <Ellipse Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Icon}" />
+                                            <ls:LSPie x:Name="Progression" Value="{Binding RemainingPercentage}" SweepDirection="Clockwise" RenderTransformOrigin="0.5 0.5">
+                                                <Image Source="{StaticResource StatusBgFill}" Stretch="UniformToFill" Width="60" Height="60" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </ls:LSPie>
+                                            <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" Content="{Binding Duration}" Margin="0,0,0,-8" Foreground="{StaticResource LS_tint100}" FontWeight="Bold" FontSize="{StaticResource SmallFontSize}" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4" Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </StackPanel>
                 </Grid>
 
