@@ -2084,7 +2084,7 @@
                             <!-- UPCAST / MULTITARGET TWO STEP DECK -->
                             <Grid x:Name="UpcastSection" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{x:Null}" Margin="25,50,35,50">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" MinHeight="100"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
