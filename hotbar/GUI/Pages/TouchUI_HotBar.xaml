@@ -5206,6 +5206,11 @@
                     <Setter TargetName="StatusPanel" Property="Margin" Value="-15,-180,0,180"/>
                 </DataTrigger> -->
 
+                <!-- Touch UI - Needed because the movement bar is visible in turn based mode which otherwise overlaps with status effects -->
+                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.InTurnBasedMode}" Value="False">
+                    <Setter TargetName="StatusPanel" Property="Margin" Value="0,0,0,160"/>
+                </DataTrigger>
+
                 <!--IS SHAPESHIFTED-->
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.IsShapeShifted}" Value="True">
                     <Setter TargetName="MainAttack" Property="Visibility" Value="Visible"/>
