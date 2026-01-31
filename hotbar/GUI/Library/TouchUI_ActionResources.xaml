@@ -150,8 +150,9 @@
                     <ls:LSButton x:Name="ActionWheelButton" Margin="3,0,3,0"  Visibility="Collapsed" Tag="{Binding Source='h1988a9a5g8b63g4d67gb237ga5ec8f73f748', Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"
                                 ContentTemplate="{StaticResource ControllerButtonHint}" Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UITabNext, Converter={StaticResource FindInputEventConverter}}" FlowDirection="LeftToRight" />
 
+                    <!-- Touch UI - Disable as we are relying on HotBar.xaml -->
                     <!-- Call Allies -->
-                    <StackPanel x:Name="callForthAllies" Orientation="Horizontal" Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies, Converter={StaticResource NullToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="22,0,0,0">
+                    <StackPanel x:Name="callForthAllies" Orientation="Horizontal" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="22,0,0,0">
                         <ls:LSButton x:Name="LaunchCallAlliesBtn" Style="{StaticResource ControllerDelayedHoldButtonStyle}" VerticalAlignment="Bottom" EatInput="False"
                                 Content="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UICallAllies'}"
                                 IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AreRadialsOpen, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource InvertBoolConverter}}"
