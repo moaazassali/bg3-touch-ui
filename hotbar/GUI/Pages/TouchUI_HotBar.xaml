@@ -4393,7 +4393,7 @@
                 <!-- Touch UI - Move some hotbar elements outside to position them at bottom right of screen -->
                 <Grid Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50">
                     <Menu.layoutTransform>
-                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <ScaleTransform ScaleX="3" ScaleY="3"/>
                     </Menu.layoutTransform>
 
                     <Menu x:Name="RestMenu" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right"
@@ -4865,12 +4865,12 @@
                     </ls:LSButton>
 
                     <!-- Touch UI - Taken from FleeButton tooltip and shown under flee button -->
-                    <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-28" Padding="10,0" CornerRadius="10,10,0,0" Background="#AA000000"
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-18" Padding="10,0" CornerRadius="10,10,0,0" Background="#AA000000"
                         DataContext="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}"
                         Visibility="{Binding Path=FleeBlockCause, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.LayoutTransform>
-                                <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                             </StackPanel.LayoutTransform>
 
                             <Image Source="{StaticResource IconWarning}" VerticalAlignment="Center" Height="40"/>
