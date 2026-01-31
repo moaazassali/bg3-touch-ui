@@ -4865,9 +4865,25 @@
                     </ls:LSButton>
 
                     <!-- Touch UI - Taken from FleeButton tooltip and shown under flee button -->
-                    <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-18" Padding="10,0" CornerRadius="10,10,0,0" Background="#AA000000"
-                        DataContext="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}"
-                        Visibility="{Binding Path=FleeBlockCause, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                    <Border x:Name="FleeBlockCause" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-18" Padding="10,0" CornerRadius="10,10,0,0" Background="#AA000000"
+                        DataContext="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties, ElementName=HotBar}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <!-- Same condition as flee button -->
+                                            <Condition Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.CharacterMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="InCombat"/>
+                                            <!-- Same condition as flee button tooltip -->
+                                            <Condition Binding="{Binding FleeBlockCause, Converter={StaticResource NullToBoolFalseConverter}, ConverterParameter='EmptyString'}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.LayoutTransform>
                                 <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
