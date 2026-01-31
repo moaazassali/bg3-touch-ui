@@ -2792,8 +2792,10 @@
                                 </b:Interaction.Triggers>
                             </Control>
                         </Grid>
+
+                        <!-- Touch UI - Disable it since this is visible in player portraits anyways. -->
                         <!--Temp HP-->
-                        <Grid x:Name="ExtraHP" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="156,0,0,12" Visibility="{Binding CurrentPlayer.SelectedCharacter.Stats.TemporaryHealth.PercentValue, Converter={StaticResource CountToVisibilityConverter}}" IsHitTestVisible="False">
+                        <Grid x:Name="ExtraHP" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="156,0,0,12" Visibility="Collapsed" IsHitTestVisible="False">
                             <Image Source="{StaticResource OverlayExtraHP}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <ls:LSPie Style="{StaticResource MainPiesStyle}" Value="{Binding CurrentPlayer.SelectedCharacter.Stats.TemporaryHealth.PercentValue}">
                                 <Image Source="{StaticResource OverlayExtraHPFill}" Stretch="None"/>
