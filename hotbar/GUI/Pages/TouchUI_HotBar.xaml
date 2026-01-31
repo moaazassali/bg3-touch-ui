@@ -4294,26 +4294,6 @@
                     </ls:LSButton>
                 </Grid>
 
-                <!--Call Forth Allies-->
-                <StackPanel x:Name="CallForthAllies" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="420,500,0,320"
-                            Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies, Converter={StaticResource NullToCollapsedConverter}}">
-                    <ls:LSButton x:Name="CallAlliesBtn" Template="{StaticResource FloatingFrameButton}" SoundID="UI_HUD_HotbarSlot"
-                                 BoundEvent="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies.BoundEvent}"
-                                 Command="{Binding UseSlotCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies}"
-                                 ContentTemplate="{StaticResource CallAlliesIcon}">
-                        <ls:LSButton.Resources>
-                            <System:Double x:Key="CallAlliesSize">80</System:Double>
-                            <System:Double x:Key="CallAlliesHalfSize">40</System:Double>
-                            <Point x:Key="CallAlliesCenter">40,40</Point>
-                        </ls:LSButton.Resources>
-                    </ls:LSButton>
-                    <ls:LSButton Template="{StaticResource TabButton}" Margin="0,-40,0,0"
-                                 Content="{Binding Source='h8e97fb57g8443g4904g884bge82dd9d40aa3',Converter={StaticResource TranslatedStringConverter}}"
-                                 BoundEvent="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies.BoundEvent}"
-                                 Command="{Binding UseSlotCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies}"/>
-
-                </StackPanel>
-
                 <!-- Touch UI - New action resources element based on controller action resources -->
                 <Control Template="{StaticResource TouchUI_ActionResources}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <Control.LayoutTransform>
@@ -4927,6 +4907,31 @@
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
                     </ls:LSButton>
+
+                    <!--Call Forth Allies-->
+                    <StackPanel x:Name="CallForthAllies" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,186,-28"
+                                Visibility="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies, Converter={StaticResource NullToCollapsedConverter}}">
+
+                        <StackPanel.LayoutTransform>
+                            <ScaleTransform ScaleX="0.76" ScaleY="0.76"/>
+                        </StackPanel.LayoutTransform>
+                        
+                        <ls:LSButton x:Name="CallAlliesBtn" Template="{StaticResource FloatingFrameButton}" SoundID="UI_HUD_HotbarSlot"
+                                    BoundEvent="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies.BoundEvent}"
+                                    Command="{Binding UseSlotCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies}"
+                                    ContentTemplate="{StaticResource CallAlliesIcon}">
+                            <ls:LSButton.Resources>
+                                <System:Double x:Key="CallAlliesSize">80</System:Double>
+                                <System:Double x:Key="CallAlliesHalfSize">40</System:Double>
+                                <Point x:Key="CallAlliesCenter">40,40</Point>
+                            </ls:LSButton.Resources>
+                        </ls:LSButton>
+                        <ls:LSButton Template="{StaticResource TabButton}" Margin="0,-40,0,0"
+                                    Content="{Binding Source='h8e97fb57g8443g4904g884bge82dd9d40aa3',Converter={StaticResource TranslatedStringConverter}}"
+                                    BoundEvent="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies.BoundEvent}"
+                                    Command="{Binding UseSlotCommand}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CallAllies}"/>
+
+                    </StackPanel>
                 </Grid>
 
 
