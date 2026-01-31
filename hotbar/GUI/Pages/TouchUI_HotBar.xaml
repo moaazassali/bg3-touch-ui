@@ -3833,29 +3833,6 @@
                             </ContentControl.Template>
                         </ContentControl>
 
-                        <ls:LSButton x:Name="EndTurnButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="{StaticResource EndTurnButtonMargin}" ls:TutorialProperties.TargetID="TUT_EndTurn" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
-                            <ls:LSButton.Style>
-                                <Style TargetType="ls:LSButton">
-                                    <Setter Property="Command" Value="{Binding Path=DataContext.EndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
-                                    <Setter Property="DataContext" Value="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEndTurn'}"/>
-                                    <Setter Property="BoundEvent" Value="UIEndTurn"/>
-                                    <Setter Property="Template" Value="{StaticResource EndTurnTemplate}"/>
-                                    <Setter Property="Margin" Value="0,0,0,0"/>
-                                    <Setter Property="SoundID" Value="UI_HUD_Hotbar_EndTurn"/>
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ls:LSButton.Style>
-                            <ls:LSButton.Clip>
-                                <EllipseGeometry Center="112,112" RadiusX="112" RadiusY="112" />
-                            </ls:LSButton.Clip>
-                        </ls:LSButton>
-
                         <Image x:Name="MovementIcon" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,268,0" IsHitTestVisible="False">
                             <Image.Style>
                                 <Style TargetType="Image">
@@ -4904,6 +4881,29 @@
                             </StackPanel>
                         </StackPanel>
                     </Border>
+
+                    <ls:LSButton x:Name="EndTurnButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,100,0" ls:TutorialProperties.TargetID="TUT_EndTurn" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                        <ls:LSButton.Style>
+                            <Style TargetType="ls:LSButton">
+                                <Setter Property="Command" Value="{Binding Path=DataContext.EndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
+                                <Setter Property="DataContext" Value="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEndTurn'}"/>
+                                <Setter Property="BoundEvent" Value="UIEndTurn"/>
+                                <Setter Property="Template" Value="{StaticResource EndTurnTemplate}"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                <Setter Property="SoundID" Value="UI_HUD_Hotbar_EndTurn"/>
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ls:LSButton.Style>
+                        <ls:LSButton.Clip>
+                            <EllipseGeometry Center="112,112" RadiusX="112" RadiusY="112" />
+                        </ls:LSButton.Clip>
+                    </ls:LSButton>
                 </Grid>
 
 
