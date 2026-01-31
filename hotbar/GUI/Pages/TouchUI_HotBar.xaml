@@ -4884,7 +4884,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!--Concentration-->
-                            <Grid x:Name="ConcentrationHolder" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,24"
+                            <Grid x:Name="ConcentrationHolder" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="16,0,32,24"
                                 ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
                                 Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}">
 
@@ -4922,7 +4922,7 @@
                                 </ls:LSButton>
                             </Grid>
 
-                            <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="100,0,0,32">
+                            <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="32,0,32,32">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" FlowDirection="RightToLeft"/>
