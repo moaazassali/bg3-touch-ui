@@ -3653,7 +3653,8 @@
 
                         <Image Source="{StaticResource BarBodyBtnGroup}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
-                        <ContentControl x:Name="MovementCircle" DataContext="{Binding CurrentPlayer.UIData.MovementResourceCostPreview}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,154,13">
+                        <!-- Touch UI - Disable it because we are using the controller version above resource actions bar -->
+                        <ContentControl x:Name="MovementCircle" Visibility="Collapsed" DataContext="{Binding CurrentPlayer.UIData.MovementResourceCostPreview}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,154,13">
                             <ContentControl.Template>
                                 <ControlTemplate>
                                     <ControlTemplate.Resources>
@@ -3841,7 +3842,8 @@
                             </ContentControl.Template>
                         </ContentControl>
 
-                        <Image x:Name="MovementIcon" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,268,0" IsHitTestVisible="False">
+                        <!-- Touch UI - Disable for the same reason as disabling MovementCircle -->
+                        <Image x:Name="MovementIcon" Visibility="Collapsed" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,268,0" IsHitTestVisible="False">
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_speed.png"/>
