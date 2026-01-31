@@ -535,10 +535,10 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding LowerUpcast, ElementName=UpcastBehavior, Converter={StaticResource NullToBoolTrueConverter}}" Value="False">
-                <Setter TargetName="UpcastContainer" Property="Visibility" Value="Visible"/>
+                <!-- <Setter TargetName="UpcastContainer" Property="Visibility" Value="Visible"/> -->
             </DataTrigger>
             <DataTrigger Binding="{Binding HigherUpcast, ElementName=UpcastBehavior, Converter={StaticResource NullToBoolTrueConverter}}" Value="False">
-                <Setter TargetName="UpcastContainer" Property="Visibility" Value="Visible"/>
+                <!-- <Setter TargetName="UpcastContainer" Property="Visibility" Value="Visible"/> -->
             </DataTrigger>
             <DataTrigger Binding="{Binding CurrentPlayer.UIData.AreRadialsOpen}" Value="True">
                 <Setter TargetName="EndTurnButtonHolder" Property="Visibility" Value="Collapsed"/>
