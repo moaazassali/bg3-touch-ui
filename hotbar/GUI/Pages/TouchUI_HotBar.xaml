@@ -4477,7 +4477,7 @@
                         <MenuItem x:Name="RestItem">
                             <MenuItem.Template>
                                 <ControlTemplate TargetType="MenuItem">
-                                    <Grid Margin="-16" ClipToBounds="False">
+                                    <Grid ClipToBounds="False">
                                         <Grid x:Name="RestSubButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Height="0" Visibility="{Binding Visibility, ElementName=RestMenu}" IsHitTestVisible="{TemplateBinding IsSubmenuOpen}" >
                                             <ItemsPresenter />
                                         </Grid>
@@ -4846,23 +4846,23 @@
                         <ls:LSButton.Template>
                             <ControlTemplate TargetType="ls:LSButton">
                                 <Grid ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Center" ToolTipService.VerticalOffset="-84">
-                                    <Image x:Name="ExitFTButtonBg" Source="{StaticResource ExitFTBBg}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="None" Margin="0,0,-220,0"/>
-                                    <Border x:Name="ExitFTBText" Width="184" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-300,0">
+                                    <!-- <Image x:Name="ExitFTButtonBg" Source="{StaticResource ExitFTBBg}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="None" Margin="0,0,-220,0"/> -->
+                                    <!-- <Border x:Name="ExitFTBText" Width="184" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-300,0">
                                         <TextBlock Text="{Binding Source=h5afd053agafd1g4111gbea5gc7bccff65ffd, Converter={StaticResource TranslatedStringConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"/>
-                                    </Border>
-                                    <Image x:Name="img" Source="{StaticResource BtnSmallDefault}" Stretch="None"/>
+                                    </Border> -->
+                                    <Image x:Name="img" Source="{StaticResource BtnPop}" Stretch="None"/>
                                     <Image x:Name="ico" Source="{StaticResource ExitFTBIcon}" Stretch="None"/>
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_h.png"/>
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
                                         <Setter TargetName="ico" Property="Source" Value="{StaticResource ExitFTBIconHighlight}"/>
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_small_default_p.png"/>
+                                        <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
-                                        <Setter TargetName="img" Property="Source" Value="{StaticResource BtnSmallDefault}"/>
+                                        <Setter TargetName="img" Property="Source" Value="{StaticResource BtnPop}"/>
                                         <Setter TargetName="ico" Property="Opacity" Value="0.75"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
