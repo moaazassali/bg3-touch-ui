@@ -854,6 +854,14 @@
 
                 <ControlTemplate x:Key="EndTurnTemplate" TargetType="ls:LSButton">
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        <Image x:Name="bgImg" 
+                            Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" 
+                            Stretch="Uniform" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            Height="{Binding ActualHeight, ElementName=img, Converter={StaticResource AddConverter}, ConverterParameter=10}"
+                            Width="{Binding ActualHeight, ElementName=img, Converter={StaticResource AddConverter}, ConverterParameter=10}"/>
+
                         <Image x:Name="img" Source="{StaticResource ButtonEndTurnScaled}" Stretch="None"/>
                         <Image x:Name="ico" Source="{StaticResource IconHourglassActive}" VerticalAlignment="Top" Stretch="None" RenderTransformOrigin="0.5,0.5" Margin="0,44,0,0" Visibility="Collapsed">
                             <Image.RenderTransform>
@@ -4882,7 +4890,10 @@
                         </StackPanel>
                     </Border>
 
-                    <ls:LSButton x:Name="EndTurnButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,100,0" ls:TutorialProperties.TargetID="TUT_EndTurn" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                    <ls:LSButton x:Name="EndTurnButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,110,0" ls:TutorialProperties.TargetID="TUT_EndTurn" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                        <ls:LSButton.LayoutTransform>
+                            <ScaleTransform ScaleX="0.45" ScaleY="0.45"/>
+                        </ls:LSButton.LayoutTransform>
                         <ls:LSButton.Style>
                             <Style TargetType="ls:LSButton">
                                 <Setter Property="Command" Value="{Binding Path=DataContext.EndTurn, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
