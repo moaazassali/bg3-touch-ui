@@ -108,7 +108,7 @@
     <ls:UIWidget.ContentTemplate>
         <DataTemplate>
             <Grid>
-                <Border x:Name="Root" HorizontalAlignment="Left">
+                <Border x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                     <Border.Resources>
                         <Storyboard x:Key="Hud.AnimIn">
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" >
