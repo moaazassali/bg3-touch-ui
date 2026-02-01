@@ -1804,7 +1804,7 @@
         </DataTemplate.Resources>
 
         <Grid x:Name="PlayerPortraitsRoot" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:DataContext="{d:DesignInstance {x:Type ls:DCPartyLine}, IsDesignTimeCreatable=True}">
-            <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="1860" Visibility="Collapsed">
+            <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="Collapsed">
                 <Grid x:Name="ScalingContent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -1858,7 +1858,7 @@
 
                         <Border Margin="0,0,0,0" VerticalAlignment="Bottom">
 
-                            <ScrollViewer x:Name="PartyLineHolder" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden" Height="1400" ls:ScrollViewerHelper.VerticalScrollOffsetMargin="300" ls:MoveFocus.FocusMovementMode="MainAxis" VerticalAlignment="Bottom">
+                            <ScrollViewer x:Name="PartyLineHolder" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden" ls:ScrollViewerHelper.VerticalScrollOffsetMargin="300" ls:MoveFocus.FocusMovementMode="MainAxis" VerticalAlignment="Bottom">
                                 <!-- <ScrollViewer.OpacityMask>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" >
                                         <GradientStop Offset="0" Color="#00ffffff"/>
