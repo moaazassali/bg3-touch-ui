@@ -231,14 +231,10 @@
                     </Border.Style>
 
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1850"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
                         <!-- Touch UI - Disable player portraits background -->
                         <!-- <ls:LSNineSliceImage Margin="-4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" ImageSource="pack://application:,,,/Core;component/Assets/PlayerPortraits/portrait_party_bg.png" Slices="108,155,0,255"> -->
                             <StackPanel>
-                                <Grid Height="155">
+                                <Grid>
                                     <ls:LSInputBinding BoundEvent="ToggleInventory" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory"/>
                                     <ls:LSInputBinding BoundEvent="ToggleCharacterOverview" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory"/>
                                     <ls:LSInputBinding BoundEvent="ToggleSpells" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells"/>
@@ -446,7 +442,7 @@
                                 </ls:LSPlayerList>
 
                                 <!-- Touch UI - Disable it; should move it to expandable menu next to minimap -->
-                                <Grid Visibility="Collapsed" Height="255" x:Name="BottomButtonHolder">
+                                <Grid Visibility="Collapsed" x:Name="BottomButtonHolder">
                                     <Grid.Resources>
                                         <Style TargetType="ls:LSButton">
                                             <Setter Property="Template" Value="{StaticResource PanelButtonWT}"/>
