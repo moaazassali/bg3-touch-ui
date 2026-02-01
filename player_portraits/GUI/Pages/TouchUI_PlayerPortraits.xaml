@@ -205,7 +205,8 @@
                                         <Condition Binding="{Binding DataContext.Data.Players[0].AssignedCharacters[0].PlayerCharacterProperties.FollowersUnlinked.Count, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="False"/>
                                     </MultiDataTrigger.Conditions>
                                     <MultiDataTrigger.Setters>
-                                        <Setter Property="Visibility" Value="Hidden"/>
+                                        <!-- Touch UI - Always show player portraits regardless of party size because we disabled the player portrait in hotbar -->
+                                        <!-- <Setter Property="Visibility" Value="Hidden"/> -->
                                     </MultiDataTrigger.Setters>
                                 </MultiDataTrigger>
 
