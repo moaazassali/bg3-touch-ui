@@ -1,0 +1,19 @@
+<ls:UIWidget x:Name="PlayerPortraits"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ls="clr-namespace:ls;assembly=Code"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type ls:Widget}, IsDesignTimeCreatable=True}">
+
+    <ls:UIWidget.ContentTemplate>
+        <DataTemplate>
+            <Grid />
+        </DataTemplate>
+    </ls:UIWidget.ContentTemplate>
+
+</ls:UIWidget>
