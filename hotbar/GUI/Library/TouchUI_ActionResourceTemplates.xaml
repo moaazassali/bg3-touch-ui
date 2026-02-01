@@ -702,7 +702,7 @@
 
     <ControlTemplate x:Key="ActionResourcesTemplate">
 
-        <Grid x:Name="ResourceContainer" HorizontalAlignment="Stretch">
+        <Grid x:Name="ResourceContainer" HorizontalAlignment="Stretch" MinWidth="600">
             <b:Interaction.Behaviors>
                 <ls:CollectionFilterBehavior x:Name="BasicFilter" ItemsSource="{Binding }" Predicate="{Binding DataContext.Data.ActionResourceBasicPredicate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
                 <ls:CollectionFilterBehavior x:Name="SpecialFilter" ItemsSource="{Binding }" Predicate="{Binding DataContext.Data.ActionResourceSpecialPredicate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
