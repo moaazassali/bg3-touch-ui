@@ -1958,8 +1958,9 @@
                 </Grid>
             </Grid>
 
+            <!-- Touch UI - Disable the bottom left portrait/details. We only care about the party panel. -->
             <!-- Solo Portrait when Party line is collapsed -->
-            <Grid x:Name="ExtraDetails" Margin="40,0,0,40" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsEnabled="False" ls:MoveFocus.Focusable="False">
+            <Grid x:Name="ExtraDetails" Visibility="Collapsed" Margin="40,0,0,40" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsEnabled="False" ls:MoveFocus.Focusable="False">
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="{StaticResource CurrentScaleFactor}" ScaleY="{StaticResource CurrentScaleFactor}"/>
@@ -2127,7 +2128,7 @@
             <DataTrigger Binding="{Binding Layout}" Value="Common">
                 <Setter TargetName="Root" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ExtraPortrait" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="Collapsed"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="Collapsed"/> -->
             </DataTrigger>
 
             <MultiDataTrigger>
@@ -2162,7 +2163,7 @@
 
             <!-- HUD -->
             <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD">
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="Visible"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="Visible"/> -->
                 <Setter TargetName="ExtraInfo" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="Root" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ExtraPortrait" Property="Visibility" Value="Collapsed"/>
@@ -2188,7 +2189,7 @@
                     <Condition Binding="{Binding Data.IsCameraSplit}" Value="False"/>
                     <Condition Binding="{Binding Data.IsFullScreenSharedInitiativeEnabled}" Value="False"/>
                 </MultiDataTrigger.Conditions>
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="{Binding DataContext.CurrentPlayer.IsCurrentTurn, ElementName=PartyLine_c, Converter={StaticResource BoolToVisibleConverter}}"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="{Binding DataContext.CurrentPlayer.IsCurrentTurn, ElementName=PartyLine_c, Converter={StaticResource BoolToVisibleConverter}}"/> -->
                 <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
@@ -2200,7 +2201,7 @@
                     <Condition Binding="{Binding Data.IsFullScreenSharedInitiativeEnabled}" Value="True"/>
                     <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.IsOwnerActiveInSplitscreenFullscreenTurn, ElementName=PartyLine_c}" Value="False"/>
                 </MultiDataTrigger.Conditions>
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="Collapsed"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="Collapsed"/> -->
                 <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>
 
@@ -2242,7 +2243,7 @@
 
             <!-- Panel context related changes -->
             <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRadials">
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="Visible"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="Visible"/> -->
                 <Setter TargetName="ExtraInfo" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="Root" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ExtraPortrait" Property="Visibility" Value="Collapsed"/>
@@ -2277,7 +2278,7 @@
             </MultiDataTrigger>
 
             <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InDialogue">
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="Visible"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="Visible"/> -->
                 <Setter TargetName="ExtraPortrait" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="PartyLineOpenerButton" Property="CommandParameter" Value="OpenPlayerPortraitsDialogue"/>
@@ -2333,7 +2334,7 @@
 
             <DataTrigger Binding="{Binding Layout}" Value="Left">
                 <Setter TargetName="Root" Property="Margin" Value="0 300 0 0"/>
-                <Setter TargetName="ExtraDetails" Property="Margin" Value="40,0,0,40"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Margin" Value="40,0,0,40"/> -->
                 <Setter TargetName="ExtraInfoMisc" Property="Text" Value="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Layout}" Value="Right">
@@ -2344,8 +2345,8 @@
                 <Setter TargetName="LTButton" Property="HorizontalAlignment" Value="Right"/>
                 <Setter TargetName="LTButton" Property="Margin" Value="0 0 -12 -380"/>
                 <Setter TargetName="ExtraInfoMisc" Property="Text" Value="{Binding CurrentPlayer.SelectedCharacter.Stats.ClassList[0].ClassDisplayName}" />
-                <Setter TargetName="ExtraDetails" Property="HorizontalAlignment" Value="Right"/>
-                <Setter TargetName="ExtraDetails" Property="Margin" Value="0,0,40,40"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="HorizontalAlignment" Value="Right"/> -->
+                <!-- <Setter TargetName="ExtraDetails" Property="Margin" Value="0,0,40,40"/> -->
                 <Setter TargetName="ExtraInfoStatusStack" Property="HorizontalAlignment" Value="Right"/>
                 <Setter TargetName="ExtraInfoStatuses" Property="FlowDirection" Value="RightToLeft"/>
                 <Setter TargetName="ExtraPortrait" Property="DockPanel.Dock" Value="Right"/>
@@ -2447,7 +2448,7 @@
                     <Condition Binding="{Binding Path=CurrentPlayer.SelectedCharacter.CharacterMode}" Value="InDialogue"/>
                     <Condition Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.ShowAnswers}" Value="False"/>
                 </MultiDataTrigger.Conditions>
-                <Setter TargetName="ExtraDetails" Property="Visibility" Value="Collapsed"/>
+                <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="Collapsed"/> -->
             </MultiDataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
