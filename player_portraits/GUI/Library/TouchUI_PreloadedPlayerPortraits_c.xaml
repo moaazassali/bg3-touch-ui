@@ -1915,7 +1915,8 @@
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
 
-                                        <Control x:Name="CampNonPartyPortraits" DockPanel.Dock="Bottom" ls:AttachedProperties.InheritedTag="CampNonPartyMember">
+                                        <!-- Touch UI - We never want to show non party portraits in the HUD panel. This is probably for inventory/chracter sheet when in camp or something in controller mode. -->
+                                        <Control x:Name="CampNonPartyPortraits" DockPanel.Dock="Bottom" ls:AttachedProperties.InheritedTag="CampNonPartyMember" Visibility="Collapsed">
                                             <Control.Template>
                                                 <ControlTemplate>
 
