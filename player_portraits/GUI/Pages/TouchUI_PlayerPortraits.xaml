@@ -235,7 +235,8 @@
                             <RowDefinition Height="1850"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <ls:LSNineSliceImage Margin="-4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" ImageSource="pack://application:,,,/Core;component/Assets/PlayerPortraits/portrait_party_bg.png" Slices="108,155,0,255">
+                        <!-- Touch UI - Disable player portraits background -->
+                        <!-- <ls:LSNineSliceImage Margin="-4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" ImageSource="pack://application:,,,/Core;component/Assets/PlayerPortraits/portrait_party_bg.png" Slices="108,155,0,255"> -->
                             <StackPanel>
                                 <Grid Height="155">
                                     <ls:LSInputBinding BoundEvent="ToggleInventory" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory"/>
@@ -243,7 +244,8 @@
                                     <ls:LSInputBinding BoundEvent="ToggleSpells" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells"/>
                                     <ls:LSInputBinding x:Name="AlchemyShortcut" BoundEvent="UIToggleAlchemy" Command="{Binding CustomEvent}" CommandParameter="ToggleAlchemy"/>
 
-                                    <ls:LSButton x:Name="TogglePartyViewButton" BoundEvent="TogglePartyCharacterView" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,0,0,25" Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="TogglePartyPanel" SoundID="UI_HUD_PartyPanel" ToolTipService.Placement="Top" ToolTipService.IsEnabled="True" ToolTipService.VerticalOffset="4" Template="{StaticResource PanelButtonWT}">
+                                    <!-- Touch UI - Disable it; should move it to expandable menu next to minimap -->
+                                    <ls:LSButton Visibility="Collapsed" x:Name="TogglePartyViewButton" BoundEvent="TogglePartyCharacterView" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,0,0,25" Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="TogglePartyPanel" SoundID="UI_HUD_PartyPanel" ToolTipService.Placement="Top" ToolTipService.IsEnabled="True" ToolTipService.VerticalOffset="4" Template="{StaticResource PanelButtonWT}">
                                         <ls:LSButton.ToolTip>
                                             <ls:LSTooltip Content="{Binding DataContext.CurrentPlayer.UIData.InputEvents, ElementName=PlayerPortraits, Converter={StaticResource FindInputEventConverter}, ConverterParameter='TogglePartyCharacterView'}"/>
                                         </ls:LSButton.ToolTip>
@@ -443,7 +445,8 @@
                                     </ls:LSPlayerList.ItemsPanel>
                                 </ls:LSPlayerList>
 
-                                <Grid Height="255" x:Name="BottomButtonHolder">
+                                <!-- Touch UI - Disable it; should move it to expandable menu next to minimap -->
+                                <Grid Visibility="Collapsed" Height="255" x:Name="BottomButtonHolder">
                                     <Grid.Resources>
                                         <Style TargetType="ls:LSButton">
                                             <Setter Property="Template" Value="{StaticResource PanelButtonWT}"/>
@@ -475,7 +478,7 @@
                                 </Grid>
                               
                             </StackPanel>
-                        </ls:LSNineSliceImage>
+                        <!-- </ls:LSNineSliceImage> -->
                     </Grid>
                 </Border>
 
@@ -554,8 +557,9 @@
                     <Setter TargetName="CameraResetInput" Property="IsEnabled" Value="False"/>
                 </DataTrigger>
 
+                <!-- Touch UI - Keep it hidden; we should move it to expandable menu next to minimap -->
                 <!--Show Camp Companions Access Button-->
-                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsInCamp}" Value="True">
+                <!-- <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsInCamp}" Value="True">
                     
                     <Setter TargetName="CompanionAccessHolder" Property="Visibility" Value="Visible"/>
                     <DataTrigger.EnterActions>
@@ -566,7 +570,7 @@
                         <BeginStoryboard x:Name="AnimateCampCompanionsButtonOut" Storyboard="{StaticResource CampCompanionsButtonOut}"/>
                         <StopStoryboard BeginStoryboardName="AnimateCampCompanionsButtonIn" />
                     </DataTrigger.ExitActions>
-                </DataTrigger>
+                </DataTrigger> -->
 
 
             </DataTemplate.Triggers>
