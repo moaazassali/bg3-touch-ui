@@ -68,6 +68,14 @@
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
 
+                <!-- Touch UI - These are taken from TouchUI_HotBar.xaml so we can move StatusPanel here -->
+                <!-- Touch UI - We are effectively disabling the status overflow button by setting it to 100. We could think of showing it if wrap panel rows > 1 somehow later on. -->
+                <!-- How many statuses to show before limiting. Multiples of 3. Update both! -->
+                <System:Double x:Key="StatusLimitAmount">100</System:Double>
+                <System:Double x:Key="StatusLimitAmountInverse">-100</System:Double>
+                <BitmapImage x:Key="StatusBg" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/statusBG.png" />
+                <BitmapImage x:Key="StatusBgFill" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/statusBG_fill.png" />
+
             </ResourceDictionary>
         </ControlTemplate.Resources>
         <Grid x:Name="Root" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" IsEnabled="True" Opacity="1" d:DataContext="{StaticResource {x:Type ls:Widget}}">
@@ -180,10 +188,190 @@
                         </Grid>
                     </StackPanel>
                 </StackPanel>
+
+                <!-- Touch UI - Move outside to place above action resources bar -->
+                <!-- Status list -->
+                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-50"
+                        Visibility="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                    </Grid.LayoutTransform>
+
+                    <!-- <Rectangle x:Name="Gradient" Margin="10,0,10,36" IsHitTestVisible="False">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" >
+                                <GradientStop Color="#FF000000"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle> -->
+                    <!-- <Image x:Name="PaneConditionsBg" Source="{StaticResource PaneConditions}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False"/> -->
+                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <Grid x:Name="Overflow" Margin="80,0,0,0" Visibility="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter={StaticResource StatusLimitAmount}}">
+                            <Image Source="{StaticResource OverflowNumberBg}" Stretch="None" Visibility="{Binding Path=IsChecked, ElementName=ExpandToggle, Converter={StaticResource BoolToCollapsedConverter}}" Margin="0,-8"/>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource SmallFontSize}" Foreground="{StaticResource LS_baseTxtColor}" ls:TextBlockFormatter.SourceText="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, StringFormat='{}+{0}', Converter={StaticResource AddConverter}, ConverterParameter={StaticResource StatusLimitAmountInverse}}" Visibility="{Binding Path=IsChecked, ElementName=ExpandToggle, Converter={StaticResource BoolToCollapsedConverter}}"/>
+                            <ls:LSToggleButton x:Name="ExpandToggle" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,80,0">
+                                <ls:LSToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ls:LSToggleButton}">
+                                        <Grid>
+                                            <Image x:Name="Background" Source="{StaticResource BtnSmallRound}" Stretch="None"/>
+                                            <Image x:Name="Arrow" Margin="2,0,0,0" Source="{StaticResource IconDownArrow}" Stretch="None" RenderTransformOrigin="0.5, 0.5"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=ExpandToggle}" Value="False">
+                                                <Setter Property="RenderTransform" TargetName="Arrow">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleY="-1"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Background" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/btn_small_round_h.png"/>
+                                                <Setter TargetName="Arrow" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_downArrow_h.png"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ls:LSToggleButton.Template>
+
+                                <ls:LSToggleButton.Style>
+                                    <Style TargetType="ls:LSToggleButton">
+                                        <Style.Triggers>
+                                            <!-- Auto collapse when # statuses goes below limit again -->
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter={StaticResource StatusLimitAmount}}" Value="False">
+                                                <Setter Property="IsChecked" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ls:LSToggleButton.Style>
+                            </ls:LSToggleButton>
+                        </Grid>
+
+                        <Grid>
+                            <!-- Touch UI - Width (y) should match the action resources bar minus the padding (600) it has from each side -->
+                            <!-- Touch UI - ActualWidth = 2x + y ==> y = ActualWidth - 2x -->
+                            <!-- Touch UI - However, we have 1.5x scaling on action resources bar but 2x on status panel, so we need to adjust the values by 1.5/2 = 0.75 -->
+                            <Grid.Width>
+                                <MultiBinding Converter="{StaticResource AddMultipleConverter}">
+                                    <Binding Path="ActualWidth" 
+                                            ElementName="TouchUI_ActionResourcesControl" 
+                                            Converter="{StaticResource MultiplierConverter}" 
+                                            ConverterParameter="0.75"/>
+                                    <!-- Touch UI - 2x = 1200 ==> 1200 * 0.75 = 900 -->
+                                    <Binding Source="-900"/>
+                                </MultiBinding>
+                            </Grid.Width>
+
+                            <ls:LSButton x:Name="ConcentrationHolder" 
+                                        VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="16,0,32,20"
+                                        ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
+                                        Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}"
+                                        Command="{Binding DataContext.ReleaseConcentrationCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                        CommandParameter="{Binding CurrentPlayer.SelectedCharacter}"
+                                        SoundID="UI_HUD_ReleaseConcentration"
+                                        IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ClientCanBreakConcentration}">
+
+                                <ls:LSButton.Template>
+                                    <ControlTemplate TargetType="ls:LSButton">
+                                        <Grid>
+                                            <Ellipse Fill="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell.Icon}" Width="42" Height="42"/>
+                                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/concentration_character_small.png" Stretch="None"/>
+                                            <Image x:Name="CloseIcon" 
+                                                Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross.png" 
+                                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,8,0" Stretch="None"/>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="CloseIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png"/>
+                                            </Trigger>
+                                            
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="CloseIcon" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_closeCross_h.png"/>
+                                                <Setter Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <TranslateTransform X="1" Y="1"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="CloseIcon" Property="Visibility" Value="Collapsed"/>
+                                                <Setter Property="Opacity" Value="0.8"/> 
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ls:LSButton.Template>
+                            </ls:LSButton>
+
+                            <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl.Style>
+                                    <Style TargetType="ItemsControl">
+                                        <!-- If concentration is active, add extra margin to account for it -->
+                                        <Setter Property="Margin" Value="102,0,102,32"/>
+                                        
+                                        <Style.Triggers>
+                                            <!-- If Concentration is inactive, remove extra margin-->
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell}" Value="{x:Null}">
+                                                <Setter Property="Margin" Value="32,0,32,32"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.Style>
+                                
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" FlowDirection="RightToLeft">
+                                            <WrapPanel.LayoutTransform>
+                                                <ScaleTransform ScaleY="-1"/>
+                                            </WrapPanel.LayoutTransform>
+                                        </WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="LayoutTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleY="-1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="FlowDirection" Value="LeftToRight"/>
+                                        <Setter Property="Margin" Value="-2"/>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <!-- Always allow showing up to at least the limit -->
+                                            <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource Self}, Converter={StaticResource LessThanConverter}, ConverterParameter={StaticResource StatusLimitAmount}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=ExpandToggle}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right" >
+                                            <Image Source="{StaticResource StatusBg}" Stretch="None"/>
+                                            <Ellipse Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Icon}" />
+                                            <ls:LSPie x:Name="Progression" Value="{Binding RemainingPercentage}" SweepDirection="Clockwise" RenderTransformOrigin="0.5 0.5">
+                                                <Image Source="{StaticResource StatusBgFill}" Stretch="UniformToFill" Width="60" Height="60" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </ls:LSPie>
+                                            <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" Content="{Binding Duration}" Margin="0,0,0,-8" Foreground="{StaticResource LS_tint100}" FontWeight="Bold" FontSize="{StaticResource SmallFontSize}" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4" Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
                 <!--EXTRA STATUS NOTIFICATIONS-->
                 <!--As per CursorText - however differnt strings, differnt location-->
                 <ItemsControl x:Name="CapabilitiesErrors" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ModifiedCapabilities}" AlternationCount="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}}" VerticalAlignment="Bottom"
-                                HorizontalAlignment="Center" Height="{Binding Path=ActualHeight, ElementName=Message}">
+                                HorizontalAlignment="Center" Height="{Binding Path=ActualHeight, ElementName=Message}" Margin="0,0,0,-10">
                     <b:Interaction.Behaviors>
                         <ls:CapabilityListSelectorBehavior x:Name="CapabilityListSelectorBehavior"
                                                             CapabilitiesCollection="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ModifiedCapabilities}"
