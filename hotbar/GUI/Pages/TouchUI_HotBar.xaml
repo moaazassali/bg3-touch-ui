@@ -4928,12 +4928,21 @@
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="32,0,32,32">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" FlowDirection="RightToLeft"/>
+                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" FlowDirection="RightToLeft">
+                                            <WrapPanel.LayoutTransform>
+                                                <ScaleTransform ScaleY="-1"/>
+                                            </WrapPanel.LayoutTransform>
+                                        </WrapPanel>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
                                 <ItemsControl.ItemContainerStyle>
                                     <Style TargetType="ContentPresenter">
+                                        <Setter Property="LayoutTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleY="-1"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="FlowDirection" Value="LeftToRight"/>
                                         <Setter Property="Margin" Value="-2"/>
                                         <Setter Property="Visibility" Value="Collapsed"/>
