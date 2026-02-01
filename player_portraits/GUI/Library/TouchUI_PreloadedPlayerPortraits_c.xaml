@@ -1300,7 +1300,7 @@
                         </ContentPresenter.Resources>
                     </ContentPresenter>
                     <Control x:Name="ListenInGrid" Grid.Column="2" Grid.Row="0" Visibility="Collapsed" HorizontalAlignment="Left" Grid.RowSpan="2" Height="218" Margin="-40,0" Panel.ZIndex="5" Template="{StaticResource ListenToAnimatedIcon}"/>
-                    <Path x:Name="Arrow" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Width="32" Data="M 32 36 L 16 18 L 32 0 Z" Fill="{StaticResource LS_PrimaryColor}" Visibility="Hidden" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <Path x:Name="Arrow" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Width="32" Data="M 0 0 L 32 0 L 16 18 Z" Fill="{StaticResource LS_PrimaryColor}" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-24,0,0"/>
                 </Grid>
                 <DataTemplate.Triggers>
                     <DataTrigger Value="True">
@@ -1508,8 +1508,8 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Path x:Name="Arrow" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Width="32" Data="M 0 36 L 18 18 L 0 0 Z" Fill="{DynamicResource LS_PrimaryColor}" Visibility="Hidden"
-                          VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    <Path x:Name="Arrow" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="32" Data="M 0 0 L 32 0 L 16 18 Z" Fill="{DynamicResource LS_PrimaryColor}" Visibility="Hidden"
+                          VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-24,0,0"/>
                     <ContentPresenter x:Name="CharacterPortrait" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="{Binding .}" Panel.ZIndex="2" ContentTemplate="{StaticResource PortraitCore}">
                         <ContentPresenter.Resources>
                             <ImageSource x:Key="Portraits.CollapsedFrame">pack://application:,,,/Core;component/Assets/PlayerPortraits/portrait_frame_inactive_d.png</ImageSource>
