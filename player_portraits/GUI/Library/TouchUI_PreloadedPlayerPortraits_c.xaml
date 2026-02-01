@@ -29,6 +29,10 @@
             <DockPanel>
                 <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" FontSize="{StaticResource ScaledSmallFontSize}" FontWeight="Bold" noesis:Text.Stroke="Black"
                            noesis:Text.StrokeThickness="4" Visibility="{Binding Stats.Health.Value, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=-1}">
+                    <TextBlock.LayoutTransform>
+                        <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                    </TextBlock.LayoutTransform>
+
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Foreground" Value="{StaticResource LS_PrimaryColor}"/>
@@ -51,6 +55,10 @@
                 </TextBlock>
                 <TextBlock DockPanel.Dock="Bottom" IsHitTestVisible="False" FontSize="{StaticResource ScaledSmallFontSize}" FontWeight="Bold" noesis:Text.Stroke="Black" noesis:Text.StrokeThickness="4" HorizontalAlignment="Center" Margin="0,0,16,-16"
                            Visibility="{Binding Stats.TemporaryHealth.PercentValue, Converter={StaticResource CountToVisibilityConverter}}" Foreground="{StaticResource LS_tempHPColor}">
+                    <TextBlock.LayoutTransform>
+                        <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                    </TextBlock.LayoutTransform>
+
                     <TextBlock.Text>
                         <MultiBinding StringFormat="+{0}/{1}">
                             <Binding Path="Stats.TemporaryHealth.Value"/>
