@@ -2187,8 +2187,9 @@
                     <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD"/>
                     <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, ElementName=PartyLine_c}" Value="True"/>
                 </MultiDataTrigger.Conditions>
-                <Setter TargetName="ExtraPortrait" Property="Visibility" Value="Visible"/>
-                <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/>
+                <!-- Touch UI - We want portraits to be visible in turn based mode -->
+                <!-- <Setter TargetName="ExtraPortrait" Property="Visibility" Value="Visible"/> -->
+                <!-- <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/> -->
             </MultiDataTrigger>
 
             <!-- New trigger to hide the other players info when in merged split screen combat and you're taking a turn -->
@@ -2200,8 +2201,9 @@
                     <Condition Binding="{Binding Data.IsCameraSplit}" Value="False"/>
                     <Condition Binding="{Binding Data.IsFullScreenSharedInitiativeEnabled}" Value="False"/>
                 </MultiDataTrigger.Conditions>
+                <!-- Touch UI - We want portraits to be visible in turn based mode -->
                 <!-- <Setter TargetName="ExtraDetails" Property="Visibility" Value="{Binding DataContext.CurrentPlayer.IsCurrentTurn, ElementName=PartyLine_c, Converter={StaticResource BoolToVisibleConverter}}"/> -->
-                <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/>
+                <!-- <Setter TargetName="Root" Property="Visibility" Value="Collapsed"/> -->
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
