@@ -4878,12 +4878,7 @@
                                 </MultiBinding>
                             </Grid.Width>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <ls:LSButton x:Name="ConcentrationHolder" Grid.Column="0" 
+                            <ls:LSButton x:Name="ConcentrationHolder" 
                                         VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="16,0,32,20"
                                         ToolTipService.Placement="Right" ToolTipService.IsEnabled="True"
                                         Visibility="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}"
@@ -4925,10 +4920,24 @@
                                 </ls:LSButton.Template>
                             </ls:LSButton>
 
-                            <ItemsControl Grid.Column="1" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="32,0,32,32">
+                            <ItemsControl ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" AlternationCount="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl.Style>
+                                    <Style TargetType="ItemsControl">
+                                        <!-- If concentration is active, add extra margin to account for it -->
+                                        <Setter Property="Margin" Value="102,0,102,32"/>
+                                        
+                                        <Style.Triggers>
+                                            <!-- If Concentration is inactive, remove extra margin-->
+                                            <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell}" Value="{x:Null}">
+                                                <Setter Property="Margin" Value="32,0,32,32"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.Style>
+                                
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" FlowDirection="RightToLeft">
+                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" FlowDirection="RightToLeft">
                                             <WrapPanel.LayoutTransform>
                                                 <ScaleTransform ScaleY="-1"/>
                                             </WrapPanel.LayoutTransform>
