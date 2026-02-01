@@ -1803,8 +1803,8 @@
             <BitmapImage x:Key="IcoDualWield" UriSource="pack://application:,,,/Core;component/Assets/Shared_c/c_ico_dualWield.png"/>
         </DataTemplate.Resources>
 
-        <Grid x:Name="PlayerPortraitsRoot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" d:DataContext="{d:DesignInstance {x:Type ls:DCPartyLine}, IsDesignTimeCreatable=True}">
-            <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Stretch" MaxHeight="1860" Visibility="Collapsed">
+        <Grid x:Name="PlayerPortraitsRoot" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:DataContext="{d:DesignInstance {x:Type ls:DCPartyLine}, IsDesignTimeCreatable=True}">
+            <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="1860" Visibility="Collapsed">
                 <Grid x:Name="ScalingContent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -1852,23 +1852,23 @@
                     </ls:LSInputBinding>
 
                     <!-- Party Line Standard -->
-                    <StackPanel x:Name="PartyLineUp" Grid.Column="1" VerticalAlignment="Top" Margin="0,145,0,0">
+                    <StackPanel x:Name="PartyLineUp" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,145,0,0">
                         <Control x:Name="LTButton" Margin="-12,0,0,-380" StackPanel.ZIndex="1"  HorizontalAlignment="Left" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='PartyManagement'}"
                                  Template="{StaticResource ControllerButton.ImageSwitcher}" Width="{StaticResource ScaledControllerHintSize}" Height="{StaticResource ScaledControllerHintSize}"/>
 
-                        <Border Margin="0,0,0,0" VerticalAlignment="Top">
+                        <Border Margin="0,0,0,0" VerticalAlignment="Bottom">
 
-                            <ScrollViewer x:Name="PartyLineHolder" Margin="0 100 0 100" HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden" Height="1400" ls:ScrollViewerHelper.VerticalScrollOffsetMargin="300" ls:MoveFocus.FocusMovementMode="MainAxis" VerticalAlignment="Top">
-                                <ScrollViewer.OpacityMask>
+                            <ScrollViewer x:Name="PartyLineHolder" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden" Height="1400" ls:ScrollViewerHelper.VerticalScrollOffsetMargin="300" ls:MoveFocus.FocusMovementMode="MainAxis" VerticalAlignment="Bottom">
+                                <!-- <ScrollViewer.OpacityMask>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" >
                                         <GradientStop Offset="0" Color="#00ffffff"/>
                                         <GradientStop Offset="0.1" Color="#ffffff"/>
                                         <GradientStop Offset="0.9" Color="#ffffff"/>
                                         <GradientStop Offset="1" Color="#00ffffff"/>
                                     </LinearGradientBrush>
-                                </ScrollViewer.OpacityMask>
-                                <Border Margin="0,0,0,0" VerticalAlignment="Top" Background="Transparent">
-                                    <StackPanel x:Name="PartyLineUpStack" VerticalAlignment="Top" Margin="0,100,0,100">
+                                </ScrollViewer.OpacityMask> -->
+                                <Border Margin="0,0,0,0" VerticalAlignment="Bottom">
+                                    <StackPanel x:Name="PartyLineUpStack" VerticalAlignment="Bottom" Margin="0,0,0,0">
 
                                         <b:Interaction.Behaviors>
                                             <ls:CollectionSortBehavior x:Name="SortedPlayers" ItemsSource="{Binding Data.Players}" Comparer="{Binding PlayerSortComparer}" />
