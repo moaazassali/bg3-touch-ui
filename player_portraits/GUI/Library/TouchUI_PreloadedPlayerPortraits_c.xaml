@@ -1348,10 +1348,10 @@
                     </MultiDataTrigger>
 
                     <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD">
-                        <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/> -->
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRadials">
-                        <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/> -->
                     </DataTrigger>
 
                     <MultiDataTrigger>
@@ -1402,7 +1402,7 @@
                             </Condition>
                         </MultiDataTrigger.Conditions>
                         <Setter TargetName="CharacterPortrait" Property="Visibility" Value="Collapsed" />
-                        <Setter TargetName="Statuses" Property="Visibility" Value="Collapsed" />
+                        <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Collapsed" /> -->
                         <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Collapsed" />
                         <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Collapsed" />
                     </MultiDataTrigger>
@@ -1534,6 +1534,7 @@
 
                     <Control x:Name="ListenInGrid" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Grid.RowSpan="2" Visibility="Collapsed" Height="218" Margin="-40,0,-40,0" Panel.ZIndex="5" Template="{StaticResource ListenToAnimatedIcon}"/>
 
+                    <!-- Touch UI - Disabled all triggers that make it visible. We don't have enough space to show statuses for each character. Instead, we rely on the hotbar statuses for selected character. -->
                     <ItemsControl x:Name="Statuses" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2"
                                   ItemsSource="{Binding StatusEffects}" AlternationCount="{Binding StatusEffects.Count}"
                                   HorizontalAlignment="Left" MinHeight="53" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -1686,10 +1687,10 @@
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
                     <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD">
-                        <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/> -->
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRadials">
-                        <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Visible"/> -->
                     </DataTrigger>
 
                     <MultiDataTrigger>
@@ -1743,7 +1744,7 @@
                         <Setter TargetName="CharacterPortrait" Property="Visibility" Value="Collapsed" />
                         <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Collapsed" />
                         <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Collapsed" />
-                        <Setter TargetName="Statuses" Property="Visibility" Value="Collapsed" />
+                        <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Collapsed" /> -->
                         <Setter TargetName="Arrow" Property="Visibility" Value="Hidden" />
                     </MultiDataTrigger>
 
