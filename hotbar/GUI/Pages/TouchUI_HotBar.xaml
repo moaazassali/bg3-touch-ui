@@ -2677,7 +2677,8 @@
                 </StackPanel>
 
 
-                <Grid x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,500,0,12">
+                <!-- Touch UI - Disable it; all emements inside are disabled -->
+                <Grid Visibility="Collapsed" x:Name="HotbarMainGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,500,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -2811,8 +2812,9 @@
 
                     </Grid>
 
+                    <!-- Touch UI - Disable it; nothing in here is needed anymore -->
                     <!-- ========= CENTRAL HOTBAR CONTENT ========= -->
-                    <Grid x:Name="HotbarCentre" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,-16">
+                    <Grid Visibility="Collapsed" x:Name="HotbarCentre" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,-16">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -3077,8 +3079,9 @@
                             </ls:LSNineSliceImage>
                         </Grid>
 
+                        <!-- Touch UI - Disable it; nothing in here is needed anymore -->
                         <!-- ===== RESOURCE BAR & TOP LINE COMPONENTS ===== -->
-                        <Grid Grid.Row="0" Margin="0,0,0,-25" HorizontalAlignment="Stretch" MaxWidth="{Binding ActualWidth, ElementName=HotbarDynamicContent}">
+                        <Grid Visibility="Collapsed" Grid.Row="0" Margin="0,0,0,-25" HorizontalAlignment="Stretch" MaxWidth="{Binding ActualWidth, ElementName=HotbarDynamicContent}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -3402,9 +3405,10 @@
                                 </ls:LSButton>
                             </Grid>
 
+                            <!-- Touch UI - Disable it since this is handled by the controller action resources -->
                             <!--EXTRA STATUS NOTIFICATIONS-->
                             <!--As per CursorText - however differnt strings, differnt location-->
-                            <ItemsControl Grid.Column="0" Grid.ColumnSpan="3" x:Name="CapabilitiesErrors" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ModifiedCapabilities}"
+                            <ItemsControl Visibility="Collapsed" Grid.Column="0" Grid.ColumnSpan="3" x:Name="CapabilitiesErrors" ItemsSource="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ModifiedCapabilities}"
                                           AlternationCount="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,88" Height="{Binding Path=ActualHeight, ElementName=Message}">
                                 <b:Interaction.Behaviors>
                                     <ls:CapabilityListSelectorBehavior x:Name="CapabilityListSelectorBehavior"
