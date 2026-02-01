@@ -669,7 +669,8 @@
                         <Image x:Name="FailureIII" Stretch="None" Margin="0,-20,0,0" VerticalAlignment="Bottom" Source="{StaticResource FailureInactive}"/>
                     </StackPanel>
 
-                    <Grid x:Name="ConcentrationHolder" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}" Margin="-30,14,0,0">
+                    <!-- Touch UI - Disable it; we are relying on displaying status effects in hotbar -->
+                    <Grid x:Name="ConcentrationHolder" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed" Margin="-30,14,0,0">
                         <Ellipse Fill="{Binding ConcentrationSpell.Icon}" Width="42" Height="42"/>
                         <Image Source="{StaticResource CharacterConcentration}" Stretch="Uniform" Width="82"/>
                         <TextBlock Margin="0,0,0,-5" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding ConcentrationSpell.Duration}" Foreground="{StaticResource LS_tint100}"
@@ -945,7 +946,8 @@
                         <Image x:Name="FailureIII" Stretch="Uniform" Margin="0,-20,0,0" VerticalAlignment="Bottom" Source="{StaticResource FailureInactive}"/>
                     </StackPanel>
 
-                    <Grid x:Name="ConcentrationHolder" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding ConcentrationSpell, Converter={StaticResource NullToCollapsedConverter}}" Margin="-30,14,0,0">
+                    <!-- Touch UI - Disable it; we are relying on displaying status effects in hotbar -->
+                    <Grid x:Name="ConcentrationHolder" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed" Margin="-30,14,0,0">
                         <Ellipse Fill="{Binding ConcentrationSpell.Icon}" Width="42" Height="42"/>
                         <Image Source="{StaticResource CharacterConcentration}" Stretch="Uniform" Width="82"/>
                         <TextBlock Margin="0,0,0,-5" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding ConcentrationSpell.Duration}" Foreground="{StaticResource LS_tint100}"
