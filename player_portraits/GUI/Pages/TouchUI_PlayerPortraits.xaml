@@ -258,7 +258,7 @@
                                     </ls:LSButton>
                                 </Grid>
 
-                                <ls:LSPlayerList x:Name="PlayerList" Scalable="False" VerticalOrientation="True" ItemsSource="{Binding  Data.Players}" DefaultAvailableSpace="1486" MinAvailableSpace="620" MaxCharactersPerPage="6" SinglePortraitWidth="164" SinglePortraitHeight="214" ScreenResolution="{Binding Data.ScreenResolution}">
+                                <ls:LSPlayerList x:Name="PlayerList" Scalable="False" VerticalOrientation="False" ItemsSource="{Binding  Data.Players}" DefaultAvailableSpace="1486" MinAvailableSpace="620" MaxCharactersPerPage="6" SinglePortraitWidth="164" SinglePortraitHeight="214" ScreenResolution="{Binding Data.ScreenResolution}">
                                     <ls:LSPlayerList.Template>
                                         <ControlTemplate TargetType="ls:LSPlayerList">
                                             <Grid>
@@ -346,7 +346,7 @@
                                             <Setter Property="ItemsPanel">
                                                 <Setter.Value>
                                                     <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Vertical"/>
+                                                        <StackPanel Orientation="Horizontal"/>
                                                     </ItemsPanelTemplate>
                                                 </Setter.Value>
                                             </Setter>
@@ -372,7 +372,7 @@
                                                         <Setter Property="ItemsPanel">
                                                             <Setter.Value>
                                                                 <ItemsPanelTemplate>
-                                                                    <StackPanel Orientation="Vertical"/>
+                                                                    <StackPanel Orientation="Horizontal"/>
                                                                 </ItemsPanelTemplate>
                                                             </Setter.Value>
                                                         </Setter>
@@ -436,7 +436,7 @@
                                     </ls:LSPlayerList.ItemContainerStyle>
                                     <ls:LSPlayerList.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical"/>
+                                            <StackPanel Orientation="Horizontal"/>
                                         </ItemsPanelTemplate>
                                     </ls:LSPlayerList.ItemsPanel>
                                 </ls:LSPlayerList>

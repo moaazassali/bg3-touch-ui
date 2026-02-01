@@ -1,0 +1,41 @@
+<!-- Copied from Game\Mods\MainUI\GUI\Pages\PlayerPortraits_c.xaml -->
+<ls:UIWidget x:Name="PartyLine_c"
+             ContextName="PartyLine"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type ls:DCPartyLine}, IsDesignTimeCreatable=True}"
+             xmlns:ls="clr-namespace:ls;assembly=Code"
+             Content="{Binding .}">
+
+    <!-- We have to import PreloadedPlayerPortraits_c.xaml because it only gets loaded in controller mode -->
+    <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_PreloadedPlayerPortraits_c.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ls:UIWidget.Resources>
+
+    <ls:AttachedProperties.AutomationId>
+        <MultiBinding StringFormat="{}PartyLine_c_{0}">
+            <Binding Path="Layout"/>
+        </MultiBinding>
+    </ls:AttachedProperties.AutomationId>
+
+    <ls:UIWidget.Style>
+        <Style TargetType="ls:UIWidget" BasedOn="{StaticResource hud.root.Style}">
+            <!-- We remove the ContentTemplate from the ls:UIWidget definition and move it down here because we have to import it first -->
+            <Setter Property="ContentTemplate" Value="{DynamicResource PreloadedPlayerPortraits_c}"/>
+            <Setter Property="Template" Value="{StaticResource Hud.Root}"/>
+            <Style.Triggers>
+                <Trigger Property="Metadata" Value="InRadials">
+                    <Setter Property="Template" Value="{StaticResource Hud.RootNoAnim}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </ls:UIWidget.Style>
+</ls:UIWidget>
+   
