@@ -1177,7 +1177,7 @@
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </DataTemplate.Resources>
-                <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40,0,0,0">
+                <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -1496,7 +1496,7 @@
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </DataTemplate.Resources>
-                <Grid VerticalAlignment="Top" Margin="0,0,60,0">
+                <Grid VerticalAlignment="Top" Margin="0,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
