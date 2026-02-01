@@ -44,9 +44,10 @@
 
                 <KeyTime x:Key="RestButtonAnimationTime">0:0:0.3</KeyTime>
 
+                <!-- Touch UI - We are effectively disabling the status overflow button by setting it to 100. We could think of showing it if wrap panel rows > 1 somehow later on. -->
                 <!-- How many statuses to show before limiting. Multiples of 3. Update both! -->
-                <System:Double x:Key="StatusLimitAmount">9</System:Double>
-                <System:Double x:Key="StatusLimitAmountInverse">-9</System:Double>
+                <System:Double x:Key="StatusLimitAmount">100</System:Double>
+                <System:Double x:Key="StatusLimitAmountInverse">-100</System:Double>
 
                 <Thickness x:Key="ResourceBackgroundMargin">0</Thickness>
                 <Thickness x:Key="ClassIconMargin">0,16,0,51</Thickness>
