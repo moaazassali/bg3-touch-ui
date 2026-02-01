@@ -1894,7 +1894,7 @@
                                                                     </ItemsControl.Template>
                                                                     <ItemsControl.ItemsPanel>
                                                                         <ItemsPanelTemplate>
-                                                                            <StackPanel IsItemsHost="True" Orientation="Vertical"/>
+                                                                            <StackPanel IsItemsHost="True" Orientation="Horizontal"/>
                                                                         </ItemsPanelTemplate>
                                                                     </ItemsControl.ItemsPanel>
                                                                 </ItemsControl>
@@ -1907,7 +1907,7 @@
                                                         </ItemsControl.ItemTemplate>
                                                         <ItemsControl.ItemsPanel>
                                                             <ItemsPanelTemplate>
-                                                                <StackPanel Orientation="Vertical"/>
+                                                                <StackPanel Orientation="Horizontal"/>
                                                             </ItemsPanelTemplate>
                                                         </ItemsControl.ItemsPanel>
                                                     </ItemsControl>
