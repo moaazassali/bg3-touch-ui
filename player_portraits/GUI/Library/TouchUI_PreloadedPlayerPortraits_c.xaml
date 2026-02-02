@@ -2708,6 +2708,10 @@
                         <b:EventTrigger EventName="MoveFocusDown">
                             <b:ChangePropertyAction TargetObject="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" PropertyName="LastFocusedCharacter" Value="{Binding .}"/>
                         </b:EventTrigger>
+
+                        <b:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <ls:SetMoveFocusAction TargetName="PartyLineActive_c"/>
+                        </b:EventTrigger>
                     </b:Interaction.Triggers>
 
                     <!--ALIVE-->
@@ -3035,6 +3039,10 @@
                             <b:ChangePropertyAction TargetObject="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" PropertyName="LastFocusedCharacter" Value="{Binding .}"/>
                         </b:EventTrigger>
 
+                        <!-- Touch UI - Focus on click -->
+                        <b:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <ls:SetMoveFocusAction TargetName="PartyLineActive_c"/>
+                        </b:EventTrigger>
                     </b:Interaction.Triggers>
 
 
