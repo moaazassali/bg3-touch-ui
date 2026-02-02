@@ -8,6 +8,53 @@
             <ls:State.Widgets>
                 <ls:StateWidget Filename="TouchUI_PlayerPortraits_c.xaml" Layer="HUDTop"/>
             </ls:State.Widgets>
+
+            <ls:State.Events>
+                <ls:StateEvent Name="OpenPlayerPortraitsHUD">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="PlayerPortraitsActive" Metadata="InHUD"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
+        <!--STATE: PlayerPortraitsActive -->
+        <ls:State Name = "PlayerPortraitsActive" Layout = "Player" Owner = "Player"  DisableStatesBelow = "False" IsModal="True" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_PlayerPortraitsActive_c.xaml" Layer="HUDTop"/>
+            </ls:State.Widgets>
+
+            <ls:State.Events>
+
+                <ls:StateEvent Name = "CloseWidget">
+                    <ls:StateEvent.Actions>
+                        <ls:RequestCloseWidget/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <!--RemovePanelState happens after closing animation so the widget is cleaned up-->
+                <ls:StateEvent Name = "RemovePanelState">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+
+                <ls:StateEvent Name = "ClosePlayerPortraits">
+                    <ls:StateEvent.Actions>
+                        <ls:RequestCloseWidget/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+
+                <ls:StateEvent Name = "OpenTutorial">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="Tutorial"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenPinnedTooltips">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="PinnedTooltips"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
         </ls:State>
 
     </ls:StateMachine.States>
