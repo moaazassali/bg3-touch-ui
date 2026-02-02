@@ -1894,7 +1894,7 @@
 
                                         <!-- Touch UI - Party management opener button (like pressing LT with the controller) -->
                                         <ls:LSNineSliceImage Margin="20,0,0,20" VerticalAlignment="Stretch" Width="100" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36">
-                                            <ls:LSButton 
+                                            <ls:LSButton x:Name="OpenPartyLineButton"
                                                 VerticalAlignment="Stretch"
                                                 HorizontalAlignment="Stretch"
                                                 Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
@@ -1902,8 +1902,8 @@
                                                 SoundID="UI_HUD_Controller_PartyMenu_Open">
                                                 <ls:LSButton.Template>
                                                     <ControlTemplate TargetType="ls:LSButton">
-                                                        <Grid x:Name="BtnRoot" Opacity="0.8">
-                                                            <Rectangle Fill="Black" Opacity="0.5" Margin="4" RadiusX="30" RadiusY="30"/>
+                                                        <Grid x:Name="BtnRoot">
+                                                            <Rectangle x:Name="BtnBackground" Fill="Black" Opacity="0" Margin="4" RadiusX="30" RadiusY="30"/>
                                                             <Image Source="pack://application:,,,/Core;component/Assets/PlayerPortraits/c_ico_group.png" 
                                                                 Width="60" Height="60" 
                                                                 VerticalAlignment="Center" HorizontalAlignment="Center" 
@@ -1912,13 +1912,13 @@
                                                         
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="BtnRoot" Property="Opacity" Value="1.0"/>
+                                                                <Setter TargetName="BtnBackground" Property="Opacity" Value="0.2"/>
                                                                 <Setter TargetName="Icon" Property="Opacity" Value="1.0"/>
                                                             </Trigger>
                                                             <Trigger Property="IsPressed" Value="True">
                                                                 <Setter TargetName="BtnRoot" Property="RenderTransform">
                                                                     <Setter.Value>
-                                                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95" CenterX="35" CenterY="100"/>
+                                                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95" CenterX="40" CenterY="120"/>
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Trigger>
