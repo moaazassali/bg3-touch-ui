@@ -1886,11 +1886,47 @@
                                     </LinearGradientBrush>
                                 </ScrollViewer.OpacityMask> -->
                                 <Border Margin="0,0,0,0" VerticalAlignment="Bottom">
-                                    <StackPanel x:Name="PartyLineUpStack" VerticalAlignment="Bottom" Margin="0,0,0,0">
+                                    <StackPanel x:Name="PartyLineUpStack" VerticalAlignment="Bottom" Margin="0,0,0,0" Orientation="Horizontal">
 
                                         <b:Interaction.Behaviors>
                                             <ls:CollectionSortBehavior x:Name="SortedPlayers" ItemsSource="{Binding Data.Players}" Comparer="{Binding PlayerSortComparer}" />
                                         </b:Interaction.Behaviors>
+
+                                        <!-- Touch UI - Party management opener button (like pressing LT with the controller) -->
+                                        <ls:LSNineSliceImage Margin="20,0,0,20" VerticalAlignment="Stretch" Width="100" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36">
+                                            <ls:LSButton 
+                                                VerticalAlignment="Stretch"
+                                                HorizontalAlignment="Stretch"
+                                                Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                CommandParameter="OpenPlayerPortraitsHUD"
+                                                SoundID="UI_HUD_Controller_PartyMenu_Open">
+                                                <ls:LSButton.Template>
+                                                    <ControlTemplate TargetType="ls:LSButton">
+                                                        <Grid x:Name="BtnRoot" Opacity="0.8">
+                                                            <Rectangle Fill="Black" Opacity="0.5" Margin="4" RadiusX="30" RadiusY="30"/>
+                                                            <Image Source="pack://application:,,,/Core;component/Assets/PlayerPortraits/c_ico_group.png" 
+                                                                Width="60" Height="60" 
+                                                                VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                                Opacity="0.9" x:Name="Icon"/>
+                                                        </Grid>
+                                                        
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="BtnRoot" Property="Opacity" Value="1.0"/>
+                                                                <Setter TargetName="Icon" Property="Opacity" Value="1.0"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter TargetName="BtnRoot" Property="RenderTransform">
+                                                                    <Setter.Value>
+                                                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95" CenterX="35" CenterY="100"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </ls:LSButton.Template>
+                                            </ls:LSButton>
+                                        </ls:LSNineSliceImage>
 
                                         <ItemsControl ItemsSource="{Binding SortedItems, ElementName=SortedPlayers}" ls:AttachedProperties.InheritedTag="CampPartyMember" Template="{StaticResource MinimalItemsControlTemplate}">
                                             <ItemsControl.ItemTemplate>
