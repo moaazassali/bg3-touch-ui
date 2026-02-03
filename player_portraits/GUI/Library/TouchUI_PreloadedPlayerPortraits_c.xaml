@@ -4222,21 +4222,22 @@
                              TapTime="{StaticResource DelayedButtonTapTime}"
                              EatInput="False" HorizontalAlignment="Left"/>
 
-                <ls:LSButton VerticalAlignment="Center" x:Name="GroupingPartyButton" Style="{StaticResource ControllerDelayedHoldButtonStyle}"
+                <ls:LSButton VerticalAlignment="Center" x:Name="GroupingPartyButton" ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content ="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='GroupingSelect'}"
                              Tag="{Binding Source='hd894e218g4ae0g42daga416gff818b8a0ffd',Converter={StaticResource TranslatedStringConverter}}"
                              Command="{Binding DataContext.ToggleGroupMode, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              CommandParameter="{Binding Path=FocusedElement.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              Visibility="Collapsed" SoundID="UI_HUD_Controller_PartyMenu_GroupAll" HorizontalAlignment="Left" />
 
-                <ls:LSButton VerticalAlignment="Center" x:Name="GroupingAllSplitButton" Style="{StaticResource ControllerDelayedHoldButtonStyle}"
+                <ls:LSButton VerticalAlignment="Center" x:Name="GroupingAllSplitButton" ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='GroupingSplit'}"
                              Tag="{Binding Source='he8756948g1795g4047g8eb3g76956ccd07fb', Converter={StaticResource TranslatedStringConverter}}"
                              Command="{Binding DataContext.UnlinkAllSummonsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              CommandParameter="{Binding Path=FocusedElement.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              Visibility="Collapsed" SoundID="UI_HUD_Controller_PartyMenu_SplitAll" HorizontalAlignment="Left"/>
 
-                <ls:LSButton VerticalAlignment="Center" x:Name="ConfirmGroupingButton" Style="{StaticResource ControllerButton}" Visibility="Collapsed"
+                <!-- Touch UI - Not sure when this triggers but will change it's style anyways to match the rest -->
+                <ls:LSButton VerticalAlignment="Center" x:Name="ConfirmGroupingButton" ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}" Visibility="Collapsed"
                              DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='GroupingConfirm'}"
                              Content="{Binding Source='h23283673g4496g4648g9c41gadd37637d89c', Converter={StaticResource TranslatedStringConverter}}"
                              Command="{Binding DataContext.GroupCharactersCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
