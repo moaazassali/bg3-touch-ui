@@ -4100,12 +4100,48 @@
             </Grid>
 
             <!-- Button prompts when the party line is active -->
-            <ls:LSWrapPanel x:Name="ButtonHintsLeft" Opacity="1" Style="{StaticResource ButtonHint.Container.LeftWrap}">
+            <ls:LSWrapPanel x:Name="ButtonHintsLeft" Opacity="1" Style="{StaticResource ButtonHint.Container.LeftWrap}" Margin="70,0,0,56">
+
+                <ls:LSWrapPanel.Resources>
+                    <DataTemplate x:Key="TouchUI_ControllerButtonHint" DataType="ls:VMInputEvent">
+                        <DockPanel Effect="{StaticResource HUD.DropShadow}" FlowDirection="{Binding FlowDirection, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="0,-20,0,-20">
+                            <!-- <Control x:Name="ImageSwitcher" DockPanel.Dock="Left" Template="{StaticResource ControllerButton.ImageSwitcher}" VerticalAlignment="Center" Width="{StaticResource ScaledControllerHintSize}" Height="{StaticResource ScaledControllerHintSize}"/> -->
+                            <ls:LSNineSliceImage x:Name="bg" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36" Padding="20" MinWidth="250">
+                                <TextBlock x:Name="ContentString" Style="{StaticResource BtnHint.StrokedTextStyle}" ls:TextBlockFormatter.SourceText="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Margin="-8,2,0,-2" TextWrapping="Wrap" />
+                            </ls:LSNineSliceImage>
+                        </DockPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="False">
+                                <Setter TargetName="ContentString" Property="Opacity" Value="{StaticResource ControllerButton.DisabledOpacityText}"/>
+                                <!-- <Setter TargetName="ImageSwitcher" Property="Opacity" Value="{StaticResource ControllerButton.DisabledOpacity}"/> -->
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}" Value="{x:Null}">
+                                <Setter TargetName="ContentString" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Caption}"/>
+                            </DataTrigger>
+
+                            <!-- Touch UI - Add some custom hover/click effects -->
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ls:LSButton}}}" Value="True">
+                                <Setter TargetName="bg" Property="Opacity" Value="0.9"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType={x:Type ls:LSButton}}}" Value="True">
+                                <Setter TargetName="bg" Property="Opacity" Value="0.75"/>
+                                <Setter TargetName="bg" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.98" ScaleY="0.95" CenterX="125" CenterY="30"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ls:LSWrapPanel.Resources> 
 
                 <ls:LSButton x:Name="ButtonShowCampCharacter" Visibility="Collapsed"
                              VerticalAlignment="Center"
                              ls:LSButton.BoundEvent="UIAccept"
-                             ContentTemplate="{StaticResource ControllerButtonHint}"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UIAccept, Converter={StaticResource FindInputEventConverter}}"
                              Tag="{Binding Source='h99bd79aeg8906g4400g9bdbg2ea075945d2e', Converter={StaticResource TranslatedStringConverter}}" HorizontalAlignment="Left">
                     <b:Interaction.Triggers>
@@ -4118,7 +4154,7 @@
                 <ls:LSButton x:Name="ButtonSelect"
                              VerticalAlignment="Center"
                              ls:LSButton.BoundEvent="UIAccept"
-                             ContentTemplate="{StaticResource ControllerButtonHint}"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UIAccept, Converter={StaticResource FindInputEventConverter}}"
                              Tag="{Binding Source='hd0c08193ga7f2g4a7eg8225g63748c7b3096', Converter={StaticResource TranslatedStringConverter}}"
                              Command="{Binding DataContext.HideCharacterSelectCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
@@ -4132,7 +4168,7 @@
                     </b:Interaction.Triggers>
                 </ls:LSButton>
 
-                <ls:LSButton x:Name="SwapCharacterSplitScreenBinding" ContentTemplate="{StaticResource ControllerButtonHint}" Content="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UITabPrev'}" Command="{Binding YieldSplitscreenFullscreenTurn}" Tag="{Binding Source='hc177b0a2gde1bg44d4gbd6bgcacdc2931e2c', Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" CommandParameter="{Binding CurrentPlayer.PlayerId}" PlayerId="{Binding CurrentPlayer.PlayerId}" BoundEvent="UITabPrev" >
+                <ls:LSButton x:Name="SwapCharacterSplitScreenBinding" ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}" Content="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UITabPrev'}" Command="{Binding YieldSplitscreenFullscreenTurn}" Tag="{Binding Source='hc177b0a2gde1bg44d4gbd6bgcacdc2931e2c', Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" CommandParameter="{Binding CurrentPlayer.PlayerId}" PlayerId="{Binding CurrentPlayer.PlayerId}" BoundEvent="UITabPrev" >
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="Click">
                             <b:InvokeCommandAction Command="{Binding HideTooltipOnUIElementCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
@@ -4147,7 +4183,7 @@
                              IsEnabled="False"
                              Visibility="Collapsed"
                              ls:LSButton.BoundEvent="UIAccept"
-                             ContentTemplate="{StaticResource ControllerButtonHint}"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UIAccept, Converter={StaticResource FindInputEventConverter}}"
                              Tag="{Binding Source='he26c9a8cg0e0ag45b5ga6ddg6ddb00255b51', Converter={StaticResource TranslatedStringConverter}}"
                              Command="{Binding DataContext.ListenToDialog, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
@@ -4165,7 +4201,7 @@
                 <ls:LSButton x:Name="GroupingButton"
                              VerticalAlignment="Center"
                              BoundEvent="GroupingSelect"
-                             ContentTemplate="{StaticResource ControllerButtonHint}"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='GroupingSelect'}"
                              Command="{Binding DataContext.CharacterToGroupSelectionCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              CommandParameter="{Binding Path=FocusedElement.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
@@ -4177,7 +4213,7 @@
                 <ls:LSButton x:Name="GroupingSplitButton"
                              VerticalAlignment="Center"
                              BoundEvent="GroupingSplit"
-                             ContentTemplate="{StaticResource ControllerButtonHint}"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='GroupingSplit'}"
                              Command="{Binding DataContext.SeparateCharacterCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              CommandParameter="{Binding Path=FocusedElement.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
@@ -4232,7 +4268,7 @@
                 <ls:LSButton x:Name="ButtonCancel"
                              VerticalAlignment="Center"
                              ls:LSButton.BoundEvent="UICancel"
-                             ContentTemplate="{StaticResource ControllerButtonHint}"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                              Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UICancel, Converter={StaticResource FindInputEventConverter}}"
                              Tag="{Binding Source='h566c2213g6b06g4c09g912ege16b46f520ba', Converter={StaticResource TranslatedStringConverter}}"
                              Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ClosePlayerPortraits" HorizontalAlignment="Left">
