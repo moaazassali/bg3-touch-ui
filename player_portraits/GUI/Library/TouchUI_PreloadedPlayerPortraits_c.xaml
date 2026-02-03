@@ -4106,7 +4106,7 @@
                     <DataTemplate x:Key="TouchUI_ControllerButtonHint" DataType="ls:VMInputEvent">
                         <DockPanel Effect="{StaticResource HUD.DropShadow}" FlowDirection="{Binding FlowDirection, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="0,-20,0,-20">
                             <!-- <Control x:Name="ImageSwitcher" DockPanel.Dock="Left" Template="{StaticResource ControllerButton.ImageSwitcher}" VerticalAlignment="Center" Width="{StaticResource ScaledControllerHintSize}" Height="{StaticResource ScaledControllerHintSize}"/> -->
-                            <ls:LSNineSliceImage x:Name="bg" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36" Padding="20" MinWidth="250">
+                            <ls:LSNineSliceImage x:Name="bg" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36" Padding="40,20" MinWidth="250">
                                 <TextBlock x:Name="ContentString" Style="{StaticResource BtnHint.StrokedTextStyle}" ls:TextBlockFormatter.SourceText="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Margin="-8,2,0,-2" TextWrapping="Wrap" />
