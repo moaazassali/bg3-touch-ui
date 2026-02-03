@@ -1680,18 +1680,30 @@
                     </DataTrigger>
 
                     <!-- Show summons in some UIs -->
-                    <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD">
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD"/>
+                            <Condition Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
                         <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/>
                         <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRadials">
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRadials"/>
+                            <Condition Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
                         <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/>
                         <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRewardPanel">
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRewardPanel"/>
+                            <Condition Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
                         <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/>
                         <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
+                    </MultiDataTrigger>
 
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
