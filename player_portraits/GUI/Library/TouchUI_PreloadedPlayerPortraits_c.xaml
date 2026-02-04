@@ -1834,6 +1834,12 @@
         </DataTemplate.Resources>
 
         <Grid x:Name="PlayerPortraitsRoot" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:DataContext="{d:DesignInstance {x:Type ls:DCPartyLine}, IsDesignTimeCreatable=True}">
+            <!-- Touch UI - Add keyboard bindings taken from Game\Mods\MainUI\GUI\Pages\PlayerPortraits.xaml -->
+            <ls:LSInputBinding BoundEvent="ToggleInventory" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory"/>
+            <ls:LSInputBinding BoundEvent="ToggleCharacterOverview" Command="{Binding CustomEvent}" CommandParameter="ToggleInventory"/>
+            <ls:LSInputBinding BoundEvent="ToggleSpells" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells"/>
+            <ls:LSInputBinding x:Name="AlchemyShortcut" BoundEvent="UIToggleAlchemy" Command="{Binding CustomEvent}" CommandParameter="ToggleAlchemy"/>
+
             <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="Collapsed">
                 <Grid x:Name="ScalingContent">
                     <Grid.ColumnDefinitions>
