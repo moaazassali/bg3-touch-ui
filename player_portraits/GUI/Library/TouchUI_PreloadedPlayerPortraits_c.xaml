@@ -1840,6 +1840,10 @@
             <ls:LSInputBinding BoundEvent="ToggleSpells" Command="{Binding CustomEvent}" CommandParameter="ToggleSpells"/>
             <ls:LSInputBinding x:Name="AlchemyShortcut" BoundEvent="UIToggleAlchemy" Command="{Binding CustomEvent}" CommandParameter="ToggleAlchemy"/>
 
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+            </Grid.LayoutTransform>
+
             <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="Collapsed">
                 <Grid x:Name="ScalingContent">
                     <Grid.ColumnDefinitions>
