@@ -83,9 +83,9 @@
                 <ls:NeighboringUpcastsBehavior x:Name="UpcastBehavior" UpcastList="{Binding CurrentPlayer.UIData.ActiveTask.RootCastSpell.SpellUpcast}" CurrentUpcast="{Binding CurrentPlayer.UIData.ActiveTask.Upcast}"/>
             </b:Interaction.Behaviors>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="resourceBarLeftPadding" Width="600"/>
+                <ColumnDefinition x:Name="resourceBarLeftPadding" Width="725"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition x:Name="resourceBarRightPadding" Width="600"/>
+                <ColumnDefinition x:Name="resourceBarRightPadding" Width="725"/>
             </Grid.ColumnDefinitions>
             <StackPanel x:Name="ResourceContainer" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Margin="0,0,0,0">
                 <StackPanel x:Name="SplitScreenContainerPrompts" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,14" Style="{StaticResource ButtonHint.Container.BaseStyle}">
