@@ -3737,6 +3737,10 @@
         </ControlTemplate.Resources>
 
         <Grid x:Name="PlayerPortraitsRoot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" d:DataContext="{d:DesignInstance {x:Type ls:DCPartyLine}, IsDesignTimeCreatable=True}">
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform>
+
             <Grid.Tag>
                 <!-- Tag == True if current player is owner of selected character -->
                 <MultiBinding Converter="{StaticResource EqualConverter}">
@@ -3936,7 +3940,7 @@
 
 
             <!-- Tag on this element is slide in/out animation progress from 0-1 -->
-            <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Stretch" MaxHeight="1860" Tag="{StaticResource DoubleOneValue}" IsEnabled="True">
+            <Grid x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Stretch" MaxHeight="930" Tag="{StaticResource DoubleOneValue}" IsEnabled="True">
                 <Grid.Margin>
                     <MultiBinding Converter="{StaticResource LinearInterpolationConverter}" ConverterParameter="Thickness">
                         <Binding Source="-6"/>
@@ -3977,7 +3981,7 @@
 
                     <!-- Vertical background elements behind the portrait list -->
 
-                    <Border Grid.Column="1" x:Name="Bg" Visibility="Visible" HorizontalAlignment="Stretch">
+                    <Border Grid.Column="1" x:Name="Bg" Visibility="Visible" HorizontalAlignment="Stretch" Margin="0,-100,0,0">
                         <Border.Background>
                             <ImageBrush ImageSource="{StaticResource PartyLineFocusBg}" Stretch="Fill"/>
                         </Border.Background>
@@ -3995,24 +3999,30 @@
                                        IsEnabled="True"/>
 
                     <!-- Party Line Expanded -->
-                    <StackPanel x:Name="PartyLineUp" Grid.Column="1" VerticalAlignment="Top" Margin="0,145,0,0">
+                    <StackPanel x:Name="PartyLineUp" Grid.Column="1" VerticalAlignment="Top" Margin="0,-100,0,0">
 
                         <!-- <Control x:Name="LTButton" Margin="-12,0,0,-200" StackPanel.ZIndex="1"  HorizontalAlignment="Left" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='PartyManagement'}"
                                  Template="{StaticResource ControllerButton.ImageSwitcher}" Width="{StaticResource ScaledControllerHintSize}" Height="{StaticResource ScaledControllerHintSize}" Opacity="0"/> -->
 
                         <Border Margin="0,0,0,0" VerticalAlignment="Top">
 
-                            <ScrollViewer x:Name="PartyLineHolder" Margin="0 100 0 100" HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden" Height="1400" ls:ScrollViewerHelper.VerticalScrollOffsetMargin="300" ls:MoveFocus.FocusMovementMode="Closest" VerticalAlignment="Top">
+                            <ScrollViewer x:Name="PartyLineHolder" Template="{StaticResource FlippedSimpleScrollViewerTemplate}" Margin="0 75 0 0" HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto" Height="900" ls:ScrollViewerHelper.VerticalScrollOffsetMargin="300" ls:MoveFocus.FocusMovementMode="Closest" VerticalAlignment="Top">
+                                <ScrollViewer.Resources>
+                                    <Style x:Key="ScrollBarStyle" TargetType="ScrollBar" BasedOn="{StaticResource BaseScrollBar}">
+                                        <Setter Property="Margin" Value="0,20,0,20"/> 
+                                    </Style>
+                                </ScrollViewer.Resources>
+                                
                                 <ScrollViewer.OpacityMask>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" >
                                         <GradientStop Offset="0" Color="#00ffffff"/>
-                                        <GradientStop Offset="0.1" Color="#ffffff"/>
-                                        <GradientStop Offset="0.9" Color="#ffffff"/>
+                                        <GradientStop Offset="0.05" Color="#ffffff"/>
+                                        <GradientStop Offset="0.95" Color="#ffffff"/>
                                         <GradientStop Offset="1" Color="#00ffffff"/>
                                     </LinearGradientBrush>
                                 </ScrollViewer.OpacityMask>
                                 <Border Margin="0,0,0,0" VerticalAlignment="Top" Background="Transparent">
-                                    <StackPanel VerticalAlignment="Top" Margin="0,100,0,100">
+                                    <StackPanel VerticalAlignment="Top" Margin="0,20,0,20">
 
                                     <b:Interaction.Behaviors>
                                         <ls:CollectionSortBehavior x:Name="SortedPlayers" ItemsSource="{Binding Data.Players}" Comparer="{Binding PlayerSortComparer}" />
@@ -4100,7 +4110,7 @@
             </Grid>
 
             <!-- Button prompts when the party line is active -->
-            <ls:LSWrapPanel x:Name="ButtonHintsLeft" Opacity="1" Style="{StaticResource ButtonHint.Container.LeftWrap}" Margin="70,0,0,56">
+            <ls:LSWrapPanel x:Name="ButtonHintsLeft" Opacity="1" Style="{StaticResource ButtonHint.Container.LeftWrap}" Margin="100,0,0,30">
 
                 <ls:LSWrapPanel.Resources>
                     <DataTemplate x:Key="TouchUI_ControllerButtonHint" DataType="ls:VMInputEvent">
