@@ -1,0 +1,14 @@
+<ls:StateMachine xmlns:ls="clr-namespace:ls;assembly=Code"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<ls:StateMachine.States>
+
+        <!-- Taken from ImpUI StateMachines\Keyboard.xaml -->
+		<ls:State Name = "IUI_Minimap" Layout = "Player" Owner = "Player" ModType="Override">
+			<ls:State.Widgets>
+				<ls:StateWidget Filename="TouchUI_Minimap.xaml" Layer="HUD"/>
+			</ls:State.Widgets>
+		</ls:State>
+
+    </ls:StateMachine.States>
+</ls:StateMachine>
