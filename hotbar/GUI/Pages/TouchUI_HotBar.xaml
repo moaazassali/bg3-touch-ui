@@ -1118,7 +1118,7 @@
                 <!-- ================================== -->
 
                 <!-- ===== DECKTAB BAR ===== -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="36,0,0,0">
                     <Grid x:Name="BottomFeatures" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
                         <Grid.LayoutTransform>
                             <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
