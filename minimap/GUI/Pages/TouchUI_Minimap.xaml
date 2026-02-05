@@ -133,10 +133,12 @@
                         </Grid.RenderTransform>
 
                         <!-- Map Border -->
-                        <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None"/>
+                        <!-- Touch UI - Set IsHitTestVisible="False" so we can tap the menu button behind it to increase its hit area -->
+                        <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None" IsHitTestVisible="False"/>
 
                         <!-- Map -->
-                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0">
+                        <!-- Touch UI - Set IsHitTestVisible="False" so we can tap the menu button behind it to increase its hit area -->
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0" IsHitTestVisible="False">
                             <Grid.Resources>
                                 <Style TargetType="ls:LSWorldMapMarker" BasedOn="{StaticResource Minimap.MarkerItemStyle}"/>
                             </Grid.Resources>
@@ -299,18 +301,31 @@
                             </ls:LSButton.Template>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="GameMenuBtn" Margin="0,-10,-10,0" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInGameMenu'}"
-                                 Template="{StaticResource PanelButtonWT}" Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu"
-                                 SoundID="UI_HUD_EscapeMenu"
-                                 IsEnabled="{Binding DataContext.CurrentPlayer.UIData.IsGameMenuAllowed, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                            <ls:LSButton.Resources>
-                                <BitmapImage x:Key="Icon_Normal" UriSource="pack://application:,,,/Core;component/Assets/BottomBar/ico_menu_d.png" />
-                                <BitmapImage x:Key="Icon_Hover" UriSource="pack://application:,,,/Core;component/Assets/BottomBar/ico_menu_h.png" />
-                                <BitmapImage x:Key="Icon_Pressed" UriSource="pack://application:,,,/Core;component/Assets/BottomBar/ico_menu_d.png" />
-                            </ls:LSButton.Resources>
+                        <ls:LSButton x:Name="GameMenuBtn" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInGameMenu'}"
+                                 Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu"
+                                 SoundID="UI_HUD_EscapeMenu" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.IsGameMenuAllowed, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Panel.ZIndex="-1">
+                            <ls:LSButton.Template>
+                                <ControlTemplate TargetType="ls:LSButton">
+                                    <ls:LSNineSliceImage x:Name="BtnRoot" Width="350" Height="350" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36" Margin="0,-6,-6,0">
+                                        <Image x:Name="IconImg" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_menu_d.png" Width="100" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,12,12,0"/>
+                                    </ls:LSNineSliceImage>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="BtnRoot" Property="Opacity" Value="0.8"/>
+                                            <Setter TargetName="IconImg" Property="Margin" Value="0,15,9,0"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="BtnRoot" Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ls:LSButton.Template>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="ZoomInBtn" Margin="0,28,94,0" VerticalAlignment="Top" HorizontalAlignment="Right" Command="ls:LSWorldMap.ZoomInCommand" CommandTarget="{Binding ElementName=WorldMap}" SoundID="UI_HUD_Map_Zoom" Template="{StaticResource IconButtonTemplate}">
+                        <!-- Touch UI - Temporarily hide until we find a better place for it -->
+                        <ls:LSButton Visibility="Collapsed" x:Name="ZoomInBtn" Margin="0,28,94,0" VerticalAlignment="Top" HorizontalAlignment="Right" Command="ls:LSWorldMap.ZoomInCommand" CommandTarget="{Binding ElementName=WorldMap}" SoundID="UI_HUD_Map_Zoom" Template="{StaticResource IconButtonTemplate}">
                             <ls:LSButton.Resources>
                                 <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
                                 <ImageSource x:Key="ButtonHighlight">pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
@@ -325,7 +340,8 @@
                             </ls:LSButton.Resources>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="ZoomOutBtn" Margin="0,56,61,0" VerticalAlignment="Top" HorizontalAlignment="Right" Command="ls:LSWorldMap.ZoomOutCommand" CommandTarget="{Binding ElementName=WorldMap}" SoundID="UI_HUD_Map_Zoom" Template="{StaticResource IconButtonTemplate}">
+                        <!-- Touch UI - Temporarily hide until we find a better place for it -->
+                        <ls:LSButton Visibility="Collapsed" x:Name="ZoomOutBtn" Margin="0,56,61,0" VerticalAlignment="Top" HorizontalAlignment="Right" Command="ls:LSWorldMap.ZoomOutCommand" CommandTarget="{Binding ElementName=WorldMap}" SoundID="UI_HUD_Map_Zoom" Template="{StaticResource IconButtonTemplate}">
                             <ls:LSButton.Resources>
                                 <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
                                 <ImageSource x:Key="ButtonHighlight">pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
@@ -340,7 +356,8 @@
                             </ls:LSButton.Resources>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="CenterBtn" Margin="0,88,32,0" VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding DataContext.SetCameraOnGameObject,RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter}" Template="{StaticResource IconButtonTemplate}">
+                        <!-- Touch UI - Temporarily hide until we find a better place for it -->
+                        <ls:LSButton Visibility="Collapsed" x:Name="CenterBtn" Margin="0,88,32,0" VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding DataContext.SetCameraOnGameObject,RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding CurrentPlayer.SelectedCharacter}" Template="{StaticResource IconButtonTemplate}">
                             <ls:LSButton.Resources>
                                 <BitmapImage x:Key="ButtonNormal" UriSource="{Binding UriSource, Source={StaticResource BtnSmallRound}}"/>
                                 <ImageSource x:Key="ButtonHighlight">pack://application:,,,/Core;component/Assets/Buttons/btn_small_round_h.png</ImageSource>
