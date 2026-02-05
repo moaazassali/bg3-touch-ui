@@ -1525,6 +1525,25 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
+                    <!-- Touch UI - Show a small followers popup with the count  -->
+                    <Grid Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1,-48,0,0" Panel.ZIndex="10">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                            
+                        <Border Background="#80000000" BorderBrush="#a67347" BorderThickness="4,4,4,0" Width="52" Height="48" CornerRadius="12,12,0,0">
+                            <TextBlock Text="{Binding PlayerCharacterProperties.Followers.Count}" FontSize="42" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4,0,0" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+
                     <Path x:Name="Arrow" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="32" Data="M 0 0 L 32 0 L 16 18 Z" Fill="{DynamicResource LS_PrimaryColor}" Visibility="Hidden"
                           VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-24,0,0"/>
                     <ContentPresenter x:Name="CharacterPortrait" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="{Binding .}" Panel.ZIndex="2" ContentTemplate="{StaticResource PortraitCore}">
