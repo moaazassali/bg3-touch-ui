@@ -1685,24 +1685,24 @@
                             <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD"/>
                             <Condition Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
                         </MultiDataTrigger.Conditions>
-                        <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/>
-                        <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/> -->
+                        <!-- <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/> -->
                     </MultiDataTrigger>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRadials"/>
                             <Condition Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
                         </MultiDataTrigger.Conditions>
-                        <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/>
-                        <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/> -->
+                        <!-- <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/> -->
                     </MultiDataTrigger>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InRewardPanel"/>
                             <Condition Binding="{Binding PlayerCharacterProperties.Followers.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
                         </MultiDataTrigger.Conditions>
-                        <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/>
-                        <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/>
+                        <!-- <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Visible"/> -->
+                        <!-- <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Visible"/> -->
                     </MultiDataTrigger>
 
                     <MultiDataTrigger>
@@ -1711,8 +1711,8 @@
                             <Condition Binding="{Binding PlayerCharacterProperties.FollowersUnlinked.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
-                            <Setter TargetName="FollowersItemsControl" Property="Tag" Value="100"/>
-                            <Setter TargetName="FollowersUnlinkedItemsControl" Property="Tag" Value="100"/>
+                            <!-- <Setter TargetName="FollowersItemsControl" Property="Tag" Value="100"/> -->
+                            <!-- <Setter TargetName="FollowersUnlinkedItemsControl" Property="Tag" Value="100"/> -->
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
                     <DataTrigger Binding="{Binding MetaData, ElementName=PartyLine_c}" Value="InHUD">
@@ -1771,8 +1771,8 @@
                             </Condition>
                         </MultiDataTrigger.Conditions>
                         <Setter TargetName="CharacterPortrait" Property="Visibility" Value="Collapsed" />
-                        <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Collapsed" />
-                        <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Collapsed" />
+                        <!-- <Setter TargetName="FollowersUnlinkedItemsControl" Property="Visibility" Value="Collapsed" /> -->
+                        <!-- <Setter TargetName="FollowersItemsControl" Property="Visibility" Value="Collapsed" /> -->
                         <!-- <Setter TargetName="Statuses" Property="Visibility" Value="Collapsed" /> -->
                         <Setter TargetName="Arrow" Property="Visibility" Value="Hidden" />
                     </MultiDataTrigger>
