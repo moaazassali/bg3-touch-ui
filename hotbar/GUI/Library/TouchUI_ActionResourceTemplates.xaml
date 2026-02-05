@@ -703,6 +703,17 @@
     <ControlTemplate x:Key="ActionResourcesTemplate">
 
         <Grid x:Name="ResourceContainer" HorizontalAlignment="Stretch" MinWidth="600">
+            <!-- Touch UI - There are cases where the resources take 3 rows when they can fit in 2 rows -->
+            <!-- Touch UI - Conisder the case where we have 6 spell slots and they take an entie row so they end up on the 2nd row after basic resources -->
+            <!-- Touch UI - Special resources will then end up on a 3rd row when they could actually fit in the 1st row with basic resources -->
+            <!-- Touch UI - This can also happen vice versa, so we need to figure out the smallest element and put it after movement resources -->
+            <Grid.Tag>
+                <MultiBinding Converter="{StaticResource SubtractionMultipleConverter}">
+                    <Binding Path="(b:Interaction.Behaviors)[1].FilteredItems.Count" ElementName="ResourceContainer"/>
+                    <Binding Path="(b:Interaction.Behaviors)[2].FilteredItems.Count" ElementName="ResourceContainer"/>
+                </MultiBinding>
+            </Grid.Tag>
+
             <b:Interaction.Behaviors>
                 <ls:CollectionFilterBehavior x:Name="BasicFilter" ItemsSource="{Binding }" Predicate="{Binding DataContext.Data.ActionResourceBasicPredicate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
                 <ls:CollectionFilterBehavior x:Name="SpecialFilter" ItemsSource="{Binding }" Predicate="{Binding DataContext.Data.ActionResourceSpecialPredicate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"/>
@@ -732,15 +743,51 @@
                         </Grid>
                     </StackPanel>
                 </ContentControl>
+
+                <!-- Touch UI - Specials first visible if Special count <= SpellSlot count (tag is 0 or less) -->
+                <ItemsControl Name="SpecialResources_First"
+                    ItemsSource="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems, ElementName=ResourceContainer, Mode=OneWay}"
+                    AlternationCount="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems.Count, ElementName=ResourceContainer}"
+                    ls:AttachedProperties.InheritedNumber="-1">
+                    <ItemsControl.Resources>
+                        <System:Double x:Key="ActionPointSize">80</System:Double>
+                    </ItemsControl.Resources>
+                    <ItemsControl.Style>
+                        <Style TargetType="ItemsControl" BasedOn="{StaticResource ResourcesCollectionStyle}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Tag, ElementName=ResourceContainer, Converter={StaticResource LessThanConverter}, ConverterParameter=1}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
+                </ItemsControl>
+
                 <ItemsControl Name="SpellSlotResources" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[2].FilteredItems, ElementName=ResourceContainer, Mode=OneWay}" Style="{StaticResource ResourcesCollectionStyle}" AlternationCount="{Binding Path=(b:Interaction.Behaviors)[2].FilteredItems.Count, ElementName=ResourceContainer}" ls:AttachedProperties.InheritedNumber="-1">
                     <ItemsControl.Resources>
                         <System:Double x:Key="ActionPointSize">80</System:Double>
                     </ItemsControl.Resources>
                 </ItemsControl>
-                <ItemsControl Name="SpecialResources" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems, ElementName=ResourceContainer, Mode=OneWay}" Style="{StaticResource ResourcesCollectionStyle}" AlternationCount="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems.Count, ElementName=ResourceContainer}" ls:AttachedProperties.InheritedNumber="-1">
+
+                <!-- Touch UI - Visible only if SpecialResources_First is collapsed -->
+                <ItemsControl Name="SpecialResources"
+                    ItemsSource="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems, ElementName=ResourceContainer, Mode=OneWay}"
+                    AlternationCount="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems.Count, ElementName=ResourceContainer}"
+                    ls:AttachedProperties.InheritedNumber="-1">
                     <ItemsControl.Resources>
                         <System:Double x:Key="ActionPointSize">80</System:Double>
                     </ItemsControl.Resources>
+                    <ItemsControl.Style>
+                        <Style TargetType="ItemsControl" BasedOn="{StaticResource ResourcesCollectionStyle}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Tag, ElementName=ResourceContainer, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
                 </ItemsControl>
             </ls:AlignableWrapPanel>
         </Grid>
@@ -789,6 +836,7 @@
                 <Setter TargetName="MovementResources" Property="Margin" Value="0,-6,0,-6"/>
                 <Setter TargetName="SpellSlotResources" Property="Margin" Value="0,-6,0,-6"/>
                 <Setter TargetName="SpecialResources" Property="Margin" Value="0,-6,0,-6"/>
+                <Setter TargetName="SpecialResources_First" Property="Margin" Value="0,-6,0,-6"/>
             </DataTrigger>
 
             <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.Stats.MovementResource.Value, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="0">
@@ -801,6 +849,7 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=(b:Interaction.Behaviors)[2].FilteredItems.Count, ElementName=ResourceContainer}" Value="0">
                 <Setter TargetName="SpecialResources" Property="Margin" Value="0"/>
+                <Setter TargetName="SpecialResources_First" Property="Margin" Value="0"/>
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -835,6 +884,7 @@
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="SpecialResources" Property="ls:AttachedProperties.InheritedNumber" Value="1"/>
+                    <Setter TargetName="SpecialResources_First" Property="ls:AttachedProperties.InheritedNumber" Value="1"/>
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
             <MultiDataTrigger>
@@ -853,6 +903,7 @@
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="SpecialResources" Property="ls:AttachedProperties.InheritedNumber" Value="0"/>
+                    <Setter TargetName="SpecialResources_First" Property="ls:AttachedProperties.InheritedNumber" Value="0"/>
                     <Setter TargetName="SpellSlotResources" Property="ls:AttachedProperties.InheritedNumber" Value="2"/>
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
