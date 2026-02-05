@@ -4301,6 +4301,24 @@
                              Command="{Binding DataContext.GroupCharactersCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                              SoundID="UI_HUD_Controller_PartyMenu_GroupConfirm" HorizontalAlignment="Left"/>
 
+                <!-- Touch UI - Add toggle hide all button (based on ButtonSelect and ToggleGroupHideButton from keyboard mode portraits) -->
+                <ls:LSButton x:Name="ButtonToggleHideAll"
+                             VerticalAlignment="Center"
+                             ls:LSButton.BoundEvent="ToggleGroupStealth"
+                             ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
+                             Content="{Binding DataContext.CurrentPlayer.UIData.InputEvents, ElementName=PlayerPortraits, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleGroupStealth'}"
+                             Tag="Hide All"
+                             Command="{Binding DataContext.ToggleGroupHide, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                             CommandParameter="{Binding Path=FocusedElement.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" HorizontalAlignment="Left">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <b:InvokeCommandAction Command="{Binding HideTooltipOnUIElementCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                            <b:ChangePropertyAction TargetObject="{Binding DataContext.CurrentPlayer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" PropertyName="ShowCampCharacter" Value="{x:Null}"/>
+                            <b:InvokeCommandAction x:Name="ToggleHideAllButtonCloseAction" Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ClosePlayerPortraits"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ls:LSButton>
+
                 <ls:LSInputBinding x:Name="ToggleInfoButton" BoundEvent="UIShowInfo" PlayerId="{Binding CurrentPlayer.PlayerId}" Command="ls:UIWidget.ToggleTooltipOnUIElementCommand" CommandParameter="{Binding Path=FocusedElement, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
 
                 <ls:LSInputBinding x:Name="InterruptsBinding" BoundEvent="UISort" PlayerId="{Binding CurrentPlayer.PlayerId}" IsEnabled="False"
@@ -4386,6 +4404,7 @@
                 <Setter TargetName="ButtonListen" Property="IsEnabled" Value="True"/>
                 <Setter TargetName="ButtonListen" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ButtonSelect" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ButtonToggleHideAll" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -4399,6 +4418,7 @@
                 <Setter TargetName="ButtonListen" Property="IsEnabled" Value="True"/>
                 <Setter TargetName="ButtonListen" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ButtonSelect" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ButtonToggleHideAll" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>
             <DataTrigger Binding="{Binding Path=CurrentPlayer.SelectedCharacter.CharacterMode}" Value="InDialogue">
                 <Setter TargetName="ButtonListen" Property="IsEnabled" Value="False"/>
@@ -4413,6 +4433,7 @@
 
             <DataTrigger Binding="{Binding Tag, ElementName=PlayerPortraitsRoot}" Value="False">
                 <Setter TargetName="ButtonSelect" Property="IsEnabled" Value="False"/>
+                <Setter TargetName="ButtonToggleHideAll" Property="IsEnabled" Value="False"/>
                 <Setter TargetName="GroupingButton" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="GroupingSplitButton" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="GroupingAllSplitButton" Property="Visibility" Value="Collapsed"/>
@@ -4496,6 +4517,7 @@
             <DataTrigger Binding="{Binding Path=FocusedElement.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=Self}}" Value="CampNonPartyMember">
                 <Setter TargetName="ButtonShowCampCharacter" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ButtonSelect" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ButtonToggleHideAll" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="GroupingButton" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="GroupingSplitButton" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="GroupingPartyButton" Property="Visibility" Value="Collapsed"/>
