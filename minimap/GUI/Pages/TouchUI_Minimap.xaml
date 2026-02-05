@@ -121,7 +121,7 @@
                 <ls:LSInputBinding x:Name="PingCancelBinding" BoundEvent="UICancel" PlayerId="{Binding CurrentPlayer.PlayerId}" Command="{Binding RequestPingState}"
                                    IsEnabled="{Binding CurrentPlayer.IsRequestingPing}"/>
 
-                <StackPanel  Margin="0,15,15,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <StackPanel  Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right">
                     <Grid x:Name="MinimapContainer" Background="Transparent"  VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
                             <TransformGroup>
@@ -136,7 +136,7 @@
                         <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None"/>
 
                         <!-- Map -->
-                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="7,7">
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0">
                             <Grid.Resources>
                                 <Style TargetType="ls:LSWorldMapMarker" BasedOn="{StaticResource Minimap.MarkerItemStyle}"/>
                             </Grid.Resources>
