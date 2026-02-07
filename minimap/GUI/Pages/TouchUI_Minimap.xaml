@@ -490,11 +490,11 @@
 
                         <Popup IsOpen="{Binding IsChecked, ElementName=MenuButton, Mode=TwoWay}"
                             PlacementTarget="{Binding ElementName=MenuButton}"
-                            Placement="Bottom"
+                            Placement="Relative"
                             StaysOpen="False"
                             AllowsTransparency="True"
                             PopupAnimation="Fade">
-                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="380" Margin="0,0,12,0">
+                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="480" Margin="0,0,12,0">
                                 <WrapPanel.Resources>
                                     <ControlTemplate x:Key="WrapPanelButtonTemplate" TargetType="ls:LSButton">
                                         <Grid Background="Transparent">
@@ -513,6 +513,28 @@
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </WrapPanel.Resources>
+
+                                <!-- Touch UI - We need this placeholder for the first button location to overlap the menu toggle button so that we can have a wrap panel that places icons to left of toggle button as well and not just directly under. This is why Popup placement is relative.-->
+                                <ls:LSButton SoundID="UI_HUD_RestMenu_Open_Click">
+                                     <ls:LSButton.Template>
+                                        <ControlTemplate TargetType="ls:LSButton">
+                                            <Grid Background="Transparent">
+                                                <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png" Stretch="None"/>
+                                                <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_downArrow_d.png" Stretch="Uniform" Height="25"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ls:LSButton.Template>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSButton>
 
                                 <ls:LSButton Template="{StaticResource WrapPanelButtonTemplate}"
                                     DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInGameMenu'}"
