@@ -901,6 +901,76 @@
                                         </Style>
                                     </ls:LSButton.Style>
                                 </ls:LSButton>
+
+                                <!-- Touch UI - Taken from TouchUI_Hotbar.xaml -->
+                                <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
+                                <!-- Tag is used to expose if this subitem is showing any tutorial -->
+                                <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
+                                <ls:LSButton x:Name="MenuShortRestItemButton" Template="{StaticResource WrapPanelButtonTemplate}"
+                                    Command="{Binding ShortRest}"
+                                    IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsShortRestAvailable}"
+                                    ls:TutorialProperties.TargetID="TUT_ShortRestDowned"
+                                    ls:TutorialProperties.ModalType="RightBottom"
+                                    ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
+                                        <Grid x:Name="ShortRestGrid" ls:TutorialProperties.TargetID="TUT_ShortRest" ls:TutorialProperties.ModalType="RightBottom" Margin="0,10,0,0">
+                                            <Image x:Name="ico" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_h.png" Stretch="Uniform" Width="60"/>
+                                            <StackPanel x:Name="DotsPanel" Orientation="Horizontal" Margin="12,22,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Image x:Name="dot1" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_node.png" Stretch="Uniform" Width="30" Margin="0,0,-14,0">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                                <Image x:Name="dot2" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_shortRest_node.png" Stretch="Uniform" Width="30" Margin="0,0,14,0">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.Stats.ShortRestPointsResource.Value}" Value="1">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                            </StackPanel>
+
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseUp">
+                                                    <ls:LSPlaySound Sound="UI_HUD_ShortRest_Click"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
+
+                                        <ls:LSButton.Style>
+                                            <Style TargetType="ls:LSButton" BasedOn="{StaticResource {x:Type ls:LSButton}}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                                                        <Setter Property="Tag" Value="True"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), ElementName=ShortRestGrid}" Value="True">
+                                                        <Setter Property="Tag" Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ls:LSButton.Style>
+
+                                        <b:Interaction.Behaviors>
+                                            <ls:RuleSetModifierValueBehavior x:Name="ShortRestFullyHealsModifier" Modifiers="{Binding DataContext.Data.CurrentRuleSetModifiers, ElementName=HotBar}" ModifierName="SHORT_REST_FULLY_HEALS"/>
+                                        </b:Interaction.Behaviors>
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="Click">
+                                                <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                </ls:LSButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>

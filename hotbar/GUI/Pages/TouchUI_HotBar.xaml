@@ -4305,10 +4305,11 @@
                                 </ControlTemplate>
                             </MenuItem.Template>
 
+                            <!-- Touch UI - Moved to TouchUI_Minimap.xaml -->
                             <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
                             <!-- Tag is used to expose if this subitem is showing any tutorial -->
                             <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
-                            <MenuItem x:Name="ShortRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding ShortRest}"
+                            <MenuItem Visibility="Collapsed" x:Name="ShortRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding ShortRest}"
                                         IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsShortRestAvailable}" ls:TutorialProperties.TargetID="TUT_ShortRestDowned" ls:TutorialProperties.ModalType="RightBottom"
                                         ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
                                 <b:Interaction.Behaviors>
