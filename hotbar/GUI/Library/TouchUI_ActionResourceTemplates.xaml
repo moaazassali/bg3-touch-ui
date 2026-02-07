@@ -326,9 +326,9 @@
                             <Setter TargetName="SpellSlotLabel" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
 
-                        <!-- Touch UI - Change it to hide labels at all levels -->
+                        <!-- Touch UI - Change it to hide labels at all levels. For some reason, only values of -2 and under remove the labels at level 1 -->
                         <!-- Hide Resource Bar Labels At Level 5-->
-                        <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.Stats.Level.Value, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                        <DataTrigger Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.Stats.Level.Value, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}, Converter={StaticResource GreaterThanConverter}, ConverterParameter=-2}" Value="True">
                             <Setter TargetName="SpellSlotLabel" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="ResourceLabel" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
