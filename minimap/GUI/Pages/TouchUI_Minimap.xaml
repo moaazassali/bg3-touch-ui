@@ -441,7 +441,8 @@
                             </ls:LSToggleButton.Template>
                         </ls:LSToggleButton>
 
-                        <ls:LSButton x:Name="MapBtn" Margin="0,0,120,18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Template="{StaticResource PanelButtonWT}"
+                        <!-- Touch UI - Not needed. We can just use journal button and then switch tabs or make a minimap click open the map. -->
+                        <ls:LSButton Visibility="Collapsed" x:Name="MapBtn" Margin="0,0,120,18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Template="{StaticResource PanelButtonWT}"
                                  Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
                                  CommandParameter="ToggleJournalMap" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleMap'}"
                                  BoundEvent="ToggleMap" SoundID="UI_HUD_Map">
