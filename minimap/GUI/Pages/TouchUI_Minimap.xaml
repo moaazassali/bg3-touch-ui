@@ -478,25 +478,8 @@
                             </ControlTemplate>
                         </Grid.Resources>
 
-                        <ls:LSToggleButton x:Name="MenuButton">
-                            <ls:LSToggleButton.Template>
-                                <ControlTemplate TargetType="ls:LSToggleButton">
-                                    <Grid>
-                                        <Image x:Name="RestButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
-                                        <Image x:Name="RestButtonIcon" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_downArrow_d.png" Stretch="Uniform" Height="25"/>
-                                    </Grid>
-
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsChecked" Value="True">
-                                            <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="RestButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </ls:LSToggleButton.Template>
-
+                        <ls:LSToggleButton x:Name="MenuButton" Template="{StaticResource MenuToggleButtonTemplate}">
+                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_downArrow_d.png" Stretch="Uniform" Height="25"/>
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="Click">
                                     <ls:LSPlaySound Sound="UI_HUD_RestMenu_Open_Click"/>
