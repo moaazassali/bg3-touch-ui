@@ -584,7 +584,7 @@
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
 
-                                <ls:LSToggleButton Template="{StaticResource MenuToggleButtonTemplate}"
+                                <ls:LSToggleButton x:Name="MenuPingButton" Template="{StaticResource MenuToggleButtonTemplate}"
                                     Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
                                     DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='Ping'}">
                                     <Image Source="pack://application:,,,/Core;component/Assets/Minimap/ico_signal_d.png" Stretch="Uniform" Width="50"/> 
@@ -634,9 +634,11 @@
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding CurrentPlayer.IsRequestingPing}" Value="False">
                     <Setter TargetName="PingButton" Property="IsChecked" Value="False"></Setter>
+                    <Setter TargetName="MenuPingButton" Property="IsChecked" Value="False"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CurrentPlayer.IsRequestingPing}" Value="True">
                     <Setter TargetName="PingButton" Property="IsChecked" Value="True"></Setter>
+                    <Setter TargetName="MenuPingButton" Property="IsChecked" Value="True"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.StoryTimer, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
