@@ -139,6 +139,10 @@
                         <!-- Map -->
                         <!-- Touch UI - Set IsHitTestVisible="False" so we can tap the menu button behind it to increase its hit area -->
                         <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0" IsHitTestVisible="False">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                            </Grid.LayoutTransform>
+
                             <Grid.Resources>
                                 <Style TargetType="ls:LSWorldMapMarker" BasedOn="{StaticResource Minimap.MarkerItemStyle}"/>
                             </Grid.Resources>
@@ -147,7 +151,7 @@
                                        MarkerTrajectory ="Ellipse"                                       
                                        Scale="28.0" MinScale="8.0" MaxScale="40.0" ScaleSteps="4.0"
                                        WorldMapData="{Binding CurrentPlayer.WorldMap}"
-                                       MarkerScale="1"
+                                       MarkerScale="1.5"
                                        FollowCameraRotation="{Binding CurrentPlayer.UIOptions.NorthFacingMinimap, Converter={StaticResource InvertBoolConverter}}"
                                        ZoomRate="0" PanRate="0"
                                        IsMouseWorldCoordinatesEnabled="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}">
@@ -530,7 +534,7 @@
                             StaysOpen="False"
                             AllowsTransparency="True"
                             PopupAnimation="Fade">
-                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="480" Margin="0,0,12,0">
+                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="390" Margin="0,0,12,0">
                                 <WrapPanel.Resources>
                                     <ControlTemplate x:Key="WrapPanelButtonTemplate" TargetType="ls:LSButton">
                                         <Grid Background="Transparent">
