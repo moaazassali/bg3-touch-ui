@@ -1132,6 +1132,15 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
+
+                                <ls:LSButton x:Name="MenuWorldTooltipsButton" Template="{StaticResource MenuButtonTemplate}" Command="{Binding SetShowWorldTooltipsCommand}">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_search.png" Stretch="Uniform" Width="60" Margin="0,-5,-2,0"/> 
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>
