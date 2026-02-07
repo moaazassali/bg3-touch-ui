@@ -870,7 +870,7 @@
                                 </ls:LSButton>
 
                                 <!-- Touch UI - Taken from TouchUI_Hotbar.xaml -->
-                                <ls:LSButton Template="{StaticResource EnterFTBTemplate}"
+                                <ls:LSButton x:Name="MenuEnterFTBButton" Template="{StaticResource EnterFTBTemplate}"
                                     Command="{Binding Path=DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
                                     DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"
                                     BoundEvent="UIEnterTurnBased"
@@ -1058,6 +1058,14 @@
                 <!-- Touch UI - Taken from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
                 <DataTrigger Binding="{Binding CurrentPlayer.TravelError}" Value="None">
                     <Setter TargetName="MenuGoToCampButton" Property="IsEnabled" Value="True"/>
+                </DataTrigger>
+
+                <!-- Touch UI - Adapted from visibility behavior of rest menu in Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
+                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.InTurnBasedMode}" Value="True">
+                    <Setter TargetName="MenuEnterFTBButton" Property="IsEnabled" Value="False"/>
+                    <Setter TargetName="MenuGoToCampButton" Property="IsEnabled" Value="False"/>
+                    <Setter TargetName="MenuLongRestItemButton" Property="IsEnabled" Value="False"/>
+                    <Setter TargetName="MenuShortRestItemButton" Property="IsEnabled" Value="False"/>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.IsRequestingPing}" Value="False">
