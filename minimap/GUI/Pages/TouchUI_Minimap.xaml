@@ -696,6 +696,21 @@
                                         </Style>
                                     </ls:LSButton.Style>
                                 </ls:LSButton>
+
+                                <ls:LSButton x:Name="ActiveMenuPingButton" Template="{StaticResource ActiveMenuButtonTemplate}"
+                                    Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/Minimap/ico_signal_d.png" Stretch="Uniform" Width="50"/> 
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="ls:LSButton">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentPlayer.IsRequestingPing}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
                             </StackPanel>
 
                             <ls:LSToggleButton x:Name="MenuButton" Template="{StaticResource MenuToggleButtonTemplate}">
@@ -866,8 +881,7 @@
                                 </ls:LSButton>
 
                                 <ls:LSToggleButton x:Name="MenuPingButton" Template="{StaticResource MenuToggleButtonTemplate}"
-                                    Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
-                                    DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='Ping'}">
+                                    Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}">
                                     <Image Source="pack://application:,,,/Core;component/Assets/Minimap/ico_signal_d.png" Stretch="Uniform" Width="50"/> 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
