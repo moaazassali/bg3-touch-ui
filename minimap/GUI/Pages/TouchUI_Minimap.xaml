@@ -453,6 +453,10 @@
 
                     <!-- Touch UI - Similar style to the rest menu from TouchUI_HotBar.xaml -->
                     <Grid HorizontalAlignment="Right" Margin="0,0,36,0">
+                        <Grid.LayoutTransform>
+                            <ScaleTransform ScaleX="3" ScaleY="3"/>
+                        </Grid.LayoutTransform>
+
                         <ls:LSToggleButton x:Name="MenuButton">
                             <ls:LSToggleButton.Template>
                                 <ControlTemplate TargetType="ls:LSToggleButton">
@@ -485,12 +489,12 @@
                             StaysOpen="False"
                             AllowsTransparency="True"
                             PopupAnimation="Fade">
-                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="300" Margin="0,0,36,0">
-                                <Grid Width="100" Height="100" Background="red" Margin="10"/>
-                                <Grid Width="100" Height="100" Background="red" Margin="10"/>
-                                <Grid Width="100" Height="100" Background="red" Margin="10"/>
-                                <Grid Width="100" Height="100" Background="red" Margin="10"/>
-                                <Grid Width="100" Height="100" Background="red" Margin="10"/>
+                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="380" Margin="0,0,12,0">
+                                <Grid Width="100" Height="100" Background="red" Margin="10,10,0,0"/>
+                                <Grid Width="100" Height="100" Background="red" Margin="10,10,0,0"/>
+                                <Grid Width="100" Height="100" Background="red" Margin="10,10,0,0"/>
+                                <Grid Width="100" Height="100" Background="red" Margin="10,10,0,0"/>
+                                <Grid Width="100" Height="100" Background="red" Margin="10,10,0,0"/>
                             </WrapPanel>
                         </Popup>
                     </Grid>
