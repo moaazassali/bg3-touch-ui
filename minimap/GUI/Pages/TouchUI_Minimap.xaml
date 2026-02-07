@@ -301,7 +301,8 @@
                             </ls:LSButton.Template>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="GameMenuBtn" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInGameMenu'}"
+                        <!-- Touch UI - Moved to toggle menu down -->
+                        <ls:LSButton Visibility="Collapsed" x:Name="GameMenuBtn" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInGameMenu'}"
                                  Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu"
                                  SoundID="UI_HUD_EscapeMenu" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.IsGameMenuAllowed, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Panel.ZIndex="-1">
                             <ls:LSButton.Template>
@@ -499,14 +500,31 @@
                                         <Grid Background="Transparent">
                                             <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <Ellipse x:Name="DimmingContainer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0" Fill="Black" Margin="5"/>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsPressed" Value="True">
                                                 <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
                                             </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png"/>
+                                                <Setter TargetName="DimmingContainer" Property="Opacity" Value="0.5"/>
+                                            </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </WrapPanel.Resources>
+
+                                <ls:LSButton Template="{StaticResource WrapPanelButtonTemplate}"
+                                    DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleInGameMenu'}"
+                                    Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleGameMenu"
+                                    SoundID="UI_HUD_EscapeMenu" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.IsGameMenuAllowed, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_menu_d.png" Stretch="Uniform" Width="50"/> 
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSButton>
 
                                 <ls:LSButton Template="{StaticResource WrapPanelButtonTemplate}"
                                              Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
