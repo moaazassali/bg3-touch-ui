@@ -387,7 +387,8 @@
                             </ls:LSButton.Resources>
                         </ls:LSButton>
 
-                        <ls:LSButton x:Name="PhotoModeBtn" Margin="183,0,0,-14" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                        <!-- Touch UI - Moved to toggle menu down -->
+                        <ls:LSButton Visibility="Collapsed" x:Name="PhotoModeBtn" Margin="183,0,0,-14" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
                                      Template="{StaticResource PanelButtonWT}" 
                                      Command="{Binding Path=DataContext.TogglePhotoModeCommand, ElementName=Minimap}" 
                                      CommandParameter="{StaticResource TrueValue}" 
@@ -511,6 +512,70 @@
                                              SoundID="UI_HUD_Journal" BoundEvent="ToggleJournal">
 
                                     <Image Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_journal_d.png" Stretch="Uniform" Width="50"/> 
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSButton>
+
+                                <ls:LSButton Template="{StaticResource WrapPanelButtonTemplate}"
+                                     Command="{Binding Path=DataContext.TogglePhotoModeCommand, ElementName=Minimap}" 
+                                     CommandParameter="{StaticResource TrueValue}" 
+                                     DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UITogglePhotoMode'}"
+                                     IsEnabled="{Binding DataContext.CurrentPlayer.IsHost, ElementName=Minimap}"
+                                     SoundID="UI_HUD_Journal"
+                                     BoundEvent="UITogglePhotoMode">
+                                    <Grid>
+                                        <Image Source="pack://application:,,,/Core;component/Assets/Minimap/ico_photomode_d.png" Stretch="Uniform" Width="50"/> 
+                                        <!-- Touch UI - LLM Generated - Lens effect in center of camera icon because the existing camera hole is just a black hole, and it looks strange now with the 3x scale -->
+                                        <Grid Width="18" Height="18" Margin="0,1,0,0"> 
+                                            <Grid.Effect>
+                                                <BlurEffect Radius="1.2"/>
+                                            </Grid.Effect>
+                                            <!-- 1. Metallic Rim (Hides the black border) -->
+                                            <Ellipse StrokeThickness="1">
+                                                <Ellipse.Stroke>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                        <GradientStop Color="#EBC48E" Offset="0"/> <!-- Light Gold -->
+                                                        <GradientStop Color="#63391B" Offset="1"/> <!-- Dark Bronze -->
+                                                    </LinearGradientBrush>
+                                                </Ellipse.Stroke>
+                                                <Ellipse.Fill>
+                                                    <!-- Deep Lens Base -->
+                                                    <RadialGradientBrush Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                                                        <GradientStop Color="#1A2030" Offset="0"/>
+                                                        <GradientStop Color="#1c1e24" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+
+                                            <!-- 2. Inner "Glass" Reflection -->
+                                            <Ellipse Margin="3" Opacity="0.5">
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush Center="0.5,0.8" RadiusX="0.8" RadiusY="0.8">
+                                                        <GradientStop Color="#5CA7FF" Offset="0"/>
+                                                        <GradientStop Color="Transparent" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+
+                                            <!-- 3. The Glint (Primary highlight) -->
+                                            <Ellipse Width="5" Height="3.5" 
+                                                    HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                    Margin="5,4,0,0" Opacity="0.9">
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Color="White" Offset="0"/>
+                                                        <GradientStop Color="Transparent" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                                <Ellipse.RenderTransform>
+                                                    <RotateTransform Angle="-30"/>
+                                                </Ellipse.RenderTransform>
+                                            </Ellipse>
+                                        </Grid>
+                                    </Grid>
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
