@@ -4192,7 +4192,8 @@
                         </b:Interaction.Triggers>
                     </ls:LSInputBinding>
 
-                    <Menu x:Name="RestMenu" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                    <!-- Touch UI - Everything inside was moved to TouchUI_Minimap.xaml, so it's no longer needed. -->
+                    <Menu Visibility="Collapsed" x:Name="RestMenu" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                             ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}"
                             IsEnabled="{Binding Data.LongRest.IsActive, Converter={StaticResource InvertBoolConverter}}">
 
