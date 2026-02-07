@@ -491,24 +491,26 @@
                             AllowsTransparency="True"
                             PopupAnimation="Fade">
                             <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="380" Margin="0,0,12,0">
-                                <ls:LSButton Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                                <WrapPanel.Resources>
+                                    <ControlTemplate x:Key="WrapPanelButtonTemplate" TargetType="ls:LSButton">
+                                        <Grid Background="Transparent">
+                                            <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </WrapPanel.Resources>
+
+                                <ls:LSButton Template="{StaticResource WrapPanelButtonTemplate}"
+                                             Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
                                              CommandParameter="ToggleJournalQuests" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleJournal'}"
                                              SoundID="UI_HUD_Journal" BoundEvent="ToggleJournal">
-                                    <ls:LSButton.Template>
-                                        <ControlTemplate TargetType="ls:LSButton">
-                                            <Grid>
-                                                <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
-                                                <Image x:Name="ButtonIcon" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_journal_d.png" Stretch="Uniform" Height="50"/>
-                                            </Grid>
 
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </ls:LSButton.Template>
-
+                                    <Image Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_journal_d.png" Stretch="Uniform" Width="50"/> 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
