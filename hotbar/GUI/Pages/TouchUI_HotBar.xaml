@@ -4529,7 +4529,8 @@
                                 </MenuItem.Template>
                             </MenuItem>
 
-                            <MenuItem x:Name="EnterFTBItem" Style="{StaticResource SubMenuItemStyle}">
+                            <!-- Touch UI - Moved to TouchUI_Minimap.xaml -->
+                            <MenuItem Visibility="Collapsed" x:Name="EnterFTBItem" Style="{StaticResource SubMenuItemStyle}">
                                 <MenuItem.Template>
                                     <ControlTemplate TargetType="MenuItem">
                                         <ls:LSButton x:Name="EnterFTBButton" ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">

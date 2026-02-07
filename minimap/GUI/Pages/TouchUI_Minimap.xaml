@@ -517,6 +517,106 @@
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
+
+                                    <!-- Touch UI - Taken from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
+                                    <BitmapImage x:Key="IconRTNoArrow" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_RT_d_noArrow.png" />
+                                    <ControlTemplate x:Key="EnterFTBTemplate" TargetType="ls:LSButton">
+                                        <Grid>
+                                            <Image x:Name="img" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
+                                            <Grid>
+                                                <Grid.LayoutTransform>
+                                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                                </Grid.LayoutTransform>
+                                                <Image x:Name="ico" Source="{StaticResource IconHourglass}" Stretch="None" Visibility="Visible" Margin="0,0,0,0"/>
+                                                <Grid x:Name="AnimChrono" Visibility="Hidden">
+                                                    <Image x:Name="icoAnim" Source="{StaticResource IconRTNoArrow}" Stretch="None" Margin="0,-4,0,0"/>
+                                                    <Path x:Name="Arrow" Stretch="None" Width="88" Height="88" StrokeThickness="0" Stroke="#88000000" Fill="White" RenderTransformOrigin="0.5,0.534">
+                                                        <Path.RenderTransform>
+                                                            <TransformGroup>
+                                                                <ScaleTransform/>
+                                                                <SkewTransform/>
+                                                                <RotateTransform/>
+                                                                <TranslateTransform/>
+                                                            </TransformGroup>
+                                                        </Path.RenderTransform>
+                                                        <Path.Data>
+                                                            <Geometry >M40,51 V45 L68,23 L47,51 Z</Geometry>
+                                                        </Path.Data>
+                                                    </Path>
+                                                </Grid>
+                                            </Grid>
+                                            <Ellipse x:Name="DimmingContainer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0" Fill="Black" Margin="5"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                                <Setter TargetName="ico" Property="Margin" Value="0,0,0,0"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="img" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png"/>
+                                                <Setter TargetName="DimmingContainer" Property="Opacity" Value="0.5"/>
+                                                <Setter TargetName="ico" Property="Visibility" Value="Hidden"/>
+                                                <Setter TargetName="AnimChrono" Property="Visibility" Value="Visible"/>
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard x:Name="ChronoAnim">
+                                                        <Storyboard>
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AnimChrono" Storyboard.TargetProperty="Opacity" RepeatBehavior="Forever">
+                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="1"/>
+                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0.5"/>
+                                                                <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <StopStoryboard BeginStoryboardName="ChronoAnim"/>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+
+                                            <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="False">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard x:Name="FTBRotateAnim">
+                                                        <Storyboard>
+                                                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                                                <DiscreteBooleanKeyFrame KeyTime="0:0:0.0" Value="False"/>
+                                                                <DiscreteBooleanKeyFrame KeyTime="{StaticResource TurnTime}" Value="True"/>
+                                                            </BooleanAnimationUsingKeyFrames>
+
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" >
+                                                                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                                <LinearDoubleKeyFrame KeyTime="{StaticResource TurnTime}" Value="-360"/>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                            </DataTrigger>
+
+                                            <!-- When switching from a character in combat to a character in real-time, we don't want to have the 6s wait until entering FTB -->
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding DataContext.CurrentPlayer.IsSelectingCharacter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                                    <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                                                    <Condition Binding="{Binding DataContext.CurrentPlayer.PreviousSelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <MultiDataTrigger.EnterActions>
+                                                    <StopStoryboard BeginStoryboardName="FTBRotateAnim"/>
+                                                </MultiDataTrigger.EnterActions>
+                                                <MultiDataTrigger.Setters>
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                </MultiDataTrigger.Setters>
+                                            </MultiDataTrigger>
+
+                                            <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                                                <StopStoryboard BeginStoryboardName="FTBStrokeAnim1"/>
+                                                <StopStoryboard BeginStoryboardName="FTBRotateAnim"/>
+                                                <StopStoryboard BeginStoryboardName="ChronoAnim"/>
+                                            </EventTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
                                 </WrapPanel.Resources>
 
                                 <!-- Touch UI - We need this placeholder for the first button location to overlap the menu toggle button so that we can have a wrap panel that places icons to left of toggle button as well and not just directly under. This is why Popup placement is relative.-->
@@ -731,6 +831,20 @@
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </ls:LSButton.Template>
+                                </ls:LSButton>
+
+                                <!-- Touch UI - Taken from TouchUI_Hotbar.xaml -->
+                                <ls:LSButton Template="{StaticResource EnterFTBTemplate}"
+                                    Command="{Binding Path=DataContext.ToggleTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                                    DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"
+                                    BoundEvent="UIEnterTurnBased"
+                                    SoundID="UI_HUD_Hotbar_EnterFTB"
+                                    ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                 </ls:LSButton>
                             </WrapPanel>
                         </Popup>
