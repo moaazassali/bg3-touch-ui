@@ -655,6 +655,17 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
+
+                                <!-- Touch UI - Adapted from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
+                                <ls:LSButton Template="{StaticResource WrapPanelButtonTemplate}"
+                                    Command="{Binding CustomEvent}" CommandParameter="ToggleCharacterPanel">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_equipment_d.png" Stretch="Uniform" Width="50"/> 
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>
