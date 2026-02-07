@@ -859,6 +859,48 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
+
+                                <!-- Touch UI - Taken from TouchUI_Hotbar.xaml -->
+                                <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
+                                <!-- Tag is used to expose if this subitem is showing any tutorial -->
+                                <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
+                                <ls:LSButton x:Name="MenuLongRestItemButton" Template="{StaticResource WrapPanelButtonTemplate}"
+                                    Command="{Binding CampTravel}"
+                                    ls:TutorialProperties.TargetID="TUT_LongRest"
+                                    ls:TutorialProperties.ModalType="RightBottom"
+                                    ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
+                                    <Grid x:Name="LongRestGrid" ls:TutorialProperties.TargetID="TUT_Camp" ls:TutorialProperties.ModalType="RightBottom">
+                                        <Image x:Name="icon" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_longRest_h.png" Stretch="Uniform" Width="80"/>
+                                    </Grid>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="MouseDown">
+                                            <ls:LSPlaySound Sound="UI_HUD_Party_Campsite"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="ls:LSButton" BasedOn="{StaticResource {x:Type ls:LSButton}}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Self}}" Value="True">
+                                                    <Setter Property="Tag" Value="True"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), ElementName=LongRestGrid}" Value="True">
+                                                    <Setter Property="Tag" Value="True"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding CurrentPlayer.EndTheDayState}" Value="Disabled">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CurrentPlayer.EndTheDayState}" Value="Unavailable">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>

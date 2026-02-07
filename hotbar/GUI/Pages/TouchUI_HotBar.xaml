@@ -4403,10 +4403,11 @@
                                 </MenuItem.Template>
                             </MenuItem>
 
+                            <!-- Touch UI - Moved to TouchUI_Minimap.xaml -->
                             <!-- Target for 2 tutorials (one attached to the MenuItem, the other to the inner Grid) -->
                             <!-- Tag is used to expose if this subitem is showing any tutorial -->
                             <!-- We need to manually reflect IsAnimating since inheritance is somehow broken and it doesn't reach this point -->
-                            <MenuItem x:Name="LongRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding CampTravel}" ls:TutorialProperties.TargetID="TUT_LongRest" ls:TutorialProperties.ModalType="RightBottom" ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
+                            <MenuItem Visibility="Collapsed" x:Name="LongRestItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding CampTravel}" ls:TutorialProperties.TargetID="TUT_LongRest" ls:TutorialProperties.ModalType="RightBottom" ls:TutorialProperties.IsAnimating="{Binding (ls:TutorialProperties.IsAnimating), RelativeSource={RelativeSource AncestorType={x:Type ItemsPresenter}}}">
                                 <MenuItem.ToolTip>
                                     <ls:LSTooltip Visibility="Collapsed" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:AttachedProperties.InheritedTag="{Binding DataContext.CurrentPlayer, ElementName=HotBar}">
                                         <ls:LSTooltip.ContentTemplate>
