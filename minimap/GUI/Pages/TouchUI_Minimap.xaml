@@ -508,6 +508,12 @@
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </ls:LSButton.Template>
+
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                 </ls:LSButton>
                             </WrapPanel>
                         </Popup>
