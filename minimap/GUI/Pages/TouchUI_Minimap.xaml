@@ -412,7 +412,8 @@
                             </ls:LSButton.ToolTip>
                         </ls:LSButton>
 
-                        <ls:LSToggleButton x:Name="PingButton" Margin="0,0,46,72" Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                        <!-- Touch UI - Moved to toggle menu down -->
+                        <ls:LSToggleButton Visibility="Collapsed" x:Name="PingButton" Margin="0,0,46,72" Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
                                        VerticalAlignment="Bottom" HorizontalAlignment="Right" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='Ping'}"
                                        ToolTipService.Placement="Top" ToolTipService.IsEnabled="True" ToolTipService.VerticalOffset="4">
                             <ls:LSToggleButton.ToolTip>
@@ -458,6 +459,23 @@
                         <Grid.LayoutTransform>
                             <ScaleTransform ScaleX="3" ScaleY="3"/>
                         </Grid.LayoutTransform>
+
+                        <Grid.Resources>
+                            <ControlTemplate x:Key="MenuToggleButtonTemplate" TargetType="ls:LSToggleButton">
+                                <Grid Background="Transparent">
+                                    <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Grid.Resources>
 
                         <ls:LSToggleButton x:Name="MenuButton">
                             <ls:LSToggleButton.Template>
@@ -510,7 +528,6 @@
                                              Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
                                              CommandParameter="ToggleJournalQuests" DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='ToggleJournal'}"
                                              SoundID="UI_HUD_Journal" BoundEvent="ToggleJournal">
-
                                     <Image Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_journal_d.png" Stretch="Uniform" Width="50"/> 
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
@@ -582,6 +599,17 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
+
+                                <ls:LSToggleButton Template="{StaticResource MenuToggleButtonTemplate}"
+                                    Command="{Binding Path=DataContext.RequestPingState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}"
+                                    DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='Ping'}">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/Minimap/ico_signal_d.png" Stretch="Uniform" Width="50"/> 
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSToggleButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>
