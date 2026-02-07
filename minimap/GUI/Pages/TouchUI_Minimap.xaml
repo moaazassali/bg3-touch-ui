@@ -133,12 +133,10 @@
                         </Grid.RenderTransform>
 
                         <!-- Map Border -->
-                        <!-- Touch UI - Set IsHitTestVisible="False" so we can tap the menu button behind it to increase its hit area -->
-                        <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None" IsHitTestVisible="False"/>
+                        <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None"/>
 
                         <!-- Map -->
-                        <!-- Touch UI - Set IsHitTestVisible="False" so we can tap the menu button behind it to increase its hit area -->
-                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0" IsHitTestVisible="False">
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0">
                             <Grid.LayoutTransform>
                                 <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                             </Grid.LayoutTransform>
@@ -168,6 +166,16 @@
                                             </b:ConditionBehavior>
                                         </b:Interaction.Behaviors>
                                         <b:InvokeCommandAction Command="{Binding RequestPingFromMap}" CommandParameter="{Binding ElementName=WorldMap, Path=MouseWorldCoordinates}"/>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseDown">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding CurrentPlayer.IsRequestingPing}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:InvokeCommandAction Command="{Binding Path=DataContext.CustomEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="ToggleJournalMap"/>
                                     </b:EventTrigger>
                                 </b:Interaction.Triggers>
                             </ls:LSWorldMap>
