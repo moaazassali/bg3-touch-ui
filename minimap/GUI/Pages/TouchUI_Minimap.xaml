@@ -222,14 +222,6 @@
                             </TextBlock.Text>
                         </TextBlock>
 
-                        <!-- Map Location Text -->
-                        <ls:LSNineSliceImage x:Name="LocationHolder" Visibility="Collapsed" ImageSource="{StaticResource MinimapLocationFrame}" Slices="50,26,180,26" Height="72" MinWidth="230" Padding="32,0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-518,16,518,0">
-                            <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName}" 
-                                       Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"
-                                       TextAlignment="Center"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </ls:LSNineSliceImage>
-
                         <!-- Buttons around the minimap -->
                         <ls:LSInputBinding x:Name="TadpoleBinding" BoundEvent="UIToggleTadpolePowers" Command="{Binding CustomEvent}" CommandParameter="OpenTadpoleTree"/>
                         <!-- Touch UI - Moved to toggle menu down -->
@@ -469,6 +461,18 @@
 
                     </Grid>
 
+                    <!-- Touch UI - Moved outside from the minimap container grid  -->
+                    <!-- Map Location Text -->
+                    <ls:LSNineSliceImage x:Name="LocationHolder" Visibility="Hidden" ImageSource="{StaticResource MinimapLocationFrame}" Slices="50,26,180,26" Height="72" MinWidth="230" Padding="32,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <ls:LSNineSliceImage.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </ls:LSNineSliceImage.LayoutTransform>
+                        <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName}" 
+                                    Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"
+                                    TextAlignment="Center"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </ls:LSNineSliceImage>
+
                     <!-- Touch UI - Similar style to the rest menu from TouchUI_HotBar.xaml -->
                     <Grid HorizontalAlignment="Right" Margin="0,0,36,0">
                         <Grid.LayoutTransform>
@@ -542,7 +546,7 @@
                             StaysOpen="False"
                             AllowsTransparency="True"
                             PopupAnimation="Fade">
-                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="390" Margin="0,0,12,0">
+                            <WrapPanel Orientation="Vertical" FlowDirection="RightToLeft" Height="320" Margin="0,0,12,0">
                                 <WrapPanel.Resources>
                                     <ControlTemplate x:Key="WrapPanelButtonTemplate" TargetType="ls:LSButton">
                                         <Grid Background="Transparent">
