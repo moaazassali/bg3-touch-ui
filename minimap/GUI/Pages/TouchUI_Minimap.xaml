@@ -213,7 +213,11 @@
 
                         <!-- Co-ordinates -->
                         <TextBlock  Foreground="{StaticResource LS_accent100TxtColor}" FontSize="{StaticResource SmallFontSize}" Effect="{StaticResource HUD.DropShadow}" Opacity="0.8"
-                                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,84" Panel.ZIndex="2">
+                                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40" Panel.ZIndex="2">
+                            <TextBlock.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </TextBlock.LayoutTransform>
+
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="X:{0:0.} Y:{1:0.}">
                                     <Binding Path="CurrentPlayer.WorldMap.CameraLookatPos.x"/>
