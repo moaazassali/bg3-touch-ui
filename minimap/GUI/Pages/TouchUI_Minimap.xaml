@@ -220,6 +220,7 @@
 
                         <!-- Buttons around the minimap -->
                         <ls:LSInputBinding x:Name="TadpoleBinding" BoundEvent="UIToggleTadpolePowers" Command="{Binding CustomEvent}" CommandParameter="OpenTadpoleTree"/>
+                        <!-- Touch UI - Moved to toggle menu down -->
                         <ls:LSButton x:Name="TadpoleBtn" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding CustomEvent}" CommandParameter="OpenTadpoleTree" SoundID="UI_HUD_EscapeMenu" ls:TutorialProperties.TargetID="TUT_TadpoleTree" ls:TutorialProperties.ModalType="TopRight" Visibility="Collapsed" Margin="-40,0,0,0">
                             <ls:LSButton.Template>
                                 <ControlTemplate TargetType="ls:LSButton">
@@ -666,6 +667,71 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
+
+                                <ls:LSButton x:Name="MenuTadpoleBtn" Command="{Binding CustomEvent}" CommandParameter="OpenTadpoleTree" SoundID="UI_HUD_EscapeMenu" ls:TutorialProperties.TargetID="TUT_TadpoleTree" ls:TutorialProperties.ModalType="TopRight" Visibility="Collapsed">
+                                    <ls:LSButton.Template>
+                                        <ControlTemplate TargetType="ls:LSButton">
+                                            <ControlTemplate.Resources>
+                                                <BitmapImage x:Key="BtnTadpoleEmpty" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png"/>
+                                                <BitmapImage x:Key="IcoTadpoleGold" UriSource="pack://application:,,,/Core;component/Assets/TadpoleTree/ICO_TadpoleGold.png"/>
+                                                <BitmapImage x:Key="BtnTadpoleCounter" UriSource="pack://application:,,,/Core;component/Assets/TadpoleTree/Btn_TadpoleCounter.png"/>
+                                            </ControlTemplate.Resources>
+                                            <Grid x:Name="BtnRoot">
+                                                <Image x:Name="Bg" Source="{StaticResource BtnTadpoleEmpty}" Stretch="None"/>
+
+                                                <Image x:Name="TadpoleIcon" Source="{StaticResource IcoTadpoleGold}" Stretch="Uniform" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                                    <Image.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform x:Name="TadpoleScale" ScaleX="1" ScaleY="1"/>
+                                                        </TransformGroup>
+                                                    </Image.RenderTransform>
+                                                </Image>
+                                                <!-- Touch UI - TadpoleIcon is too shiny and doesn't match other icons that well, so we can try to dim it -->
+                                                <Ellipse x:Name="TadpoleIconDimmingContainer" Opacity="0.5" Fill="#6e5436" Margin="0" Width="60">
+                                                    <Ellipse.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform ScaleX="-1"/>
+                                                        </TransformGroup>
+                                                    </Ellipse.LayoutTransform>
+                                                    <Ellipse.OpacityMask>
+                                                        <ImageBrush ImageSource="{StaticResource IcoTadpoleGold}" Stretch="Uniform"/>
+                                                    </Ellipse.OpacityMask>
+                                                </Ellipse>
+
+                                                <Grid x:Name="HudTadpoleCount" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="60" Margin="-8,-8,0,0" Visibility="Collapsed">
+                                                    <Grid.LayoutTransform>
+                                                        <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                                    </Grid.LayoutTransform>
+                                                    <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" Source="{StaticResource BtnTadpoleCounter}"></Image>
+                                                    <TextBlock x:Name="TadpoleCount" Text="{Binding CurrentPlayer.PartyTadpoleCount}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource ScaledMediumFontSize}" Margin="0,2,2,0"/>
+                                                </Grid>
+
+                                                <Ellipse x:Name="DimmingContainer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0" Fill="Black" Margin="5"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png" TargetName="Bg"/>
+                                                    <Setter TargetName="TadpoleIcon" Property="Margin" Value="0,4,0,0" />
+                                                    <Setter TargetName="TadpoleIconDimmingContainer" Property="Margin" Value="0,4,0,0" />
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/TadpoleTree/BTN_TadpoleEmpty_disabled.png" TargetName="Bg"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter TargetName="Bg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png"/>
+                                                    <Setter TargetName="DimmingContainer" Property="Opacity" Value="0.5"/>
+                                                </Trigger>
+
+                                                <DataTrigger Binding="{Binding CurrentPlayer.PartyTadpoleCount, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0'}" Value="True">
+                                                    <!-- <Setter Property="Source" Value="pack://application:,,,/Core;component/Assets/TadpoleTree/BTN_TadpolePopulated_d.png" TargetName="Bg"/> -->
+                                                    <!-- <Setter TargetName="TadpoleIcon" Property="Visibility" Value="Visible"/> -->
+                                                    <Setter TargetName="TadpoleIconDimmingContainer" Property="Opacity" Value="0"/>
+                                                    <Setter TargetName="HudTadpoleCount" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ls:LSButton.Template>
+                                </ls:LSButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>
@@ -727,7 +793,8 @@
                     <Setter TargetName="StoryTimer" Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CurrentPlayer.PartyUnlockedTadpolePowers}" Value="True">
-                    <Setter TargetName="TadpoleBtn" Property="Visibility" Value="Visible"/>
+                    <!-- <Setter TargetName="TadpoleBtn" Property="Visibility" Value="Visible"/> -->
+                    <Setter TargetName="MenuTadpoleBtn" Property="Visibility" Value="Visible"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CurrentPlayer.UIData.CombatLogSize}" Value="Expanded">
                     <Setter TargetName="NotificationsContainer" Property="MaxHeight" Value="840"/>
@@ -798,7 +865,7 @@
                     </MultiDataTrigger.Conditions>
                     <!-- <Setter TargetName="MapBorder" Property="Source" Value="{StaticResource MinimapBgLocation}"/> -->
                     <Setter TargetName="LocationHolder" Property="Visibility" Value="Visible"/>
-                    <Setter TargetName="TadpoleBtn" Property="Margin" Value="-100,100,0,0"/>
+                    <!-- <Setter TargetName="TadpoleBtn" Property="Margin" Value="-100,100,0,0"/> -->
                 </MultiDataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
