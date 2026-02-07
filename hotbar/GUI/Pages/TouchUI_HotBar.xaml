@@ -4479,7 +4479,8 @@
                                 </MenuItem.Template>
                             </MenuItem>
 
-                            <MenuItem x:Name="GoToCampItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding GoToCamp}" IsEnabled="False">
+                            <!-- Touch UI - Moved to TouchUI_Minimap.xaml -->
+                            <MenuItem Visibility="Collapsed" x:Name="GoToCampItem" Style="{StaticResource SubMenuItemStyle}" Command="{Binding GoToCamp}" IsEnabled="False">
                                 <MenuItem.ToolTip>
                                     <ls:LSTooltip Visibility="Collapsed" x:Name="GoToCampTooltip" IsHitTestVisible="False" Placement="Right" VerticalOffset="-16" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=HotBar}">
                                         <ls:LSTooltip.ContentTemplate>
