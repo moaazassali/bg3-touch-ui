@@ -486,10 +486,41 @@
                                     <RotateTransform Angle="45"/>
                                 </Image.RenderTransform>
                             </Image>
+
+                            <!-- Touch UI - Forces the menu open if a sub-item is showing a tutorial adapted from rest menu behavior in Game\Mods\MainUI\GUI\Pages\HotBar.xaml --> 
+                            <ls:LSToggleButton.Style>
+                                <Style TargetType="ls:LSToggleButton">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Tag, ElementName=MenuLongRestItemButton}" Value="True">
+                                            <Setter Property="IsChecked" Value="True"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Tag, ElementName=MenuShortRestItemButton}" Value="True">
+                                            <Setter Property="IsChecked" Value="True"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Tag, ElementName=MenuTadpoleBtn}" Value="True">
+                                            <Setter Property="IsChecked" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ls:LSToggleButton.Style>
+
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="Click">
                                     <ls:LSPlaySound Sound="UI_HUD_RestMenu_Open_Click"/>
                                 </b:EventTrigger>
+
+                                <!-- Touch UI - Tutorial trigger adapted from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
+                                <b:PropertyChangedTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
+                                    <b:Interaction.Behaviors>
+                                        <b:ConditionBehavior>
+                                            <b:ConditionalExpression>
+                                                <b:ComparisonCondition LeftOperand="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Operator="Equal" RightOperand="True"/>
+                                            </b:ConditionalExpression>
+                                        </b:ConditionBehavior>
+                                    </b:Interaction.Behaviors>
+                                    <!-- Tutorial UI Event - Rest Menu Opened-->
+                                    <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="394c5454-28a2-433d-9dca-02a663e93cd1"/>
+                                </b:PropertyChangedTrigger>
                             </b:Interaction.Triggers>
                         </ls:LSToggleButton>
 
@@ -827,6 +858,11 @@
                                                     <!-- <Setter TargetName="TadpoleIcon" Property="Visibility" Value="Visible"/> -->
                                                     <Setter TargetName="TadpoleIconDimmingContainer" Property="Opacity" Value="0"/>
                                                     <Setter TargetName="HudTadpoleCount" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+
+                                                <!-- Touch UI - Forces the menu open if a sub-item is showing a tutorial --> 
+                                                <DataTrigger Binding="{Binding (ls:TutorialProperties.IsShowingTutorial), RelativeSource={RelativeSource Self}}" Value="True">
+                                                    <Setter Property="Tag" Value="True"/>
                                                 </DataTrigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
