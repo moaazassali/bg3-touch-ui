@@ -516,6 +516,28 @@
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
 
+                            <ControlTemplate x:Key="ActiveMenuButtonTemplate" TargetType="ls:LSButton">
+                                <Grid Background="Transparent">
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                    </Grid.LayoutTransform>
+                                    <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Ellipse x:Name="DimmingContainer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0" Fill="Black" Margin="5"/>
+                                    <!-- add an x popup to top right of icon -->
+                                    <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Buttons/popin_closeIco_d.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="60" Margin="0,-10,-10,0"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_disabled.png"/>
+                                        <Setter TargetName="DimmingContainer" Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+
                             <!-- Touch UI - Taken from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
                             <BitmapImage x:Key="IconRTNoArrow" UriSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/ico_RT_d_noArrow.png" />
                             <ControlTemplate x:Key="EnterFTBTemplate" TargetType="ls:LSButton">
@@ -617,49 +639,109 @@
                             </ControlTemplate>
                         </Grid.Resources>
 
-                        <ls:LSToggleButton x:Name="MenuButton" Template="{StaticResource MenuToggleButtonTemplate}">
-                            <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_downArrow_d.png" Stretch="Uniform" Height="25" RenderTransformOrigin="0.5,0.5" Margin="0,6,6,0">
-                                <Image.RenderTransform>
-                                    <RotateTransform Angle="45"/>
-                                </Image.RenderTransform>
-                            </Image>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <!-- Touch UI - Add a panel to cancel some active button toggles from the popup menu -->
+                            <StackPanel x:Name="MenuActiveToggles" Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <!-- Touch UI - Only visible if popup menu is closed -->
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=MenuButton}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
 
-                            <!-- Touch UI - Forces the menu open if a sub-item is showing a tutorial adapted from rest menu behavior in Game\Mods\MainUI\GUI\Pages\HotBar.xaml --> 
-                            <ls:LSToggleButton.Style>
-                                <Style TargetType="ls:LSToggleButton">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Tag, ElementName=MenuLongRestItemButton}" Value="True">
-                                            <Setter Property="IsChecked" Value="True"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Tag, ElementName=MenuShortRestItemButton}" Value="True">
-                                            <Setter Property="IsChecked" Value="True"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Tag, ElementName=MenuTadpoleBtn}" Value="True">
-                                            <Setter Property="IsChecked" Value="True"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ls:LSToggleButton.Style>
+                                <!-- Touch UI - I couldn't find a direct way to figure out if the character is hiding, so I used this *hack* to give the ItemsControl some width if the character is sneaking -->
+                                <ItemsControl x:Name="SneakScanner" 
+                                            ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" 
+                                            Opacity="0" 
+                                            Height="0"
+                                            IsHitTestVisible="False"
+                                            Visibility="Hidden">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
 
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="Click">
-                                    <ls:LSPlaySound Sound="UI_HUD_RestMenu_Open_Click"/>
-                                </b:EventTrigger>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <!-- Touch UI - All status markers have 0px dimensions by default -->
+                                            <Grid x:Name="StatusMarker" Height="0" Width="0"/>
+                                            <DataTemplate.Triggers>
+                                                <!-- Touch UI - If we find the SNEAKING status effect, then we give it some width which makes the ItemsControl have some width also instead of having 0px width -->
+                                                <DataTrigger Binding="{Binding StatusId}" Value="SNEAKING">
+                                                    <Setter TargetName="StatusMarker" Property="Width" Value="1"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
-                                <!-- Touch UI - Tutorial trigger adapted from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
-                                <b:PropertyChangedTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
-                                    <b:Interaction.Behaviors>
-                                        <b:ConditionBehavior>
-                                            <b:ConditionalExpression>
-                                                <b:ComparisonCondition LeftOperand="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Operator="Equal" RightOperand="True"/>
-                                            </b:ConditionalExpression>
-                                        </b:ConditionBehavior>
-                                    </b:Interaction.Behaviors>
-                                    <!-- Tutorial UI Event - Rest Menu Opened-->
-                                    <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="394c5454-28a2-433d-9dca-02a663e93cd1"/>
-                                </b:PropertyChangedTrigger>
-                            </b:Interaction.Triggers>
-                        </ls:LSToggleButton>
+                                <ls:LSButton x:Name="ActiveMenuToggleGroupHideButton" Template="{StaticResource ActiveMenuButtonTemplate}"
+                                    Command="{Binding DataContext.ToggleGroupHide, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                    BoundEvent="ToggleGroupStealth">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/PlayerPortraits/ico_party_hideAll_d.png" Stretch="Uniform" Width="50"/> 
+                                    <ls:LSButton.Style>
+                                        <Style TargetType="ls:LSButton">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActualWidth, ElementName=SneakScanner, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ls:LSButton.Style>
+                                </ls:LSButton>
+                            </StackPanel>
+
+                            <ls:LSToggleButton x:Name="MenuButton" Template="{StaticResource MenuToggleButtonTemplate}">
+                                <Image Source="pack://application:,,,/GustavNoesisGUI;component/Assets/Shared/ico_downArrow_d.png" Stretch="Uniform" Height="25" RenderTransformOrigin="0.5,0.5" Margin="0,6,6,0">
+                                    <Image.RenderTransform>
+                                        <RotateTransform Angle="45"/>
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <!-- Touch UI - Forces the menu open if a sub-item is showing a tutorial adapted from rest menu behavior in Game\Mods\MainUI\GUI\Pages\HotBar.xaml --> 
+                                <ls:LSToggleButton.Style>
+                                    <Style TargetType="ls:LSToggleButton">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Tag, ElementName=MenuLongRestItemButton}" Value="True">
+                                                <Setter Property="IsChecked" Value="True"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Tag, ElementName=MenuShortRestItemButton}" Value="True">
+                                                <Setter Property="IsChecked" Value="True"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Tag, ElementName=MenuTadpoleBtn}" Value="True">
+                                                <Setter Property="IsChecked" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ls:LSToggleButton.Style>
+
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Click">
+                                        <ls:LSPlaySound Sound="UI_HUD_RestMenu_Open_Click"/>
+                                    </b:EventTrigger>
+
+                                    <!-- Touch UI - Tutorial trigger adapted from Game\Mods\MainUI\GUI\Pages\HotBar.xaml -->
+                                    <b:PropertyChangedTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Operator="Equal" RightOperand="True"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <!-- Tutorial UI Event - Rest Menu Opened-->
+                                        <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" CommandParameter="394c5454-28a2-433d-9dca-02a663e93cd1"/>
+                                    </b:PropertyChangedTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSToggleButton>
+                        </StackPanel>
 
                         <Popup IsOpen="{Binding IsChecked, ElementName=MenuButton, Mode=TwoWay}"
                             PlacementTarget="{Binding ElementName=MenuButton}"
