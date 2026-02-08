@@ -84,8 +84,9 @@
         <DataTemplate>
             <Grid x:Name="CombatLogRoot" ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" d:DataContext="{d:DesignInstance {x:Type ls:DCCombatLog}, IsDesignTimeCreatable=True}">
 
+                <!-- Touch UI - Disabled here and moved to minimap popup menu -->
                 <!-- COMBAT LOG BUTTON -->
-                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-2,284" Panel.ZIndex="10">
+                <Grid Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-2,284" Panel.ZIndex="10">
 
                     <Image x:Name="bg" Source="pack://application:,,,/Core;component/Assets/CombatLog/combatlog_gizmo_bg.png" Stretch="None"/>
 
