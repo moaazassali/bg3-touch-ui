@@ -414,7 +414,7 @@
                 </Grid>
 
                 <!-- COMBAT FEED -->
-                <Grid x:Name="FeedGrid" IsHitTestVisible="False" SnapsToDevicePixels="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,540" Visibility="{Binding CombatLogCollapsed, Converter={StaticResource BoolToVisibleConverter}}">
+                <Grid x:Name="FeedGrid" IsHitTestVisible="False" SnapsToDevicePixels="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,36" Visibility="{Binding CombatLogCollapsed, Converter={StaticResource BoolToVisibleConverter}}">
                     <ItemsControl x:Name="CombatFeed" ItemsSource="{Binding FilteredItems, ElementName=CombatFeedMesssages}" AlternationCount="{Binding FilteredItems.Count, ElementName=CombatFeedMesssages}" Height="700" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding CurrentPlayer.UIOptions.ShowCombatFeed, Converter={StaticResource BoolToVisibleConverter}}">
                         <b:Interaction.Behaviors>
                             <ls:CollectionFilterBehavior x:Name="CombatFeedMesssages" ItemsSource="{Binding Data.CombatLog.EntryGroups}" Predicate="{Binding DataContext.Data.CombatFeedMessagesPredicate, ElementName=CombatLog}"/>
