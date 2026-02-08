@@ -18,9 +18,13 @@
             </ControlTemplate.Resources>
 
             <Grid ls:TooltipExtender.Owner="{Binding CurrentPlayer.SelectedCharacter}" Background="{StaticResource LS_PanelBackground}">
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="ColumnDef0" Width="1*"/>
-                    <ColumnDefinition x:Name="ColumnDef1" Width="7*"/>
+                    <ColumnDefinition x:Name="ColumnDef0" Width="100"/>
+                    <ColumnDefinition x:Name="ColumnDef1" Width="0"/>
                     <ColumnDefinition x:Name="ColumnDef2" Width="31*"/>
                     <ColumnDefinition x:Name="ColumnDef3" Width="1*"/>
                     <ColumnDefinition x:Name="ColumnDef4" Width="0"/>
@@ -28,21 +32,21 @@
                     <ColumnDefinition x:Name="ColumnDef6" Width="0"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="35*"/>
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
 
-                <Grid x:Name="MainPanel" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" >
+                <Grid x:Name="MainPanel" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="17*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock x:Name="CategoryTitle" Grid.Row="0" Text="{Binding Source='hf8bb283fg341bg41d6g8b83gd5e3f7a0a2a1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource Journal.TitleStyle}" Margin="{StaticResource Journal.CategoryTitleMargin}"/>
+                    <TextBlock x:Name="CategoryTitle" Grid.Row="0" Text="{Binding Source='hf8bb283fg341bg41d6g8b83gd5e3f7a0a2a1', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource Journal.TitleStyle}" Margin="0,0,0,0"/>
 
-                    <ListBox x:Name="Log" Grid.Row="1" ItemsSource="{Binding Data.CombatLog.EntryGroupsReversed}" ls:MoveFocus.Focusable="True" SelectedIndex="0">
+                    <ListBox x:Name="Log" Grid.Row="1" ItemsSource="{Binding Data.CombatLog.EntryGroupsReversed}" ls:MoveFocus.Focusable="True" SelectedIndex="0" Margin="0,20,0,0">
                         <ListBox.Template>
                             <ControlTemplate>
                                 <ScrollViewer Template="{StaticResource NoForcedStyleScrollViewerTemplate}" VerticalScrollBarVisibility="Visible">
@@ -187,13 +191,13 @@
                     </ListBox>
                 </Grid>
 
-                <Rectangle x:Name="TooltipAnchor" Grid.Column="4" Grid.Row="2" VerticalAlignment="Top" ToolTipService.Placement="Bottom" ToolTipService.IsEnabled="False" Visibility="Collapsed">
+                <Rectangle x:Name="TooltipAnchor" Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" ToolTipService.Placement="Bottom" ToolTipService.IsEnabled="False" Visibility="Collapsed" Margin="0,85,0,0">
                     <Rectangle.ToolTip>
                         <ls:LSTooltip x:Name="FullScreenTooltip" Content="{Binding Path=SelectedItem.ParamTooltips[0], ElementName=Log}" ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), ElementName=MainPanel}" VerticalOffset="-6"/>
                     </Rectangle.ToolTip>
                 </Rectangle>
 
-                <StackPanel x:Name="ButtonHints" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Style="{StaticResource ButtonHint.Container.Center}">
+                <StackPanel x:Name="ButtonHints" Grid.ColumnSpan="7" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,100,0">
                     <ls:LSButton x:Name="DetailsBtn"
                                  ls:LSButton.BoundEvent="UIShowInfo"
                                  ContentTemplate="{StaticResource ControllerButtonHint}"
@@ -251,8 +255,8 @@
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Layout}" Value="Common">
-                    <Setter TargetName="ColumnDef0" Property="Width" Value="1*"/>
-                    <Setter TargetName="ColumnDef1" Property="Width" Value="4*"/>
+                    <Setter TargetName="ColumnDef0" Property="Width" Value="100"/>
+                    <Setter TargetName="ColumnDef1" Property="Width" Value="0"/>
                     <Setter TargetName="ColumnDef2" Property="Width" Value="18*"/>
                     <Setter TargetName="ColumnDef3" Property="Width" Value="1*"/>
                     <Setter TargetName="ColumnDef4" Property="Width" Value="13*"/>
@@ -261,7 +265,7 @@
 
                     <Setter TargetName="MainPanel" Property="Visibility" Value="Visible"/>
                     <Setter TargetName="MainPanel" Property="Grid.Column" Value="2"/>
-                    <Setter TargetName="ButtonHints" Property="Grid.ColumnSpan" Value="5"/>
+                    <!-- <Setter TargetName="ButtonHints" Property="Grid.ColumnSpan" Value="5"/> -->
                     <Setter TargetName="DetailsBtn" Property="Command" Value="ls:UIWidget.ToggleTooltipOnUIElementCommand"/>
                     <Setter TargetName="DetailsBtn" Property="CommandParameter" Value="{Binding ElementName=TooltipAnchor}"/>
                     <Setter TargetName="DetailsBtn" Property="EatInput" Value="True"/>
