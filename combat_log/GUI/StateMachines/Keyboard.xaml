@@ -8,6 +8,49 @@
 			<ls:State.Widgets>
 				<ls:StateWidget Filename="TouchUI_CombatLog.xaml" Layer="HUD"/>
 			</ls:State.Widgets>
+
+			<ls:State.Events>
+				<ls:StateEvent Name="OpenJournalCombatLog">
+					<ls:StateEvent.Actions>
+						<ls:PushState Name="JournalCombatLog"/>
+					</ls:StateEvent.Actions>
+				</ls:StateEvent>
+			</ls:State.Events>
+		</ls:State>
+
+		<ls:State Name="JournalCombatLog" Layout = "Player" Owner = "Player" TutorialLayer="JournalCombatLog" IsModal="True" ModType="Override">
+			<ls:State.Widgets>
+				<ls:StateWidget Filename="TouchUI_JournalCombatLog_c.xaml" Layer="PopupPanels"/>
+			</ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseWidget">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+				<!--RemovePanelState happens after closing animation so the widget is cleaned up-->
+                <ls:StateEvent Name = "RemovePanelState">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+
+                <ls:StateEvent Name = "CloseAllFullscreen">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "IE.ToggleInGameMenu">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenPinnedTooltips">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="PinnedTooltips"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
 		</ls:State>
 
     </ls:StateMachine.States>

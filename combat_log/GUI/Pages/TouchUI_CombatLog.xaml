@@ -89,7 +89,10 @@
 
                     <Image x:Name="bg" Source="pack://application:,,,/Core;component/Assets/CombatLog/combatlog_gizmo_bg.png" Stretch="None"/>
 
-                    <ls:LSButton x:Name="ToggleCombatLogButton" Command="{Binding ToggleCombatLogCommand}" VerticalAlignment="Center">
+                    <ls:LSButton x:Name="ToggleCombatLogButton" 
+                        Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        CommandParameter="OpenJournalCombatLog"
+                        VerticalAlignment="Center">
                         <ls:LSButton.Template>
                             <ControlTemplate TargetType="ls:LSButton">
                                 <Grid Height="114" Width="80" Background="Transparent">
