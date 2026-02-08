@@ -700,7 +700,67 @@
                                 </StackPanel.Style>
 
                                 <!-- Touch UI - Couldn't find a robust way to check for whether tooltips are active or not. Instead, we can track state locally with this -->
-                                <CheckBox x:Name="ShowWorldTooltipsState" Visibility="Collapsed" IsChecked="False" IsHitTestVisible="False" Width="0" Height="0"/>
+                                <CheckBox x:Name="ShowWorldTooltipsState" Visibility="Hidden" IsHitTestVisible="False" Width="0" Height="0">
+                                    <!-- Touch UI - Adapted from Game\Mods\MainUI\GUI\Pages\WorldTooltips.xaml. It was originally turning off tooltips on ActiveState change.-->
+                                    <!-- Touch UI - However, even after disabling it in TouchUI_WorldTooltips.xaml, there are still some things in the game engine which still disable it -->
+                                    <!-- Touch UI - Instead, we can use the state change to actively send the show tooltips command if IsChecked is true -->
+                                    <!-- Touch UI - The ShowWorldTooltipsState only recognizes FalseValue as a CommandParameter. TrueValue doesn't get recognized, and instead, it simply toggles the tooltips regardless -->
+                                    <!-- Touch UI - If we enter some UI page, then we should disable the tooltips so we can be sure that they are 100% disabled when we go back to gameworld/HUD (ActiveState = 'None') -->
+                                    <!-- Touch UI - This is because we cannot just enable tooltips but only toggle them, so we need to be certain they are disabled for sure before enabling them again. Otherwise, we will end up in an inconsistent state -->
+                                    <!-- Touch UI - I found two examples of us still ending up in an inconsistent state, which is when we enable tooltips then go to editor mode in the modding toolkit and then going back to the game world mode; the tooltips remain visible but IsChecked is False. -->
+                                    <!-- Touch UI - The other one is possible in-game as well which is when we switch regions like going form shadow-cursed to wilderness because the UI file gets reloaded and we end up with IsChecked being False but tooltips still being enabled. -->
+                                    <!-- Touch UI - To handle those two issues, we can listen to the 'Loaded' event and disable the tooltips -->
+                                    <!-- Touch UI - I guess it isn't ideal that we disable the toggle on load if it was enabled, but I don't see a simple way to handle that. Changing regions is also very infrequent. -->
+                                    <b:Interaction.Triggers>
+                                        <!-- Touch UI - I think this is impossible because the checkbox should always have IsChecked=False on load -->
+                                        <b:EventTrigger EventName="Loaded">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding IsChecked, ElementName=ShowWorldTooltipsState}" Operator="Equal" RightOperand="True"/>
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}"/>
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Loaded">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding IsChecked, ElementName=ShowWorldTooltipsState}" Operator="Equal" RightOperand="False"/>
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                        </b:EventTrigger>
+
+                                        <b:PropertyChangedTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding IsChecked, ElementName=ShowWorldTooltipsState}" Operator="Equal" RightOperand="True"/>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentPlayer.UIData.ActiveState, Converter={StaticResource CompareStringConverter}, ConverterParameter='None'}" Operator="Equal" RightOperand="True"/>
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}"/>
+                                            <!-- Touch UI - Shouldn't be needed generally but doesn't hurt to be extra safe and simply assert it again. -->
+                                            <b:ChangePropertyAction TargetName="ShowWorldTooltipsState" PropertyName="IsChecked" Value="True"/>
+                                        </b:PropertyChangedTrigger>
+                                        <b:PropertyChangedTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding IsChecked, ElementName=ShowWorldTooltipsState}" Operator="Equal" RightOperand="True"/>
+                                                        <b:ComparisonCondition LeftOperand="{Binding CurrentPlayer.UIData.ActiveState, Converter={StaticResource CompareStringConverter}, ConverterParameter='None'}" Operator="Equal" RightOperand="False"/>
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            <!-- Touch UI - We don't set IsChecked to False because we need to keep track of whether we have toggled world tooltips on or not. -->
+                                        </b:PropertyChangedTrigger>
+                                    </b:Interaction.Triggers>
+                                </CheckBox>
 
                                 <ls:LSButton x:Name="ActiveMenuWorldTooltipsButton" Template="{StaticResource ActiveMenuButtonTemplate}">
                                     <Image Source="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_search.png" Stretch="Uniform" Width="60" Margin="0,-5,-2,0"/> 
@@ -1218,7 +1278,7 @@
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Checked">
                                             <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
-                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}"/>
                                         </b:EventTrigger>
                                         <b:EventTrigger EventName="Unchecked">
                                             <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
