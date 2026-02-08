@@ -112,8 +112,9 @@
 					</ItemsControl.ItemContainerStyle>
                 </ItemsControl>
 
-                <ls:LSInputBinding BoundEvent="ShowWorldTooltips" Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}" TriggerOnRelease="True" EatInput="False"/>
-				<ls:LSInputBinding BoundEvent="ShowWorldTooltips" Command="{Binding SetShowWorldTooltipsCommand}" EatInput="False"/>
+                <!-- Touch UI - Disable showing world tooltips by using the tooltip keyboard binding, so we don't end up in an inconsistent state because we are tracking it through a button toggle in TouchUI_Minimap.xaml -->
+                <!-- <ls:LSInputBinding BoundEvent="ShowWorldTooltips" Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}" TriggerOnRelease="True" EatInput="False"/> -->
+				<!-- <ls:LSInputBinding BoundEvent="ShowWorldTooltips" Command="{Binding SetShowWorldTooltipsCommand}" EatInput="False"/> -->
 			</Grid>
 			<DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding CurrentPlayer.WorldTooltips.Count}" Value="0">
@@ -161,9 +162,10 @@
             </DataTemplate.Triggers>
 		</DataTemplate>
 	</ls:UIWidget.ContentTemplate>
-    <b:Interaction.Triggers>
+    <!-- Touch UI - Keep showing tooltips even if the active state changes (e.g. by opening the menu or the journal or any other page) -->
+    <!-- <b:Interaction.Triggers>
         <b:PropertyChangedTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}">
             <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}"/>
         </b:PropertyChangedTrigger>
-    </b:Interaction.Triggers>
+    </b:Interaction.Triggers> -->
 </ls:UIWidget>

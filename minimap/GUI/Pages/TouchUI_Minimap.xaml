@@ -655,14 +655,7 @@
                                 </StackPanel.Style>
 
                                 <!-- Touch UI - Couldn't find a robust way to check for whether tooltips are active or not. Instead, we can track state locally with this -->
-                                <CheckBox x:Name="ShowWorldTooltipsState" Visibility="Collapsed" IsChecked="False" IsHitTestVisible="False" Width="0" Height="0">
-                                    <!-- Adapted from Game\Mods\MainUI\GUI\Pages\WorldTooltips.xaml because it disables tooltips on 'ActiveState' change, so we also need to do the same to maintain a consistent state. -->
-                                    <b:Interaction.Triggers>
-                                        <b:PropertyChangedTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}">
-                                            <b:ChangePropertyAction TargetName="ShowWorldTooltipsState" PropertyName="IsChecked" Value="False"/>
-                                        </b:PropertyChangedTrigger>
-                                    </b:Interaction.Triggers>
-                                </CheckBox>
+                                <CheckBox x:Name="ShowWorldTooltipsState" Visibility="Collapsed" IsChecked="False" IsHitTestVisible="False" Width="0" Height="0"/>
 
                                 <ls:LSButton x:Name="ActiveMenuWorldTooltipsButton" Template="{StaticResource ActiveMenuButtonTemplate}">
                                     <Image Source="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_search.png" Stretch="Uniform" Width="60" Margin="0,-5,-2,0"/> 
