@@ -139,7 +139,7 @@
                         <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None"/>
 
                         <!-- Map -->
-                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-2,-2,0">
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-2,-2,0">
                             <Grid.LayoutTransform>
                                 <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                             </Grid.LayoutTransform>
@@ -212,22 +212,34 @@
                                     </Image.RenderTransform>
                                 </Image>
                             </Grid>
+
+                            <!-- Co-ordinates -->
+                            <TextBlock  Foreground="{StaticResource LS_accent100TxtColor}" FontSize="{StaticResource SmallFontSize}" Effect="{StaticResource HUD.DropShadow}" Opacity="0.8"
+                                        HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" Panel.ZIndex="2">
+                                <!-- Touch UI - 2x total scale because minimap already has 1.5x scale -->
+                                <TextBlock.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                                </TextBlock.LayoutTransform>
+
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="X:{0:0.} Y:{1:0.}">
+                                        <Binding Path="CurrentPlayer.WorldMap.CameraLookatPos.x"/>
+                                        <Binding Path="CurrentPlayer.WorldMap.CameraLookatPos.y"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </Grid>
 
-                        <!-- Co-ordinates -->
-                        <TextBlock  Foreground="{StaticResource LS_accent100TxtColor}" FontSize="{StaticResource SmallFontSize}" Effect="{StaticResource HUD.DropShadow}" Opacity="0.8"
-                                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40" Panel.ZIndex="2">
-                            <TextBlock.LayoutTransform>
+                        <!-- Map Location Text -->
+                        <ls:LSNineSliceImage x:Name="LocationHolder" Visibility="Collapsed" ImageSource="{StaticResource MinimapLocationFrame}" Slices="50,26,180,26" Height="72" MinWidth="230" Padding="32,0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,780,0">
+                            <ls:LSNineSliceImage.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
-                            </TextBlock.LayoutTransform>
-
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="X:{0:0.} Y:{1:0.}">
-                                    <Binding Path="CurrentPlayer.WorldMap.CameraLookatPos.x"/>
-                                    <Binding Path="CurrentPlayer.WorldMap.CameraLookatPos.y"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
+                            </ls:LSNineSliceImage.LayoutTransform>
+                            <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName}" 
+                                        Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"
+                                        TextAlignment="Center"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </ls:LSNineSliceImage>
 
                         <!-- Buttons around the minimap -->
                         <ls:LSInputBinding x:Name="TadpoleBinding" BoundEvent="UIToggleTadpolePowers" Command="{Binding CustomEvent}" CommandParameter="OpenTadpoleTree"/>
@@ -468,18 +480,6 @@
 
                     </Grid>
 
-                    <!-- Touch UI - Moved outside from the minimap container grid  -->
-                    <!-- Map Location Text -->
-                    <ls:LSNineSliceImage x:Name="LocationHolder" Visibility="Hidden" ImageSource="{StaticResource MinimapLocationFrame}" Slices="50,26,180,26" Height="72" MinWidth="230" Padding="32,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <ls:LSNineSliceImage.LayoutTransform>
-                            <ScaleTransform ScaleX="2" ScaleY="2"/>
-                        </ls:LSNineSliceImage.LayoutTransform>
-                        <TextBlock Text="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.CurrentSubregionName}" 
-                                    Foreground="{StaticResource LS_specialTxtColor}" FontSize="{StaticResource ScaledSmallFontSize}"
-                                    TextAlignment="Center"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </ls:LSNineSliceImage>
-
                     <!-- Touch UI - Similar style to the rest menu from TouchUI_HotBar.xaml -->
                     <Grid HorizontalAlignment="Right" Margin="0,0,36,0">
                         <Grid.LayoutTransform>
@@ -686,7 +686,7 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <!-- Touch UI - Add a panel to cancel some active button toggles from the popup menu -->
-                            <StackPanel x:Name="MenuActiveToggles" Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <StackPanel x:Name="MenuActiveToggles" Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0">
                                 <!-- Touch UI - Only visible if popup menu is closed -->
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
