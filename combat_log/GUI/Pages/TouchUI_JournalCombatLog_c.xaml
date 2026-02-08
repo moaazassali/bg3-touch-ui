@@ -197,17 +197,51 @@
                     </Rectangle.ToolTip>
                 </Rectangle>
 
-                <StackPanel x:Name="ButtonHints" Grid.ColumnSpan="7" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,100,0">
+                <StackPanel x:Name="ButtonHints" Grid.ColumnSpan="7" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,36">
+                    <!-- Touch UI - Adapted from Game\Public\Game\GUI\Library\ControllerHints.xaml -->
+                    <StackPanel.Resources>
+                        <DataTemplate x:Key="TouchUI_ControllerButtonHint" DataType="ls:VMInputEvent">
+                            <DockPanel Effect="{StaticResource HUD.DropShadow}" FlowDirection="{Binding FlowDirection, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="0,-20,0,-20">
+                                <ls:LSNineSliceImage x:Name="bg" ImageSource="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pil_d.png" Slices="36" Padding="40,20" MinWidth="250">
+                                    <!-- <Control x:Name="ImageSwitcher" DockPanel.Dock="Left" Template="{StaticResource ControllerButton.ImageSwitcher}" VerticalAlignment="Center" Width="{StaticResource ScaledControllerHintSize}" Height="{StaticResource ScaledControllerHintSize}"/> -->
+                                    <TextBlock x:Name="ContentString" DockPanel.Dock="Left" Style="{StaticResource BtnHint.StrokedTextStyle}" ls:TextBlockFormatter.SourceText="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                </ls:LSNineSliceImage>
+                            </DockPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="False">
+                                    <Setter TargetName="ContentString" Property="Opacity" Value="{StaticResource ControllerButton.DisabledOpacityText}"/>
+                                    <!-- <Setter TargetName="ImageSwitcher" Property="Opacity" Value="{StaticResource ControllerButton.DisabledOpacity}"/> -->
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}" Value="{x:Null}">
+                                    <Setter TargetName="ContentString" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Caption}"/>
+                                </DataTrigger>
+
+                                <!-- Touch UI - Add some custom hover/click effects -->
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ls:LSButton}}}" Value="True">
+                                    <Setter TargetName="bg" Property="Opacity" Value="0.9"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType={x:Type ls:LSButton}}}" Value="True">
+                                    <Setter TargetName="bg" Property="Opacity" Value="0.75"/>
+                                    <Setter TargetName="bg" Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="0.98" ScaleY="0.95" CenterX="125" CenterY="30"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+
                     <ls:LSButton x:Name="DetailsBtn"
                                  ls:LSButton.BoundEvent="UIShowInfo"
-                                 ContentTemplate="{StaticResource ControllerButtonHint}"
+                                 ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                                  Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UIShowInfo, Converter={StaticResource FindInputEventConverter}}"
                                  Tag="{Binding Source='hf8dd4c2fg97e0g4ccdgac1ag3cd1fe5060ef', Converter={StaticResource TranslatedStringConverter}}"
                                  EatInput="False"/>
 
                     <ls:LSButton x:Name="CancelButton" BoundEvent="UICancel"
                                  Command="{Binding CustomEvent}" CommandParameter="CloseWidget"
-                                 ContentTemplate="{StaticResource ControllerButtonHint}"
+                                 ContentTemplate="{StaticResource TouchUI_ControllerButtonHint}"
                                  Content="{Binding CurrentPlayer.UIData.InputEvents, ConverterParameter=UICancel, Converter={StaticResource FindInputEventConverter}}"
                                  Tag="{Binding Source='h411fb88eg5261g437aga291g2fb260e633c6', Converter={StaticResource TranslatedStringConverter}}"/>
                 </StackPanel>
