@@ -121,6 +121,9 @@
                 <ls:LSInputBinding x:Name="PingCancelBinding" BoundEvent="UICancel" PlayerId="{Binding CurrentPlayer.PlayerId}" Command="{Binding RequestPingState}"
                                    IsEnabled="{Binding CurrentPlayer.IsRequestingPing}"/>
 
+                <!-- Touch UI - Since we disabled the map button, we need to define the binding here to avoid losing that functionality. Not really needed for touch UI but useful for debugging -->
+                <ls:LSInputBinding x:Name="MapHotkeyBinding" BoundEvent="ToggleMap" PlayerId="{Binding CurrentPlayer.PlayerId}" SoundID="UI_HUD_Map" Command="{Binding CustomEvent}" CommandParameter="ToggleJournalMap"/>
+
                 <StackPanel  Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right">
                     <Grid x:Name="MinimapContainer" Background="Transparent"  VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
