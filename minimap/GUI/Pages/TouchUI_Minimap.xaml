@@ -654,6 +654,37 @@
                                     </Style>
                                 </StackPanel.Style>
 
+                                <!-- Touch UI - Couldn't find a robust way to check for whether tooltips are active or not. Instead, we can track state locally with this -->
+                                <CheckBox x:Name="ShowWorldTooltipsState" Visibility="Collapsed" IsChecked="False" IsHitTestVisible="False" Width="0" Height="0">
+                                    <!-- Adapted from Game\Mods\MainUI\GUI\Pages\WorldTooltips.xaml because it disables tooltips on 'ActiveState' change, so we also need to do the same to maintain a consistent state. -->
+                                    <b:Interaction.Triggers>
+                                        <b:PropertyChangedTrigger Binding="{Binding CurrentPlayer.UIData.ActiveState}">
+                                            <b:ChangePropertyAction TargetName="ShowWorldTooltipsState" PropertyName="IsChecked" Value="False"/>
+                                        </b:PropertyChangedTrigger>
+                                    </b:Interaction.Triggers>
+                                </CheckBox>
+
+                                <ls:LSButton x:Name="ActiveMenuWorldTooltipsButton" Template="{StaticResource ActiveMenuButtonTemplate}">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_search.png" Stretch="Uniform" Width="60" Margin="0,-5,-2,0"/> 
+                                        <ls:LSButton.Style>
+                                            <Style TargetType="ls:LSButton">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=ShowWorldTooltipsState}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ls:LSButton.Style>
+
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="Click">
+                                                <b:ChangePropertyAction TargetName="ShowWorldTooltipsState" PropertyName="IsChecked" Value="False"/>
+                                                <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                </ls:LSButton>
+
                                 <!-- Touch UI - I couldn't find a direct way to figure out if the character is hiding, so I used this *hack* to give the ItemsControl some width if the character is sneaking -->
                                 <ItemsControl x:Name="SneakScanner" 
                                             ItemsSource="{Binding CurrentPlayer.SelectedCharacter.StatusEffects}" 
@@ -1133,14 +1164,20 @@
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
 
-                                <ls:LSButton x:Name="MenuWorldTooltipsButton" Template="{StaticResource MenuButtonTemplate}" Command="{Binding SetShowWorldTooltipsCommand}">
+                                <ls:LSToggleButton x:Name="MenuWorldTooltipsButton" Template="{StaticResource MenuToggleButtonTemplate}"
+                                    IsChecked="{Binding IsChecked, ElementName=ShowWorldTooltipsState, Mode=TwoWay}">
                                     <Image Source="pack://application:,,,/Core;component/Assets/CharacterPanel/ico_search.png" Stretch="Uniform" Width="60" Margin="0,-5,-2,0"/> 
                                     <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="Click">
+                                        <b:EventTrigger EventName="Checked">
                                             <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Unchecked">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                            <b:InvokeCommandAction Command="{Binding SetShowWorldTooltipsCommand}" CommandParameter="{StaticResource FalseValue}"/>
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
-                                </ls:LSButton>
+                                </ls:LSToggleButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>
