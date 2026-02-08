@@ -487,11 +487,53 @@
                             <ControlTemplate x:Key="MenuToggleButtonTemplate" TargetType="ls:LSToggleButton">
                                 <Grid Background="Transparent">
                                     <Image x:Name="ButtonBg" Source="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_d.png" Stretch="None"/>
+
+                                    <!-- Touch UI - LLM Generated - Spinning tail indicator for checked toggle button state -->
+                                    <Grid x:Name="ActiveIndicator" Visibility="Collapsed" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5" Margin="0">
+                                        <Grid.RenderTransform>
+                                            <RotateTransform x:Name="IndicatorRotate" Angle="0"/>
+                                        </Grid.RenderTransform>
+
+                                        <!-- 1. The Fading Tail -->
+                                        <Ellipse StrokeThickness="5" StrokeDashArray="25 100" StrokeDashCap="Round" Margin="7">
+                                            <Ellipse.Stroke>
+                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                    <GradientStop Color="#00FFFFFF" Offset="0.1"/>
+                                                    <GradientStop Color="#80FFFFFF" Offset="0.5"/>
+                                                    <!-- Pulled white back slightly to ensure the dot blends well -->
+                                                    <GradientStop Color="#FFFFFFFF" Offset="0.95"/> 
+                                                </LinearGradientBrush>
+                                            </Ellipse.Stroke>
+                                        </Ellipse>
+
+                                        <!-- 2. The Solid Circular Head -->
+                                        <Ellipse Width="5" Height="5" Fill="#FFFFFFFF" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                                    </Grid>
+                                    
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsChecked" Value="True">
                                         <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_h.png"/>
+
+                                        <Setter TargetName="ActiveIndicator" Property="Visibility" Value="Visible"/>
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard x:Name="SpinAnimation">
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetName="IndicatorRotate" 
+                                                        Storyboard.TargetProperty="Angle" 
+                                                        From="0" To="-360" 
+                                                        Duration="0:0:2.0" 
+                                                        RepeatBehavior="Forever"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <StopStoryboard BeginStoryboardName="SpinAnimation"/>
+                                        </Trigger.ExitActions>
+
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
                                         <Setter TargetName="ButtonBg" Property="Source" Value="pack://application:,,,/GustavNoesisGUI;component/Assets/BottomBar/btn_pop_p.png"/>
