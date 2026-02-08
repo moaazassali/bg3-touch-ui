@@ -45,11 +45,11 @@
                     <ListBox x:Name="Log" Grid.Row="1" ItemsSource="{Binding Data.CombatLog.EntryGroupsReversed}" ls:MoveFocus.Focusable="True" SelectedIndex="0">
                         <ListBox.Template>
                             <ControlTemplate>
-                                <ScrollViewer Template="{StaticResource StretchingScrollViewerTemplate}" VerticalScrollBarVisibility="Visible">
+                                <ScrollViewer Template="{StaticResource NoForcedStyleScrollViewerTemplate}" VerticalScrollBarVisibility="Visible">
                                     <ScrollViewer.Resources>
-                                        <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalGoldScrollbar}"/>
-                                        <GridLength x:Key="Left">0</GridLength>
-                                        <GridLength x:Key="Right">0</GridLength>
+                                        <!-- <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalGoldScrollbar}"/> -->
+                                        <!-- <GridLength x:Key="Left">0</GridLength> -->
+                                        <!-- <GridLength x:Key="Right">0</GridLength> -->
                                     </ScrollViewer.Resources>
                                     <ItemsPresenter Margin="{StaticResource Journal.ScrollViewerMargin}"/>
                                 </ScrollViewer>
