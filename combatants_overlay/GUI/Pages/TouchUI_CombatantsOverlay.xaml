@@ -20,6 +20,9 @@
     <ls:UIWidget.ContentTemplate>
         <DataTemplate>
             <Border x:Name="CombatState"  Tag="NoCombat">
+                <Border.LayoutTransform>
+                    <ScaleTransform ScaleX="1.75" ScaleY="1.75"/>
+                </Border.LayoutTransform>
                
                 <StackPanel x:Name="RootPanel" VerticalAlignment="Top" HorizontalAlignment="Center" SnapsToDevicePixels="True" Orientation="Vertical"
                 Margin="-6,0" RenderTransformOrigin="0.5,0.3" Visibility="Collapsed">
@@ -253,17 +256,20 @@
                                             <Setter TargetName="RightCounterText" Property="FontWeight" Value="Bold"/>
                                             <Setter TargetName="CombatantsScroll" Property="ScrollElementWidth" Value="132"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsCombatantListOverflowed}" Value="False">
+
+                                        <!-- Touch UI - Instead of relying on the game engine to set IsCombatantListOverflowed, we will set our own limit. The game engine isn't aware of our size scaling, so it's calculations will be wrong. -->
+                                        <DataTrigger Binding="{Binding Combatants.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=10}" Value="False">
                                             <Setter TargetName="RightScrollButton" Property="Visibility" Value="Hidden"/>
                                             <Setter TargetName="LeftScrollButton" Property="Visibility" Value="Hidden"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsCombatantListOverflowed}" Value="True">
+                                        <DataTrigger Binding="{Binding Combatants.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=10}" Value="True">
                                             <Setter TargetName="CombatantsScroll" Property="Width">
                                                 <Setter.Value>
                                                     <MultiBinding Converter="{StaticResource AddMultipleConverter}">
                                                         <Binding Source="{StaticResource SideDecorOffset}"/>
-                                                        <Binding Path="MaxVisibleIconsAmount" Converter="{StaticResource MultiplierConverter}" ConverterParameter="106"/>
-                                                        <Binding Path="ActiveCombatantsCount" Converter="{StaticResource MultiplierConverter}" ConverterParameter="25"/>
+                                                        <!-- Touch UI - Original was MaxVisibleIconsAmount * 106. Now it's 10 * 106  -->
+                                                        <Binding Source="1060"/>
+                                                        <Binding Path="ActiveCombatantsCount" Converter="{StaticResource MultiplierConverter}" ConverterParameter="30"/>
                                                     </MultiBinding>
                                                 </Setter.Value>
                                             </Setter>
