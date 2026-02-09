@@ -219,19 +219,25 @@
                                             </ls:LSButton.Tag>
                                         </ls:LSButton>
 
-                                        <Grid x:Name="LeftCounter" HorizontalAlignment="Left" Panel.ZIndex="0" Margin="-55, -30, 0, 0" Tag="{Binding ElementName=CombatantsScroll, Path=HorizontalOffset, 
+                                        <Grid x:Name="LeftCounter" HorizontalAlignment="Left" Panel.ZIndex="0" Margin="-155, -86, 0, 0" Tag="{Binding ElementName=CombatantsScroll, Path=HorizontalOffset, 
                                        Converter={StaticResource DivideAndRoundConverter}, ConverterParameter={StaticResource SingleIconOffset}}"
                                           Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Tag, Converter={StaticResource CountToVisibilityConverter}}">
                                             <Image x:Name="LeftCounterBgImage" Source="{StaticResource OverflowNumberBg}" Stretch="None"/>
                                             <TextBlock x:Name="LeftCounterText" Margin="-6,13" TextAlignment="Center" HorizontalAlignment="Left" Width="75" FontSize="29" VerticalAlignment="Center"
-                                           Text="{Binding ElementName=LeftCounter, Path=Tag, StringFormat='+{0}'}"/>
+                                                Text="{Binding ElementName=LeftCounter, Path=Tag, StringFormat='+{0}'}"/>
+                                            <Grid.LayoutTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                            </Grid.LayoutTransform>
                                         </Grid>
-                                        <Grid x:Name="RightCounter" HorizontalAlignment="Right" Panel.ZIndex="0" Margin="0, -30, -60, 0" Tag="{Binding ElementName=RightScrollButton, Path=Tag, 
+                                        <Grid x:Name="RightCounter" HorizontalAlignment="Right" Panel.ZIndex="0" Margin="0, -86, -160, 0" Tag="{Binding ElementName=RightScrollButton, Path=Tag, 
                                        Converter={StaticResource DivideAndRoundConverter}, ConverterParameter={StaticResource SingleIconOffset}}"
                                   Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Tag, Converter={StaticResource CountToVisibilityConverter}}">
                                             <Image x:Name="RightCounterBgImage" Source="{StaticResource OverflowNumberBg}" Stretch="None"/>
                                             <TextBlock x:Name="RightCounterText" Margin="-6,13" TextAlignment="Center" HorizontalAlignment="Left" Width="75" FontSize="29" VerticalAlignment="Center"
-                                           Text="{Binding ElementName=RightCounter, Path=Tag, StringFormat='+{0}'}"/>
+                                                Text="{Binding ElementName=RightCounter, Path=Tag, StringFormat='+{0}'}"/>
+                                            <Grid.LayoutTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                           </Grid.LayoutTransform>
                                         </Grid>
                                     </Grid>
                                     <ControlTemplate.Triggers>
