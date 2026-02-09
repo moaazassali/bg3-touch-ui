@@ -31,7 +31,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </StackPanel.RenderTransform>
-                    <Border x:Name="CombatantsListContainer" Margin="0,-180,0,0" Height="600" VerticalAlignment="Top">
+                    <Border x:Name="CombatantsListContainer" Margin="0,-210,0,0" Height="600" VerticalAlignment="Top">
                         <ListBox x:Name="CombatantsList" ItemsSource="{Binding Combatants}" AlternationCount="{Binding Combatants.Count}"  VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel">
                             <b:Interaction.Behaviors>
                                 <ls:WidgetDataConnectionBehavior/>
