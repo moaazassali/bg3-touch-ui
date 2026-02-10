@@ -133,7 +133,7 @@
                                                 </b:EventTrigger>
                                             </b:Interaction.Triggers>
                                             <ls:LSButton.Template>
-                                                <ControlTemplate>
+                                                <ControlTemplate TargetType="ls:LSButton">
                                                     <Grid Width="75" Height="150" Background="Transparent" Margin="-10,-5,-10,0">
                                                         <ls:LSNineSliceImage x:Name="LeftButtonBackground" VerticalAlignment="Stretch" ImageSource="pack://application:,,,/Core;component/Assets/Combatants/btn_small_round_d.png" Slices="20">
                                                             <Image x:Name="LeftButtonArrow" Source="pack://application:,,,/Core;component/Assets/Combatants/ico_arrow_d.png" Stretch="None" RenderTransformOrigin="0.5, 0.5">
@@ -147,7 +147,7 @@
                                                         </ls:LSNineSliceImage>
                                                     </Grid>
                                                     <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                        <Trigger Property="IsPressed" Value="True">
                                                             <Setter TargetName="LeftButtonBackground" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Combatants/btn_small_round_h.png"/>
                                                             <Setter TargetName="LeftButtonArrow" Property="Source" Value="pack://application:,,,/Core;component/Assets/Combatants/ico_arrow_h.png"/>
                                                         </Trigger>
@@ -184,7 +184,7 @@
                                                 </b:EventTrigger>
                                             </b:Interaction.Triggers>
                                             <ls:LSButton.Template>
-                                                <ControlTemplate>
+                                                <ControlTemplate TargetType="ls:LSButton">
                                                     <Grid Width="75" Height="150" Background="Transparent" Margin="-20, -5, -6, 0">
                                                         <ls:LSNineSliceImage x:Name="RightButtonBackground" VerticalAlignment="Stretch" ImageSource="pack://application:,,,/Core;component/Assets/Combatants/btn_small_round_d.png" Slices="20">
                                                             <Image x:Name="RightButtonArrow" Source="pack://application:,,,/Core;component/Assets/Combatants/ico_arrow_d.png" Stretch="None" RenderTransformOrigin="0.5, 0.5">
@@ -195,7 +195,7 @@
                                                         </ls:LSNineSliceImage>
                                                     </Grid>
                                                     <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                        <Trigger Property="IsPressed" Value="True">
                                                             <Setter TargetName="RightButtonBackground" Property="ImageSource"
                                                         Value="pack://application:,,,/Core;component/Assets/Combatants/btn_small_round_h.png"/>
                                                             <Setter TargetName="RightButtonArrow" Property="Source" 
