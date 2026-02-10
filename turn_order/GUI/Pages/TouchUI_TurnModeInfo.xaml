@@ -13,6 +13,9 @@
              d:DesignWidth="3840" d:DesignHeight="2160">
     <ls:UIWidget.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_TurnOrderLib.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <System:Double x:Key="SingleIconOffset">126</System:Double>
             <ImageBrush x:Key="EnvironmentIcon" ImageSource="pack://application:,,,/Core;component/Assets/Combatants/WorldTurnPortrait_big.png"/>
         </ResourceDictionary>
@@ -20,6 +23,10 @@
     <ls:UIWidget.Template>
         <ControlTemplate>
             <Grid x:Name="ParticipantsListContainer" Margin="0,20" HorizontalAlignment="Center" Visibility="Collapsed" SnapsToDevicePixels="True">
+                <Border.LayoutTransform>
+                    <ScaleTransform ScaleX="1.75" ScaleY="1.75"/>
+                </Border.LayoutTransform>
+
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="{StaticResource CurrentScaleFactor}" ScaleY="{StaticResource CurrentScaleFactor}"/>
@@ -457,12 +464,12 @@
                                             <Storyboard>
                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                                                            Storyboard.TargetName="CharacterContainer">
-                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1.0"/>
+                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 </DoubleAnimationUsingKeyFrames>
 
                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
                                                                            Storyboard.TargetName="CharacterContainer">
-                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1.0"/>
+                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 </DoubleAnimationUsingKeyFrames>
 
                                                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
@@ -488,12 +495,12 @@
                                             <Storyboard FillBehavior="HoldEnd">
                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                                                            Storyboard.TargetName="CharacterContainer">
-                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 </DoubleAnimationUsingKeyFrames>
 
                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
                                                                            Storyboard.TargetName="CharacterContainer">
-                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 </DoubleAnimationUsingKeyFrames>
                                                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
                                                     <DiscreteThicknessKeyFrame KeyTime="0" Value="-4,0,-4,0"/>
@@ -517,12 +524,12 @@
                                             <Storyboard>
                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                                                            Storyboard.TargetName="CharacterContainer">
-                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 </DoubleAnimationUsingKeyFrames>
 
                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
                                                                            Storyboard.TargetName="CharacterContainer">
-                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 </DoubleAnimationUsingKeyFrames>
 
                                                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
