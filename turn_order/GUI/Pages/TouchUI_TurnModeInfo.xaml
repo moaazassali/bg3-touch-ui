@@ -158,7 +158,7 @@
                                     </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </DataTemplate.Resources>
-                            <Border x:Name="ElementContainer">
+                            <Border x:Name="ElementContainer" Margin="0,2,0,0">
                                 <Border.Tag>
                                     <!--previous member is highlighted in game-->
                                     <MultiBinding Converter="{StaticResource EqualConverter}">
