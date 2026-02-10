@@ -874,7 +874,7 @@
                                 </TransformGroup>
                             </Image.RenderTransform>
                         </Image>
-                        <TextBlock x:Name="CenterTitle"  Text="{Binding Source='h917f2b48g8735g4f9fgb529ga520b53eb2ed', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource LS_extraspecialTxtColor}" TextWrapping="Wrap" MaxWidth="158" LineHeight="{StaticResource MediumFontSize}" LineStackingStrategy="BlockLineHeight"/>
+                        <TextBlock x:Name="CenterTitle"  Text="{Binding Source='h917f2b48g8735g4f9fgb529ga520b53eb2ed', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource ScaledHugeFontSize}" Foreground="{StaticResource LS_extraspecialTxtColor}" TextWrapping="Wrap" MaxWidth="158" LineHeight="{StaticResource ScaledHugeFontSize}" LineStackingStrategy="BlockLineHeight" Margin="0,5,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
