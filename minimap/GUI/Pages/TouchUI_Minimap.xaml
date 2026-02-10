@@ -646,10 +646,10 @@
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="FTBRotateAnim">
                                                 <Storyboard>
-                                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                                    <!-- <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)">
                                                         <DiscreteBooleanKeyFrame KeyTime="0:0:0.0" Value="False"/>
                                                         <DiscreteBooleanKeyFrame KeyTime="{StaticResource TurnTime}" Value="True"/>
-                                                    </BooleanAnimationUsingKeyFrames>
+                                                    </BooleanAnimationUsingKeyFrames> -->
 
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" >
                                                         <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
@@ -671,18 +671,54 @@
                                             <StopStoryboard BeginStoryboardName="FTBRotateAnim"/>
                                         </MultiDataTrigger.EnterActions>
                                         <MultiDataTrigger.Setters>
-                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <!-- <Setter Property="IsEnabled" Value="True"/> -->
                                         </MultiDataTrigger.Setters>
                                     </MultiDataTrigger>
 
                                     <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
-                                        <StopStoryboard BeginStoryboardName="FTBStrokeAnim1"/>
+                                        <!-- <StopStoryboard BeginStoryboardName="FTBStrokeAnim1"/> -->
                                         <StopStoryboard BeginStoryboardName="FTBRotateAnim"/>
                                         <StopStoryboard BeginStoryboardName="ChronoAnim"/>
                                     </EventTrigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
+
+                            <!-- Touch UI - FTB timer proxy so we start the cooldown asap instead of when the user first opens the popup menu -->
+                            <ControlTemplate x:Key="FTBTimerLogicTemplate" TargetType="ls:LSButton">
+                                <Grid/>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="False">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard x:Name="FTBLogicAnim">
+                                                <Storyboard>
+                                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                                        <DiscreteBooleanKeyFrame KeyTime="0:0:0.0" Value="False"/>
+                                                        <DiscreteBooleanKeyFrame KeyTime="{StaticResource TurnTime}" Value="True"/>
+                                                    </BooleanAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                    
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding DataContext.CurrentPlayer.IsSelectingCharacter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                            <Condition Binding="{Binding DataContext.CurrentPlayer.SelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="False"/>
+                                            <Condition Binding="{Binding DataContext.CurrentPlayer.PreviousSelectedCharacter.InTurnBasedMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.EnterActions>
+                                            <StopStoryboard BeginStoryboardName="FTBLogicAnim"/>
+                                        </MultiDataTrigger.EnterActions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
                         </Grid.Resources>
+
+                        <!-- Touch UI - Hidden proxy button to run the timer logic -->
+                        <ls:LSButton x:Name="FTBTimerProxy" Template="{StaticResource FTBTimerLogicTemplate}" Opacity="0" IsHitTestVisible="False" Width="0" Height="0"/>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <!-- Touch UI - Add a panel to cancel some active button toggles from the popup menu -->
@@ -1134,7 +1170,8 @@
                                     DataContext="{Binding CurrentPlayer.UIData.InputEvents, Converter={StaticResource FindInputEventConverter}, ConverterParameter='UIEnterTurnBased'}"
                                     BoundEvent="UIEnterTurnBased"
                                     SoundID="UI_HUD_Hotbar_EnterFTB"
-                                    ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10">
+                                    ls:TutorialProperties.TargetID="TUT_FTB" ls:TutorialProperties.ModalType="Bottom" ls:TutorialProperties.Padding="10"
+                                    IsEnabled="{Binding IsEnabled, ElementName=FTBTimerProxy}">
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="Click">
                                             <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
