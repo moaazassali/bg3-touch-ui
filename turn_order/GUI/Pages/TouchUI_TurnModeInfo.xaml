@@ -22,7 +22,7 @@
     </ls:UIWidget.Resources>
     <ls:UIWidget.Template>
         <ControlTemplate>
-            <Grid x:Name="ParticipantsListContainer" Margin="0,20" HorizontalAlignment="Center" Visibility="Collapsed" SnapsToDevicePixels="True">
+            <Grid x:Name="ParticipantsListContainer" Margin="0,-10" HorizontalAlignment="Center" Visibility="Collapsed" SnapsToDevicePixels="True">
                 <Border.LayoutTransform>
                     <ScaleTransform ScaleX="1.75" ScaleY="1.75"/>
                 </Border.LayoutTransform>
@@ -823,7 +823,7 @@
                         <Condition Binding="{Binding IsSharedFTB}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter TargetName="ParticipantsListContainer" Property="Visibility" Value="Visible"/>
-                    <Setter TargetName="ParticipantsListContainer" Property="Margin" Value="0,20,0,0"/>
+                    <Setter TargetName="ParticipantsListContainer" Property="Margin" Value="0,-10,0,0"/>
                     <Setter TargetName="ParticipantsListContainer" Property="HorizontalAlignment" Value="Center"/>
                 </MultiDataTrigger>
 
@@ -854,7 +854,7 @@
                         <Condition Binding="{Binding Layout}" Value="Left"/>
                         <Condition Binding="{Binding IsSharedFTB}" Value="False"/>
                     </MultiDataTrigger.Conditions>
-                    <Setter TargetName="ParticipantsListContainer" Property="Margin" Value="0,20,0,0"/>
+                    <Setter TargetName="ParticipantsListContainer" Property="Margin" Value="0,-10,0,0"/>
                     <Setter TargetName="ParticipantsListContainer" Property="HorizontalAlignment" Value="Center"/>
                 </MultiDataTrigger>
 
@@ -874,7 +874,7 @@
                         <Condition Binding="{Binding Layout}" Value="Left" />
                         <Condition Binding="{Binding Data.LocalPlayers[1].UIData.InPlayerPanels}" Value="True" />
                     </MultiDataTrigger.Conditions>
-                    <Setter TargetName="ParticipantsListContainer" Property="Margin" Value="0,20,0,0"/>
+                    <Setter TargetName="ParticipantsListContainer" Property="Margin" Value="0,-10,0,0"/>
                     <Setter TargetName="ParticipantsListContainer" Property="HorizontalAlignment" Value="Center"/>
                 </MultiDataTrigger>
             </ControlTemplate.Triggers>
