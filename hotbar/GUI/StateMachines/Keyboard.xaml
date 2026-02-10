@@ -7,7 +7,7 @@
         <!-- Taken from ImpUI StateMachines\Keyboard.xaml -->
 		<ls:State Name = "IUI_HotBar" Layout = "Player" Owner = "Player" ModType="Override">
 			<ls:State.Widgets>
-				<ls:StateWidget Filename="TouchUI_HotBar.xaml" Layer="HUD"/>
+				<ls:StateWidget Filename="TouchUI_HotBar.xaml" Layer="HUDTop"/>
 			</ls:State.Widgets>
 		</ls:State>
 
