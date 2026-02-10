@@ -191,8 +191,22 @@
 
                 <!-- Touch UI - Move outside to place above action resources bar -->
                 <!-- Status list -->
-                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-50"
-                        Visibility="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                <Grid x:Name="StatusPanel" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-50">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <!-- Visible if status count > 0 -->
+                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=0}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <!-- Visible if ConcentrationSpell is NOT null -->
+                                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.ConcentrationSpell, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
 
                     <Grid.LayoutTransform>
                         <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
