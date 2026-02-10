@@ -556,10 +556,10 @@
                 </DataTrigger>-->
 
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterMode}" Value="InCombat">
-                    <Setter TargetName="TargetInfoRoot" Property="Margin" Value="0,228"/>
+                    <Setter TargetName="TargetInfoRoot" Property="Margin" Value="0,278"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterMode}" Value="InFTB">
-                    <Setter TargetName="TargetInfoRoot" Property="Margin" Value="0,308"/>
+                    <Setter TargetName="TargetInfoRoot" Property="Margin" Value="0,278"/>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.CurrentRegularOrCombatTurnTarget.Type}" Value="Character">
