@@ -91,7 +91,12 @@
                 <!-- this is an alternative to allow pressing "1" to on continue nodes -->
                 <ls:LSInputBinding BoundEvent="UISelectSlot1" Style="{StaticResource Dialogue.ContinueBinding}" IsEnabled="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.ActiveDialogue.ShowAnswers, Converter={StaticResource InvertBoolConverter}, Mode=OneWay}" />
 
-                <Control Template="{StaticResource Dialogue.DialogueNotification}"/>
+                <Control Template="{StaticResource Dialogue.DialogueNotification}" Margin="-100,-200,0,0">
+                    <Control.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </Control.LayoutTransform>
+                </Control>
+
                 <!-- dialogue text and answers -->
                 <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
                     <Control Template="{StaticResource Dialogue.TradeNotificationControl}" HorizontalAlignment="Center"/>
