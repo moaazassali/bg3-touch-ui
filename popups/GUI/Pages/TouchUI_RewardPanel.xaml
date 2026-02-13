@@ -194,11 +194,15 @@
     </ls:UIWidget.Resources>
     <ls:UIWidget.ContentTemplate>
         <DataTemplate>
-            <ls:LSNineSliceImage x:Name="Panel" Margin="0,0,0,208" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ImageSource="/Core;component/Assets/Reward/reward_bg_full.png" Slices="0,412,0,560" IconWidth="850" Padding="80,17,80,50" Width="1044">
+            <ls:LSNineSliceImage x:Name="Panel" Margin="0,0,0,208" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ImageSource="/Core;component/Assets/Reward/reward_bg_full.png" Slices="30,412,30,100" IconWidth="850" Padding="80,17,80,50" Width="1044">
+                <ls:LSNineSliceImage.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </ls:LSNineSliceImage.LayoutTransform>
+
                 <Grid>
                     <Rectangle x:Name="DragObj" Fill="Transparent" Height="123" VerticalAlignment="Top" Margin="0,60,0,0"/>
                     <Image Source="pack://application:,,,/Core;component/Assets/Reward/ico_reward.png" Stretch="None" VerticalAlignment="Top"/>
-                    <ls:LSButton x:Name="CloseButton" Style="{StaticResource BigBlueButtonStyle}" VerticalAlignment="Bottom"
+                    <ls:LSButton x:Name="CloseButton" Style="{StaticResource BigBlueButtonStyle}" VerticalAlignment="Bottom" Margin="0,0,0,0"
                                  Content="{Binding Converter={StaticResource TranslatedStringConverter}, Source=h57c4b009g2843g4098gbf30gebb4819560ca}"
                                  Command="{Binding GetRewardsAndClose.ActionCommand}" ls:LSButton.SoundID="UI_Shared_Accept"
                                  ls:LSButton.OverwriteClickSound="UI_HUD_RewardSelect_Confirm_Click" HorizontalAlignment="Center">
@@ -219,13 +223,15 @@
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
 
-                        <TextBlock Text="{Binding Converter={StaticResource TranslatedStringConverter}, Source=h41bffdc7g230bg47a5g80c0g23ea99df1a98}"
-                                   Margin="0,44,0,5" Style="{StaticResource HeaderTextStyle}" FontSize="{StaticResource TitleFontSize}"/>
+                        <!-- Touch UI - Removed to save vertical space -->
+                        <!-- <TextBlock Text="{Binding Converter={StaticResource TranslatedStringConverter}, Source=h41bffdc7g230bg47a5g80c0g23ea99df1a98}"
+                                   Margin="0,44,0,5" Style="{StaticResource HeaderTextStyle}" FontSize="{StaticResource TitleFontSize}"/> -->
 
-                        <ls:LSWrapPanel x:Name="QuestInfo" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center">
+                        <!-- Touch UI - Removed to save vertical space -->
+                        <!-- <ls:LSWrapPanel x:Name="QuestInfo" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center">
                             <TextBlock Text="{Binding QuestName, StringFormat='{}{0}:'}" Foreground="{DynamicResource LS_baseTxtColor}" FontSize="{StaticResource MediumFontSize}" HorizontalAlignment="Left" Margin="0 0 10 0" LineStackingStrategy="BlockLineHeight" LineHeight="{DynamicResource DefaultFontSizeLineHeight}"/>
                             <TextBlock Text="{Binding QuestDescription}" TextWrapping="Wrap" Foreground="{DynamicResource LS_accent100TxtColor}" FontSize="{StaticResource MediumFontSize}" HorizontalAlignment="Left" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="{DynamicResource DefaultFontSizeLineHeight}"/>
-                        </ls:LSWrapPanel>
+                        </ls:LSWrapPanel> -->
 
                         <StackPanel VerticalAlignment="Top" Margin="0,20,0,0">
                             <StackPanel>
@@ -282,7 +288,8 @@
                             <Run x:Name="ClaimWarning" Text="" Foreground="{DynamicResource LS_alertTxtColor}"/>
                         </TextBlock>
 
-                        <StackPanel x:Name="PanelButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxWidth="900" Margin="0,0,0,40" Orientation="Horizontal">
+                        <!-- Touch UI - Not needed because inventory can be accessed from minimap popup menu anyways -->
+                        <StackPanel Visibility="Collapsed" x:Name="PanelButtons" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxWidth="900" Margin="0,0,0,40" Orientation="Horizontal">
                             <ls:LSButton x:Name="InventoryButton" Template="{StaticResource IconButtonTemplate}" Command="{Binding CustomEvent}" CommandParameter="ToggleCharacterPanel" ls:LSButton.SoundID="UI_HUD_RewardSelect_Inventory">
                                 <ls:LSButton.Resources>
                                     <ImageSource x:Key="IconNormal">pack://application:,,,/Core;component/Assets/BottomBar/ico_inventory_d.png</ImageSource>
