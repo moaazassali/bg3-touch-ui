@@ -1341,6 +1341,19 @@
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </ls:LSButton>
+
+                                <!-- Moved from Game\Mods\MainUI\GUI\Pages\PlayerPortraits.xaml -->
+                                <ls:LSButton x:Name="MenuCompanionsPanelButton" Template="{StaticResource MenuButtonTemplate}"
+                                    Command="{Binding DataContext.CustomEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                    CommandParameter="ToggleCompanionsPanel"
+                                    Visibility="Collapsed">
+                                    <Image Source="pack://application:,,,/Core;component/Assets/Shared/campFollowers_btn_ico_d.png" Stretch="Uniform" Width="40"/> 
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="Click">
+                                            <b:ChangePropertyAction TargetName="MenuButton" PropertyName="IsChecked" Value="False"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSButton>
                             </WrapPanel>
                         </Popup>
                     </Grid>
@@ -1400,6 +1413,11 @@
                     <Setter TargetName="MenuGoToCampButton" Property="IsEnabled" Value="False"/>
                     <Setter TargetName="MenuLongRestItemButton" Property="IsEnabled" Value="False"/>
                     <Setter TargetName="MenuShortRestItemButton" Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+
+                <!-- Touch UI - Taken from Game\Mods\MainUI\GUI\Pages\PlayerPortraits.xaml -->
+                <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.IsInCamp}" Value="True">
+                    <Setter TargetName="MenuCompanionsPanelButton" Property="Visibility" Value="Visible"/>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.IsRequestingPing}" Value="False">
