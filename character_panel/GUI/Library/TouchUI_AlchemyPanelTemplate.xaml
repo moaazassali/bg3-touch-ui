@@ -974,9 +974,9 @@
             <StackPanel x:Name="ExtractAndCrafting" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,0,0,0">
 
                 <!-- Title -->
-                <!-- <ContentControl Name="CraftingTitle" Style="{StaticResource BaseTitleStyle}">
+                <ContentControl Visibility="Collapsed" Name="CraftingTitle" Style="{StaticResource BaseTitleStyle}">
                     <TextBlock Text="{Binding Source='hd40af023g3265g492dgb433gb272f433a093', Converter={StaticResource TranslatedStringConverter}}"/>
-                </ContentControl> -->
+                </ContentControl>
 
                 <!-- Extract and crafting -->
                 <Grid x:Name="ExtractCrafting" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -1424,7 +1424,7 @@
             <!-- LIST -->
             <DataTrigger Binding="{Binding SelectedRecipe}" Value="{x:Null}">
                 <Setter TargetName="AlchemyBg" Property="Source" Value="{StaticResource ExtractBg}"/>
-                <Setter TargetName="CraftingTitle" Property="Visibility" Value="Hidden"/>
+                <!-- <Setter TargetName="CraftingTitle" Property="Visibility" Value="Hidden"/> -->
                 <Setter TargetName="ExtractCraftingError" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="ExtractCraftingButton" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="ExtractCraftingButton" Property="IsEnabled" Value="False"/>
@@ -1564,7 +1564,7 @@
 
             <!-- EXTRACT CRAFTING -->
             <DataTrigger Binding="{Binding SelectedRecipe.IsSolutionRecipe}" Value="False">
-                <Setter TargetName="CraftingTitle" Property="Visibility" Value="Collapsed"/>
+                <!-- <Setter TargetName="CraftingTitle" Property="Visibility" Value="Collapsed"/> -->
                 <Setter TargetName="CraftingSolution" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="CraftingExtract" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="ExtractCraftingButton" Property="Content" Value="{Binding Source='hcf348dd3g3108g41b9g88c1gc09ee4f9192a', Converter={StaticResource TranslatedStringConverter}}"/>

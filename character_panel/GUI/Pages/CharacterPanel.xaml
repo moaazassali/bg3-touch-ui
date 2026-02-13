@@ -730,6 +730,8 @@
                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                 </Grid.LayoutTransform>
 
+                                <Image Visibility="Collapsed" x:Name="HeaderDecor" Source="{StaticResource decorated_header_4}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Margin="0,-60,0,0"/>
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/> <!-- Name -->
                                     <ColumnDefinition Width="*"/>    <!-- XP Bar (Fills empty space) -->
@@ -877,7 +879,7 @@
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.TadpoleTreeState}" Value="Hidden">
-                    <Setter TargetName="HeaderDecor" Property="Source" Value="{StaticResource decorated_header_3}"/>
+                    <!-- <Setter TargetName="HeaderDecor" Property="Source" Value="{StaticResource decorated_header_3}"/> -->
                     <Setter TargetName="IllithidToggleButton" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="InventoryToggleButton" Property="IsChecked" Value="True"/>
                 </DataTrigger>
@@ -924,7 +926,7 @@
                     <Setter TargetName="XPBar" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="AlchemyToggleButton" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="AlchemyInputOverride" Property="IsEnabled" Value="False"/>
-                    <Setter TargetName="HeaderDecor" Property="Source" Value="{StaticResource decorated_header_2}"/>
+                    <!-- <Setter TargetName="HeaderDecor" Property="Source" Value="{StaticResource decorated_header_2}"/> -->
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding CurrentPlayer.SelectedCharacter.CharacterType}" Value="Follower">
@@ -935,7 +937,7 @@
                     <Setter TargetName="XPBar" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="AlchemyToggleButton" Property="Visibility" Value="Collapsed"/>
                     <Setter TargetName="AlchemyInputOverride" Property="IsEnabled" Value="False"/>
-                    <Setter TargetName="HeaderDecor" Property="Source" Value="{StaticResource decorated_header_2}"/>
+                    <!-- <Setter TargetName="HeaderDecor" Property="Source" Value="{StaticResource decorated_header_2}"/> -->
                 </DataTrigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
