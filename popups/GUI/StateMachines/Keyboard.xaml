@@ -115,5 +115,19 @@
             </ls:State.Events>
         </ls:State>
 
+        <!--STATE: RewardPanel -->
+        <ls:State Name = "RewardPanel" DisableStatesBelow = "False" Layout = "Player" Owner = "Player" IsModal = "True" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_RewardPanel.xaml" Layer="Panels"/>
+            </ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name = "CloseRewardPanel">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
     </ls:StateMachine.States>
 </ls:StateMachine>
