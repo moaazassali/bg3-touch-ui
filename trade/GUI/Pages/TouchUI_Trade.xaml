@@ -201,8 +201,8 @@
                             </ControlTemplate>
 
                             <Style x:Key="HeaderBackgroundStyle" TargetType="Path">
-                                <Setter Property="Width" Value="750"/>
-                                <Setter Property="Data" Value="M 8,1750 L 8,330 L 6,200 S 6,72 160,72 H 250 S 370,-10 490,72 H 600 S 740,72 740,220 V 330 L 740,1750 Z"/>
+                                <Setter Property="Width" Value="1040"/>
+                                <Setter Property="Data" Value="M 12,1750 L 12,330 L 12,260 S 12,96 220,96 H 300 S 520,-35 740,96 H 820 S 1028,96 1028,260 V 330 L 1028,1750 Z"/>
                                 <Setter Property="Fill">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -532,8 +532,8 @@
                                             <Path Style="{StaticResource HeaderBackgroundStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,20,0,0"/>
 
                                             <!-- Paperdoll render frame -->
-                                            <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="730" Height="1340">
-                                                <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="PlayerPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                            <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1040">
+                                                <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="PlayerPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1712" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                             </Grid>
 
                                             <!--DOLL CONTROLS-->
@@ -561,9 +561,9 @@
                                                 </ls:LSButton>
                                             </StackPanel>
 
-                                            <Image Source="{StaticResource CharacterFrameTrade}" VerticalAlignment="Top" Stretch="None" Margin="0,44,0,0"/>
+                                            <Image Source="{StaticResource CharacterFrameTrade}" VerticalAlignment="Top" Stretch="Uniform" Margin="0,44,0,0" Width="1087"/>
 
-                                            <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="0,260,0,0" VerticalAlignment="Top">
+                                            <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="40,260,40,0" VerticalAlignment="Stretch">
                                                 <Grid.LayoutTransform>
                                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                                 </Grid.LayoutTransform>
