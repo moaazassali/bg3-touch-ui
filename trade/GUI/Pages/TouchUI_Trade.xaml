@@ -445,16 +445,22 @@
                             </StackPanel>
 
                             <!-- Trade Mode Buttons -->
-                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                <TextBlock HorizontalAlignment="Center" 
+                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,60,0,0">
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </StackPanel.LayoutTransform>
+
+                                <!-- Touch UI - Remove trade title to save space -->
+                                <!-- <TextBlock HorizontalAlignment="Center" 
                                            Text="{Binding Source='h4d74c17cg64c1g4bbdgb6dag29a88b29bed2', Converter={StaticResource TranslatedStringConverter}}" 
                                            FontSize="{StaticResource ScaledHugeFontSize}" 
-                                           Foreground="{StaticResource LS_extraspecialTxtColor}"/>
+                                           Foreground="{StaticResource LS_extraspecialTxtColor}"/> -->
 
-                                <Grid Margin="0,-32,0,0">
-                                    <Image Source="{StaticResource HeaderButtonHolder}" Stretch="None"/>
+                                <Grid Margin="0,-32,0,0" HorizontalAlignment="Center" ClipToBounds="True">
+                                    <!-- Touch UI - save some space by disabling button holder style -->
+                                    <!-- <Image Source="{StaticResource HeaderButtonHolder}" Stretch="None" HorizontalAlignment="Center"/> -->
                                     <!-- Normal button that visually looks like a toggle because code decides our mode -->
-                                    <ls:LSButton x:Name="TradeBarterToggleBtn" VerticalAlignment="Top" Command="{Binding SetTradeMode}" SoundID="UI_HUD_Trade_ToggleMode">
+                                    <ls:LSButton x:Name="TradeBarterToggleBtn" VerticalAlignment="Top" Command="{Binding SetTradeMode}" SoundID="UI_HUD_Trade_ToggleMode" HorizontalAlignment="Center">
                                         <ls:LSButton.Template>
                                             <ControlTemplate TargetType="ls:LSButton">
                                                 <ControlTemplate.Resources>
