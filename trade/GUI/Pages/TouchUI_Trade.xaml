@@ -14,7 +14,13 @@
              d:DataContext="{d:DesignInstance Type=ls:DCTrade}"
              ls:UIWidget.Focusable="False" ls:TooltipExtender.Owner="{Binding CurrentTradingCharacter}">
     <ls:UIWidget.Resources>
-        <ResourceDictionary Source="/Core;component/Library/DialogueTemplates.xaml"/>
+        <ResourceDictionary>
+            <!-- Touch UI - Import custom resources -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Core;component/Library/DialogueTemplates.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </ls:UIWidget.Resources>
 
     <ls:UIWidget.Style>
@@ -557,7 +563,11 @@
 
                                             <Image Source="{StaticResource CharacterFrameTrade}" VerticalAlignment="Top" Stretch="None" Margin="0,44,0,0"/>
 
-                                            <Control Template="{StaticResource CharacterEquipmentTemplate}" Width="732" Height="1468" Margin="0,260,0,0" VerticalAlignment="Top"/>
+                                            <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="0,260,0,0" VerticalAlignment="Top">
+                                                <Grid.LayoutTransform>
+                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                </Grid.LayoutTransform>
+                                            </Control>
 
                                             <!-- Character Gold -->
                                             <ContentControl x:Name="CharacterGold"

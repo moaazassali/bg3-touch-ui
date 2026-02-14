@@ -1,0 +1,184 @@
+<!-- Copied from TouchUI companions_panel\GUI\Library\TouchUI_CharacterEquipmentTemplate.xaml -->
+<!-- Copied from TouchUI character_panel\GUI\Library\TouchUI_CharacterEquipmentTemplate.xaml -->
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="TouchUI_VanityButtonTemplate.xaml"/>
+        <ResourceDictionary Source="TouchUI_HelmetEQTemplate.xaml"/>
+        <ResourceDictionary Source="TouchUI_MuscialEQTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="TouchUI_CharacterEquipmentTemplate" TargetType="Control">
+        <Grid x:Name="CharacterPanelHolder" Tag="{Binding PlayerCharacterProperties.IsContentEditable}">
+            <b:Interaction.Triggers>
+
+                <!--Selecting the slot while it's not active = enabling all the filters-->
+                <b:PropertyChangedTrigger Binding="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" >
+                    <b:Interaction.Behaviors>
+                        <b:ConditionBehavior>
+                            <b:ConditionalExpression>
+                                <b:ComparisonCondition LeftOperand="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                            </b:ConditionalExpression>
+                        </b:ConditionBehavior>
+                    </b:Interaction.Behaviors>
+                    <b:ChangePropertyAction TargetName="FilteringContainerHolder" PropertyName="CurrentFilter" Value="{Binding PlayerCharacterProperties.ActiveEquipmentSlot.FilterType}"/>
+                    <b:ChangePropertyAction TargetName="ChangePartyContextButton" PropertyName="IsChecked" Value="True"/>
+                    <b:InvokeCommandAction Command="{Binding DataContext.SelectCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
+                </b:PropertyChangedTrigger>
+
+                <!--Selecting the slot while it's active = no more filtering-->
+                <b:DataTrigger Binding="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" Value="{x:Null}">
+                    <b:ChangePropertyAction TargetName="FilteringContainerHolder" PropertyName="CurrentFilter" Value="{x:Null}"/>
+                    <b:ChangePropertyAction TargetName="ChangePartyContextButton" PropertyName="IsChecked" Value="False"/>
+                </b:DataTrigger>
+
+                <b:DataTrigger Binding="{Binding IsVisible, ElementName=CharacterPanelHolder}" Value="True">
+                    <!--Tutorial UI Event - Equipment Opened-->
+                    <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="56affdac-faef-448a-94fb-55182779b482"/>
+                </b:DataTrigger>
+
+            </b:Interaction.Triggers>
+            <Grid x:Name="EquipmentHolder" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+
+                <!-- EQUIPMENT SLOTS -->
+                <Grid x:Name="EquipmentSlots" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Thickness x:Key="EquipMargin">0,0,0,0</Thickness>
+                    </Grid.Resources>
+
+                    <DockPanel Name="EquipmentRight" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="{StaticResource EquipMargin}">
+
+                        <StackPanel DockPanel.Dock="Top">
+                            <!--VANITY-->
+                            <Grid HorizontalAlignment="Left" Panel.ZIndex="21">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Border x:Name="VanityToggleHighlight" Grid.RowSpan="2" BorderBrush="{StaticResource LS_tempHPColor}" BorderThickness="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="-3" Background="{StaticResource InventoryBGShade}" Visibility="Collapsed">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="{StaticResource tempHPColor}" />
+                                    </Border.Effect>
+                                </Border>
+
+                                <!-- Setting the Tag on the equipmentslots, because in Trade trying to set the ls:TooltipExtender.Owner to the correct 'CurrentTradingCharacter', doesn't trigger inheritance of the property on the first opening of the tooltips. 
+                                        and if the property changes it's also not reacting as long as this inheritance is broken.-->
+
+                                <!-- Put vanity toggle to left of body slot -->
+                                <Grid Grid.Row="0" HorizontalAlignment="Left">
+                                    <ls:LSButton x:Name="VanityBodySlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBody}"/>
+                                    
+                                    <ls:LSButton x:Name="ArmorVisibilityToggle" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Command="{Binding DataContext.ToggleArmorSetVisibility, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" Template="{StaticResource TouchUI_VanityButtonTemplate}"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-60,0,0,0">
+                                        <!-- <ls:LSButton.ToolTip>
+                                            <ls:LSTooltip Content="{Binding Source='had94b224g2d0eg43a9g96a7g27311c05ef99',Converter={StaticResource TranslatedStringConverter}}" x:Name="TooltipContent"/>
+                                        </ls:LSButton.ToolTip> -->
+                                    </ls:LSButton>
+                                </Grid>
+
+                                <ls:LSButton x:Name="VanityBootsSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Grid.Row="1" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBoots}"/>
+                            </Grid>
+                            <ls:LSButton x:Name="VanityUnderwearSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Underwear}"/>
+                            <ls:LSButton x:Name="EquipmentAmuletSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Amulet}"/>
+                            <ls:LSButton x:Name="EquipmentRing1Slot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Ring}"/>
+                            <ls:LSButton x:Name="EquipmentRing2Slot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Ring2}"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DockPanel Name="EquipmentLeft" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="{StaticResource EquipMargin}">
+                        <StackPanel DockPanel.Dock="Top">
+                            <Control Template="{StaticResource TouchUI_HelmetEQTemplate}" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Helmet}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentCloakSlot" HorizontalAlignment="Left"  Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Cloak}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentBreastSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Breast}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentGlovesSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Gloves}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentBootsSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Boots}" ToolTipService.Placement="Left"/>
+                            <!--LIGHTSOURCE-->
+                            <StackPanel Orientation="Horizontal">
+                                <ls:LSButton x:Name="LightSource" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotBaseStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.LightSource}" ToolTipService.Placement="Left">
+                                    <b:Interaction.Behaviors>
+                                        <ls:DropOnGenericBehavior DropCommand="{Binding DataContext.DropLightSourceCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                    </b:Interaction.Behaviors>
+                                </ls:LSButton>
+                                <Control Tag="{Binding DataContext, ElementName=EquipmentSlots}" Template="{StaticResource TouchUI_MuscialEQTemplate}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MusicalInstrument}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </DockPanel>
+
+                    <!--Melee Weapons-->
+                    <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom">
+                        <TextBlock Style="{StaticResource DetailedListText}" Text="{Binding Source='hde2dafecgf6f5g489ag9baeg23d0610570f5',Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Direction="270" Color="{StaticResource LS_PrimaryColorDropShadowColor}" ShadowDepth="3.0" BlurRadius="8.0"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <ls:LSButton x:Name="EquipmentMeleeMainSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MeleeMainHand}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentMeleeOffSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MeleeOffHand}" ToolTipService.Placement="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                    <!--Ranged Weapons-->
+                    <StackPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom">
+                        <TextBlock Style="{StaticResource DetailedListText}" Text="{Binding Source='h52df2583g5fc1g4182g9511g36238e4e0c19',Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap" noesis:Text.StrokeThickness="4" noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Direction="270" Color="{StaticResource LS_PrimaryColorDropShadowColor}" ShadowDepth="3.0" BlurRadius="8.0"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <ls:LSButton x:Name="EquipmentRangedMainSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.RangedMainHand}"/>
+                            <ls:LSButton x:Name="EquipmentRangedOffSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.RangedOffHand}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--ArmorClass-->
+                    <Control Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Template="{StaticResource ACHolder}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                </Grid>
+
+                <Control Grid.Row="2" Template="{StaticResource WeaponAttackBonusTemplate}" VerticalAlignment="Bottom" Margin="0,8,0,0"/>
+
+            </Grid>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding PlayerCharacterProperties.ArmorSetVisibility}" Value="Vanity">
+                <Setter TargetName="VanityToggleHighlight" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>
