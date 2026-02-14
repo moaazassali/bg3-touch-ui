@@ -202,7 +202,7 @@
 
                             <Style x:Key="HeaderBackgroundStyle" TargetType="Path">
                                 <Setter Property="Width" Value="1040"/>
-                                <Setter Property="Data" Value="M 12,1750 L 12,330 L 12,260 S 12,96 220,96 H 300 S 520,-35 740,96 H 820 S 1028,96 1028,260 V 330 L 1028,1750 Z"/>
+                                <Setter Property="Data" Value="M 12,3000 L 12,330 L 12,260 S 12,96 220,96 H 300 S 520,-35 740,96 H 820 S 1028,96 1028,260 V 330 L 1028,3000 Z"/>
                                 <Setter Property="Fill">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -525,670 +525,668 @@
 
                             </StackPanel>
 
-                            <Viewbox StretchDirection="DownOnly">
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="180,80,180,-80">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <!-- Left Character Panel -->
-                                    <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}">
-                                        <b:Interaction.Behaviors>
-                                            <ls:DropToUnequipBehavior />
-                                        </b:Interaction.Behaviors>
-                                        <Grid>
-                                            <!-- Background fill gradient -->
-                                            <Path Style="{StaticResource HeaderBackgroundStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,20,0,0"/>
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="180,200,180,50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1120"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1120"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Left Character Panel -->
+                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}">
+                                    <b:Interaction.Behaviors>
+                                        <ls:DropToUnequipBehavior />
+                                    </b:Interaction.Behaviors>
+                                    <Grid>
+                                        <!-- Background fill gradient -->
+                                        <Path Style="{StaticResource HeaderBackgroundStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20,20,-4,0"/>
 
-                                            <!-- Paperdoll render frame -->
-                                            <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1040">
-                                                <!-- Add a clip based on HeaderBackgroundStyle to clip any black background from paperdoll that goes beyond the curved border style -->
-                                                <Grid.Clip>
-                                                    <PathGeometry Figures="M 12,3000 L 12,330 L 12,260 S 12,96 220,96 H 300 S 520,-35 740,96 H 820 S 1028,96 1028,260 V 330 L 1028,3000 Z">
-                                                        <PathGeometry.Transform>
-                                                            <TranslateTransform X="4" Y="70"/>
-                                                        </PathGeometry.Transform>
-                                                    </PathGeometry>
-                                                </Grid.Clip>
+                                        <!-- Paperdoll render frame -->
+                                        <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1070">
+                                            <!-- Add a clip based on HeaderBackgroundStyle to clip any black background from paperdoll that goes beyond the curved border style -->
+                                            <Grid.Clip>
+                                                <PathGeometry Figures="M 12,3000 L 12,330 L 12,260 S 12,96 220,96 H 300 S 520,-35 740,96 H 820 S 1028,96 1028,260 V 330 L 1028,3000 Z">
+                                                    <PathGeometry.Transform>
+                                                        <TranslateTransform X="4" Y="70"/>
+                                                    </PathGeometry.Transform>
+                                                </PathGeometry>
+                                            </Grid.Clip>
 
-                                                <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="PlayerPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1900" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-                                            </Grid>
-
-                                            <!-- Touch UI - Hide doll controls; clunky to use with touch controls -->
-                                            <!--DOLL CONTROLS-->
-                                            <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1720,0,0">
-                                                <ls:LSButton  x:Name="rotateRightBtn" Template="{StaticResource RotateRightButton}">
-                                                    <b:Interaction.Triggers>
-                                                        <b:EventTrigger EventName="LSButtonPressed">
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateClockwiseSpeed}" TargetName="PlayerPaperdoll" />
-                                                        </b:EventTrigger>
-                                                        <b:EventTrigger EventName="LSButtonReleased" >
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="PlayerPaperdoll" />
-                                                        </b:EventTrigger>
-                                                    </b:Interaction.Triggers>
-                                                </ls:LSButton>
-
-                                                <ls:LSButton  x:Name="rotateLeftBtn" Template="{StaticResource RotateLeftButton}">
-                                                    <b:Interaction.Triggers>
-                                                        <b:EventTrigger EventName="LSButtonPressed" >
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateCounterClockwiseSpeed}" TargetName="PlayerPaperdoll" />
-                                                        </b:EventTrigger>
-                                                        <b:EventTrigger EventName="LSButtonReleased" >
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="PlayerPaperdoll" />
-                                                        </b:EventTrigger>
-                                                    </b:Interaction.Triggers>
-                                                </ls:LSButton>
-                                            </StackPanel>
-
-                                            <Image Source="{StaticResource CharacterFrameTrade}" VerticalAlignment="Top" Stretch="Uniform" Margin="0,44,0,0" Width="1087"/>
-
-                                            <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="40,260,40,0" VerticalAlignment="Stretch">
-                                                <Grid.LayoutTransform>
-                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                                </Grid.LayoutTransform>
-                                            </Control>
-
-                                            <!-- Character Gold -->
-                                            <ContentControl x:Name="CharacterGold"
-                                                            VerticalAlignment="Top" 
-                                                            HorizontalAlignment="Right" 
-                                                            Margin="0,36,90,0" 
-                                                            DataContext="{Binding Inventory.Gold, StringFormat={}{0:N0}}" 
-                                                            Template="{StaticResource GoldDisplay}">
-                                                <ContentControl.LayoutTransform>
-                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                                </ContentControl.LayoutTransform>
-                                            </ContentControl>
+                                            <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="PlayerPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1800" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                         </Grid>
 
-                                        <StackPanel Visibility="Collapsed" VerticalAlignment="Top" Margin="0,144,0,0" >
-                                            <b:Interaction.Behaviors>
-                                                <ls:ConcatenateListBehavior x:Name="ClassList" ItemsSource="{Binding Stats.ClassList}" Separator="h2519408dg5fd7g4cbcg840cg14370239edf8"/>
-                                            </b:Interaction.Behaviors>
-                                            <TextBlock Style="{StaticResource CharacterNameTextStyle}" Text="{Binding Name}"/>
+                                        <!-- Touch UI - Hide doll controls; clunky to use with touch controls -->
+                                        <!--DOLL CONTROLS-->
+                                        <StackPanel Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,1720,0,0">
+                                            <ls:LSButton  x:Name="rotateRightBtn" Template="{StaticResource RotateRightButton}">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="LSButtonPressed">
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateClockwiseSpeed}" TargetName="PlayerPaperdoll" />
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="LSButtonReleased" >
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="PlayerPaperdoll" />
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                            </ls:LSButton>
 
-                                            <TextBlock Style="{StaticResource CharacterClassTextStyle}">
-                                                <TextBlock.Text>
-                                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                                        <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
-                                                        <Binding Path="Stats.Level.Value"/>
-                                                        <Binding Path="Result" ElementName="ClassList"/>
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
+                                            <ls:LSButton  x:Name="rotateLeftBtn" Template="{StaticResource RotateLeftButton}">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="LSButtonPressed" >
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateCounterClockwiseSpeed}" TargetName="PlayerPaperdoll" />
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="LSButtonReleased" >
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="PlayerPaperdoll" />
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                            </ls:LSButton>
                                         </StackPanel>
+
+                                        <Image Source="{StaticResource CharacterFrameTrade}" VerticalAlignment="Top" Stretch="Uniform" Margin="0,44,0,0" Width="1087"/>
+
+                                        <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="40,260,40,0" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                                            <Grid.LayoutTransform>
+                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                            </Grid.LayoutTransform>
+                                        </Control>
+
+                                        <!-- Character Gold -->
+                                        <ContentControl x:Name="CharacterGold"
+                                                        VerticalAlignment="Top" 
+                                                        HorizontalAlignment="Right" 
+                                                        Margin="0,36,90,0" 
+                                                        DataContext="{Binding Inventory.Gold, StringFormat={}{0:N0}}" 
+                                                        Template="{StaticResource GoldDisplay}">
+                                            <ContentControl.LayoutTransform>
+                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                            </ContentControl.LayoutTransform>
+                                        </ContentControl>
                                     </Grid>
 
-                                    <!-- Trade/Barter Main Panel -->
-                                    <Grid x:Name="BarterMainPanel" Margin="44,120,44,0" Grid.Column="1" ls:AttachedProperties.InheritedCharacter="{Binding CurrentTradingCharacter}" MinHeight="1860">
-                                        <Grid.Style>
-                                            <Style>
-                                                <Style.Resources>
-                                                    <System:UInt32 x:Key="invCols">7</System:UInt32>
-                                                </Style.Resources>
-                                            </Style>
-                                        </Grid.Style>
+                                    <StackPanel Visibility="Collapsed" VerticalAlignment="Top" Margin="0,144,0,0" >
                                         <b:Interaction.Behaviors>
-                                            <ls:CollectionFilterBehavior x:Name="TraderInventoryFiltered" ItemsSource="{Binding TraderInventory.Slots}" Predicate="{Binding TraderInventory.TabFiltersPredicate}"/>
-                                            <ls:CollectionSortBehavior x:Name="TraderInventoryFilteredSorted" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[0].FilteredItems, ElementName=BarterMainPanel}"
-                                                                       Comparer="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.TradeSortComparer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                            <ls:ConcatenateListBehavior x:Name="ClassList" ItemsSource="{Binding Stats.ClassList}" Separator="h2519408dg5fd7g4cbcg840cg14370239edf8"/>
                                         </b:Interaction.Behaviors>
+                                        <TextBlock Style="{StaticResource CharacterNameTextStyle}" Text="{Binding Name}"/>
 
-                                        <Image x:Name="FrameBackground" Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                        <TextBlock Style="{StaticResource CharacterClassTextStyle}">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                    <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
+                                                    <Binding Path="Stats.Level.Value"/>
+                                                    <Binding Path="Result" ElementName="ClassList"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
 
-                                        <Grid x:Name="BalanceFeedbackIconHolder" VerticalAlignment="Top" Margin="0,-60,0,0">
-                                            <Image x:Name="BalanceIconBackground" Stretch="None" Source="{StaticResource BalanceIconBackground}"/>
-                                            <Image x:Name="BalanceIcon" Stretch="None" Source="{StaticResource BalanceIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
-                                        </Grid>
+                                <!-- Trade/Barter Main Panel -->
+                                <Grid x:Name="BarterMainPanel" Margin="44,120,44,0" Grid.Column="1" ls:AttachedProperties.InheritedCharacter="{Binding CurrentTradingCharacter}" MinHeight="1860">
+                                    <Grid.Style>
+                                        <Style>
+                                            <Style.Resources>
+                                                <System:UInt32 x:Key="invCols">7</System:UInt32>
+                                            </Style.Resources>
+                                        </Style>
+                                    </Grid.Style>
+                                    <b:Interaction.Behaviors>
+                                        <ls:CollectionFilterBehavior x:Name="TraderInventoryFiltered" ItemsSource="{Binding TraderInventory.Slots}" Predicate="{Binding TraderInventory.TabFiltersPredicate}"/>
+                                        <ls:CollectionSortBehavior x:Name="TraderInventoryFilteredSorted" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[0].FilteredItems, ElementName=BarterMainPanel}"
+                                                                    Comparer="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.TradeSortComparer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                    </b:Interaction.Behaviors>
 
-                                        <!-- Barter Inventories -->
-                                        <Grid VerticalAlignment="Top" Margin="2,0,0,220">
+                                    <Image x:Name="FrameBackground" Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+                                    <Grid x:Name="BalanceFeedbackIconHolder" VerticalAlignment="Top" Margin="0,-60,0,0">
+                                        <Image x:Name="BalanceIconBackground" Stretch="None" Source="{StaticResource BalanceIconBackground}"/>
+                                        <Image x:Name="BalanceIcon" Stretch="None" Source="{StaticResource BalanceIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
+                                    </Grid>
+
+                                    <!-- Barter Inventories -->
+                                    <Grid VerticalAlignment="Top" Margin="2,0,0,220">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="204"/>
+                                            <ColumnDefinition x:Name="MiddleColumn" Width="16"/>
+                                            <ColumnDefinition Width="204"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="90"/>
+                                            <RowDefinition Height="90"/>
+                                            <RowDefinition Height="92"/>
+                                            <RowDefinition Height="1340"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Trade Party Gold -->
+                                        <ContentControl x:Name="TradePartyGold"
+                                                        VerticalAlignment="Top" 
+                                                        HorizontalAlignment="Left" 
+                                                        Margin="56,14,0,0"
+                                                        Grid.Column="0"
+                                                        Grid.Row="0"
+                                                        DataContext="{Binding TradePartyGold, StringFormat={}{0:N0}}" 
+                                                        Template="{StaticResource GoldDisplay}"/>
+
+                                        <!-- Player Multiselection Gold -->
+                                        <ContentControl x:Name="PlayerSelectionGold"
+                                                        VerticalAlignment="Top" 
+                                                        HorizontalAlignment="Right" 
+                                                        Margin="0,14,20,0"
+                                                        Grid.Column="1"
+                                                        Grid.Row="0"
+                                                        DataContext="{Binding SelectionValue, StringFormat={}{0:N0}}" 
+                                                        Template="{StaticResource SelectionGoldDisplay}"
+                                                        Visibility="Collapsed"/>
+
+                                        <!-- Player filters -->
+                                        <ls:LSNineSliceImage x:Name="PlayerFiltersTabsLine"
+                                                                Grid.Column="0" 
+                                                                Grid.Row="1" 
+                                                                Slices="20,1" 
+                                                                Height="4" 
+                                                                ImageSource="{StaticResource FilterTabsSeparatorBottom}" 
+                                                                VerticalAlignment="Bottom" 
+                                                                Margin="20,0,0,0"/>
+
+                                        <ListBox x:Name="PlayerFilterTabs"
+                                                    Grid.Column="0"
+                                                    Grid.Row="1"
+                                                    VerticalAlignment="Bottom" 
+                                                    HorizontalAlignment="Center"
+                                                    SelectedIndex="0"
+                                                    ItemContainerStyle="{StaticResource InventoryViewTabStyle}"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                    ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBoxItem x:Name="allTab" Tag="All"/>
+                                            <ListBoxItem x:Name="equipmentTab" Tag="Equipment"/>
+                                            <ListBoxItem x:Name="keysAndBooksTab" Tag="KeysAndBooks"/>
+                                            <ListBoxItem x:Name="consumablesTab" Tag="Consumables"/>
+                                            <ListBoxItem x:Name="magicalTab" Tag="Magical"/>
+                                            <ListBoxItem x:Name="miscTab" Tag="Misc"/>
+                                        </ListBox>
+
+                                        <!-- Player Inventories -->
+                                        <ListBox x:Name="PlayerInventory" 
+                                                        Style="{StaticResource PartyHolderStyle}"
+                                                        Grid.Column="0" 
+                                                        Grid.Row="2"
+                                                        Grid.RowSpan="2"
+                                                        HorizontalAlignment="Right" 
+                                                        VerticalAlignment="Top"
+                                                        Margin="0,22,8,0"
+                                                        Width="676"
+                                                        ItemsSource="{Binding PartyCharacterInventories}"
+                                                        AlternationCount="{Binding PartyCharacterInventories.Count}"
+                                                        SelectionMode="Single">
+                                            <Control.Resources>
+                                                <System:UInt32 x:Key="invRows">1</System:UInt32>
+                                            </Control.Resources>
+                                        </ListBox>
+
+                                        <!-- Player offer -->
+                                        <TextBlock x:Name="PlayerOfferText" 
+                                                    Grid.Column="1"
+                                                    Grid.Row="1"  
+                                                    Text="{Binding Source='ha056653bgb6f8g4549g808dg2f6a7fa223de', Converter={StaticResource TranslatedStringConverter}}" 
+                                                    Style="{StaticResource BarterHeaderTextStyle}"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Bottom"
+                                                    TextWrapping="Wrap"
+                                                    TextAlignment="Center"/>
+
+                                        <ContentControl x:Name="PlayerOfferGold"
+                                                        Grid.Column="1" 
+                                                        Grid.Row="2" 
+                                                        HorizontalAlignment="Center" 
+                                                        VerticalAlignment="Center"
+                                                        DataContext="{Binding CharacterOfferGold}" 
+                                                        Template="{StaticResource GoldDisplay}"/>
+
+                                        <ListBox x:Name="PlayerBarterOffer" 
+                                                    Style="{StaticResource BarterGridStyle}"
+                                                    Grid.Column="1" 
+                                                    Grid.Row="3" 
+                                                    Template="{StaticResource PlayerGridTemplate}"
+                                                    ItemsSource="{Binding CharacterOffer.Slots}" 
+                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                    HorizontalAlignment="Center"
+                                                    Padding="-4,0,0,0"
+                                                    Margin="-12,0,0,0">
+                                            <ListBox.Resources>
+                                                <System:UInt32 x:Key="invRows">14</System:UInt32>
+                                                <System:UInt32 x:Key="invCols">2</System:UInt32>
+                                            </ListBox.Resources>
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ls:LSGrid x:Name="InvGridTrader"
+                                                                Style="{StaticResource InventoryGridStyle}"
+                                                                VirtualizingPanel.IsVirtualizing="True"
+                                                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                                        <b:Interaction.Behaviors>
+                                                            <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=PlayerBarterOffer}"/>
+                                                            <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropPlayerOfferInventoryTradeSlotCommand}"/>
+                                                        </b:Interaction.Behaviors>
+                                                    </ls:LSGrid>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+
+                                            <b:Interaction.Triggers>
+                                                <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=PlayerBarterOffer}" Value="False">
+                                                    <b:ChangePropertyAction TargetName="PlayerBarterOffer" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:DataTrigger>
+                                                <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                                    <b:Interaction.Behaviors>
+                                                        <b:ConditionBehavior>
+                                                            <b:ConditionalExpression>
+                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=PlayerBarterOffer}" Operator="Equal" RightOperand="False"/>
+                                                            </b:ConditionalExpression>
+                                                        </b:ConditionBehavior>
+                                                    </b:Interaction.Behaviors>
+                                                    <b:ChangePropertyAction TargetName="PlayerBarterOffer" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </ListBox>
+
+                                        <!-- Trader offer -->
+                                        <TextBlock x:Name="TraderOfferText"
+                                                    Grid.Column="3"
+                                                    Grid.Row="1"  
+                                                    Text="{Binding Source='h5bc87a4ag3e01g4572gac64g4db7257911b2', Converter={StaticResource TranslatedStringConverter}}" 
+                                                    Style="{StaticResource BarterHeaderTextStyle}"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Bottom"
+                                                    TextWrapping="Wrap"
+                                                    TextAlignment="Center"/>
+
+                                        <ContentControl x:Name="TraderOfferGold"
+                                                        Grid.Column="3" 
+                                                        Grid.Row="2" 
+                                                        HorizontalAlignment="Center" 
+                                                        VerticalAlignment="Center"
+                                                        DataContext="{Binding TraderOfferGold}" 
+                                                        Template="{StaticResource GoldDisplay}"/>
+
+                                        <ListBox x:Name="TraderBarterOffer" 
+                                                    Style="{StaticResource BarterGridStyle}"
+                                                    Grid.Column="3" 
+                                                    Grid.Row="3" 
+                                                    Template="{StaticResource TraderGridTemplate}"
+                                                    ItemsSource="{Binding TraderOffer.Slots}" 
+                                                    HorizontalAlignment="Center"
+                                                    Padding="0,0,-16,0">
+                                            <ListBox.Resources>
+                                                <System:UInt32 x:Key="invRows">14</System:UInt32>
+                                                <System:UInt32 x:Key="invCols">2</System:UInt32>
+                                            </ListBox.Resources>
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ls:LSGrid x:Name="TraderBarterGrid"
+                                                                Style="{StaticResource InventoryGridStyle}"
+                                                                VirtualizingPanel.IsVirtualizing="True"
+                                                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                                        <b:Interaction.Behaviors>
+                                                            <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=TraderBarterOffer}"/>
+                                                            <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropTraderOfferInventoryTradeSlotCommand}"/>
+                                                        </b:Interaction.Behaviors>
+                                                    </ls:LSGrid>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+
+                                            <b:Interaction.Triggers>
+                                                <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=TraderBarterOffer}" Value="False">
+                                                    <b:ChangePropertyAction TargetName="TraderBarterOffer" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:DataTrigger>
+                                                <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                                    <b:Interaction.Behaviors>
+                                                        <b:ConditionBehavior>
+                                                            <b:ConditionalExpression>
+                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=TraderBarterOffer}" Operator="Equal" RightOperand="False"/>
+                                                            </b:ConditionalExpression>
+                                                        </b:ConditionBehavior>
+                                                    </b:Interaction.Behaviors>
+                                                    <b:ChangePropertyAction TargetName="TraderBarterOffer" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </ListBox>
+
+                                        <!-- Trader Gold -->
+                                        <ContentControl x:Name="TraderGold"
+                                                        VerticalAlignment="Top" 
+                                                        HorizontalAlignment="Right" 
+                                                        Margin="0,14,56,0"
+                                                        Grid.Column="4"
+                                                        Grid.Row="0"
+                                                        DataContext="{Binding TraderInventoryGold, StringFormat={}{0:N0}}" 
+                                                        Template="{StaticResource GoldDisplay}"/>
+
+                                        <!-- Trader Selection Gold -->
+                                        <ContentControl x:Name="TraderSelectionGold"
+                                                        VerticalAlignment="Top" 
+                                                        HorizontalAlignment="Left" 
+                                                        Margin="20,14,0,0"
+                                                        Grid.Column="3"
+                                                        Grid.Row="0"
+                                                        DataContext="{Binding SelectionValue, StringFormat={}{0:N0}}" 
+                                                        Template="{StaticResource SelectionGoldDisplay}"
+                                                        Visibility="Collapsed"/>
+
+                                        <!--Trader filters-->
+                                        <!--For now the Trader filters are hidden for Barter, as Buy Back doesn't work properly,
+                                            and it would leave only one tab visible, making it pointless to display. -->
+                                        <ls:LSNineSliceImage x:Name="TraderFilterTabsLine"
+                                                                Grid.Column="4" 
+                                                                Grid.Row="1" 
+                                                                Slices="20,1" 
+                                                                Height="4" 
+                                                                ImageSource="{StaticResource FilterTabsSeparatorBottom}" 
+                                                                VerticalAlignment="Bottom"
+                                                                Visibility="Hidden"
+                                                                Margin="0,0,20,0"/>
+
+                                        <ListBox x:Name="TraderFilterTabs"
+                                                    Grid.Column="4"
+                                                    Grid.Row="1"
+                                                    Visibility="Hidden"
+                                                    VerticalAlignment="Bottom" 
+                                                    HorizontalAlignment="Center"
+                                                    SelectedIndex="0"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                    ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource InventoryViewTabStyle}">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Path=Tag, RelativeSource={RelativeSource Mode=Self}}" Value="BuyBack" />
+                                                                <Condition Binding="{Binding HasBuyBack}" Value="False" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBoxItem x:Name="traderAllTab" Tag="All"/>
+                                            <ListBoxItem x:Name="traderBuyBackTab" Tag="BuyBack"/>
+                                        </ListBox>
+
+                                        <!-- Trader inventory -->
+                                        <ListBox x:Name="TraderInventory" 
+                                                    Style="{StaticResource BarterGridStyle}"
+                                                    Grid.Column="4" 
+                                                    Grid.Row="3" 
+                                                    Margin="8,0,0,0"
+                                                    Template="{StaticResource TraderGridTemplate}"
+                                                    ItemsSource="{Binding SortedItems, ElementName=TraderInventoryFilteredSorted}" 
+                                                    SelectedItem="{Binding SelectedItemSlot, Mode=OneWay}"
+                                                    HorizontalAlignment="Left">
+                                            <ListBox.Resources>
+                                                <System:UInt32 x:Key="invRows">14</System:UInt32>
+                                            </ListBox.Resources>
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ls:LSGrid x:Name="TraderInventoryGrid"
+                                                                Style="{StaticResource InventoryGridStyle}"
+                                                                VirtualizingPanel.IsVirtualizing="True"
+                                                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                                        <b:Interaction.Behaviors>
+                                                            <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=TraderInventory}"/>
+                                                            <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropTraderInventoryTradeSlotCommand}"/>
+                                                        </b:Interaction.Behaviors>
+                                                    </ls:LSGrid>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+
+                                            <b:Interaction.Triggers>
+                                                <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=TraderInventory}" Value="False">
+                                                    <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:DataTrigger>
+                                                <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding ElementName=Trade}">
+                                                    <b:Interaction.Behaviors>
+                                                        <b:ConditionBehavior>
+                                                            <b:ConditionalExpression>
+                                                                <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=TraderInventory}" Operator="Equal" RightOperand="False"/>
+                                                            </b:ConditionalExpression>
+                                                        </b:ConditionBehavior>
+                                                    </b:Interaction.Behaviors>
+                                                    <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:EventTrigger>
+
+                                                <b:EventTrigger EventName="SelectionChanged">
+                                                    <b:InvokeCommandAction Command="{Binding UpdateSelectionCommand}" CommandParameter="{Binding SelectedItems, ElementName=TraderInventory}"/>
+                                                </b:EventTrigger>
+
+                                                <b:PropertyChangedTrigger Binding="{Binding Path=Mode}">
+                                                    <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
+                                                </b:PropertyChangedTrigger>
+                                            </b:Interaction.Triggers>
+                                        </ListBox>
+
+                                        <!-- Bottom buttons -->
+                                        <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="204"/>
-                                                <ColumnDefinition x:Name="MiddleColumn" Width="16"/>
-                                                <ColumnDefinition Width="204"/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="90"/>
-                                                <RowDefinition Height="90"/>
-                                                <RowDefinition Height="92"/>
-                                                <RowDefinition Height="1340"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
 
-                                            <!-- Trade Party Gold -->
-                                            <ContentControl x:Name="TradePartyGold"
-                                                            VerticalAlignment="Top" 
-                                                            HorizontalAlignment="Left" 
-                                                            Margin="56,14,0,0"
+                                            <!-- Sort options -->
+                                            <ls:LSComboBox x:Name="sortComboBox"
                                                             Grid.Column="0"
-                                                            Grid.Row="0"
-                                                            DataContext="{Binding TradePartyGold, StringFormat={}{0:N0}}" 
-                                                            Template="{StaticResource GoldDisplay}"/>
+                                                            Width="400"
+                                                            VerticalAlignment="Top"
+                                                            SoundID="UI_HUD_Inventory_Sort"
+                                                            Margin="0,48,0,0"
+                                                            ItemsSource="{Binding Path=CurrentPlayer.UIData.InventorySortOptions}"
+                                                            SelectedItem="{Binding TradeSortOption}"
+                                                            noesis:Text.Placeholder="{Binding SelectedItem.Name, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                                            Style="{StaticResource SortListLabelStyle}"
+                                                            />
 
-                                            <!-- Player Multiselection Gold -->
-                                            <ContentControl x:Name="PlayerSelectionGold"
-                                                            VerticalAlignment="Top" 
-                                                            HorizontalAlignment="Right" 
-                                                            Margin="0,14,20,0"
-                                                            Grid.Column="1"
-                                                            Grid.Row="0"
-                                                            DataContext="{Binding SelectionValue, StringFormat={}{0:N0}}" 
-                                                            Template="{StaticResource SelectionGoldDisplay}"
-                                                            Visibility="Collapsed"/>
+                                            <!-- Balance and Trade Buttons -->
+                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="1" Margin="12,0,0,-300" HorizontalAlignment="Center">
+                                                <Image Source="{StaticResource BackgroundDoubleButtonImage}" Stretch="None"/>
 
-                                            <!-- Player filters -->
-                                            <ls:LSNineSliceImage x:Name="PlayerFiltersTabsLine"
-                                                                 Grid.Column="0" 
-                                                                 Grid.Row="1" 
-                                                                 Slices="20,1" 
-                                                                 Height="4" 
-                                                                 ImageSource="{StaticResource FilterTabsSeparatorBottom}" 
-                                                                 VerticalAlignment="Bottom" 
-                                                                 Margin="20,0,0,0"/>
-
-                                            <ListBox x:Name="PlayerFilterTabs"
-                                                     Grid.Column="0"
-                                                     Grid.Row="1"
-                                                     VerticalAlignment="Bottom" 
-                                                     HorizontalAlignment="Center"
-                                                     SelectedIndex="0"
-                                                     ItemContainerStyle="{StaticResource InventoryViewTabStyle}"
-                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel IsItemsHost="True" Orientation="Horizontal" />
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                                <ListBoxItem x:Name="allTab" Tag="All"/>
-                                                <ListBoxItem x:Name="equipmentTab" Tag="Equipment"/>
-                                                <ListBoxItem x:Name="keysAndBooksTab" Tag="KeysAndBooks"/>
-                                                <ListBoxItem x:Name="consumablesTab" Tag="Consumables"/>
-                                                <ListBoxItem x:Name="magicalTab" Tag="Magical"/>
-                                                <ListBoxItem x:Name="miscTab" Tag="Misc"/>
-                                            </ListBox>
-
-                                            <!-- Player Inventories -->
-                                            <ListBox x:Name="PlayerInventory" 
-                                                          Style="{StaticResource PartyHolderStyle}"
-                                                          Grid.Column="0" 
-                                                          Grid.Row="2"
-                                                          Grid.RowSpan="2"
-                                                          HorizontalAlignment="Right" 
-                                                          VerticalAlignment="Top"
-                                                          Margin="0,22,8,0"
-                                                          Width="676"
-                                                          ItemsSource="{Binding PartyCharacterInventories}"
-                                                          AlternationCount="{Binding PartyCharacterInventories.Count}"
-                                                          SelectionMode="Single">
-                                                <Control.Resources>
-                                                    <System:UInt32 x:Key="invRows">1</System:UInt32>
-                                                </Control.Resources>
-                                            </ListBox>
-
-                                            <!-- Player offer -->
-                                            <TextBlock x:Name="PlayerOfferText" 
-                                                       Grid.Column="1"
-                                                       Grid.Row="1"  
-                                                       Text="{Binding Source='ha056653bgb6f8g4549g808dg2f6a7fa223de', Converter={StaticResource TranslatedStringConverter}}" 
-                                                       Style="{StaticResource BarterHeaderTextStyle}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Bottom"
-                                                       TextWrapping="Wrap"
-                                                       TextAlignment="Center"/>
-
-                                            <ContentControl x:Name="PlayerOfferGold"
-                                                            Grid.Column="1" 
-                                                            Grid.Row="2" 
-                                                            HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"
-                                                            DataContext="{Binding CharacterOfferGold}" 
-                                                            Template="{StaticResource GoldDisplay}"/>
-
-                                            <ListBox x:Name="PlayerBarterOffer" 
-                                                     Style="{StaticResource BarterGridStyle}"
-                                                     Grid.Column="1" 
-                                                     Grid.Row="3" 
-                                                     Template="{StaticResource PlayerGridTemplate}"
-                                                     ItemsSource="{Binding CharacterOffer.Slots}" 
-                                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                     HorizontalAlignment="Center"
-                                                     Padding="-4,0,0,0"
-                                                     Margin="-12,0,0,0">
-                                                <ListBox.Resources>
-                                                    <System:UInt32 x:Key="invRows">14</System:UInt32>
-                                                    <System:UInt32 x:Key="invCols">2</System:UInt32>
-                                                </ListBox.Resources>
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <ls:LSGrid x:Name="InvGridTrader"
-                                                                   Style="{StaticResource InventoryGridStyle}"
-                                                                   VirtualizingPanel.IsVirtualizing="True"
-                                                                   VirtualizingPanel.VirtualizationMode="Recycling">
-                                                            <b:Interaction.Behaviors>
-                                                                <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=PlayerBarterOffer}"/>
-                                                                <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropPlayerOfferInventoryTradeSlotCommand}"/>
-                                                            </b:Interaction.Behaviors>
-                                                        </ls:LSGrid>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-
-                                                <b:Interaction.Triggers>
-                                                    <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=PlayerBarterOffer}" Value="False">
-                                                        <b:ChangePropertyAction TargetName="PlayerBarterOffer" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:DataTrigger>
-                                                    <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                                                        <b:Interaction.Behaviors>
-                                                            <b:ConditionBehavior>
-                                                                <b:ConditionalExpression>
-                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=PlayerBarterOffer}" Operator="Equal" RightOperand="False"/>
-                                                                </b:ConditionalExpression>
-                                                            </b:ConditionBehavior>
-                                                        </b:Interaction.Behaviors>
-                                                        <b:ChangePropertyAction TargetName="PlayerBarterOffer" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:EventTrigger>
-                                                </b:Interaction.Triggers>
-                                            </ListBox>
-
-                                            <!-- Trader offer -->
-                                            <TextBlock x:Name="TraderOfferText"
-                                                       Grid.Column="3"
-                                                       Grid.Row="1"  
-                                                       Text="{Binding Source='h5bc87a4ag3e01g4572gac64g4db7257911b2', Converter={StaticResource TranslatedStringConverter}}" 
-                                                       Style="{StaticResource BarterHeaderTextStyle}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Bottom"
-                                                       TextWrapping="Wrap"
-                                                       TextAlignment="Center"/>
-
-                                            <ContentControl x:Name="TraderOfferGold"
-                                                            Grid.Column="3" 
-                                                            Grid.Row="2" 
-                                                            HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"
-                                                            DataContext="{Binding TraderOfferGold}" 
-                                                            Template="{StaticResource GoldDisplay}"/>
-
-                                            <ListBox x:Name="TraderBarterOffer" 
-                                                     Style="{StaticResource BarterGridStyle}"
-                                                     Grid.Column="3" 
-                                                     Grid.Row="3" 
-                                                     Template="{StaticResource TraderGridTemplate}"
-                                                     ItemsSource="{Binding TraderOffer.Slots}" 
-                                                     HorizontalAlignment="Center"
-                                                     Padding="0,0,-16,0">
-                                                <ListBox.Resources>
-                                                    <System:UInt32 x:Key="invRows">14</System:UInt32>
-                                                    <System:UInt32 x:Key="invCols">2</System:UInt32>
-                                                </ListBox.Resources>
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <ls:LSGrid x:Name="TraderBarterGrid"
-                                                                   Style="{StaticResource InventoryGridStyle}"
-                                                                   VirtualizingPanel.IsVirtualizing="True"
-                                                                   VirtualizingPanel.VirtualizationMode="Recycling">
-                                                            <b:Interaction.Behaviors>
-                                                                <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=TraderBarterOffer}"/>
-                                                                <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropTraderOfferInventoryTradeSlotCommand}"/>
-                                                            </b:Interaction.Behaviors>
-                                                        </ls:LSGrid>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-
-                                                <b:Interaction.Triggers>
-                                                    <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=TraderBarterOffer}" Value="False">
-                                                        <b:ChangePropertyAction TargetName="TraderBarterOffer" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:DataTrigger>
-                                                    <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                                                        <b:Interaction.Behaviors>
-                                                            <b:ConditionBehavior>
-                                                                <b:ConditionalExpression>
-                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=TraderBarterOffer}" Operator="Equal" RightOperand="False"/>
-                                                                </b:ConditionalExpression>
-                                                            </b:ConditionBehavior>
-                                                        </b:Interaction.Behaviors>
-                                                        <b:ChangePropertyAction TargetName="TraderBarterOffer" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:EventTrigger>
-                                                </b:Interaction.Triggers>
-                                            </ListBox>
-
-                                            <!-- Trader Gold -->
-                                            <ContentControl x:Name="TraderGold"
-                                                            VerticalAlignment="Top" 
-                                                            HorizontalAlignment="Right" 
-                                                            Margin="0,14,56,0"
-                                                            Grid.Column="4"
-                                                            Grid.Row="0"
-                                                            DataContext="{Binding TraderInventoryGold, StringFormat={}{0:N0}}" 
-                                                            Template="{StaticResource GoldDisplay}"/>
-
-                                            <!-- Trader Selection Gold -->
-                                            <ContentControl x:Name="TraderSelectionGold"
-                                                            VerticalAlignment="Top" 
-                                                            HorizontalAlignment="Left" 
-                                                            Margin="20,14,0,0"
-                                                            Grid.Column="3"
-                                                            Grid.Row="0"
-                                                            DataContext="{Binding SelectionValue, StringFormat={}{0:N0}}" 
-                                                            Template="{StaticResource SelectionGoldDisplay}"
-                                                            Visibility="Collapsed"/>
-
-                                            <!--Trader filters-->
-                                            <!--For now the Trader filters are hidden for Barter, as Buy Back doesn't work properly,
-                                                and it would leave only one tab visible, making it pointless to display. -->
-                                            <ls:LSNineSliceImage x:Name="TraderFilterTabsLine"
-                                                                 Grid.Column="4" 
-                                                                 Grid.Row="1" 
-                                                                 Slices="20,1" 
-                                                                 Height="4" 
-                                                                 ImageSource="{StaticResource FilterTabsSeparatorBottom}" 
-                                                                 VerticalAlignment="Bottom"
-                                                                 Visibility="Hidden"
-                                                                 Margin="0,0,20,0"/>
-
-                                            <ListBox x:Name="TraderFilterTabs"
-                                                     Grid.Column="4"
-                                                     Grid.Row="1"
-                                                     Visibility="Hidden"
-                                                     VerticalAlignment="Bottom" 
-                                                     HorizontalAlignment="Center"
-                                                     SelectedIndex="0"
-                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                                <ListBox.ItemContainerStyle>
-                                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource InventoryViewTabStyle}">
-                                                        <Setter Property="IsEnabled" Value="True"/>
-                                                        <Style.Triggers>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Path=Tag, RelativeSource={RelativeSource Mode=Self}}" Value="BuyBack" />
-                                                                    <Condition Binding="{Binding HasBuyBack}" Value="False" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="IsEnabled" Value="False"/>
-                                                            </MultiDataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ListBox.ItemContainerStyle>
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel IsItemsHost="True" Orientation="Horizontal" />
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                                <ListBoxItem x:Name="traderAllTab" Tag="All"/>
-                                                <ListBoxItem x:Name="traderBuyBackTab" Tag="BuyBack"/>
-                                            </ListBox>
-
-                                            <!-- Trader inventory -->
-                                            <ListBox x:Name="TraderInventory" 
-                                                     Style="{StaticResource BarterGridStyle}"
-                                                     Grid.Column="4" 
-                                                     Grid.Row="3" 
-                                                     Margin="8,0,0,0"
-                                                     Template="{StaticResource TraderGridTemplate}"
-                                                     ItemsSource="{Binding SortedItems, ElementName=TraderInventoryFilteredSorted}" 
-                                                     SelectedItem="{Binding SelectedItemSlot, Mode=OneWay}"
-                                                     HorizontalAlignment="Left">
-                                                <ListBox.Resources>
-                                                    <System:UInt32 x:Key="invRows">14</System:UInt32>
-                                                </ListBox.Resources>
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <ls:LSGrid x:Name="TraderInventoryGrid"
-                                                                   Style="{StaticResource InventoryGridStyle}"
-                                                                   VirtualizingPanel.IsVirtualizing="True"
-                                                                   VirtualizingPanel.VirtualizationMode="Recycling">
-                                                            <b:Interaction.Behaviors>
-                                                                <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=TraderInventory}"/>
-                                                                <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropTraderInventoryTradeSlotCommand}"/>
-                                                            </b:Interaction.Behaviors>
-                                                        </ls:LSGrid>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-
-                                                <b:Interaction.Triggers>
-                                                    <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=TraderInventory}" Value="False">
-                                                        <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:DataTrigger>
-                                                    <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding ElementName=Trade}">
-                                                        <b:Interaction.Behaviors>
-                                                            <b:ConditionBehavior>
-                                                                <b:ConditionalExpression>
-                                                                    <b:ComparisonCondition LeftOperand="{Binding Path=IsMouseOver, ElementName=TraderInventory}" Operator="Equal" RightOperand="False"/>
-                                                                </b:ConditionalExpression>
-                                                            </b:ConditionBehavior>
-                                                        </b:Interaction.Behaviors>
-                                                        <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:EventTrigger>
-
-                                                    <b:EventTrigger EventName="SelectionChanged">
-                                                        <b:InvokeCommandAction Command="{Binding UpdateSelectionCommand}" CommandParameter="{Binding SelectedItems, ElementName=TraderInventory}"/>
-                                                    </b:EventTrigger>
-
-                                                    <b:PropertyChangedTrigger Binding="{Binding Path=Mode}">
-                                                        <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
-                                                    </b:PropertyChangedTrigger>
-                                                </b:Interaction.Triggers>
-                                            </ListBox>
-
-                                            <!-- Bottom buttons -->
-                                            <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <!-- Sort options -->
-                                                <ls:LSComboBox x:Name="sortComboBox"
-                                                               Grid.Column="0"
-                                                               Width="400"
-                                                               VerticalAlignment="Top"
-                                                               SoundID="UI_HUD_Inventory_Sort"
-                                                               Margin="0,48,0,0"
-                                                               ItemsSource="{Binding Path=CurrentPlayer.UIData.InventorySortOptions}"
-                                                               SelectedItem="{Binding TradeSortOption}"
-                                                               noesis:Text.Placeholder="{Binding SelectedItem.Name, RelativeSource={RelativeSource Self}, Mode=OneWay}"
-                                                               Style="{StaticResource SortListLabelStyle}"
-                                                               />
-
-                                                <!-- Balance and Trade Buttons -->
-                                                <Grid x:Name="BalanceButtonHolder" Grid.Column="1" Margin="12,0,0,-300" HorizontalAlignment="Center">
-                                                    <Image Source="{StaticResource BackgroundDoubleButtonImage}" Stretch="None"/>
-
-                                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,64,16,0">
-                                                        <ls:LSButton x:Name="BalanceBtn" Style="{StaticResource BigBrownButtonTextAndIconStyle}" 
-                                                                     Command="{Binding BalanceTrade}" 
-                                                                     HorizontalAlignment="Center"
-                                                                     Content="{Binding Source='hb0e3f01fg505eg43ffg87e0g088ea4853d46', Converter={StaticResource TranslatedStringConverter}}"
-                                                                     SoundID="UI_HUD_Barter" 
-                                                                     MinWidth="480"
-                                                                     IsEnabled="{Binding TradeButtonsEnabled}">
-                                                            <ls:LSButton.Resources>
-                                                                <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
-                                                                <ImageBrush x:Key="IconPressed" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
-                                                                <ImageBrush x:Key="IconHighlight" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
-                                                                <ImageBrush x:Key="IconDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
-                                                            </ls:LSButton.Resources>
-                                                        </ls:LSButton>
-
-                                                        <ls:LSButton x:Name="BarterBtn" Style="{StaticResource BigBlueButtonStyle}" 
-                                                                     Content="{Binding Source='hdfe9a22fg1d5ag4132g9d91g716029f5d66f', Converter={StaticResource TranslatedStringConverter}}" 
-                                                                     Command="{Binding FinishBarter}" 
-                                                                     HorizontalAlignment="Center"
-                                                                     CommandParameter="{Binding ActionCommandParameter}" 
-                                                                     SoundID="UI_HUD_Barter" 
-                                                                     MinWidth="480"
-                                                                     Margin="0,32,0,0"
-                                                                     IsEnabled="{Binding TradeButtonsEnabled}"/>
-                                                    </StackPanel>
-                                                </Grid>
-
-                                                <Grid x:Name="TradeButtonHolder" Grid.Column="1" Margin="-4,0,0,-304" HorizontalAlignment="Center" Visibility="Collapsed" >
-                                                    <Image Source="{StaticResource BackgroundSingleButtonImage}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                    <ls:LSButton x:Name="TradeButton"
-                                                                 Style="{StaticResource BigBlueButtonStyle}" 
-                                                                 Command="{Binding FinishTrade}" 
-                                                                 Content="{Binding Source='h4d74c17cg64c1g4bbdgb6dag29a88b29bed2', Converter={StaticResource TranslatedStringConverter}}"
-                                                                 SoundID="UI_HUD_Barter"
-                                                                 VerticalAlignment="Center"
-                                                                 HorizontalAlignment="Center"
-                                                                 MinWidth="480"
-                                                                 IsEnabled="{Binding TradeButtonsEnabled}">
-                                                        <b:Interaction.Triggers>
-                                                            <!-- When the ListBoxes lose their focus, they reset their selection, but we don't want to do that while hovering TradeButton since we are about to trade -->
-                                                            <b:PropertyChangedTrigger Binding="{Binding IsMouseOver, ElementName=TradeButton}">
-                                                                <b:ChangePropertyAction TargetObject="{Binding .}" PropertyName="CanUpdateSelection" Value="{Binding IsMouseOver, ElementName=TradeButton, Converter={StaticResource InvertBoolConverter}}"/>
-                                                            </b:PropertyChangedTrigger>
-                                                        </b:Interaction.Triggers>
+                                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,64,16,0">
+                                                    <ls:LSButton x:Name="BalanceBtn" Style="{StaticResource BigBrownButtonTextAndIconStyle}" 
+                                                                    Command="{Binding BalanceTrade}" 
+                                                                    HorizontalAlignment="Center"
+                                                                    Content="{Binding Source='hb0e3f01fg505eg43ffg87e0g088ea4853d46', Converter={StaticResource TranslatedStringConverter}}"
+                                                                    SoundID="UI_HUD_Barter" 
+                                                                    MinWidth="480"
+                                                                    IsEnabled="{Binding TradeButtonsEnabled}">
+                                                        <ls:LSButton.Resources>
+                                                            <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
+                                                            <ImageBrush x:Key="IconPressed" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
+                                                            <ImageBrush x:Key="IconHighlight" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
+                                                            <ImageBrush x:Key="IconDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
+                                                        </ls:LSButton.Resources>
                                                     </ls:LSButton>
-                                                </Grid>
 
-                                                <ls:LSButton x:Name="WaresButton" 
-                                                             Style="{StaticResource BigBlueButtonTextAndIconStyle}" 
-                                                             Content="{Binding Source='h592bb99bg5f52g4042ga35eg5382daa71bdb', Converter={StaticResource TranslatedStringConverter}}"
-                                                             Grid.Column="2"
-                                                             HorizontalAlignment="Left"
-                                                             VerticalAlignment="Top"
-                                                             Margin="0,48,0,0"
-                                                             MinWidth="420"
-                                                             FontSize="{StaticResource ScaledSmallishFontSize}"
-                                                             FontWeight="DemiBold"
-                                                             IsEnabled="{Binding HasWares}"
-                                                             Command="{Binding SellWares}">
-                                                    <ls:LSButton.Resources>
-                                                        <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares.png" Stretch="Fill"/>
-                                                        <ImageBrush x:Key="IconPressed" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares.png" Stretch="Fill"/>
-                                                        <ImageBrush x:Key="IconHighlight" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares_active.png" Stretch="Fill"/>
-                                                        <ImageBrush x:Key="IconDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares.png" Stretch="Fill"/>
-                                                        <System:Double x:Key="IconWidth">60</System:Double>
-                                                        <System:Double x:Key="IconHeight">60</System:Double>
-                                                    </ls:LSButton.Resources>
+                                                    <ls:LSButton x:Name="BarterBtn" Style="{StaticResource BigBlueButtonStyle}" 
+                                                                    Content="{Binding Source='hdfe9a22fg1d5ag4132g9d91g716029f5d66f', Converter={StaticResource TranslatedStringConverter}}" 
+                                                                    Command="{Binding FinishBarter}" 
+                                                                    HorizontalAlignment="Center"
+                                                                    CommandParameter="{Binding ActionCommandParameter}" 
+                                                                    SoundID="UI_HUD_Barter" 
+                                                                    MinWidth="480"
+                                                                    Margin="0,32,0,0"
+                                                                    IsEnabled="{Binding TradeButtonsEnabled}"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid x:Name="TradeButtonHolder" Grid.Column="1" Margin="-4,0,0,-304" HorizontalAlignment="Center" Visibility="Collapsed" >
+                                                <Image Source="{StaticResource BackgroundSingleButtonImage}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                <ls:LSButton x:Name="TradeButton"
+                                                                Style="{StaticResource BigBlueButtonStyle}" 
+                                                                Command="{Binding FinishTrade}" 
+                                                                Content="{Binding Source='h4d74c17cg64c1g4bbdgb6dag29a88b29bed2', Converter={StaticResource TranslatedStringConverter}}"
+                                                                SoundID="UI_HUD_Barter"
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Center"
+                                                                MinWidth="480"
+                                                                IsEnabled="{Binding TradeButtonsEnabled}">
+                                                    <b:Interaction.Triggers>
+                                                        <!-- When the ListBoxes lose their focus, they reset their selection, but we don't want to do that while hovering TradeButton since we are about to trade -->
+                                                        <b:PropertyChangedTrigger Binding="{Binding IsMouseOver, ElementName=TradeButton}">
+                                                            <b:ChangePropertyAction TargetObject="{Binding .}" PropertyName="CanUpdateSelection" Value="{Binding IsMouseOver, ElementName=TradeButton, Converter={StaticResource InvertBoolConverter}}"/>
+                                                        </b:PropertyChangedTrigger>
+                                                    </b:Interaction.Triggers>
                                                 </ls:LSButton>
                                             </Grid>
+
+                                            <ls:LSButton x:Name="WaresButton" 
+                                                            Style="{StaticResource BigBlueButtonTextAndIconStyle}" 
+                                                            Content="{Binding Source='h592bb99bg5f52g4042ga35eg5382daa71bdb', Converter={StaticResource TranslatedStringConverter}}"
+                                                            Grid.Column="2"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Top"
+                                                            Margin="0,48,0,0"
+                                                            MinWidth="420"
+                                                            FontSize="{StaticResource ScaledSmallishFontSize}"
+                                                            FontWeight="DemiBold"
+                                                            IsEnabled="{Binding HasWares}"
+                                                            Command="{Binding SellWares}">
+                                                <ls:LSButton.Resources>
+                                                    <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares.png" Stretch="Fill"/>
+                                                    <ImageBrush x:Key="IconPressed" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares.png" Stretch="Fill"/>
+                                                    <ImageBrush x:Key="IconHighlight" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares_active.png" Stretch="Fill"/>
+                                                    <ImageBrush x:Key="IconDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Shared/ico_tab_wares.png" Stretch="Fill"/>
+                                                    <System:Double x:Key="IconWidth">60</System:Double>
+                                                    <System:Double x:Key="IconHeight">60</System:Double>
+                                                </ls:LSButton.Resources>
+                                            </ls:LSButton>
                                         </Grid>
-                                    </Grid>
-
-                                    <!-- Right Character Panel -->
-                                    <Grid x:Name="TraderCharacter" Grid.Column="2" HorizontalAlignment="Left">
-                                        <!-- Background fill gradient -->
-                                        <Path Style="{StaticResource HeaderBackgroundStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,20,0,0"/>
-
-                                        <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding Trader}" Width="730" Height="1340">
-                                            <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-                                            <!--DOLL CONTROLS-->
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,140">
-                                                <ls:LSButton  x:Name="rotateTraderRightBtn" Template="{StaticResource RotateRightButton}">
-                                                    <b:Interaction.Triggers>
-                                                        <b:EventTrigger EventName="LSButtonPressed">
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateClockwiseSpeed}" TargetName="CSPaperdoll" />
-                                                        </b:EventTrigger>
-                                                        <b:EventTrigger EventName="LSButtonReleased" >
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
-                                                        </b:EventTrigger>
-                                                    </b:Interaction.Triggers>
-                                                </ls:LSButton>
-
-                                                <ls:LSButton  x:Name="rotateTraderLeftBtn" Template="{StaticResource RotateLeftButton}">
-                                                    <b:Interaction.Triggers>
-                                                        <b:EventTrigger EventName="LSButtonPressed" >
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateCounterClockwiseSpeed}" TargetName="CSPaperdoll" />
-                                                        </b:EventTrigger>
-                                                        <b:EventTrigger EventName="LSButtonReleased" >
-                                                            <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
-                                                        </b:EventTrigger>
-                                                    </b:Interaction.Triggers>
-                                                </ls:LSButton>
-                                            </StackPanel>
-                                        </Grid>
-
-                                        <Image Source="{StaticResource CharacterFrameTrade}" Margin="0,44,0,0"  VerticalAlignment="Top" Stretch="None"/>
-
-                                        <StackPanel VerticalAlignment="Top" Margin="0,144,0,0" >
-                                            <TextBlock Style="{StaticResource CharacterNameTextStyle}" Text="{Binding Trader.Name}"/>
-
-                                            <TextBlock Style="{StaticResource CharacterClassTextStyle}" Visibility="{Binding Trader.HasVisibleClassAndLevel, Converter={StaticResource BoolToVisibleConverter}}">
-                                                <TextBlock.Text>
-                                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                                        <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
-                                                        <Binding Path="Trader.Stats.Level.Value"/>
-                                                        <Binding Path="Trader.Stats.Race.DisplayName"/>
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
-                                        </StackPanel>
-
-                                        <TextBlock x:Name="TraderFeedbackText" 
-                                                   Text="{Binding Source='h0a066f3dg76d7g4939gac2eg692872bc8d82', Converter={StaticResource TranslatedStringConverter}}" 
-                                                   TextWrapping="Wrap" 
-                                                   TextAlignment="Center" 
-                                                   HorizontalAlignment="Center" 
-                                                   VerticalAlignment="Top"  
-                                                   Margin="0,1832,0,0"  
-                                                   Width="600" 
-                                                   Foreground="{StaticResource LS_tint100}" 
-                                                   FontSize="{StaticResource ScaledDefaultFontSize}" 
-                                                   Visibility="Collapsed"/>
-
-                                        <ls:LSProgressBar Minimum="-100" Maximum="100" Value="{Binding Trader.Attitude,Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,1728,0,0">
-                                            <ls:LSProgressBar.Template>
-                                                <ControlTemplate TargetType="ls:LSProgressBar">
-                                                    <ControlTemplate.Resources>
-                                                        <BitmapImage x:Key="AttitudeBarImage" UriSource="pack://application:,,,/Core;component/Assets/Trade/vendorBart.png"/>
-                                                        <BitmapImage x:Key="DefaultAttitudeImage" UriSource="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_02.png"/>
-                                                        <BitmapImage x:Key="BarBg" UriSource="pack://application:,,,/Core;component/Assets/Shared/bar_mainFooter.png"/>
-                                                    </ControlTemplate.Resources>
-                                                    <Grid x:Name="TemplateRoot" MinHeight="4">
-                                                        <Border x:Name="PART_Track" BorderBrush="Transparent" BorderThickness="0">
-                                                            <Grid>
-                                                                <Image Source="{StaticResource BarBg}" Stretch="None" VerticalAlignment="Bottom" Margin="0,0,0,-28"/>
-                                                                <Image Source="{StaticResource AttitudeBarImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="-2,0,-2,0"/>
-                                                                <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
-                                                                    <StackPanel ClipToBounds="False" HorizontalAlignment="Right" Margin="12,0,12,10" VerticalAlignment="Bottom">
-                                                                        <Image x:Name="AttitudeIcon" Source="{StaticResource DefaultAttitudeImage}" Stretch="None" HorizontalAlignment="Center" />
-                                                                        <Path x:Name="ArrowPath" Width="32" Data="M 0 0 L 16 16 L 32 0 Z" HorizontalAlignment="Center" Fill="{StaticResource Trade.NeutralAttitude}"/>
-                                                                    </StackPanel>
-                                                                </Border>
-                                                            </Grid>
-                                                        </Border>
-                                                    </Grid>
-                                                    <ControlTemplate.Triggers>
-                                                        <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=-29}" Value="True">
-                                                            <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.LowAttitude}" />
-                                                            <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_01.png" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=25}" Value="False">
-                                                            <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.HighAttitude}" />
-                                                            <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_03.png" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource GreaterThanConverter}, ConverterParameter=69}" Value="True">
-                                                            <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.VeryHighAttitude}" />
-                                                            <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_04.png" />
-                                                        </DataTrigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </ls:LSProgressBar.Template>
-                                            <ls:LSProgressBar.ToolTip>
-                                                <ls:LSTooltip>
-                                                    <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
-                                                            <ls:TextBlockFormatter.SourceText>
-                                                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                                                    <Binding Source="hf5795482g056ag446fgb664gfe2b0007058e"/>
-                                                                    <Binding Source="h04a565d3g3f77g47bbgba12gaa1823313087" Converter="{StaticResource TranslatedStringConverter}"/>
-                                                                    <Binding Path="DataContext.Trader.Attitude" ElementName="TraderCharacter"/>
-                                                                </MultiBinding>
-                                                            </ls:TextBlockFormatter.SourceText>
-                                                    </TextBlock>
-                                                </ls:LSTooltip>
-                                            </ls:LSProgressBar.ToolTip>
-                                        </ls:LSProgressBar>
-
                                     </Grid>
                                 </Grid>
-                            </Viewbox>
+
+                                <!-- Right Character Panel -->
+                                <Grid x:Name="TraderCharacter" Grid.Column="2" HorizontalAlignment="Left">
+                                    <!-- Background fill gradient -->
+                                    <Path Style="{StaticResource HeaderBackgroundStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,20,0,0"/>
+
+                                    <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding Trader}" Width="730" Height="1340">
+                                        <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="CSPaperdoll" EntityRef="{Binding EntityHandle}" Width="{StaticResource CSDollWidth}" Height="{StaticResource CSDollHeight}" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                        <!--DOLL CONTROLS-->
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,140">
+                                            <ls:LSButton  x:Name="rotateTraderRightBtn" Template="{StaticResource RotateRightButton}">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="LSButtonPressed">
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateClockwiseSpeed}" TargetName="CSPaperdoll" />
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="LSButtonReleased" >
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                            </ls:LSButton>
+
+                                            <ls:LSButton  x:Name="rotateTraderLeftBtn" Template="{StaticResource RotateLeftButton}">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="LSButtonPressed" >
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="{StaticResource PaperdollRotateCounterClockwiseSpeed}" TargetName="CSPaperdoll" />
+                                                    </b:EventTrigger>
+                                                    <b:EventTrigger EventName="LSButtonReleased" >
+                                                        <b:ChangePropertyAction PropertyName="RotationSpeed" Value="0" TargetName="CSPaperdoll" />
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                            </ls:LSButton>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Image Source="{StaticResource CharacterFrameTrade}" Margin="0,44,0,0"  VerticalAlignment="Top" Stretch="None"/>
+
+                                    <StackPanel VerticalAlignment="Top" Margin="0,144,0,0" >
+                                        <TextBlock Style="{StaticResource CharacterNameTextStyle}" Text="{Binding Trader.Name}"/>
+
+                                        <TextBlock Style="{StaticResource CharacterClassTextStyle}" Visibility="{Binding Trader.HasVisibleClassAndLevel, Converter={StaticResource BoolToVisibleConverter}}">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                    <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
+                                                    <Binding Path="Trader.Stats.Level.Value"/>
+                                                    <Binding Path="Trader.Stats.Race.DisplayName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <TextBlock x:Name="TraderFeedbackText" 
+                                                Text="{Binding Source='h0a066f3dg76d7g4939gac2eg692872bc8d82', Converter={StaticResource TranslatedStringConverter}}" 
+                                                TextWrapping="Wrap" 
+                                                TextAlignment="Center" 
+                                                HorizontalAlignment="Center" 
+                                                VerticalAlignment="Top"  
+                                                Margin="0,1832,0,0"  
+                                                Width="600" 
+                                                Foreground="{StaticResource LS_tint100}" 
+                                                FontSize="{StaticResource ScaledDefaultFontSize}" 
+                                                Visibility="Collapsed"/>
+
+                                    <ls:LSProgressBar Minimum="-100" Maximum="100" Value="{Binding Trader.Attitude,Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,1728,0,0">
+                                        <ls:LSProgressBar.Template>
+                                            <ControlTemplate TargetType="ls:LSProgressBar">
+                                                <ControlTemplate.Resources>
+                                                    <BitmapImage x:Key="AttitudeBarImage" UriSource="pack://application:,,,/Core;component/Assets/Trade/vendorBart.png"/>
+                                                    <BitmapImage x:Key="DefaultAttitudeImage" UriSource="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_02.png"/>
+                                                    <BitmapImage x:Key="BarBg" UriSource="pack://application:,,,/Core;component/Assets/Shared/bar_mainFooter.png"/>
+                                                </ControlTemplate.Resources>
+                                                <Grid x:Name="TemplateRoot" MinHeight="4">
+                                                    <Border x:Name="PART_Track" BorderBrush="Transparent" BorderThickness="0">
+                                                        <Grid>
+                                                            <Image Source="{StaticResource BarBg}" Stretch="None" VerticalAlignment="Bottom" Margin="0,0,0,-28"/>
+                                                            <Image Source="{StaticResource AttitudeBarImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="-2,0,-2,0"/>
+                                                            <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                                                <StackPanel ClipToBounds="False" HorizontalAlignment="Right" Margin="12,0,12,10" VerticalAlignment="Bottom">
+                                                                    <Image x:Name="AttitudeIcon" Source="{StaticResource DefaultAttitudeImage}" Stretch="None" HorizontalAlignment="Center" />
+                                                                    <Path x:Name="ArrowPath" Width="32" Data="M 0 0 L 16 16 L 32 0 Z" HorizontalAlignment="Center" Fill="{StaticResource Trade.NeutralAttitude}"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=-29}" Value="True">
+                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.LowAttitude}" />
+                                                        <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_01.png" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=25}" Value="False">
+                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.HighAttitude}" />
+                                                        <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_03.png" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource GreaterThanConverter}, ConverterParameter=69}" Value="True">
+                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.VeryHighAttitude}" />
+                                                        <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_04.png" />
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </ls:LSProgressBar.Template>
+                                        <ls:LSProgressBar.ToolTip>
+                                            <ls:LSTooltip>
+                                                <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
+                                                        <ls:TextBlockFormatter.SourceText>
+                                                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                                <Binding Source="hf5795482g056ag446fgb664gfe2b0007058e"/>
+                                                                <Binding Source="h04a565d3g3f77g47bbgba12gaa1823313087" Converter="{StaticResource TranslatedStringConverter}"/>
+                                                                <Binding Path="DataContext.Trader.Attitude" ElementName="TraderCharacter"/>
+                                                            </MultiBinding>
+                                                        </ls:TextBlockFormatter.SourceText>
+                                                </TextBlock>
+                                            </ls:LSTooltip>
+                                        </ls:LSProgressBar.ToolTip>
+                                    </ls:LSProgressBar>
+
+                                </Grid>
+                            </Grid>
 
                             <!-- Party portraits -->
                             <Grid HorizontalAlignment="Left">
