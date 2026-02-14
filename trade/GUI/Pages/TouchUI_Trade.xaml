@@ -402,6 +402,10 @@
 
                             <!-- Current character trading mention -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,36,0,0">
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </StackPanel.LayoutTransform>
+
                                 <Grid VerticalAlignment="Top">
                                     <Grid Height="68" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Rectangle Fill="{Binding PlayerTraderCharacter.Icon}" Width="78" Height="114" Margin="0,12,10,-35">
@@ -420,7 +424,7 @@
                                     <Image Source="{StaticResource CharacterDiamondSurround}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
 
-                                <StackPanel VerticalAlignment="Top">
+                                <StackPanel VerticalAlignment="Top" Margin="10,0,0,0">
                                     <TextBlock x:Name="PlayerTraderText" HorizontalAlignment="Left" Foreground="{StaticResource LS_extraspecialTxtColor}" Style="{StaticResource TradeElementTextStyle}" TextWrapping="Wrap">
                                         <TextBlock.Text>
                                             <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
