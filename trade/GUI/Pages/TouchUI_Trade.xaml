@@ -533,7 +533,16 @@
 
                                             <!-- Paperdoll render frame -->
                                             <Grid Margin="0,-50,0,12" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1040">
-                                                <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="PlayerPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1712" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                                <!-- Add a clip based on HeaderBackgroundStyle to clip any black background from paperdoll that goes beyond the curved border style -->
+                                                <Grid.Clip>
+                                                    <PathGeometry Figures="M 12,3000 L 12,330 L 12,260 S 12,96 220,96 H 300 S 520,-35 740,96 H 820 S 1028,96 1028,260 V 330 L 1028,3000 Z">
+                                                        <PathGeometry.Transform>
+                                                            <TranslateTransform X="4" Y="70"/>
+                                                        </PathGeometry.Transform>
+                                                    </PathGeometry>
+                                                </Grid.Clip>
+
+                                                <ls:LSPaperdoll HorizontalAlignment="Center" x:Name="PlayerPaperdoll" EntityRef="{Binding EntityHandle}" Width="1440" Height="1900" VerticalAlignment="Bottom" ClipToBounds="True" UseCombatPose="True" MouseRotate="True" MouseRotateMultiplier="10" RenderScale="{Binding DataContext.Data.RenderScale, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                             </Grid>
 
                                             <!-- Touch UI - Hide doll controls; clunky to use with touch controls -->
@@ -583,7 +592,7 @@
                                             </ContentControl>
                                         </Grid>
 
-                                        <StackPanel VerticalAlignment="Top" Margin="0,144,0,0" >
+                                        <StackPanel Visibility="Collapsed" VerticalAlignment="Top" Margin="0,144,0,0" >
                                             <b:Interaction.Behaviors>
                                                 <ls:ConcatenateListBehavior x:Name="ClassList" ItemsSource="{Binding Stats.ClassList}" Separator="h2519408dg5fd7g4cbcg840cg14370239edf8"/>
                                             </b:Interaction.Behaviors>
