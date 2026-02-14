@@ -574,9 +574,13 @@
                                             <ContentControl x:Name="CharacterGold"
                                                             VerticalAlignment="Top" 
                                                             HorizontalAlignment="Right" 
-                                                            Margin="0,46,60,0" 
+                                                            Margin="0,36,90,0" 
                                                             DataContext="{Binding Inventory.Gold, StringFormat={}{0:N0}}" 
-                                                            Template="{StaticResource GoldDisplay}"/>
+                                                            Template="{StaticResource GoldDisplay}">
+                                                <ContentControl.LayoutTransform>
+                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                </ContentControl.LayoutTransform>
+                                            </ContentControl>
                                         </Grid>
 
                                         <StackPanel VerticalAlignment="Top" Margin="0,144,0,0" >
