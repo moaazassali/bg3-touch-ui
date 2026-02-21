@@ -666,7 +666,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="90"/>
-                                            <RowDefinition Height="90"/>
+                                            <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="92"/>
                                             <RowDefinition Height="1435"/>
                                             <RowDefinition Height="Auto"/>
@@ -714,7 +714,7 @@
                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
                                                 </ItemsPanelTemplate>
                                             </ListBox.ItemsPanel>
                                             <ListBoxItem x:Name="allTab" Tag="All"/>
@@ -930,7 +930,7 @@
                                             </ListBox.ItemContainerStyle>
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
                                                 </ItemsPanelTemplate>
                                             </ListBox.ItemsPanel>
                                             <ListBoxItem x:Name="traderAllTab" Tag="All"/>
