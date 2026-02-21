@@ -446,7 +446,7 @@
                             </StackPanel>
 
                             <!-- Trade Mode Buttons -->
-                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,60,0,0">
+                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="840,40,0,0">
                                 <StackPanel.LayoutTransform>
                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                 </StackPanel.LayoutTransform>
@@ -526,7 +526,7 @@
 
                             </StackPanel>
 
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,100,0,0">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,20,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1120"/>
                                     <ColumnDefinition Width="*"/>
@@ -673,7 +673,7 @@
                                             <RowDefinition Height="90"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="92"/>
-                                            <RowDefinition Height="500"/>
+                                            <RowDefinition Height="650"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
@@ -719,7 +719,7 @@
                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
+                                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
                                                 </ItemsPanelTemplate>
                                             </ListBox.ItemsPanel>
                                             <ListBoxItem x:Name="allTab" Tag="All"/>
@@ -935,7 +935,7 @@
                                             </ListBox.ItemContainerStyle>
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
+                                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
                                                 </ItemsPanelTemplate>
                                             </ListBox.ItemsPanel>
                                             <ListBoxItem x:Name="traderAllTab" Tag="All"/>
