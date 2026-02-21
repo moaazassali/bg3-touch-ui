@@ -1104,7 +1104,7 @@
                                         </StackPanel>
                                     </Grid>
 
-                                    <Image Source="{StaticResource CharacterFrameTrade}" Margin="0,44,0,0"  VerticalAlignment="Top" Stretch="None"/>
+                                    <Image Source="{StaticResource CharacterFrameTrade}" Margin="0,44,0,0"  VerticalAlignment="Top" Stretch="Uniform" Width="1070"/>
 
                                     <StackPanel VerticalAlignment="Top" Margin="0,144,0,0" >
                                         <TextBlock Style="{StaticResource CharacterNameTextStyle}" Text="{Binding Trader.Name}"/>
