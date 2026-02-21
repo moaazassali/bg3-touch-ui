@@ -525,7 +525,7 @@
 
                             </StackPanel>
 
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="180,200,180,0">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="180,100,180,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1120"/>
                                     <ColumnDefinition Width="*"/>
@@ -620,7 +620,7 @@
                                 </Grid>
 
                                 <!-- Trade/Barter Main Panel -->
-                                <Grid x:Name="BarterMainPanel" Margin="44,120,44,0" Grid.Column="1" ls:AttachedProperties.InheritedCharacter="{Binding CurrentTradingCharacter}" MinHeight="1860">
+                                <Grid x:Name="BarterMainPanel" Margin="44,120,44,0" Grid.Column="1" ls:AttachedProperties.InheritedCharacter="{Binding CurrentTradingCharacter}">
                                     <Grid.Style>
                                         <Style>
                                             <Style.Resources>
@@ -634,22 +634,21 @@
                                                                     Comparer="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.TradeSortComparer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                     </b:Interaction.Behaviors>
 
-                                    <Image x:Name="FrameBackground" Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
+                                    <!-- <Image x:Name="FrameBackground" Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/> -->
+                                    <ls:LSNineSliceImage x:Name="FrameBackground" ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top" Slices="400,400,400,400" Width="1808" Visibility="Hidden"/>
 
                                     <!-- Touch UI - A hack to shrink the middle borders in the large BackgroundFrameImage to fit our 1 column player/trader offer grids -->
-                                    <Grid x:Name="BarterFrameBackground" HorizontalAlignment="Center" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=FrameBackground}" ClipToBounds="True">
+                                    <Grid x:Name="BarterFrameBackground" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="{Binding ActualWidth, ElementName=FrameBackground}" ClipToBounds="True">
                                         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="600" ClipToBounds="True">
-                                            <Image Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Slices="400,400,400,400" Width="1808"/>
                                         </Grid>
-                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="608" ClipToBounds="True">
-                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Top" Slices="825,0,825,0" Width="1650"/>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="608" ClipToBounds="True">
+                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Stretch" Slices="825,400,825,400" Width="1650"/>
                                         </Grid>
                                         <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="600" ClipToBounds="True">
-                                            <Image Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top" Slices="400,400,400,400" Width="1808"/>
                                         </Grid>
                                     </Grid>
-
-                                    <!-- <ls:LSNineSliceImage x:Name="FrameBackground" ImageSource="{StaticResource BackgroundFrameImage}" Stretch="Fill" Slices="650,0,650,0" Width="{Binding ActualWidth, ElementName=FrameBackground}" HorizontalAlignment="Center" VerticalAlignment="Top"/> -->
 
                                     <Grid x:Name="BalanceFeedbackIconHolder" VerticalAlignment="Top" Margin="0,-20,0,0">
                                         <Image x:Name="BalanceIconBackground" Stretch="None" Source="{StaticResource BalanceIconBackground}"/>
@@ -669,7 +668,7 @@
                                             <RowDefinition Height="90"/>
                                             <RowDefinition Height="90"/>
                                             <RowDefinition Height="92"/>
-                                            <RowDefinition Height="1340"/>
+                                            <RowDefinition Height="1435"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
@@ -991,7 +990,7 @@
                                         </ListBox>
 
                                         <!-- Bottom buttons -->
-                                        <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4">
+                                        <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4" VerticalAlignment="Bottom">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
@@ -1002,9 +1001,9 @@
                                             <ls:LSComboBox x:Name="sortComboBox"
                                                             Grid.Column="0"
                                                             Width="400"
-                                                            VerticalAlignment="Top"
+                                                            VerticalAlignment="Bottom"
                                                             SoundID="UI_HUD_Inventory_Sort"
-                                                            Margin="0,48,0,0"
+                                                            Margin="0,0,0,220"
                                                             ItemsSource="{Binding Path=CurrentPlayer.UIData.InventorySortOptions}"
                                                             SelectedItem="{Binding TradeSortOption}"
                                                             noesis:Text.Placeholder="{Binding SelectedItem.Name, RelativeSource={RelativeSource Self}, Mode=OneWay}"
@@ -1012,7 +1011,7 @@
                                                             />
 
                                             <!-- Balance and Trade Buttons -->
-                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="1" Margin="12,-70,0,0" HorizontalAlignment="Center">
+                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="1" Margin="12,-85,0,0" HorizontalAlignment="Center">
                                                 <Image Source="{StaticResource BackgroundDoubleButtonImage}" Stretch="None"/>
 
                                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,56,16,0">
@@ -1043,7 +1042,7 @@
                                                 </StackPanel>
                                             </Grid>
 
-                                            <Grid x:Name="TradeButtonHolder" Grid.Column="1" Margin="-4,-200,0,0" HorizontalAlignment="Center" Visibility="Collapsed" >
+                                            <Grid x:Name="TradeButtonHolder" Grid.Column="1" Margin="-4,-215,0,0" HorizontalAlignment="Center" Visibility="Collapsed" >
                                                 <Image Source="{StaticResource BackgroundSingleButtonImage}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                 <ls:LSButton x:Name="TradeButton"
                                                                 Style="{StaticResource BigBlueButtonStyle}" 
@@ -1068,8 +1067,8 @@
                                                             Content="{Binding Source='h592bb99bg5f52g4042ga35eg5382daa71bdb', Converter={StaticResource TranslatedStringConverter}}"
                                                             Grid.Column="2"
                                                             HorizontalAlignment="Left"
-                                                            VerticalAlignment="Top"
-                                                            Margin="0,48,0,0"
+                                                            VerticalAlignment="Bottom"
+                                                            Margin="0,0,0,220"
                                                             MinWidth="420"
                                                             FontSize="{StaticResource ScaledSmallishFontSize}"
                                                             FontWeight="DemiBold"
@@ -1532,7 +1531,7 @@
 
                             <!-- Trade mode changes -->
                             <DataTrigger Binding="{Binding Mode}" Value="Trade">
-                                <Setter TargetName="FrameBackground" Property="Source" Value="pack://application:,,,/Core;component/Assets/Trade/tradeFrames.png"/>
+                                <Setter TargetName="FrameBackground" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Trade/tradeFrames.png"/>
                                 <Setter TargetName="FrameBackground" Property="Visibility" Value="Visible"/>
                                 <Setter TargetName="BarterFrameBackground" Property="Visibility" Value="Collapsed"/>
                                 <Setter TargetName="MiddleColumn" Property="Width" Value="46"/>
