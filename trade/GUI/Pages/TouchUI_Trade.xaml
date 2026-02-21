@@ -260,8 +260,9 @@
                                 <Setter Property="HorizontalSpacing" Value="{StaticResource SlotSpacing}"/>
                                 <Setter Property="ls:ElementCacheHelper.GroupId" Value="{Binding (ls:ElementCacheHelper.GroupId), RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
                                 <Setter Property="AllowDrop" Value="True"/>
-                                <Setter Property="AutoIndex" Value="True"/>
+                                <Setter Property="AutoIndex" Value="False"/>
                                 <Setter Property="ViewportExtension" Value="4, 4"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
                             </Style>
 
                             <ItemsPanelTemplate x:Key="CharacterInventoryPanelTemplate">
@@ -525,14 +526,14 @@
 
                             </StackPanel>
 
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="180,100,180,0">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,100,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1120"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- Left Character Panel -->
-                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}">
+                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}" Margin="0,100,0,40">
                                     <b:Interaction.Behaviors>
                                         <ls:DropToUnequipBehavior />
                                     </b:Interaction.Behaviors>
@@ -620,11 +621,15 @@
                                 </Grid>
 
                                 <!-- Trade/Barter Main Panel -->
-                                <Grid x:Name="BarterMainPanel" Margin="44,120,44,0" Grid.Column="1" ls:AttachedProperties.InheritedCharacter="{Binding CurrentTradingCharacter}">
+                                <Grid x:Name="BarterMainPanel" Margin="0,0,0,0" Grid.Column="1" ls:AttachedProperties.InheritedCharacter="{Binding CurrentTradingCharacter}">
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    </Grid.LayoutTransform>
+
                                     <Grid.Style>
                                         <Style>
                                             <Style.Resources>
-                                                <System:UInt32 x:Key="invCols">7</System:UInt32>
+                                                <System:UInt32 x:Key="invCols">4</System:UInt32>
                                             </Style.Resources>
                                         </Style>
                                     </Grid.Style>
@@ -635,20 +640,20 @@
                                     </b:Interaction.Behaviors>
 
                                     <!-- <Image x:Name="FrameBackground" Stretch="None" Source="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/> -->
-                                    <ls:LSNineSliceImage x:Name="FrameBackground" ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top" Slices="400,400,400,400" Width="1808" Visibility="Hidden"/>
+                                    <!-- <ls:LSNineSliceImage x:Name="FrameBackground" ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top" Slices="200,200,200,200" Width="904" Visibility="Hidden"/> -->
 
                                     <!-- Touch UI - A hack to shrink the middle borders in the large BackgroundFrameImage to fit our 1 column player/trader offer grids -->
-                                    <Grid x:Name="BarterFrameBackground" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="{Binding ActualWidth, ElementName=FrameBackground}" ClipToBounds="True">
-                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="600" ClipToBounds="True">
-                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Slices="400,400,400,400" Width="1808"/>
+                                    <!-- <Grid x:Name="BarterFrameBackground" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="{Binding ActualWidth, ElementName=FrameBackground}" ClipToBounds="True">
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" ClipToBounds="True">
+                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Slices="200,200,200,200" Width="904"/>
                                         </Grid>
-                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="608" ClipToBounds="True">
-                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Stretch" Slices="825,400,825,400" Width="1650"/>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="304" ClipToBounds="True">
+                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Center" VerticalAlignment="Stretch" Slices="412,200,412,200" Width="825"/>
                                         </Grid>
-                                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="600" ClipToBounds="True">
-                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top" Slices="400,400,400,400" Width="1808"/>
+                                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="300" ClipToBounds="True">
+                                            <ls:LSNineSliceImage ImageSource="{StaticResource BackgroundFrameImage}" HorizontalAlignment="Right" VerticalAlignment="Top" Slices="200,200,200,200" Width="904"/>
                                         </Grid>
-                                    </Grid>
+                                    </Grid> -->
 
                                     <Grid x:Name="BalanceFeedbackIconHolder" VerticalAlignment="Top" Margin="0,-20,0,0">
                                         <Image x:Name="BalanceIconBackground" Stretch="None" Source="{StaticResource BalanceIconBackground}"/>
@@ -668,7 +673,7 @@
                                             <RowDefinition Height="90"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="92"/>
-                                            <RowDefinition Height="1435"/>
+                                            <RowDefinition Height="500"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
@@ -731,10 +736,10 @@
                                                         Grid.Column="0" 
                                                         Grid.Row="2"
                                                         Grid.RowSpan="2"
-                                                        HorizontalAlignment="Right" 
+                                                        HorizontalAlignment="Left" 
                                                         VerticalAlignment="Top"
-                                                        Margin="0,22,8,0"
-                                                        Width="676"
+                                                        Margin="0,22,4,0"
+                                                        Width="400"
                                                         ItemsSource="{Binding PartyCharacterInventories}"
                                                         AlternationCount="{Binding PartyCharacterInventories.Count}"
                                                         SelectionMode="Single">
@@ -774,7 +779,7 @@
                                                     Padding="-4,0,0,0"
                                                     Margin="-12,0,0,0">
                                             <ListBox.Resources>
-                                                <System:UInt32 x:Key="invRows">14</System:UInt32>
+                                                <System:UInt32 x:Key="invRows">5</System:UInt32>
                                                 <System:UInt32 x:Key="invCols">1</System:UInt32>
                                             </ListBox.Resources>
                                             <ListBox.ItemsPanel>
@@ -837,7 +842,7 @@
                                                     HorizontalAlignment="Center"
                                                     Padding="0,0,-16,0">
                                             <ListBox.Resources>
-                                                <System:UInt32 x:Key="invRows">14</System:UInt32>
+                                                <System:UInt32 x:Key="invRows">5</System:UInt32>
                                                 <System:UInt32 x:Key="invCols">1</System:UInt32>
                                             </ListBox.Resources>
                                             <ListBox.ItemsPanel>
@@ -946,9 +951,9 @@
                                                     Template="{StaticResource TraderGridTemplate}"
                                                     ItemsSource="{Binding SortedItems, ElementName=TraderInventoryFilteredSorted}" 
                                                     SelectedItem="{Binding SelectedItemSlot, Mode=OneWay}"
-                                                    HorizontalAlignment="Left">
+                                                    HorizontalAlignment="Right">
                                             <ListBox.Resources>
-                                                <System:UInt32 x:Key="invRows">14</System:UInt32>
+                                                <System:UInt32 x:Key="invRows">5</System:UInt32>
                                             </ListBox.Resources>
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -1139,7 +1144,7 @@
 
                                 </Grid>
 
-                                <Grid Grid.Column="2">
+                                <Grid Grid.Column="2" Margin="0,0,40,0">
                                     <!-- Touch UI - Move out of Trader Character grid -->
                                     <TextBlock x:Name="TraderFeedbackText"
                                         Text="{Binding Source='h0a066f3dg76d7g4939gac2eg692872bc8d82', Converter={StaticResource TranslatedStringConverter}}" 
@@ -1531,9 +1536,9 @@
 
                             <!-- Trade mode changes -->
                             <DataTrigger Binding="{Binding Mode}" Value="Trade">
-                                <Setter TargetName="FrameBackground" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Trade/tradeFrames.png"/>
-                                <Setter TargetName="FrameBackground" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="BarterFrameBackground" Property="Visibility" Value="Collapsed"/>
+                                <!-- <Setter TargetName="FrameBackground" Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Trade/tradeFrames.png"/> -->
+                                <!-- <Setter TargetName="FrameBackground" Property="Visibility" Value="Visible"/> -->
+                                <!-- <Setter TargetName="BarterFrameBackground" Property="Visibility" Value="Collapsed"/> -->
                                 <Setter TargetName="MiddleColumn" Property="Width" Value="46"/>
                                 <Setter TargetName="WaresButton" Property="Content" Value="{Binding Source='hcb2f0ae8g4b71g475bgbf9bgb026d2d5cdcb', Converter={StaticResource TranslatedStringConverter}}"/>
                                 <Setter TargetName="BalanceFeedbackIconHolder" Property="Visibility" Value="Collapsed"/>
@@ -1542,7 +1547,7 @@
                                     <Setter.Value>
                                         <Style>
                                             <Style.Resources>
-                                                <System:UInt32 x:Key="invCols">9</System:UInt32>
+                                                <System:UInt32 x:Key="invCols">5</System:UInt32>
                                             </Style.Resources>
                                         </Style>
                                     </Setter.Value>
@@ -1561,7 +1566,7 @@
                                 <Setter TargetName="PlayerFiltersTabsLine" Property="Grid.ColumnSpan" Value="2"/>
                                 <Setter TargetName="PlayerFilterTabs" Property="Grid.ColumnSpan" Value="2"/>
                                 <Setter TargetName="PlayerInventory" Property="Grid.ColumnSpan" Value="2"/>
-                                <Setter TargetName="PlayerInventory" Property="Width" Value="866"/>
+                                <Setter TargetName="PlayerInventory" Property="Width" Value="492"/>
 
                                 <Setter TargetName="TraderGold" Property="Grid.Column" Value="3"/>
                                 <Setter TargetName="TraderGold" Property="Grid.ColumnSpan" Value="2"/>
