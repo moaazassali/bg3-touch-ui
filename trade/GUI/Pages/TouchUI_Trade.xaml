@@ -994,6 +994,21 @@
                                             </b:Interaction.Triggers>
                                         </ListBox>
 
+                                        <!-- Touch UI - Move out of Trader Character grid -->
+                                        <TextBlock x:Name="TraderFeedbackText"
+                                            Grid.Column="4"
+                                            Grid.Row="1"
+                                            Text="{Binding Source='h0a066f3dg76d7g4939gac2eg692872bc8d82', Converter={StaticResource TranslatedStringConverter}}" 
+                                            TextWrapping="Wrap" 
+                                            TextAlignment="Center" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"   
+                                            Foreground="{StaticResource LS_tint100}" 
+                                            FontSize="{StaticResource ScaledDefaultFontSize}" 
+                                            Visibility="Hidden"
+                                            Margin="20,0,20,-100">
+                                        </TextBlock>
+
                                         <!-- Bottom buttons -->
                                         <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4" VerticalAlignment="Bottom">
                                             <Grid.ColumnDefinitions>
@@ -1144,87 +1159,66 @@
 
                                 </Grid>
 
-                                <Grid Grid.Column="2" Margin="0,0,40,0">
-                                    <!-- Touch UI - Move out of Trader Character grid -->
-                                    <TextBlock x:Name="TraderFeedbackText"
-                                        Text="{Binding Source='h0a066f3dg76d7g4939gac2eg692872bc8d82', Converter={StaticResource TranslatedStringConverter}}" 
-                                        TextWrapping="Wrap" 
-                                        TextAlignment="Center" 
-                                        HorizontalAlignment="Right" 
-                                        VerticalAlignment="Center"   
-                                        Foreground="{StaticResource LS_tint100}" 
-                                        FontSize="{StaticResource ScaledDefaultFontSize}" 
-                                        Visibility="Hidden"
-                                        Margin="0,0,175,0">
-                                        <TextBlock.LayoutTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                                <RotateTransform Angle="90"/>
-                                            </TransformGroup>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
+                                <!-- Touch UI - Move out of Trader Character grid -->
+                                <ls:LSProgressBar Grid.Column="2" Minimum="-100" Maximum="100" Value="{Binding Trader.Attitude,Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="40,0,20,0">
+                                    <ls:LSProgressBar.LayoutTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                            <RotateTransform Angle="90"/>
+                                        </TransformGroup>
+                                    </ls:LSProgressBar.LayoutTransform>
 
-                                    <!-- Touch UI - Move out of Trader Character grid -->
-                                    <ls:LSProgressBar Minimum="-100" Maximum="100" Value="{Binding Trader.Attitude,Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                        <ls:LSProgressBar.LayoutTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                                <RotateTransform Angle="90"/>
-                                            </TransformGroup>
-                                        </ls:LSProgressBar.LayoutTransform>
-
-                                        <ls:LSProgressBar.Template>
-                                            <ControlTemplate TargetType="ls:LSProgressBar">
-                                                <ControlTemplate.Resources>
-                                                    <BitmapImage x:Key="AttitudeBarImage" UriSource="pack://application:,,,/Core;component/Assets/Trade/vendorBart.png"/>
-                                                    <BitmapImage x:Key="DefaultAttitudeImage" UriSource="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_02.png"/>
-                                                    <BitmapImage x:Key="BarBg" UriSource="pack://application:,,,/Core;component/Assets/Shared/bar_mainFooter.png"/>
-                                                </ControlTemplate.Resources>
-                                                <Grid x:Name="TemplateRoot" MinHeight="4">
-                                                    <Border x:Name="PART_Track" BorderBrush="Transparent" BorderThickness="0">
-                                                        <Grid>
-                                                            <Image Source="{StaticResource BarBg}" Stretch="None" VerticalAlignment="Bottom" Margin="0,0,0,-28"/>
-                                                            <Image Source="{StaticResource AttitudeBarImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="-2,0,-2,0"/>
-                                                            <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
-                                                                <StackPanel ClipToBounds="False" HorizontalAlignment="Right" Margin="12,0,12,10" VerticalAlignment="Bottom">
-                                                                    <Image x:Name="AttitudeIcon" Source="{StaticResource DefaultAttitudeImage}" Stretch="None" HorizontalAlignment="Center" />
-                                                                    <Path x:Name="ArrowPath" Width="32" Data="M 0 0 L 16 16 L 32 0 Z" HorizontalAlignment="Center" Fill="{StaticResource Trade.NeutralAttitude}"/>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </Grid>
-                                                    </Border>
-                                                </Grid>
-                                                <ControlTemplate.Triggers>
-                                                    <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=-29}" Value="True">
-                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.LowAttitude}" />
-                                                        <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_01.png" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=25}" Value="False">
-                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.HighAttitude}" />
-                                                        <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_03.png" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource GreaterThanConverter}, ConverterParameter=69}" Value="True">
-                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.VeryHighAttitude}" />
-                                                        <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_04.png" />
-                                                    </DataTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </ls:LSProgressBar.Template>
-                                        <ls:LSProgressBar.ToolTip>
-                                            <ls:LSTooltip>
-                                                <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
-                                                        <ls:TextBlockFormatter.SourceText>
-                                                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                                                <Binding Source="hf5795482g056ag446fgb664gfe2b0007058e"/>
-                                                                <Binding Source="h04a565d3g3f77g47bbgba12gaa1823313087" Converter="{StaticResource TranslatedStringConverter}"/>
-                                                                <Binding Path="DataContext.Trader.Attitude" ElementName="TraderCharacter"/>
-                                                            </MultiBinding>
-                                                        </ls:TextBlockFormatter.SourceText>
-                                                </TextBlock>
-                                            </ls:LSTooltip>
-                                        </ls:LSProgressBar.ToolTip>
-                                    </ls:LSProgressBar>
-                                </Grid>
+                                    <ls:LSProgressBar.Template>
+                                        <ControlTemplate TargetType="ls:LSProgressBar">
+                                            <ControlTemplate.Resources>
+                                                <BitmapImage x:Key="AttitudeBarImage" UriSource="pack://application:,,,/Core;component/Assets/Trade/vendorBart.png"/>
+                                                <BitmapImage x:Key="DefaultAttitudeImage" UriSource="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_02.png"/>
+                                                <BitmapImage x:Key="BarBg" UriSource="pack://application:,,,/Core;component/Assets/Shared/bar_mainFooter.png"/>
+                                            </ControlTemplate.Resources>
+                                            <Grid x:Name="TemplateRoot" MinHeight="4">
+                                                <Border x:Name="PART_Track" BorderBrush="Transparent" BorderThickness="0">
+                                                    <Grid>
+                                                        <Image Source="{StaticResource BarBg}" Stretch="None" VerticalAlignment="Bottom" Margin="0,0,0,-28"/>
+                                                        <Image Source="{StaticResource AttitudeBarImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None" Margin="-2,0,-2,0"/>
+                                                        <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                                            <StackPanel ClipToBounds="False" HorizontalAlignment="Right" Margin="12,0,12,10" VerticalAlignment="Bottom">
+                                                                <Image x:Name="AttitudeIcon" Source="{StaticResource DefaultAttitudeImage}" Stretch="None" HorizontalAlignment="Center" />
+                                                                <Path x:Name="ArrowPath" Width="32" Data="M 0 0 L 16 16 L 32 0 Z" HorizontalAlignment="Center" Fill="{StaticResource Trade.NeutralAttitude}"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=-29}" Value="True">
+                                                    <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.LowAttitude}" />
+                                                    <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_01.png" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource LessThanConverter}, ConverterParameter=25}" Value="False">
+                                                    <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.HighAttitude}" />
+                                                    <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_03.png" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Trader.Attitude, Converter={StaticResource GreaterThanConverter}, ConverterParameter=69}" Value="True">
+                                                    <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource Trade.VeryHighAttitude}" />
+                                                    <Setter TargetName="AttitudeIcon" Property="Source" Value="pack://application:,,,/Core;component/Assets/Shared/vendorAttitude_04.png" />
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ls:LSProgressBar.Template>
+                                    <ls:LSProgressBar.ToolTip>
+                                        <ls:LSTooltip>
+                                            <TextBlock Style="{StaticResource TooltipBaseTextStyle}">
+                                                    <ls:TextBlockFormatter.SourceText>
+                                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                            <Binding Source="hf5795482g056ag446fgb664gfe2b0007058e"/>
+                                                            <Binding Source="h04a565d3g3f77g47bbgba12gaa1823313087" Converter="{StaticResource TranslatedStringConverter}"/>
+                                                            <Binding Path="DataContext.Trader.Attitude" ElementName="TraderCharacter"/>
+                                                        </MultiBinding>
+                                                    </ls:TextBlockFormatter.SourceText>
+                                            </TextBlock>
+                                        </ls:LSTooltip>
+                                    </ls:LSProgressBar.ToolTip>
+                                </ls:LSProgressBar>
                             </Grid>
 
                             <!-- Party portraits -->
