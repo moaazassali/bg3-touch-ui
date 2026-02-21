@@ -533,7 +533,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- Left Character Panel -->
-                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}" Margin="0,100,0,40">
+                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}" Margin="0,200,0,40">
                                     <b:Interaction.Behaviors>
                                         <ls:DropToUnequipBehavior />
                                     </b:Interaction.Behaviors>
