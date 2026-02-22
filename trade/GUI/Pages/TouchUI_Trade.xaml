@@ -265,8 +265,32 @@
                                 <Setter Property="HorizontalAlignment" Value="Left"/>
                             </Style>
 
+                            <Style x:Key="AutoInventoryGridStyle" TargetType="ls:LSGrid">
+                                <Setter Property="Columns">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource DivideMultiConverter}" ConverterParameter="Floor">
+                                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListBox}}"/>
+                                            <Binding Source="{StaticResource ScaledSlotSize}"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Rows" Value="{DynamicResource invRows}"/>
+                                <Setter Property="ContainerData" Value="{Binding .}"/>
+                                <Setter Property="Background" Value="{StaticResource InventoryCellBrush}"/>
+                                <Setter Property="CellWidth" Value="{StaticResource ScaledNewSlotSize}"/>
+                                <Setter Property="CellHeight" Value="{StaticResource ScaledNewSlotSize}"/>
+                                <Setter Property="VerticalSpacing" Value="{StaticResource SlotSpacing}"/>
+                                <Setter Property="HorizontalSpacing" Value="{StaticResource SlotSpacing}"/>
+                                <Setter Property="ls:ElementCacheHelper.GroupId" Value="{Binding (ls:ElementCacheHelper.GroupId), RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                <Setter Property="AllowDrop" Value="True"/>
+                                <Setter Property="AutoIndex" Value="False"/>
+                                <Setter Property="ViewportExtension" Value="4, 4"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+
+
                             <ItemsPanelTemplate x:Key="CharacterInventoryPanelTemplate">
-                                <ls:LSGrid x:Name="InvGridTrader" Style="{StaticResource InventoryGridStyle}">
+                                <ls:LSGrid x:Name="InvGridTrader" Style="{StaticResource AutoInventoryGridStyle}">
                                     <b:Interaction.Behaviors>
                                         <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DataContext.DragTradeSlotCommand, ElementName=Trade}" DragCommandParameter="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
                                         <ls:DropOnInventoryGridBehavior DropCommand="{Binding DataContext.DropPlayerInventoryTradeSlotCommand, ElementName=Trade}"/>
@@ -736,10 +760,9 @@
                                                         Grid.Column="0" 
                                                         Grid.Row="2"
                                                         Grid.RowSpan="2"
-                                                        HorizontalAlignment="Left" 
+                                                        HorizontalAlignment="Stretch" 
                                                         VerticalAlignment="Top"
                                                         Margin="0,22,4,0"
-                                                        Width="400"
                                                         ItemsSource="{Binding PartyCharacterInventories}"
                                                         AlternationCount="{Binding PartyCharacterInventories.Count}"
                                                         SelectionMode="Single">
@@ -951,16 +974,17 @@
                                                     Template="{StaticResource TraderGridTemplate}"
                                                     ItemsSource="{Binding SortedItems, ElementName=TraderInventoryFilteredSorted}" 
                                                     SelectedItem="{Binding SelectedItemSlot, Mode=OneWay}"
-                                                    HorizontalAlignment="Right">
+                                                    HorizontalAlignment="Stretch">
                                             <ListBox.Resources>
                                                 <System:UInt32 x:Key="invRows">5</System:UInt32>
                                             </ListBox.Resources>
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <ls:LSGrid x:Name="TraderInventoryGrid"
-                                                                Style="{StaticResource InventoryGridStyle}"
+                                                                Style="{StaticResource AutoInventoryGridStyle}"
                                                                 VirtualizingPanel.IsVirtualizing="True"
-                                                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                                                VirtualizingPanel.VirtualizationMode="Recycling"
+                                                                HorizontalAlignment="Right">
                                                         <b:Interaction.Behaviors>
                                                             <ls:DragGameObjectGridBehavior StartDragCommand="{Binding DragTradeSlotCommand}" DragCommandParameter="{Binding SelectedItems ,ElementName=TraderInventory}"/>
                                                             <ls:DropOnInventoryGridBehavior DropCommand="{Binding DropTraderInventoryTradeSlotCommand}"/>
@@ -1560,7 +1584,7 @@
                                 <Setter TargetName="PlayerFiltersTabsLine" Property="Grid.ColumnSpan" Value="2"/>
                                 <Setter TargetName="PlayerFilterTabs" Property="Grid.ColumnSpan" Value="2"/>
                                 <Setter TargetName="PlayerInventory" Property="Grid.ColumnSpan" Value="2"/>
-                                <Setter TargetName="PlayerInventory" Property="Width" Value="492"/>
+                                <!-- <Setter TargetName="PlayerInventory" Property="Width" Value="492"/> -->
 
                                 <Setter TargetName="TraderGold" Property="Grid.Column" Value="3"/>
                                 <Setter TargetName="TraderGold" Property="Grid.ColumnSpan" Value="2"/>
