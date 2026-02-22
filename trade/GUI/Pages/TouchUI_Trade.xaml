@@ -1033,6 +1033,19 @@
                                             Margin="20,0,20,-100">
                                         </TextBlock>
 
+                                        <!-- Touch UI - Separator with upward shadow -->
+                                        <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="3" VerticalAlignment="Bottom" Height="100" IsHitTestVisible="False" Margin="0,0,0,-2">
+                                            <Rectangle>
+                                                <Rectangle.Fill>
+                                                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                                        <GradientStop Color="#99000000" Offset="0"/>
+                                                        <GradientStop Color="#00000000" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <Rectangle Height="2" VerticalAlignment="Bottom" Fill="#755130" Opacity="1"/>
+                                        </Grid>
+
                                         <!-- Bottom buttons -->
                                         <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4" VerticalAlignment="Bottom" Margin="0,20">
                                             <Grid.ColumnDefinitions>
