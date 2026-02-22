@@ -62,7 +62,7 @@
             </ControlTemplate>
 
             <ControlTemplate x:Key="SignInButtonTemplate" TargetType="Control">
-                <ls:LSNineSliceImage x:Name="NotificationBG" Style="{StaticResource SideTutorialsBackgroundKBMStyle}" Padding="100,40,120,26">
+                <ls:LSNineSliceImage x:Name="NotificationBG" Style="{StaticResource SideTutorialsBackgroundKBMStyle}" Padding="50,20,50,6">
                     <StackPanel>
                         <TextBlock x:Name="LogInTxt" Text="{Binding Source='h224af12cg943dg40ebg9298g0166926b2f82', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_tint60}" Margin="0,24,0,0"/>
                         <ls:LSButton x:Name="LarianAccountBtn" 
@@ -536,7 +536,7 @@
             </Rectangle.Triggers>
         </Rectangle>
 
-        <Image x:Name="GameLogo" Source="{StaticResource GameLogo}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,100" >
+        <Image x:Name="GameLogo" Source="{StaticResource GameLogo}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="208,100" >
             <Image.LayoutTransform>
                 <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
             </Image.LayoutTransform>
@@ -548,7 +548,7 @@
             </Image.Triggers>
         </Image>
 
-        <Control x:Name="MainButtons" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="300,950,0,200">
+        <Control x:Name="MainButtons" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="200,950,0,200">
             <Control.LayoutTransform>
                 <ScaleTransform ScaleX="2.5" ScaleY="2.5"/>
             </Control.LayoutTransform>
@@ -569,7 +569,11 @@
         </Control>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,120">
-            <Control x:Name="CrossPlayWidget" Style="{StaticResource SignInButtonStyle}" Margin="0,0,50,0" VerticalAlignment="Bottom"/>
+            <Control x:Name="CrossPlayWidget" Style="{StaticResource SignInButtonStyle}" Margin="0,0,50,0" VerticalAlignment="Bottom">
+                <Control.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Control.LayoutTransform>
+            </Control>
 
             <!-- Development/Testing Menu Items (Enable by setting Visibility to "Visible") -->
             <StackPanel x:Name="DebugPanel" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0, 0, 10, 0" Orientation="Horizontal">
