@@ -431,23 +431,50 @@
                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                 </StackPanel.LayoutTransform>
 
-                                <Grid VerticalAlignment="Top">
-                                    <Grid Height="68" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Rectangle Fill="{Binding PlayerTraderCharacter.Icon}" Width="78" Height="114" Margin="0,12,10,-35">
-                                            <Rectangle.Clip>
-                                                <RectangleGeometry Rect="32,-30,60,60">
-                                                    <RectangleGeometry.Transform>
-                                                        <RotateTransform Angle="45" />
-                                                    </RectangleGeometry.Transform>
-                                                </RectangleGeometry>
-                                            </Rectangle.Clip>
-                                            <Rectangle.RenderTransform>
-                                                <TranslateTransform Y="-25"/>
-                                            </Rectangle.RenderTransform>
-                                        </Rectangle>
-                                    </Grid>
-                                    <Image Source="{StaticResource CharacterDiamondSurround}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Grid>
+                                <ls:LSToggleButton x:Name="CharSwitchToggle" VerticalAlignment="Top" IsChecked="False" Background="Transparent">
+                                    <ls:LSToggleButton.Template>
+                                        <ControlTemplate TargetType="ls:LSToggleButton">
+                                            <Grid x:Name="Container" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                                                <Grid Height="68" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Rectangle Fill="{Binding PlayerTraderCharacter.Icon}" Width="78" Height="114" Margin="0,12,10,-35">
+                                                        <Rectangle.Clip>
+                                                            <RectangleGeometry Rect="32,-30,60,60">
+                                                                <RectangleGeometry.Transform>
+                                                                    <RotateTransform Angle="45" />
+                                                                </RectangleGeometry.Transform>
+                                                            </RectangleGeometry>
+                                                        </Rectangle.Clip>
+                                                        <Rectangle.RenderTransform>
+                                                            <TranslateTransform Y="-25"/>
+                                                        </Rectangle.RenderTransform>
+                                                    </Rectangle>
+                                                </Grid>
+                                                <Image x:Name="Surround" Source="{StaticResource CharacterDiamondSurround}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8"/>
+                                                <!-- Touch UI - Add switch icon to indicate that this button opens up player portraits to switch characters in trade -->
+                                                <Image x:Name="SwitchIcon" Source="/Core;component/Assets/Dialogue/ico_charSwitch_d.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Opacity="0.8"/>
+                                            </Grid>
+
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="SwitchIcon" Property="Opacity" Value="1.0"/>
+                                                    <Setter TargetName="Surround" Property="Opacity" Value="1.0"/>
+                                                </Trigger>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="SwitchIcon" Property="Opacity" Value="1.0"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ls:LSToggleButton.Template>
+
+                                     <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseEnter">
+                                            <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="PreviewMouseDown">
+                                            <ls:LSPlaySound Sound="UI_Shared_Secondary_Press"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </ls:LSToggleButton>
 
                                 <StackPanel VerticalAlignment="Top" Margin="10,0,0,0">
                                     <TextBlock x:Name="PlayerTraderText" HorizontalAlignment="Left" Foreground="{StaticResource LS_extraspecialTxtColor}" Style="{StaticResource TradeElementTextStyle}" TextWrapping="Wrap">
@@ -1269,6 +1296,19 @@
 
                             <!-- Party portraits -->
                             <Grid HorizontalAlignment="Left">
+
+                                <!-- Touch UI - Only show when toggle button is pressed -->
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=CharSwitchToggle}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1850"/>
                                     <RowDefinition Height="*"/>
