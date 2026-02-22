@@ -288,6 +288,33 @@
                                 <Setter Property="HorizontalAlignment" Value="Left"/>
                             </Style>
 
+                            <!-- Touch UI - In some cases, the trader inventory grid seems to think it has more width than it actually does which causes an extra column to appear and overflow. We need to manually reduce the width by 28 pixels to match the character grid. -->
+                            <Style x:Key="AutoInventoryGridStyle2" TargetType="ls:LSGrid">
+                                <Setter Property="Columns">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource DivideMultiConverter}" ConverterParameter="Floor">
+                                            <Binding Path="ActualWidth" 
+                                                RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListBox}}"
+                                                Converter="{StaticResource AddConverter}"
+                                                ConverterParameter="-28" />
+                                            <Binding Source="{StaticResource ScaledNewSlotSize}"/>
+                                            
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Rows" Value="{DynamicResource invRows}"/>
+                                <Setter Property="ContainerData" Value="{Binding .}"/>
+                                <Setter Property="Background" Value="{StaticResource InventoryCellBrush}"/>
+                                <Setter Property="CellWidth" Value="{StaticResource ScaledNewSlotSize}"/>
+                                <Setter Property="CellHeight" Value="{StaticResource ScaledNewSlotSize}"/>
+                                <Setter Property="VerticalSpacing" Value="{StaticResource SlotSpacing}"/>
+                                <Setter Property="HorizontalSpacing" Value="{StaticResource SlotSpacing}"/>
+                                <Setter Property="ls:ElementCacheHelper.GroupId" Value="{Binding (ls:ElementCacheHelper.GroupId), RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                <Setter Property="AllowDrop" Value="True"/>
+                                <Setter Property="AutoIndex" Value="False"/>
+                                <Setter Property="ViewportExtension" Value="4, 4"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
 
                             <ItemsPanelTemplate x:Key="CharacterInventoryPanelTemplate">
                                 <ls:LSGrid x:Name="InvGridTrader" Style="{StaticResource AutoInventoryGridStyle}">
@@ -722,11 +749,11 @@
                                     <!-- Barter Inventories -->
                                     <Grid VerticalAlignment="Stretch" Margin="2,0,0,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="112"/>
                                             <ColumnDefinition x:Name="MiddleColumn" Width="16"/>
                                             <ColumnDefinition Width="112"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="90"/>
@@ -807,7 +834,7 @@
                                                         Grid.RowSpan="2"
                                                         HorizontalAlignment="Stretch" 
                                                         VerticalAlignment="Top"
-                                                        Margin="0,22,4,0"
+                                                        Margin="0,22,0,0"
                                                         ItemsSource="{Binding PartyCharacterInventories}"
                                                         AlternationCount="{Binding PartyCharacterInventories.Count}"
                                                         SelectionMode="Single">
@@ -1015,7 +1042,7 @@
                                                     Style="{StaticResource BarterGridStyle}"
                                                     Grid.Column="4" 
                                                     Grid.Row="3" 
-                                                    Margin="8,0,0,0"
+                                                    Margin="0,0,0,0"
                                                     Template="{StaticResource TraderGridTemplate}"
                                                     ItemsSource="{Binding SortedItems, ElementName=TraderInventoryFilteredSorted}" 
                                                     SelectedItem="{Binding SelectedItemSlot, Mode=OneWay}"
@@ -1026,7 +1053,7 @@
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <ls:LSGrid x:Name="TraderInventoryGrid"
-                                                                Style="{StaticResource AutoInventoryGridStyle}"
+                                                                Style="{StaticResource AutoInventoryGridStyle2}"
                                                                 VirtualizingPanel.IsVirtualizing="True"
                                                                 VirtualizingPanel.VirtualizationMode="Recycling"
                                                                 HorizontalAlignment="Right">
