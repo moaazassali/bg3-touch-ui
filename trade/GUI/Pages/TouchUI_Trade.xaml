@@ -1051,7 +1051,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
 
                                             <!-- Sort options -->
@@ -1068,35 +1068,42 @@
                                                             />
 
                                             <!-- Balance and Trade Buttons -->
-                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Center">
+                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
                                                 <!-- <Image Source="{StaticResource BackgroundDoubleButtonImage}" Stretch="None"/> -->
 
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0">
-                                                    <ls:LSButton x:Name="BalanceBtn" Style="{StaticResource BigBrownButtonTextAndIconStyle}" 
-                                                                    Command="{Binding BalanceTrade}" 
-                                                                    HorizontalAlignment="Center"
-                                                                    Content="{Binding Source='hb0e3f01fg505eg43ffg87e0g088ea4853d46', Converter={StaticResource TranslatedStringConverter}}"
-                                                                    SoundID="UI_HUD_Barter" 
-                                                                    MinWidth="200"
-                                                                    IsEnabled="{Binding TradeButtonsEnabled}">
-                                                        <ls:LSButton.Resources>
-                                                            <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
-                                                            <ImageBrush x:Key="IconPressed" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
-                                                            <ImageBrush x:Key="IconHighlight" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
-                                                            <ImageBrush x:Key="IconDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
-                                                        </ls:LSButton.Resources>
-                                                    </ls:LSButton>
+                                                <ls:LSButton x:Name="BalanceBtn" Style="{StaticResource BigBrownButtonTextAndIconStyle}" 
+                                                                Command="{Binding BalanceTrade}" 
+                                                                HorizontalAlignment="Center"
+                                                                Content="{Binding Source='hb0e3f01fg505eg43ffg87e0g088ea4853d46', Converter={StaticResource TranslatedStringConverter}}"
+                                                                SoundID="UI_HUD_Barter" 
+                                                                MinWidth="200"
+                                                                IsEnabled="{Binding TradeButtonsEnabled}"
+                                                                Grid.Column="0">
+                                                    <ls:LSButton.Resources>
+                                                        <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
+                                                        <ImageBrush x:Key="IconPressed" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
+                                                        <ImageBrush x:Key="IconHighlight" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_h.png" Stretch="Fill"/>
+                                                        <ImageBrush x:Key="IconDisabled" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
+                                                    </ls:LSButton.Resources>
+                                                </ls:LSButton>
 
-                                                    <ls:LSButton x:Name="BarterBtn" Style="{StaticResource BigBlueButtonStyle}" 
-                                                                    Content="{Binding Source='hdfe9a22fg1d5ag4132g9d91g716029f5d66f', Converter={StaticResource TranslatedStringConverter}}" 
-                                                                    Command="{Binding FinishBarter}" 
-                                                                    HorizontalAlignment="Center"
-                                                                    CommandParameter="{Binding ActionCommandParameter}" 
-                                                                    SoundID="UI_HUD_Barter" 
-                                                                    MinWidth="400"
-                                                                    Margin="0,0,0,0"
-                                                                    IsEnabled="{Binding TradeButtonsEnabled}"/>
-                                                </StackPanel>
+                                                <!-- Touch UI - The button is only resizing based on MinWidth but we can't make that dynamic to occupy all available space, so we need this helper element to always reference its width for the button's MinWidth -->
+                                                <Grid x:Name="Column1WidthHelper" Grid.Column="1" HorizontalAlignment="Stretch" MaxWidth="400"/>
+                                                <ls:LSButton x:Name="BarterBtn" Style="{StaticResource BigBlueButtonStyle}" 
+                                                                Content="{Binding Source='hdfe9a22fg1d5ag4132g9d91g716029f5d66f', Converter={StaticResource TranslatedStringConverter}}" 
+                                                                Command="{Binding FinishBarter}" 
+                                                                HorizontalAlignment="Right"
+                                                                CommandParameter="{Binding ActionCommandParameter}" 
+                                                                SoundID="UI_HUD_Barter"
+                                                                MinWidth="{Binding ActualWidth, ElementName=Column1WidthHelper}"
+                                                                Margin="0,0,0,0"
+                                                                IsEnabled="{Binding TradeButtonsEnabled}"
+                                                                Grid.Column="1"/>
                                             </Grid>
 
                                             <Grid x:Name="TradeButtonHolder" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" Visibility="Collapsed" VerticalAlignment="Bottom">
