@@ -778,6 +778,14 @@
                                                     ItemContainerStyle="{StaticResource InventoryViewTabStyle}"
                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                                            <!-- Touch UI - Override default template to disable shifting behavior when clicking an overflowing tab because of built-in scrollviewer -->
+                                            <ListBox.Template>
+                                                <ControlTemplate TargetType="ListBox">
+                                                    <ItemsPresenter />
+                                                </ControlTemplate>
+                                            </ListBox.Template>
+
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center" />
