@@ -17,7 +17,7 @@
                 <ResourceDictionary Source="/Core;component/Library/CrossplayHelpers.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <Thickness x:Key="MainButtonSpacing">0,16,0,0</Thickness>
+            <Thickness x:Key="MainButtonSpacing">0,16,16,0</Thickness>
             <Thickness x:Key="MainButtonLargeSpacing">0,48,0,0</Thickness>
             <BitmapImage x:Key="GameLogo" UriSource="pack://application:,,,/Core;component/Assets/MainMenu/menu_logo_2.png"/>
             <BitmapImage x:Key="WarningIconBG" UriSource="pack://application:,,,/Core;component/Assets/MainMenu/background_btnWarning.png"/>
@@ -152,7 +152,7 @@
                     <ImageSource x:Key="GameInfoBackground">pack://application:,,,/Core;component/Assets/MainMenu/settings_frame_currentSave.png</ImageSource>
                 </ControlTemplate.Resources>
 
-                <StackPanel VerticalAlignment="Top">
+                <UniformGrid VerticalAlignment="Top" Columns="2">
 
                     <ls:LSNineSliceImage x:Name="CurrentGameInfo" Visibility="Collapsed" ImageSource="{StaticResource GameInfoBackground}" Slices="64" IconWidth="64" Width="700" Margin="-350,0">
                         <Grid Margin="72,48" x:Name="CurrentGameInfoGrid">
@@ -218,11 +218,11 @@
                                      Command="{Binding ContinueGameCommand}" 
                                      Visibility="{Binding HasSaveGames, Converter={StaticResource BoolToVisibleConverter}}"
                                      IsEnabled="{Binding SelectedSave, Converter={StaticResource NullToBoolFalseConverter}}" 
-                                     SoundID="UI_HUD_MainMenu_Continue">
+                                     SoundID="UI_HUD_MainMenu_Continue" Margin="{StaticResource MainButtonSpacing}">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="MouseEnter">
                                     <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                    <b:ChangePropertyAction TargetName="CurrentGameInfo" PropertyName="Visibility" Value="Visible"/>
+                                    <b:ChangePropertyAction TargetName="CurrentGameInfo" PropertyName="Visibility" Value="Collapsed"/>
                                 </b:EventTrigger>
                                 <b:EventTrigger EventName="MouseLeave">
                                     <b:ChangePropertyAction TargetName="CurrentGameInfo" PropertyName="Visibility" Value="Collapsed"/>
@@ -230,7 +230,7 @@
                             </b:Interaction.Triggers>
                         </ls:LSButton>
 
-                        <Grid x:Name="SavegameHasUnofficialModWarning" Width="112" Height="84" Margin="460,0,0,0" Visibility="Hidden">
+                        <Grid x:Name="SavegameHasUnofficialModWarning" Width="112" Height="84" Margin="0,0,16,0" Visibility="Hidden" HorizontalAlignment="Right">
                             <Image x:Name="SavegameUnofficialModWarningBG" Source="{StaticResource WarningIconBG}" Stretch="Fill"/>
                             <Image x:Name="SavegameHasUnofficialModWarningImage" Source="{StaticResource HasModsImage}" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right" 
@@ -265,9 +265,9 @@
                         <ls:LSButton x:Name="NewGameButton" Style="{StaticResource BigBrownButtonStyle}"
                                      Content="{Binding Source='h158af72dg233bg4f07gb46ag384440c5da95', Converter={StaticResource TranslatedStringConverter}}" 
                                      Command="{Binding StartGameCommand}" 
-                                     SoundID="UI_HUD_MainMenu_NewGame" Margin="{StaticResource MainButtonLargeSpacing}"/>
+                                     SoundID="UI_HUD_MainMenu_NewGame" Margin="{StaticResource MainButtonSpacing}"/>
 
-                        <Grid x:Name="SettingsHaveUnofficialModWarning" Width="112" Height="84" Margin="460,48,0,0" Visibility="Hidden">
+                        <Grid x:Name="SettingsHaveUnofficialModWarning" Width="112" Height="84" Margin="0,16,16,0" Visibility="Hidden" HorizontalAlignment="Right">
                             <Image x:Name="SettingsUnofficialModWarningBG" Source="{StaticResource WarningIconBG}" Stretch="Fill" />
                             <Image x:Name="SettingsHaveUnofficialModWarningImage" Source="{StaticResource HasModsImage}" 
                                    VerticalAlignment="Center" HorizontalAlignment="Right" 
@@ -328,7 +328,7 @@
                     <ls:LSButton x:Name="ModsButton" Style="{StaticResource BigBrownButtonStyle}"
                                  Content="{Binding Source='h36af135fg2cc3g484cg803bg7b9bc0e5d3ce', Converter={StaticResource TranslatedStringConverter}}"
                                  Command="{Binding CustomEvent}" CommandParameter="OpenModBrowser"
-                                 SoundID="UI_HUD_MainMenu_GameSettings" Opacity="0" Margin="{StaticResource MainButtonLargeSpacing}"
+                                 SoundID="UI_HUD_MainMenu_GameSettings" Opacity="0" Margin="{StaticResource MainButtonSpacing}"
                                  IsEnabled="True">
                         <Button.RenderTransform>
                             <TranslateTransform/>
@@ -349,7 +349,7 @@
                     <ls:LSButton x:Name="OptionsButton" Style="{StaticResource BigBrownButtonStyle}"
                                  Content="{Binding Source='h1f5a4453gcd7ag4dc6gb127g5744ea1922ac', Converter={StaticResource TranslatedStringConverter}}" 
                                  Command="{Binding CustomEvent}" CommandParameter="OpenOptions" 
-                                 SoundID="UI_HUD_MainMenu_Options" Opacity="0" Margin="{StaticResource MainButtonLargeSpacing}">
+                                 SoundID="UI_HUD_MainMenu_Options" Opacity="0" Margin="{StaticResource MainButtonSpacing}">
                         <Button.RenderTransform>
                             <TranslateTransform/>
                         </Button.RenderTransform>
@@ -405,7 +405,7 @@
                             </b:TimerTrigger>
                         </b:Interaction.Triggers>
                     </ls:LSButton>
-                </StackPanel>
+                </UniformGrid>
 
                 <ControlTemplate.Triggers>
 
@@ -536,7 +536,7 @@
             </Rectangle.Triggers>
         </Rectangle>
 
-        <Image x:Name="GameLogo" Source="{StaticResource GameLogo}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,300" >
+        <Image x:Name="GameLogo" Source="{StaticResource GameLogo}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,100" >
             <Image.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                     <BeginStoryboard Storyboard="{StaticResource SimpleFadeIn}"/>
@@ -544,7 +544,11 @@
             </Image.Triggers>
         </Image>
 
-        <Control x:Name="MainButtons" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="480,0,0,380">
+        <Control x:Name="MainButtons" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="300,700,0,200">
+            <Control.LayoutTransform>
+                <ScaleTransform ScaleX="2.5" ScaleY="2.5"/>
+            </Control.LayoutTransform>
+
             <Control.Style>
                 <Style TargetType="Control">
                     <Setter Property="Template" Value="{StaticResource MainMenuItems}"/>
