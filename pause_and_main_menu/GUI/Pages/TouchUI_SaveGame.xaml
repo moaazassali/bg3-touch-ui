@@ -11,6 +11,16 @@
              ls:UIWidget.ContextName="Savegames" d:DataContext="{d:DesignInstance {x:Type ls:DCSavegames}, IsDesignTimeCreatable=True}"
              d:DesignWidth="3840" d:DesignHeight="2160">
 
+    <!-- Touch UI - Import custom resources -->
+    <ls:UIWidget.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_SavePresenterTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CampaignPresenterTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ls:UIWidget.Resources>
+
     <ls:UIWidget.Template>
         <ControlTemplate TargetType="ls:UIWidget">
             <ControlTemplate.Resources>
@@ -46,6 +56,10 @@
             </ControlTemplate.Resources>
 
             <Grid>
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+
                 <Grid.Background>
                     <ImageBrush ImageSource="{StaticResource OptionsBackground}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -64,21 +78,25 @@
                     <Image Grid.Row="0" Source="{StaticResource FadeHeader}" Stretch="Fill" Margin="0,-48"/>
                     <Image Grid.Row="0" Grid.RowSpan="3" Source="{StaticResource FadeFooterImage}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Stretch="None"/>
 
-                    <ls:LSButton Grid.Row="0" x:Name="CloseButton" Style="{StaticResource SmallCloseButton}" BoundEvent="UICancel" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="{StaticResource SmallCloseButtonDefaultMargin}" Command="{Binding CustomEvent}" CommandParameter="CloseWidget"/>
+                    <ls:LSButton Grid.Row="0" x:Name="CloseButton" Style="{StaticResource CloseButton}" BoundEvent="UICancel" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="{StaticResource SmallCloseButtonDefaultMargin}" Command="{Binding CustomEvent}" CommandParameter="CloseWidget">
+                        <ls:LSButton.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </ls:LSButton.LayoutTransform>    
+                    </ls:LSButton>
 
-                    <StackPanel Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,60,0,0">
+                    <StackPanel Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
                         <TextBlock Text="{Binding Source='h486511b4gb874g4982ga86agabbac4a0f203', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledMassiveFontSize}"/>
                         <TextBlock Text="{Binding Source='hd792b025gfb68g4199ga3acg2616a3989e11', Converter={StaticResource TranslatedStringConverter}}" TextAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource LS_accent75TxtColor}" FontSize="{StaticResource ScaledMediumFontSize}"/>
                         <Image Source="{StaticResource TitleDecoration}" Stretch="None" HorizontalAlignment="Center" Margin="0,20"/>
                     </StackPanel>
 
-                    <Grid Grid.Row="1" x:Name="PageContent" Width="3000">
+                    <Grid Grid.Row="1" x:Name="PageContent" Margin="0,-50,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Column="0" x:Name="SaveListContainer">
+                        <Grid Grid.Column="0" x:Name="SaveListContainer" Margin="100,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -108,7 +126,11 @@
                                      ItemTemplate="{StaticResource PlaythroughItemTemplate}"/>
                         </Grid>
 
-                        <Control Grid.Column="1" x:Name="PresenterControl" Template="{StaticResource SavePresenterTemplate}"/>
+                        <Control Grid.Column="1" x:Name="PresenterControl" Template="{StaticResource TouchUI_SavePresenterTemplate}">
+                            <Control.LayoutTransform>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            </Control.LayoutTransform>
+                        </Control>
                         
                     </Grid>
 
@@ -156,7 +178,7 @@
             </Grid>
             <ControlTemplate.Triggers>
                 <DataTrigger Binding="{Binding SelectedPlaythrough, Converter={StaticResource NullToBoolFalseConverter}}" Value="True">
-                    <Setter TargetName="PresenterControl" Property="Template" Value="{StaticResource CampaignPresenterTemplate}"/>
+                    <Setter TargetName="PresenterControl" Property="Template" Value="{StaticResource TouchUI_CampaignPresenterTemplate}"/>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding SelectedSave, Converter={StaticResource NullToBoolFalseConverter}}" Value="False">
