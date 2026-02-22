@@ -129,5 +129,25 @@
             </ls:State.Events>
         </ls:State>
 
+        <!--STATE: SplitItem-->
+        <ls:State Name = "SplitItem" IsModal="True" DisableStatesBelow = "True" Layout = "Player" Owner = "Player" HideStatesBelow = "False" ForceSplitscreen="True" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="TouchUI_SplitItem.xaml" Layer="MessageBox" SoundLayer="NonHUDWidget"/>
+            </ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name = "SplitItemToggle">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "IE.ToggleInGameMenu">
+                    <ls:StateEvent.Actions>
+                        <ls:RemoveState/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
+
+
     </ls:StateMachine.States>
 </ls:StateMachine>
