@@ -1110,7 +1110,14 @@
                                                             SelectedItem="{Binding TradeSortOption}"
                                                             noesis:Text.Placeholder="{Binding SelectedItem.Name, RelativeSource={RelativeSource Self}, Mode=OneWay}"
                                                             Style="{StaticResource SortListLabelStyle}"
-                                                            />
+                                            >
+                                                <!-- Touch UI - Hide hover tooltip -->
+                                                <ls:LSComboBox.Resources>
+                                                    <Style TargetType="ls:LSTooltip">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </Style>
+                                                </ls:LSComboBox.Resources>
+                                            </ls:LSComboBox>
 
                                             <!-- Balance and Trade Buttons -->
                                             <Grid x:Name="BalanceButtonHolder" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Stretch">
