@@ -270,7 +270,7 @@
                                     <Setter.Value>
                                         <MultiBinding Converter="{StaticResource DivideMultiConverter}" ConverterParameter="Floor">
                                             <Binding Path="ActualWidth" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListBox}}"/>
-                                            <Binding Source="{StaticResource ScaledSlotSize}"/>
+                                            <Binding Source="{StaticResource ScaledNewSlotSize}"/>
                                         </MultiBinding>
                                     </Setter.Value>
                                 </Setter>
@@ -557,7 +557,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- Left Character Panel -->
-                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}" Margin="0,200,0,40">
+                                <Grid x:Name="CharacterPanel" Grid.Column="0" HorizontalAlignment="Right" DataContext="{Binding CurrentTradingCharacter}" Margin="0,200,0,0">
                                     <b:Interaction.Behaviors>
                                         <ls:DropToUnequipBehavior />
                                     </b:Interaction.Behaviors>
@@ -685,7 +685,7 @@
                                     </Grid>
 
                                     <!-- Barter Inventories -->
-                                    <Grid VerticalAlignment="Top" Margin="2,0,0,0">
+                                    <Grid VerticalAlignment="Stretch" Margin="2,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="112"/>
@@ -697,7 +697,7 @@
                                             <RowDefinition Height="90"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="92"/>
-                                            <RowDefinition Height="650"/>
+                                            <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
@@ -1034,20 +1034,20 @@
                                         </TextBlock>
 
                                         <!-- Bottom buttons -->
-                                        <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4" VerticalAlignment="Bottom">
+                                        <Grid Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="4" VerticalAlignment="Bottom" Margin="0,20">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
                                             <!-- Sort options -->
                                             <ls:LSComboBox x:Name="sortComboBox"
                                                             Grid.Column="0"
-                                                            Width="400"
-                                                            VerticalAlignment="Bottom"
+                                                            Width="200"
+                                                            VerticalAlignment="Center"
                                                             SoundID="UI_HUD_Inventory_Sort"
-                                                            Margin="0,0,0,220"
+                                                            Margin="0,0,0,0"
                                                             ItemsSource="{Binding Path=CurrentPlayer.UIData.InventorySortOptions}"
                                                             SelectedItem="{Binding TradeSortOption}"
                                                             noesis:Text.Placeholder="{Binding SelectedItem.Name, RelativeSource={RelativeSource Self}, Mode=OneWay}"
@@ -1055,16 +1055,16 @@
                                                             />
 
                                             <!-- Balance and Trade Buttons -->
-                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="1" Margin="12,-85,0,0" HorizontalAlignment="Center">
-                                                <Image Source="{StaticResource BackgroundDoubleButtonImage}" Stretch="None"/>
+                                            <Grid x:Name="BalanceButtonHolder" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Center">
+                                                <!-- <Image Source="{StaticResource BackgroundDoubleButtonImage}" Stretch="None"/> -->
 
-                                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,56,16,0">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0">
                                                     <ls:LSButton x:Name="BalanceBtn" Style="{StaticResource BigBrownButtonTextAndIconStyle}" 
                                                                     Command="{Binding BalanceTrade}" 
                                                                     HorizontalAlignment="Center"
                                                                     Content="{Binding Source='hb0e3f01fg505eg43ffg87e0g088ea4853d46', Converter={StaticResource TranslatedStringConverter}}"
                                                                     SoundID="UI_HUD_Barter" 
-                                                                    MinWidth="480"
+                                                                    MinWidth="200"
                                                                     IsEnabled="{Binding TradeButtonsEnabled}">
                                                         <ls:LSButton.Resources>
                                                             <ImageBrush x:Key="IconNormal" ImageSource="pack://application:,,,/Core;component/Assets/Trade/ico_balance_d.png" Stretch="Fill"/>
@@ -1080,22 +1080,22 @@
                                                                     HorizontalAlignment="Center"
                                                                     CommandParameter="{Binding ActionCommandParameter}" 
                                                                     SoundID="UI_HUD_Barter" 
-                                                                    MinWidth="480"
-                                                                    Margin="0,32,0,0"
+                                                                    MinWidth="400"
+                                                                    Margin="0,0,0,0"
                                                                     IsEnabled="{Binding TradeButtonsEnabled}"/>
                                                 </StackPanel>
                                             </Grid>
 
-                                            <Grid x:Name="TradeButtonHolder" Grid.Column="1" Margin="-4,-215,0,0" HorizontalAlignment="Center" Visibility="Collapsed" >
-                                                <Image Source="{StaticResource BackgroundSingleButtonImage}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <Grid x:Name="TradeButtonHolder" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" Visibility="Collapsed" VerticalAlignment="Bottom">
+                                                <!-- <Image Source="{StaticResource BackgroundSingleButtonImage}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/> -->
                                                 <ls:LSButton x:Name="TradeButton"
                                                                 Style="{StaticResource BigBlueButtonStyle}" 
                                                                 Command="{Binding FinishTrade}" 
                                                                 Content="{Binding Source='h4d74c17cg64c1g4bbdgb6dag29a88b29bed2', Converter={StaticResource TranslatedStringConverter}}"
                                                                 SoundID="UI_HUD_Barter"
                                                                 VerticalAlignment="Center"
-                                                                HorizontalAlignment="Center"
-                                                                MinWidth="480"
+                                                                HorizontalAlignment="Right"
+                                                                MinWidth="400"
                                                                 IsEnabled="{Binding TradeButtonsEnabled}">
                                                     <b:Interaction.Triggers>
                                                         <!-- When the ListBoxes lose their focus, they reset their selection, but we don't want to do that while hovering TradeButton since we are about to trade -->
@@ -1109,11 +1109,11 @@
                                             <ls:LSButton x:Name="WaresButton" 
                                                             Style="{StaticResource BigBlueButtonTextAndIconStyle}" 
                                                             Content="{Binding Source='h592bb99bg5f52g4042ga35eg5382daa71bdb', Converter={StaticResource TranslatedStringConverter}}"
-                                                            Grid.Column="2"
+                                                            Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             VerticalAlignment="Bottom"
-                                                            Margin="0,0,0,220"
-                                                            MinWidth="420"
+                                                            Margin="0,0,0,0"
+                                                            MinWidth="300"
                                                             FontSize="{StaticResource ScaledSmallishFontSize}"
                                                             FontWeight="DemiBold"
                                                             IsEnabled="{Binding HasWares}"
