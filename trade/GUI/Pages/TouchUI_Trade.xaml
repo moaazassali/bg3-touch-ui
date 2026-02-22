@@ -726,6 +726,7 @@
                                         <ls:LSNineSliceImage x:Name="PlayerFiltersTabsLine"
                                                                 Grid.Column="0" 
                                                                 Grid.Row="1" 
+                                                                Grid.ColumnSpan="2"
                                                                 Slices="20,1" 
                                                                 Height="4" 
                                                                 ImageSource="{StaticResource FilterTabsSeparatorBottom}" 
@@ -735,6 +736,7 @@
                                         <ListBox x:Name="PlayerFilterTabs"
                                                     Grid.Column="0"
                                                     Grid.Row="1"
+                                                    Grid.ColumnSpan="2"
                                                     VerticalAlignment="Bottom" 
                                                     HorizontalAlignment="Center"
                                                     SelectedIndex="0"
@@ -772,7 +774,7 @@
                                         </ListBox>
 
                                         <!-- Player offer -->
-                                        <TextBlock x:Name="PlayerOfferText" 
+                                        <!-- <TextBlock x:Name="PlayerOfferText" 
                                                     Grid.Column="1"
                                                     Grid.Row="1"  
                                                     Text="{Binding Source='ha056653bgb6f8g4549g808dg2f6a7fa223de', Converter={StaticResource TranslatedStringConverter}}" 
@@ -781,7 +783,7 @@
                                                     VerticalAlignment="Bottom"
                                                     TextWrapping="Wrap"
                                                     TextAlignment="Center"
-                                                    Margin="0,0,0,0"/>
+                                                    Margin="0,0,0,0"/> -->
 
                                         <ContentControl x:Name="PlayerOfferGold"
                                                         Grid.Column="1" 
@@ -837,7 +839,7 @@
                                         </ListBox>
 
                                         <!-- Trader offer -->
-                                        <TextBlock x:Name="TraderOfferText"
+                                        <!-- <TextBlock x:Name="TraderOfferText"
                                                     Grid.Column="3"
                                                     Grid.Row="1"  
                                                     Text="{Binding Source='h5bc87a4ag3e01g4572gac64g4db7257911b2', Converter={StaticResource TranslatedStringConverter}}" 
@@ -846,7 +848,7 @@
                                                     VerticalAlignment="Bottom"
                                                     TextWrapping="Wrap"
                                                     TextAlignment="Center"
-                                                    Margin="-15,0,0,0"/>
+                                                    Margin="-15,0,0,0"/> -->
 
                                         <ContentControl x:Name="TraderOfferGold"
                                                         Grid.Column="3" 
@@ -1590,10 +1592,10 @@
                                         </Style>
                                     </Setter.Value>
                                 </Setter>
-                                <Setter TargetName="PlayerOfferText" Property="Visibility" Value="Collapsed"/>
+                                <!-- <Setter TargetName="PlayerOfferText" Property="Visibility" Value="Collapsed"/> -->
                                 <Setter TargetName="PlayerOfferGold" Property="Visibility" Value="Collapsed"/>
                                 <Setter TargetName="PlayerBarterOffer" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="TraderOfferText" Property="Visibility" Value="Collapsed"/>
+                                <!-- <Setter TargetName="TraderOfferText" Property="Visibility" Value="Collapsed"/> -->
                                 <Setter TargetName="TraderOfferGold" Property="Visibility" Value="Collapsed"/>
                                 <Setter TargetName="TraderBarterOffer" Property="Visibility" Value="Collapsed"/>
 
