@@ -105,71 +105,71 @@
             </ls:State.Events>
         </ls:State>
 
-    </ls:StateMachine.States>
+        <!--STATE: MainMenu-->
+        <ls:State Name = "MainMenu" DisableStatesBelow = "False" HideStatesBelow = "True" Layout = "Common" Owner = "All" DisableSoundLayersAbove="True" IsModdable="True" ModType="Override">
+            <ls:State.Widgets>
+                <ls:StateWidget Filename="ScreenFade.xaml" Layer="ScreenFade" BlockedLoading="True"/>
+                <ls:StateWidget Filename="/MainUI;component/Pages/ModDownloadingWidget.xaml" Layer="PauseOverlay"/>
+                <ls:StateWidget Filename="TouchUI_MainMenu.xaml" Layer="Default"/>
+            </ls:State.Widgets>
+            <ls:State.Events>
+                <ls:StateEvent Name = "OpenCredits">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="Credits"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "ProfileSelectOpen">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="ProfileSelect"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenMessageBox">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="MessageBox"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenLobbyBrowser">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="LobbyBrowser"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenLobby">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="Lobby"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "LoadGameOpen">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="MainMenu.LoadGame"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenHDR">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="HDRCalibration"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenGammaCalibration">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="GammaCalibration"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name="OpenDMSettings">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="GameSettings"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenSignUp">
+                    <ls:StateEvent.Actions>
+                        <ls:PushState Name="SignUp"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+                <ls:StateEvent Name = "OpenReport">
+                    <ls:StateEvent.Actions>
+                        <ls:AddSubstate Name="ReportPanel"/>
+                    </ls:StateEvent.Actions>
+                </ls:StateEvent>
+            </ls:State.Events>
+        </ls:State>
 
-    <!--STATE: MainMenu-->
-    <ls:State Name = "MainMenu" DisableStatesBelow = "False" HideStatesBelow = "True" Layout = "Common" Owner = "All" DisableSoundLayersAbove="True" IsModdable="True" ModType="Override">
-        <ls:State.Widgets>
-            <ls:StateWidget Filename="ScreenFade.xaml" Layer="ScreenFade" BlockedLoading="True"/>
-            <ls:StateWidget Filename="/MainUI;component/Pages/ModDownloadingWidget.xaml" Layer="PauseOverlay"/>
-            <ls:StateWidget Filename="TouchUI_MainMenu.xaml" Layer="Default"/>
-        </ls:State.Widgets>
-        <ls:State.Events>
-            <ls:StateEvent Name = "OpenCredits">
-                <ls:StateEvent.Actions>
-                    <ls:PushState Name="Credits"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "ProfileSelectOpen">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="ProfileSelect"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenMessageBox">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="MessageBox"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenLobbyBrowser">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="LobbyBrowser"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenLobby">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="Lobby"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "LoadGameOpen">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="MainMenu.LoadGame"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenHDR">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="HDRCalibration"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenGammaCalibration">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="GammaCalibration"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name="OpenDMSettings">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="GameSettings"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenSignUp">
-                <ls:StateEvent.Actions>
-                    <ls:PushState Name="SignUp"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-            <ls:StateEvent Name = "OpenReport">
-                <ls:StateEvent.Actions>
-                    <ls:AddSubstate Name="ReportPanel"/>
-                </ls:StateEvent.Actions>
-            </ls:StateEvent>
-        </ls:State.Events>
-    </ls:State>
+    </ls:StateMachine.States>
 </ls:StateMachine>
