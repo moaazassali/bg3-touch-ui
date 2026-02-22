@@ -73,38 +73,6 @@
             </ls:State.Events>
         </ls:State>
 
-                
-        <!--STATE: GameOverMessagebox-->
-        <ls:State Name="GameOverMessageBox" DisableStatesBelow="True" IsModal="True" Layout="Common" Owner="Player" ModType="Override">
-            <ls:State.Widgets>
-                <!-- Pointing to your custom file -->
-                <ls:StateWidget Filename="TouchUI_MessageBox.xaml" Layer="Pause" SoundLayer="NonHUDWidget"/>
-            </ls:State.Widgets>
-            <ls:State.Events>
-                <ls:StateEvent Name="OpenMessageBox">
-                    <ls:StateEvent.Actions>
-                        <ls:PushState Name="MessageBox"/>
-                    </ls:StateEvent.Actions>
-                </ls:StateEvent>
-                <ls:StateEvent Name="CloseMessageBox">
-                    <ls:StateEvent.Actions>
-                        <ls:RemoveState/>
-                    </ls:StateEvent.Actions>
-                </ls:StateEvent>
-                <ls:StateEvent Name="LoadGameOpen">
-                    <ls:StateEvent.Actions>
-                        <ls:PushState Name="Paused.LoadGame"/>
-                    </ls:StateEvent.Actions>
-                </ls:StateEvent>
-                <ls:StateEvent Name="OpenProofOfHonour">
-                    <ls:StateEvent.Actions>
-                        <ls:PushState Name="ProofOfHonour"/>
-                        <ls:RemoveState/>
-                    </ls:StateEvent.Actions>
-                </ls:StateEvent>
-            </ls:State.Events>
-        </ls:State>
-
         <!--STATE: MainMenu-->
         <ls:State Name = "MainMenu" DisableStatesBelow = "False" HideStatesBelow = "True" Layout = "Common" Owner = "All" DisableSoundLayersAbove="True" IsModdable="True" ModType="Override">
             <ls:State.Widgets>
