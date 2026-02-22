@@ -12,6 +12,10 @@
              d:DesignHeight="2160" d:DesignWidth="3840" d:DataContext="{d:DesignInstance {x:Type ls:Widget}, IsDesignTimeCreatable=True}">
 
     <Grid Background="{StaticResource LS_PopUpBackgroundColor}">
+        <Grid.LayoutTransform>
+            <ScaleTransform ScaleX="2" ScaleY="2"/>
+        </Grid.LayoutTransform>
+
         
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image Source="pack://application:,,,/Core;component/Assets/ItemSplitter/stackSplitter_bg.png" Stretch="None"/>
