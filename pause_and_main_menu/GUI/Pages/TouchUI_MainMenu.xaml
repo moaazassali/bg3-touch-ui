@@ -537,6 +537,10 @@
         </Rectangle>
 
         <Image x:Name="GameLogo" Source="{StaticResource GameLogo}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,100" >
+            <Image.LayoutTransform>
+                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+            </Image.LayoutTransform>
+
             <Image.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                     <BeginStoryboard Storyboard="{StaticResource SimpleFadeIn}"/>
@@ -544,7 +548,7 @@
             </Image.Triggers>
         </Image>
 
-        <Control x:Name="MainButtons" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="300,700,0,200">
+        <Control x:Name="MainButtons" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="300,950,0,200">
             <Control.LayoutTransform>
                 <ScaleTransform ScaleX="2.5" ScaleY="2.5"/>
             </Control.LayoutTransform>
