@@ -505,7 +505,7 @@
                             </StackPanel>
 
                             <!-- Trade Mode Buttons -->
-                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="840,40,0,0">
+                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="810,40,0,0">
                                 <StackPanel.LayoutTransform>
                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                 </StackPanel.LayoutTransform>
