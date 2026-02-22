@@ -419,11 +419,11 @@
                             <Image Source="{StaticResource BackgroundImage}" Stretch="Fill"/>
 
                             <StackPanel Orientation="Horizontal" Margin="0,20,20,0"  HorizontalAlignment="Right" VerticalAlignment="Top">
-                                <Control Template="{StaticResource HeaderInspirationPointsGold}" DataContext="{Binding CurrentPlayer}" VerticalAlignment="Top" Margin="0,-20,20,0">
+                                <!-- <Control Template="{StaticResource HeaderInspirationPointsGold}" DataContext="{Binding CurrentPlayer}" VerticalAlignment="Top" Margin="0,-20,20,0">
                                     <Control.LayoutTransform>
                                         <ScaleTransform ScaleX="2" ScaleY="2"/>
                                     </Control.LayoutTransform>
-                                </Control>
+                                </Control> -->
                                 <!-- Close button -->
                                 <ls:LSButton  x:Name="TradeCloseBtn" Style="{StaticResource CloseButton}" Command="{Binding CustomEvent}" CommandParameter="CloseWidget" VerticalAlignment="Center" SoundID="UI_HUD_Panel_Close">
                                     <ls:LSButton.LayoutTransform>
