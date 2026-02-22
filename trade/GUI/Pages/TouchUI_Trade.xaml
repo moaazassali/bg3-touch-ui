@@ -123,9 +123,9 @@
                                     <ls:LSButton.Template>
                                         <ControlTemplate TargetType="ls:LSButton">
                                             <Grid x:Name="tabBtn" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="0" ToolTipService.ShowOnDisabled="True">
-                                                <Grid.ToolTip>
+                                                <!-- <Grid.ToolTip>
                                                     <ls:LSTooltip x:Name="NameTooltip" IsHitTestVisible="False"/>
-                                                </Grid.ToolTip>
+                                                </Grid.ToolTip> -->
                                                 <Image x:Name="bg" Style="{StaticResource InvViewTabButtonBackgroundStyle}" />
                                                 <Image x:Name="icon" Stretch="None" Style="{StaticResource InvViewTabIconInactive}" />
                                             </Grid>
@@ -134,7 +134,7 @@
                                                     <Setter TargetName="bg" Property="Style" Value="{StaticResource ActiveTabButtonBackgroundStyle}"/>
                                                     <Setter TargetName="icon" Property="Style" Value="{StaticResource InvViewTabIconActive}"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="All">
+                                                <!-- <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="All">
                                                     <Setter TargetName="NameTooltip" Property="Content" Value="{Binding Source='h6675c3a8gbf70g4dc8gb7a5gef27b366fc6c',Converter={StaticResource TranslatedStringConverter}}"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="Equipment">
@@ -154,7 +154,7 @@
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="BuyBack">
                                                     <Setter TargetName="NameTooltip" Property="Content" Value="{Binding Source='h2c8be5afg46d0g40e0g9cecg38125c187f5b',Converter={StaticResource TranslatedStringConverter}}"/>
-                                                </DataTrigger>
+                                                </DataTrigger> -->
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </ls:LSButton.Template>
