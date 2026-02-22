@@ -107,8 +107,8 @@
 
                             <!-- New save button -->
                             <Grid Grid.Row="1" HorizontalAlignment="Center">
-                                <Image Source="{StaticResource NewSaveDecoration}" Stretch="Uniform" Width="600" Margin="0,-16,0,-12"/>
-                                <ls:LSButton x:Name="NewSaveBtn"
+                                <Image Source="{StaticResource NewSaveDecoration}" Stretch="Uniform" Width="600" Margin="0,-56,0,-12"/>
+                                <ls:LSButton x:Name="NewSaveBtn" Margin="0,-40,0,0"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center" 
                                                          Content="{Binding Source='hba968e69g5b87g49fdg875dg1f84d53c2b90', Converter={StaticResource TranslatedStringConverter}}" 
@@ -119,7 +119,7 @@
                             </Grid>
 
                             <!-- Playthrough and save files list -->
-                            <ListBox Grid.Row="2" x:Name="PlaythroughHolder" Template="{StaticResource SaveLoad.SavegameList}"
+                            <ListBox Grid.Row="2" x:Name="PlaythroughHolder" Template="{StaticResource SaveLoad.SavegameList}" Margin="0,-20,0,0"
                                      ItemsSource="{Binding SortedItems, ElementName=SortBehavior, Mode=OneWay}"
                                      Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Stretch" 
                                      AlternationCount="{Binding ExistingPlaythroughs.Count, Mode=OneWay}"
