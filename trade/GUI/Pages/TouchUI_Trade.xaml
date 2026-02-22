@@ -1296,7 +1296,6 @@
 
                             <!-- Party portraits -->
                             <Grid HorizontalAlignment="Left">
-
                                 <!-- Touch UI - Only show when toggle button is pressed -->
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -1309,11 +1308,15 @@
                                     </Style>
                                 </Grid.Style>
 
+                                <Grid.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.75" ScaleY="1.75"/>
+                                </Grid.LayoutTransform>
+
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="1850"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <ls:LSNineSliceImage x:Name="Background" Margin="-8,0,0,150" HorizontalAlignment="Left" VerticalAlignment="Bottom" ImageSource="{StaticResource PortraitsBackground}" Slices="108,92,0,104" Padding="0,80,0,88">
+                                <!-- <Grid Grid.Row="0" Background="red"/> -->
+                                <ls:LSNineSliceImage x:Name="Background" Margin="-8,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" ImageSource="{StaticResource PortraitsBackground}" Slices="108,92,0,104" Padding="0,80,0,88">
                                     <ls:LSPlayerList x:Name="PlayerList" Scalable="False" VerticalOrientation="True" ItemsSource="{Binding Data.Players}" DefaultAvailableSpace="1486" MinAvailableSpace="620" MaxCharactersPerPage="6" SinglePortraitWidth="164" SinglePortraitHeight="214" ScreenResolution="{Binding Data.ScreenResolution}" Margin="4,0,0,0">
                                         <ls:LSPlayerList.Template>
                                             <ControlTemplate>
@@ -1325,7 +1328,7 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <ls:LSScrollViewer x:Name="PART_ScrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"  MaxHeight="1420">
+                                                    <ls:LSScrollViewer x:Name="PART_ScrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"  MaxHeight="900">
                                                         <ls:LSScrollViewer.OpacityMask>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                                                 <LinearGradientBrush.GradientStops>
@@ -1339,14 +1342,20 @@
                                                         <ItemsPresenter x:Name="PART_Presenter" Margin="25,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                                                     </ls:LSScrollViewer>
 
-                                                    <ls:LSButton x:Name="UpScrollButton" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource PartylineScrollButtonStyleUp}" Visibility="{Binding ScrollableHeight, ElementName=PART_ScrollViewer, Converter={StaticResource CountToVisibilityConverter}}"  Margin="10,-20,0,0">
+                                                    <ls:LSButton x:Name="UpScrollButton" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource PartylineScrollButtonStyleUp}" Visibility="{Binding ScrollableHeight, ElementName=PART_ScrollViewer, Converter={StaticResource CountToVisibilityConverter}}"  Margin="-5,-65,0,0">
+                                                        <ls:LSButton.LayoutTransform>
+                                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                        </ls:LSButton.LayoutTransform>
                                                         <b:Interaction.Behaviors>
-                                                            <ls:ScrollBehavior x:Name="UpScrollBehavior" Orientation="{x:Static Orientation.Vertical}" ScrollViewer="{Binding ElementName=PART_ScrollViewer}" Offset="-300" ScrollRate="10"/>
+                                                            <ls:ScrollBehavior x:Name="UpScrollBehavior" Orientation="{x:Static Orientation.Vertical}" ScrollViewer="{Binding ElementName=PART_ScrollViewer}" Offset="-300" ScrollRate="30"/>
                                                         </b:Interaction.Behaviors>
                                                     </ls:LSButton>
-                                                    <ls:LSButton x:Name="DownScrollButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource PartylineScrollButtonStyleDown}" Visibility="{Binding ScrollableHeight, ElementName=PART_ScrollViewer, Converter={StaticResource CountToVisibilityConverter}}" Margin="10,0,0,-20">
+                                                    <ls:LSButton x:Name="DownScrollButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource PartylineScrollButtonStyleDown}" Visibility="{Binding ScrollableHeight, ElementName=PART_ScrollViewer, Converter={StaticResource CountToVisibilityConverter}}" Margin="-5,0,0,-65">
+                                                        <ls:LSButton.LayoutTransform>
+                                                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                        </ls:LSButton.LayoutTransform>
                                                         <b:Interaction.Behaviors>
-                                                            <ls:ScrollBehavior x:Name="DownScrollBehavior" Orientation="{x:Static Orientation.Vertical}" ScrollViewer="{Binding ElementName=PART_ScrollViewer}" Offset="300" ScrollRate="10"/>
+                                                            <ls:ScrollBehavior x:Name="DownScrollBehavior" Orientation="{x:Static Orientation.Vertical}" ScrollViewer="{Binding ElementName=PART_ScrollViewer}" Offset="300" ScrollRate="30"/>
                                                         </b:Interaction.Behaviors>
                                                     </ls:LSButton>
                                                 </Grid>
