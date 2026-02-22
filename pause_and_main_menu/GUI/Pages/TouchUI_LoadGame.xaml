@@ -93,10 +93,9 @@
                         </Control>
                     </Grid>
 
-                    <Grid x:Name="FooterGrid" Grid.Row="2" Margin="120,0,120,0">
+                    <Grid x:Name="FooterGrid" Grid.Row="2" Margin="120,0,120,0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
-                            <RowDefinition Height="72"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Name="CrossplayInfoText" Grid.Row="0" Text="{Binding Source='h053b7732g28a7g446egafb2g71e0b9a1dcce', Converter={StaticResource TranslatedStringConverter}}" 
@@ -162,7 +161,7 @@
                             </Image>
                         </StackPanel>
 
-                        <Image Grid.Row="0" Source="{StaticResource FooterCenterDecorImage}" VerticalAlignment="Bottom" Stretch="None" Margin="0,-20"/>
+                        <!-- <Image Grid.Row="0" Source="{StaticResource FooterCenterDecorImage}" VerticalAlignment="Bottom" Stretch="None" Margin="0,-20"/> -->
                     </Grid>
                 </Grid>
                 <Grid Background="{StaticResource LS_PanelBackground}" Visibility="{Binding RefreshSaveGames, Converter={StaticResource BoolToVisibleConverter}}">
