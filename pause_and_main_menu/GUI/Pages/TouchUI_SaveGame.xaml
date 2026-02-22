@@ -68,7 +68,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="{StaticResource PageHeaderHeightTabs}"/>
                         <RowDefinition/>
-                        <RowDefinition Height="{StaticResource PageFooterHeight}"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <b:Interaction.Behaviors>
