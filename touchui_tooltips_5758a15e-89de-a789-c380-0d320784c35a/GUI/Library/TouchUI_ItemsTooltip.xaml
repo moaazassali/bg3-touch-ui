@@ -28,14 +28,15 @@
             <Rectangle Style="{StaticResource TooltipItemRarityRectangleStyle}" />
             <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
 
-            <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
+            <!-- Touch UI - Disable top right image to save some space and reduce clutter -->
+            <!-- <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
                 <Image.Source>
                     <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
                         <Binding Source="Assets/Tooltips/ItemIcons/"/>
                         <Binding Path="IconName"/>
                     </MultiBinding>
                 </Image.Source>
-            </Image>
+            </Image> -->
 
             <Grid x:Name="ContentHolder" Width="{StaticResource MaxTooltipContentWidth}" >
                 <Grid.RowDefinitions>
