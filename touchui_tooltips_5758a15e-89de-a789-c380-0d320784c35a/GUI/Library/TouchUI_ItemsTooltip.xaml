@@ -16,6 +16,10 @@
     <DataTemplate x:Key="TouchUI_ItemsTooltip">
         <!-- Tag is to change the predicate on the CollectionFilterBehavior, as it can't be set through a trigger directly -->
         <Grid x:Name="root" d:DataContext="{d:DesignInstance {x:Type ls:VMItem}, IsDesignTimeCreatable=True}" Tag="{Binding OwnerDCWidget, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}">
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"/>
+            </Grid.LayoutTransform>
+
             <b:Interaction.Behaviors>
                 <ls:CollectionFilterBehavior x:Name="FilteredGaleStatuses" ItemsSource="{Binding PermanentStatusEffects}" Predicate="{Binding Tag.Data.StatusIdPredicate, ElementName=root}" CompareParam="{StaticResource GaleConsumeStatusId}"/>
             </b:Interaction.Behaviors>
