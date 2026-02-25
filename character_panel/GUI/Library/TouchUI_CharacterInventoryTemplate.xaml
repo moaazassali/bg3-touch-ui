@@ -68,14 +68,19 @@
                             VerticalOffset="0"
                             AllowsTransparency="True"
                             StaysOpen="True"
-                            IsOpen="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+                            IsOpen="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right">
                             <ContentPresenter
                                 Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                 ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
                                 ls:TooltipExtender.IsOpen="True"
                                 ls:TooltipExtender.Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                 ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Right"
+                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                         </Popup>
 
                     </ls:LSEntityObject>
