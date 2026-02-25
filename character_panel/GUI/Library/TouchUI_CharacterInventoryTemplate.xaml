@@ -9,6 +9,98 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/touchui_tooltips;component/Library/TouchUI_ItemsTooltip.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+    <Style x:Key="TouchUI_InvContainerItemStyle"  TargetType="ListBoxItem"   BasedOn="{StaticResource BaseInvContainerItemStyle}">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ls:LSEntityObject x:Name="invCellBase" Context="{Binding (ls:ContextMenuService.Context) , RelativeSource={RelativeSource Mode=TemplatedParent} }" DataContext="{Binding Object}" EntityRef="{Binding EntityHandle}" Background="{TemplateBinding Background}"
+                                                               ToolTipService.Placement="Right" Tag="{Binding (ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               ls:ContextMenuService.GenerateEnabled="False" ls:MoveFocus.Focusable="True" Focusable="True">
+                        <b:Interaction.Behaviors>
+                            <ls:ContextMenuFillBehavior Context="{Binding (ls:ContextMenuService.Context) , RelativeSource={RelativeSource Mode=TemplatedParent} }" Player="{Binding (ls:WidgetData.DataContext).CurrentPlayer, RelativeSource={RelativeSource TemplatedParent}}" TargetObject="{Binding .}" Source="{Binding SelectedItems,ElementName=InventoryHolder}" FillCommand="{Binding DataContext.ContextActionMenuFill, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                        </b:Interaction.Behaviors>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseEnter">
+                                <b:InvokeCommandAction IsEnabled="{Binding IsNew}" Command="{Binding (ls:WidgetData.DataContext).ClearItemNewFlag, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{Binding .}"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="MouseLeftButtonDown">
+                                <b:Interaction.Behaviors>
+                                    <b:ConditionBehavior>
+                                        <b:ConditionalExpression>
+                                            <b:ComparisonCondition LeftOperand="{Binding Path=DataContext.Object, Converter={StaticResource TypeConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="ls.Character"/>
+                                        </b:ConditionalExpression>
+                                    </b:ConditionBehavior>
+                                </b:Interaction.Behaviors>
+                                <ls:LSPlaySound Sound="UI_HUD_Inventory_PickupCharacter"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="DragEnter">
+                                <b:InvokeCommandAction Command="{Binding (ls:WidgetData.DataContext).UpdateDragErrorCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="DragLeave">
+                                <b:InvokeCommandAction Command="{Binding (ls:WidgetData.DataContext).UpdateDragErrorCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Null}"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+
+                        <ls:AttachedProperties.AutomationId>
+                            <MultiBinding StringFormat="{}InventoryItem_{0}">
+                                <Binding Path="EntityUUID"/>
+                            </MultiBinding>
+                        </ls:AttachedProperties.AutomationId>
+
+                        <ls:LSEntityObject.ToolTip>
+                            <ls:LSTooltip Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Owner="{Binding Tag.CurrentPlayer.SelectedCharacter, ElementName=invCellBase}"/>
+                        </ls:LSEntityObject.ToolTip>
+                        <ContentPresenter IsHitTestVisible="False"/>
+                        <Control x:Name="EquipmentIcon" Template="{StaticResource EquippedItemIconIndicator}" Height="28" Width="36" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,4"/>
+                        <Control Style="{StaticResource NewInventoryCellItemStyle}" />
+                        <Image x:Name="SelectedImg" Source="{StaticResource InvSlot_Selector}" Visibility="Hidden" Stretch="Fill" IsHitTestVisible="False"/>
+                        <Rectangle x:Name="LockForeground" Fill="{StaticResource LS_DisabledPanelColor}" Visibility="Collapsed"/>
+
+                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                        <Popup x:Name="SelectedItemPopup"
+                            Placement="Absolute"
+                            HorizontalOffset="10000" 
+                            VerticalOffset="0"
+                            AllowsTransparency="True"
+                            StaysOpen="True"
+                            IsOpen="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+                            <ContentPresenter
+                                Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
+                                ls:TooltipExtender.IsOpen="True"
+                                ls:TooltipExtender.Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                        </Popup>
+
+                    </ls:LSEntityObject>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="SelectedImg" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="SelectedImg" Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="SelectedImg" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="SelectedImg" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Object, Converter={StaticResource TypeConverter}}" Value="ls.Character">
+                            <Setter TargetName="EquipmentIcon" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Object.IsGroupingBlocked}" Value="True">
+                            <Setter TargetName="LockForeground" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <ControlTemplate x:Key="TouchUI_CharacterInventoryTemplate" TargetType="Control">
         <Grid x:Name="CharacterPanelHolder" Tag="{Binding PlayerCharacterProperties.IsContentEditable}"
               d:DataContext="{d:DesignInstance {x:Type ls:Character}, IsDesignTimeCreatable=True}">
@@ -71,7 +163,7 @@
                     <ListBox Grid.Column="1" Grid.Row="0" x:Name="InventoryHolder" ItemsSource="{Binding GeneratedItemsList, ElementName=FilteringContainerHolder}" 
                         ItemsPanel="{StaticResource InventoryGridTemplate}" SelectionMode="Extended" ls:MultiSelect.IsEnabled="False" 
                         ItemTemplate="{StaticResource Template.InventorySlot}" ls:AttachedProperties.InheritedNumber="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" 
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" ItemContainerStyle="{StaticResource InvContainerItemStyle}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" ItemContainerStyle="{StaticResource TouchUI_InvContainerItemStyle}"
                         RenderTransformOrigin="1,0">
 
                         <ListBox.RenderTransform>
