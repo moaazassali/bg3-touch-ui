@@ -11,7 +11,10 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
 
     <DataTemplate x:Key="TouchUI_ItemsTooltip">
         <!-- Tag is to change the predicate on the CollectionFilterBehavior, as it can't be set through a trigger directly -->
@@ -38,20 +41,20 @@
                 </Image.Source>
             </Image> -->
 
-            <Grid x:Name="ContentHolder" Width="{StaticResource MaxTooltipContentWidth}" >
+            <Grid x:Name="ContentHolder" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!-- Text and other content -->
-                <StackPanel MaxWidth="{StaticResource MaxTooltipContentWidth}" >
+                <StackPanel MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}" >
                     <!-- HEADER -->
 
                     <!-- Title and subtitle -->
                     <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}">
-                        <TextBlock x:Name="Title" Style="{StaticResource TooltipItemRarityTextStyle}" Text="{Binding Name}" Width="{StaticResource MaxWidthOnCollisionWithImage}"/>
+                        <TextBlock x:Name="Title" Style="{StaticResource TooltipItemRarityTextStyle}" Text="{Binding Name}" Width="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}"/>
 
-                        <TextBlock x:Name="SubTitleContainer" Style="{StaticResource TooltipSubTitleNoCollapseStyle}" >
+                        <TextBlock x:Name="SubTitleContainer" Style="{StaticResource TooltipSubTitleNoCollapseStyle}">
                         <Run x:Name="Rarity" Style="{StaticResource RarityNameStyle}"/><Run
                         x:Name="SubTitle" Text="{Binding TypeText}"/>
                         </TextBlock>
@@ -256,7 +259,7 @@
                         <!-- TECHNICAL DESCRIPTION -->
                         <StackPanel x:Name="TechnicalDescriptionSection" HorizontalAlignment="Left">
                             <!-- Technical description -->
-                            <TextBlock x:Name="technicalDescription" Style="{StaticResource TooltipAdjustableDescriptionStyle}" Margin="{StaticResource DefaultMarginBottom}" Visibility="{Binding TechnicalDescription.Text, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                            <TextBlock x:Name="technicalDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Margin="{StaticResource DefaultMarginBottom}" Visibility="{Binding TechnicalDescription.Text, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
                             <b:Interaction.Behaviors>
                                 <ls:CtxTransStringRunGeneratorBehavior Source="{Binding TechnicalDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                             </b:Interaction.Behaviors>
@@ -383,7 +386,7 @@
                         <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
 
                         <!-- LORE DESCRIPTION -->
-                        <Control x:Name="LoreDescriptionSection" Template="{StaticResource TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
+                        <Control x:Name="LoreDescriptionSection" Template="{StaticResource TouchUI_TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
 
                         <!-- Gale consume warning -->
                         <Control x:Name="GaleWarning" Template="{StaticResource WarningLabelTemplate}" Tag="{Binding Source='h12ae3447g8e06g4f92gb0e0gcaeb349c6066', Converter={StaticResource TranslatedStringConverter}}" Background="{StaticResource IconGaleConsume}" Foreground="{StaticResource TooltipColor.Secondary}" Visibility="{Binding FilteredItems.Count, ElementName=FilteredGaleStatuses, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>

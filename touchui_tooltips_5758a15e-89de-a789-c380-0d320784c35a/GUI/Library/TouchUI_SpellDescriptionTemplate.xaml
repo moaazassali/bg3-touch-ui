@@ -1,0 +1,200 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<!-- Only used to override the width values to match TouchUI_ItemsTooltip -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="SpellDescriptionTemplate" DataType="{x:Type ls:VMTooltipSpell}">
+        <DataTemplate.Resources>
+            <Storyboard x:Key="ExpandAnimation">
+                <DoubleAnimation Storyboard.TargetName="ExtraDescription" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- Since we are in a template it wants to freeze this animation, meaning it can't use bindings -->
+                <!-- To get around this we animate a percent value instead and handle the bindings at the target element -->
+                <DoubleAnimation Storyboard.TargetName="DescriptionHolder" Storyboard.TargetProperty="Tag" From="0" To="1" Duration="0:0:0.15">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+            <Storyboard x:Key="CollapseAnimation">
+                <DoubleAnimation Storyboard.TargetName="ExtraDescription" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+
+                <!-- Since we are in a template it wants to freeze this animation, meaning it can't use bindings -->
+                <!-- To get around this we animate a percent value instead and handle the bindings at the target element -->
+                <DoubleAnimation Storyboard.TargetName="DescriptionHolder" Storyboard.TargetProperty="Tag" From="1" To="0" Duration="0:0:0.15">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </DataTemplate.Resources>
+        <StackPanel x:Name="DescriptionHolder">
+            <StackPanel.Tag>
+                <!-- Tag is 0-1 value animated by storyboards, and it used to created a dynamic margin -->
+                <System:Double>0</System:Double>
+            </StackPanel.Tag>
+            <TextBlock x:Name="TechnicalDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding Description, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource DefaultMarginBottom}">
+                <Span>
+                    <b:Interaction.Behaviors>
+                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                    </b:Interaction.Behaviors>
+                </Span>
+                <Span x:Name="ExtraDescriptionIcon"/>
+            </TextBlock>
+
+            <TextBlock x:Name="ExtraDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource DefaultMarginBottom}">
+                <b:Interaction.Behaviors>
+                    <ls:CtxTransStringRunGeneratorBehavior Source="{Binding ExtraDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                </b:Interaction.Behaviors>
+            </TextBlock>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="WhenPinned"/>
+                    <Condition Binding="{Binding ExtraDescription.Text, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ExtraDescriptionIcon" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source=h452c3409g8a01g42d8g991agc874738376be, Converter={StaticResource TranslatedStringConverter}, StringFormat='{} {0}'}"/>
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Collapsed"/>
+            </MultiDataTrigger>
+
+            <!-- When pinned, only play the expand animation if it wasn't already being expanded in the actual tooltip -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="WhenPinned"/>
+                    <Condition Binding="{Binding ExtraDescription.Text, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False"/>
+                    <Condition Binding="{Binding ShouldBeExpanded, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+
+                <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
+                </MultiDataTrigger.EnterActions>
+
+                <Setter TargetName="ExtraDescription" Property="Margin">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource LinearInterpolationConverter}" ConverterParameter="Thickness">
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Path="ActualHeight" ElementName="ExtraDescription" Converter="{StaticResource MultiplierConverter}" ConverterParameter="-1"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="{StaticResource DefaultSpace}"/>
+                            <Binding Path="Tag" ElementName="DescriptionHolder" FallbackValue="0"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="WhenPinned"/>
+                    <Condition Binding="{Binding ExtraDescription.Text, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="Never">
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Never">
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <!-- Show holding 'ExpandTooltips' key -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="WhenPinned"/>
+                    <Condition Binding="{Binding ExtraDescription.Text, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False"/>
+                    <Condition Binding="{Binding ShouldBeExpanded, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
+                </MultiDataTrigger.EnterActions>
+                <Setter TargetName="ExtraDescription" Property="Margin">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource LinearInterpolationConverter}" ConverterParameter="Thickness">
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Path="ActualHeight" ElementName="ExtraDescription" Converter="{StaticResource MultiplierConverter}" ConverterParameter="-1"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="{StaticResource DefaultSpace}"/>
+                            <Binding Path="Tag" ElementName="DescriptionHolder" FallbackValue="0"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="ExtraDescriptionIcon" Property="ls:TextBlockFormatter.SourceText" Value=""/>
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=OwnerDCWidget.CurrentPlayer.UIOptions.ExtraTooltipDescriptions, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="WhenPinned"/>
+                    <Condition Binding="{Binding ExtraDescription.Text, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False"/>
+                    <Condition Binding="{Binding ShouldBeExpanded, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="False"/>
+                    <Condition Binding="{Binding Tag, ElementName=DescriptionHolder, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+
+                <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource CollapseAnimation}"/>
+                </MultiDataTrigger.EnterActions>
+                <Setter TargetName="ExtraDescription" Property="Margin">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource LinearInterpolationConverter}" ConverterParameter="Thickness">
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Path="ActualHeight" ElementName="ExtraDescription" Converter="{StaticResource MultiplierConverter}" ConverterParameter="-1"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="0"/>
+                            <Binding Source="{StaticResource DefaultSpace}"/>
+                            <Binding Path="Tag" ElementName="DescriptionHolder" FallbackValue="0"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+
+            <!-- Controller doesn't have pinning (yet) so for now we always show the extra description -->
+            <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Controller">
+                <Setter TargetName="ExtraDescriptionIcon" Property="ls:TextBlockFormatter.SourceText" Value=""/>
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+
+            <!-- No text, no show. Keep this at the bottom -->
+            <DataTrigger Binding="{Binding ExtraDescription.Text, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="True">
+                <Setter TargetName="ExtraDescription" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>
