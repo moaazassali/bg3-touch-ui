@@ -80,7 +80,11 @@
                                 ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Right"
-                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                <ContentPresenter.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentPresenter.LayoutTransform>
+                            </ContentPresenter>
                         </Popup>
 
                     </ls:LSEntityObject>
