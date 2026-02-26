@@ -173,4 +173,14 @@
         </ls:LSNineSliceImage>
     </ControlTemplate>
 
+    <!-- Copied from Patch8_HotFix4\Public\Game\GUI\Theme\DefaultTheme.Styles.xaml -->
+    <Style x:Key="TouchUI_TooltipStripBottomStyle" TargetType="ls:LSNineSliceImage" BasedOn="{StaticResource {x:Type ls:LSNineSliceImage}}">
+        <Setter Property="ImageSource" Value="pack://application:,,,/Core;component/Assets/Tooltips/TT_hStrip_footer.png"/>
+        <Setter Property="Slices" Value="25"/>
+        <Setter Property="IconWidth" Value="55"/>
+        <Setter Property="MinHeight" Value="74"/>
+        <Setter Property="Padding" Value="38,16"/>
+        <Setter Property="Margin" Value="-18,0,-18,-25"/>
+    </Style>
+
 </ResourceDictionary>

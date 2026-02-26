@@ -427,7 +427,7 @@
                     </StackPanel>
 
                     <!-- FOOTER -->
-                    <ls:LSNineSliceImage Style="{StaticResource TooltipStripBottomStyle}" Grid.Row="1" Visibility="{Binding CanMove, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Bottom" DataContext="{Binding (ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" d:DataContext="{d:DesignInstance {x:Type ls:VMTooltipItem}, IsDesignTimeCreatable=True}">
+                    <ls:LSNineSliceImage Style="{StaticResource TouchUI_TooltipStripBottomStyle}" Grid.Row="1" Visibility="{Binding CanMove, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Bottom" DataContext="{Binding (ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" d:DataContext="{d:DesignInstance {x:Type ls:VMTooltipItem}, IsDesignTimeCreatable=True}">
                         <DockPanel VerticalAlignment="Bottom">
                             <DockPanel.Resources>
                                 <Style x:Key="ItemTooltipBottomTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TooltipBottomTextStyle}">
