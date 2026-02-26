@@ -179,7 +179,7 @@
         <Setter Property="Slices" Value="25"/>
         <Setter Property="IconWidth" Value="55"/>
         <Setter Property="MinHeight" Value="74"/>
-        <Setter Property="Padding" Value="38,16"/>
+        <Setter Property="Padding" Value="10,10"/>
         <Setter Property="Margin" Value="-18,0,-18,-25"/>
     </Style>
 

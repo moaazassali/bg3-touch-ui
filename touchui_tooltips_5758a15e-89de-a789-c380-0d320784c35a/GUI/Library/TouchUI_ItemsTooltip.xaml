@@ -428,28 +428,29 @@
 
                     <!-- FOOTER -->
                     <ls:LSNineSliceImage Style="{StaticResource TouchUI_TooltipStripBottomStyle}" Grid.Row="1" Visibility="{Binding CanMove, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Bottom" DataContext="{Binding (ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" d:DataContext="{d:DesignInstance {x:Type ls:VMTooltipItem}, IsDesignTimeCreatable=True}">
-                        <DockPanel VerticalAlignment="Bottom">
+                        <DockPanel VerticalAlignment="Center">
                             <DockPanel.Resources>
                                 <Style x:Key="ItemTooltipBottomTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TooltipBottomTextStyle}">
                                     <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="Margin" Value="0"/>
                                 </Style>
                             </DockPanel.Resources>
 
 
                             <!-- Cost Summary -->
-                            <WrapPanel x:Name="CostSummary" HorizontalAlignment="Left" Visibility="Collapsed" DockPanel.Dock="Left" Margin="0,2,0,0" MaxWidth="550">
-                                <ContentPresenter ContentTemplate="{StaticResource FooterCosts}" Content="{Binding CostSummary}"/>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsConsumable, Converter={StaticResource BoolToVisibleConverter}}" Margin="0,0,0,6">
-                                    <Image x:Name="PropertyIcon" HorizontalAlignment="Center" Stretch="Uniform" Style="{StaticResource PropertyIconCost}" Source="{StaticResource IconConsume}"/>
+                            <WrapPanel x:Name="CostSummary" HorizontalAlignment="Left" Visibility="Collapsed" DockPanel.Dock="Left" Margin="0,0,0,0" MaxWidth="300" VerticalAlignment="Center">
+                                <ContentPresenter ContentTemplate="{StaticResource FooterCosts}" Content="{Binding CostSummary}" Margin="18,0,0,0"/>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsConsumable, Converter={StaticResource BoolToVisibleConverter}}" Margin="0,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <Image x:Name="PropertyIcon" HorizontalAlignment="Center" Stretch="Uniform" Style="{StaticResource PropertyIconCost}" Source="{StaticResource IconConsume}" Margin="0,0,0,0"/>
                                     <TextBlock Style="{StaticResource SectionResourceNameStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Source='h3d9ac91dg2ed4g47aega170gc4d638367579',Converter={StaticResource TranslatedStringConverter}}" Margin="10,2,0,-2"/>
                                     <StackPanel.ToolTip>
                                         <ls:LSTooltip IsHitTestVisible="False" Content="ha8b28fcaga542g44ecg91bbgdaa03d029898" ls:AttachedProperties.InheritedTag="h3d9ac91dg2ed4g47aega170gc4d638367579" ContentTemplate="{StaticResource HeaderBodyTemplate}"/>
                                     </StackPanel.ToolTip>
                                 </StackPanel>
                             </WrapPanel>
-                            <DockPanel x:Name="costAndWeight" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,0,8">
+                            <DockPanel x:Name="costAndWeight" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,0,10">
                                 <!-- Weight -->
-                                <StackPanel x:Name="WeightContainer" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,0">
+                                <StackPanel x:Name="WeightContainer" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,0">
                                     <TextBlock x:Name="weightText" ls:TextBlockFormatter.SourceText="{Binding Weight, Converter={StaticResource UnitConverter}, ConverterParameter='Weight N2'}" Style="{StaticResource ItemTooltipBottomTextStyle}" VerticalAlignment="bottom" />
                                     <Image x:Name="weightIcon" Source="{StaticResource IconWeight}" Stretch="None" Style="{StaticResource FooterWeightPosition}" VerticalAlignment="bottom"/>
                                     <StackPanel.ToolTip>
