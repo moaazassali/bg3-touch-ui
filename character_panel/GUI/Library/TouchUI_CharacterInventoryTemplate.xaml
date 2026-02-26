@@ -52,9 +52,9 @@
                             </MultiBinding>
                         </ls:AttachedProperties.AutomationId>
 
-                        <ls:LSEntityObject.ToolTip>
+                        <!-- <ls:LSEntityObject.ToolTip>
                             <ls:LSTooltip Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Owner="{Binding Tag.CurrentPlayer.SelectedCharacter, ElementName=invCellBase}"/>
-                        </ls:LSEntityObject.ToolTip>
+                        </ls:LSEntityObject.ToolTip> -->
                         <ContentPresenter IsHitTestVisible="False"/>
                         <Control x:Name="EquipmentIcon" Template="{StaticResource EquippedItemIconIndicator}" Height="28" Width="36" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,4"/>
                         <Control Style="{StaticResource NewInventoryCellItemStyle}" />

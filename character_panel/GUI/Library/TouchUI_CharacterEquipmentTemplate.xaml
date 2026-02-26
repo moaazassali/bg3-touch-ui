@@ -49,9 +49,9 @@
                         <b:Interaction.Behaviors>
                             <ls:ContextMenuFillBehavior Context="Equipment" Player="{Binding DataContext.CurrentPlayer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" TargetObject="{Binding Item}" FillCommand="{Binding DataContext.ContextActionMenuFill, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                         </b:Interaction.Behaviors>
-                        <Grid.ToolTip>
+                        <!-- <Grid.ToolTip>
                             <ls:LSTooltip x:Name="tooltip" IsHitTestVisible="False" Content="{Binding Path=DataContext.Item, ElementName=root}" ls:TooltipExtender.Owner="{Binding Tag, ElementName=root}"/>
-                        </Grid.ToolTip>
+                        </Grid.ToolTip> -->
 
                         <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
                         <Popup x:Name="SelectedItemPopup"
