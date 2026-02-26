@@ -280,7 +280,7 @@
                             <ContentPresenter ContentTemplate="{StaticResource SpellModifiersSection}" Content="{Binding .}" Tag="{Binding Spell}" Margin="0" Visibility="{Binding Content, Converter={StaticResource NullToCollapsedConverter}}"/>
 
                             <!-- MAGICAL PROPERTIES -->
-                            <ContentControl x:Name="BoostsAndPassivesSection" Visibility="Collapsed" Template="{StaticResource TooltipStripMagicalPropertiesTemplate}">
+                            <ContentControl x:Name="BoostsAndPassivesSection" Visibility="Collapsed" Template="{StaticResource TouchUI_TooltipStripMagicalPropertiesTemplate}">
                                 <!-- Boosts and Passives -->
                                 <StackPanel>
                                     <StackPanel x:Name="BoostsAndPassives" Visibility="Collapsed">
