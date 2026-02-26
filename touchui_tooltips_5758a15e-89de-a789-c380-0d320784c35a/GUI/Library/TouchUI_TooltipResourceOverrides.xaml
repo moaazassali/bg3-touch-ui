@@ -68,4 +68,101 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <!-- Copied from Patch8_HotFix4\Public\Game\GUI\Theme\DefaultTheme.Styles.xaml -->
+    <Style x:Key="TouchUI_TooltipItemRarityRectangleStyleBase" TargetType="Rectangle">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Height" Value="400"/>
+        <Setter Property="Margin" Value="-43,-20,-20,0"/>
+        <Setter Property="Opacity" Value="0.25"/>
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Setter Property="Clip">
+            <Setter.Value>
+                <PathGeometry Transform="{Binding ElementName=ActualContainer,Path=RenderTransform}">
+                    <PathGeometry.Figures>
+                        <PathFigure StartPoint="25,600" IsClosed="True">
+                            <LineSegment Point="25,12"/>
+                            <LineSegment Point="26,11"/>
+                            <LineSegment Point="28,10"/>
+                            <LineSegment Point="33,11"/>
+                            <LineSegment Point="36,10"/>
+
+                            <LineSegment Point="868,10"/>
+                            <LineSegment Point="875,11"/>
+                            <LineSegment Point="879,15"/>
+                            <LineSegment Point="881,19"/>
+                            <LineSegment Point="882,24"/>
+                            <LineSegment Point="882,28"/>
+                            <LineSegment Point="882,600"/>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+    <!-- Rarity gradient -->
+    <Style x:Key="TouchUI_TooltipItemRarityRectangleStyle" TargetType="Rectangle" BasedOn="{StaticResource TouchUI_TooltipItemRarityRectangleStyleBase}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Rarity}" Value="Uncommon">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="{StaticResource ItemRarityColour.UncommonGradientBottom}" Offset="0" />
+                            <GradientStop Color="Transparent" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Rarity}" Value="Rare">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="{StaticResource ItemRarityColour.RareGradientBottom}" Offset="0" />
+                            <GradientStop Color="Transparent" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Rarity}" Value="VeryRare">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="{StaticResource ItemRarityColour.VeryRareGradientBottom}" Offset="0" />
+                            <GradientStop Color="Transparent" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Rarity}" Value="Legendary">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Setter Property="Opacity" Value="0.6"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="{StaticResource ItemRarityColour.LegendaryGradientBottom}" Offset="0" />
+                            <GradientStop Color="Transparent" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsStoryItem}" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Setter Property="Opacity" Value="0.6"/>
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="{StaticResource ItemRarityColour.storyGradientBottom}" Offset="0" />
+                            <GradientStop Color="Transparent" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>
