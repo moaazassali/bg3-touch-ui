@@ -32,6 +32,9 @@
 
             <DataTrigger Binding="{Binding TagTooltip, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False">
                 <Setter Property="ToolTipService.IsEnabled" Value="True"/>
+                <!-- Touch UI - Make all clickable text underlined by default for visual cue that this is a clickable text on touch screens -->
+                <Setter Property="TextDecorations" Value="Underline" />
+                <Setter Property="Foreground" Value="{StaticResource TooltipColor.Tags}" />
             </DataTrigger>
 
             <MultiDataTrigger>
@@ -47,8 +50,9 @@
                     <Condition Binding="{Binding TagTooltip, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToBoolTrueConverter}, ConverterParameter='EmptyString'}" Value="False"/>
                     <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
                 </MultiDataTrigger.Conditions>
-                <Setter Property="TextDecorations" Value="Underline" />
-                <Setter Property="Foreground" Value="{StaticResource TooltipColor.Tags}" />
+                <!-- Touch UI - Moved up to make all clickable text underlined by default instead -->
+                <!-- <Setter Property="TextDecorations" Value="Underline" /> -->
+                <!-- <Setter Property="Foreground" Value="{StaticResource TooltipColor.Tags}" /> -->
             </MultiDataTrigger>
 
             <Trigger Property="TagTooltip" Value="stub">
