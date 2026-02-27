@@ -61,32 +61,6 @@
                         <Image x:Name="SelectedImg" Source="{StaticResource InvSlot_Selector}" Visibility="Hidden" Stretch="Fill" IsHitTestVisible="False"/>
                         <Rectangle x:Name="LockForeground" Fill="{StaticResource LS_DisabledPanelColor}" Visibility="Collapsed"/>
 
-                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
-                        <Popup x:Name="SelectedItemPopup"
-                            Placement="Absolute"
-                            HorizontalOffset="10000" 
-                            VerticalOffset="0"
-                            AllowsTransparency="True"
-                            StaysOpen="True"
-                            IsOpen="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Right">
-                            <ContentPresenter
-                                Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
-                                ls:TooltipExtender.IsOpen="True"
-                                ls:TooltipExtender.Content="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Right"
-                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                                <ContentPresenter.LayoutTransform>
-                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                                </ContentPresenter.LayoutTransform>
-                            </ContentPresenter>
-                        </Popup>
-
                     </ls:LSEntityObject>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -289,6 +263,40 @@
                     <!-- <Control Grid.Column="2" Template="{StaticResource CharacterSheetInfotipTemplate}" VerticalAlignment="Center" Margin="-8,-8,8,0"  HorizontalAlignment="Right" ToolTipService.Placement="Right"/> -->
                 </Grid>
 
+            </Grid>
+
+            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+            <!-- Touch UI - We need to place it outside of the item element because a double click in the popup is triggering a double click on the item which uses/equips it -->
+            <!-- Touch UI - I couldn't find a better solution. I tried wrapping it with a button, swallowing all mouse events, etc... and nothing worked -->
+            <Grid>
+                <!-- Touch UI - We need to wrap it with a grid and scale it by 2x or the popup height is otherwise halved and bottom half of tooltip is cut off for some reason -->
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+                <Popup x:Name="SelectedItemPopup"
+                    Placement="Absolute"
+                    HorizontalOffset="10000" 
+                    VerticalOffset="0"
+                    AllowsTransparency="True"
+                    StaysOpen="True"
+                    IsOpen="{Binding SelectedItem, ElementName=InventoryHolder, Converter={StaticResource NullToBoolFalseConverter}}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right">
+                    <ContentPresenter
+                        Content="{Binding SelectedItem.Object, ElementName=InventoryHolder}"
+                        ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
+                        ls:TooltipExtender.IsOpen="True"
+                        ls:TooltipExtender.Content="{Binding SelectedItem.Object, ElementName=InventoryHolder}"
+                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                        <ContentPresenter.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </ContentPresenter.LayoutTransform>
+                    </ContentPresenter>
+                </Popup>
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>

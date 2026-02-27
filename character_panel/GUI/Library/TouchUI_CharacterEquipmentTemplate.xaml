@@ -34,7 +34,7 @@
                 </noesis:StyleTriggerCollection>
             </Setter.Value>
         </Setter>
-        <Setter Property="ToolTipService.Placement" Value="Right"/>
+        <!-- <Setter Property="ToolTipService.Placement" Value="Right"/> -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ls:LSButton">
@@ -45,39 +45,13 @@
                         <BitmapImage  x:Key="SelOverlayUri" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/EQSlots_overlaySelected.png" />
                     </ControlTemplate.Resources>
 
-                    <Grid x:Name="root" Tag="{TemplateBinding Tag}" Width="{StaticResource EquipmentSlotSize}" Height="{StaticResource EquipmentSlotSize}" ToolTipService.IsEnabled="{Binding Item,Converter={StaticResource NullToBoolFalseConverter}}" Background="Transparent" ToolTipService.ShowOnDisabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.Placement="{TemplateBinding ToolTipService.Placement}">
+                    <Grid x:Name="root" Tag="{TemplateBinding Tag}" Width="{StaticResource EquipmentSlotSize}" Height="{StaticResource EquipmentSlotSize}" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <b:Interaction.Behaviors>
                             <ls:ContextMenuFillBehavior Context="Equipment" Player="{Binding DataContext.CurrentPlayer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" TargetObject="{Binding Item}" FillCommand="{Binding DataContext.ContextActionMenuFill, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                         </b:Interaction.Behaviors>
                         <!-- <Grid.ToolTip>
                             <ls:LSTooltip x:Name="tooltip" IsHitTestVisible="False" Content="{Binding Path=DataContext.Item, ElementName=root}" ls:TooltipExtender.Owner="{Binding Tag, ElementName=root}"/>
                         </Grid.ToolTip> -->
-
-                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
-                        <Popup x:Name="SelectedItemPopup"
-                            Placement="Absolute"
-                            HorizontalOffset="10000" 
-                            VerticalOffset="0"
-                            AllowsTransparency="True"
-                            StaysOpen="True"
-                            IsOpen="False"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Right">
-                            <ContentPresenter
-                                Content="{Binding Path=DataContext.Item, ElementName=root}"
-                                ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
-                                ls:TooltipExtender.IsOpen="True"
-                                ls:TooltipExtender.Content="{Binding Path=DataContext.Item, ElementName=root}"
-                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Right"
-                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                                <ContentPresenter.LayoutTransform>
-                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                                </ContentPresenter.LayoutTransform>
-                            </ContentPresenter>
-                        </Popup>
 
                         <Image x:Name="SlotBg" Style="{StaticResource EquipmentSlogBgImageStyle}"/>
                         <Grid x:Name="IconControl" Background="{StaticResource EquipmentSlotBg}" Opacity="1.0" DataContext="{Binding Item}" IsHitTestVisible="False">
@@ -109,7 +83,6 @@
                             <Setter TargetName="DisableLayer" Property="Visibility" Value="Hidden"/>
                             <Setter TargetName="SelOverlay" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="SelArrow" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="SelectedItemPopup" Property="IsOpen" Value="True"/>
                         </DataTrigger>
 
 
@@ -196,8 +169,8 @@
                         </MultiDataTrigger>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="tooltip" Property="Content" Value="{Binding Source='hcc92420fgadcfg4a13g90feg6996722734b6',Converter={StaticResource TranslatedStringConverter}}"/>
-                            <Setter TargetName="root" Property="ToolTipService.IsEnabled" Value="True"/>
+                            <!-- <Setter TargetName="tooltip" Property="Content" Value="{Binding Source='hcc92420fgadcfg4a13g90feg6996722734b6',Converter={StaticResource TranslatedStringConverter}}"/> -->
+                            <!-- <Setter TargetName="root" Property="ToolTipService.IsEnabled" Value="True"/> -->
                         </Trigger>
                         <DataTrigger Binding="{Binding Tag, ElementName=CharacterPanelHolder}" Value="False">
                             <Setter TargetName="DisableLayer" Property="Visibility" Value="Visible"/>
@@ -392,6 +365,35 @@
                 <Control Grid.Row="2" Template="{StaticResource WeaponAttackBonusTemplate}" VerticalAlignment="Bottom" Margin="0,8,0,0"/>
 
             </Grid>
+
+            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+            <!-- Touch UI - We need to place it outside of the item element because a double click in the popup is triggering a double click on the item which uses/equips it -->
+            <!-- Touch UI - I couldn't find a better solution. I tried wrapping it with a button, swallowing all mouse events, etc... and nothing worked -->
+            <Popup x:Name="SelectedItemPopup"
+                Placement="Absolute"
+                HorizontalOffset="10000" 
+                VerticalOffset="0"
+                AllowsTransparency="True"
+                StaysOpen="True"
+                IsOpen="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot, ElementName=CharacterPanelHolder, Converter={StaticResource NullToBoolFalseConverter}, Mode=OneWay}"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Right">
+                <ContentPresenter
+                    Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
+                    ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
+                    ls:TooltipExtender.IsOpen="True"
+                    ls:TooltipExtender.Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
+                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                    ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right"
+                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <ContentPresenter.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </ContentPresenter.LayoutTransform>
+                </ContentPresenter>
+            </Popup>
+
         </Grid>
 
         <ControlTemplate.Triggers>
