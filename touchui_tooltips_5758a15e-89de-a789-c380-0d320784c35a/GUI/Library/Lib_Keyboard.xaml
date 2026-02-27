@@ -1,0 +1,296 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_LSSpanStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Touch UI - We need to override all resources that use LSSpanStyle to use TouchUI_LSSpanStyle -->
+
+    <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}"/>
+
+    <!-- Items Passives -->
+    <DataTemplate x:Key="ItemPassivesSection">
+        <DataTemplate.Resources>
+            <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
+                <Style.Triggers>
+                    <Trigger Property="TagType" Value="hl">
+                        <Setter Property="Foreground" Value="{StaticResource TooltipColor.Secondary}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DataTemplate.Resources>
+        <ItemsControl ItemsSource="{Binding .}" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}" AlternationCount="{Binding Count}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:Name="EntryContainer" Margin="{StaticResource DefaultMarginTop}" Width="{StaticResource MaxTooltipContentWidth}" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid x:Name="IconContainer" Grid.Column="0" Visibility="{Binding IconName, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}" Tag="Controller" VerticalAlignment="Top" HorizontalAlignment="Left" ClipToBounds="False">
+                            <Image Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
+                                        <Binding Source="Assets/Tooltips/Icons/"/>
+                                        <Binding Path="IconName"/>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                            <Ellipse Height="56" Width="56" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Brush}" />
+                        </Grid>
+
+                        <TextBlock x:Name="PassiveInfo" Grid.Column="1" FontSize="{StaticResource MediumFontSize}" TextWrapping="Wrap" ls:MeasurementProperties.CalculateMeasures="True" Style="{StaticResource TooltipSectionTextStyle}" Foreground="{StaticResource TooltipColor.Secondary}">
+                            <TextBlock.Tag>
+                                <MultiBinding Converter="{StaticResource GreaterOrEqualThanMultiConverter}">
+                                    <Binding Path="(ls:MeasurementProperties.TopY)" RelativeSource="{RelativeSource Self}"/>
+                                    <Binding Path="(ls:MeasurementProperties.BottomY)" ElementName="DecorationImage"/>
+                                </MultiBinding>
+                            </TextBlock.Tag>
+                            <Span ls:TextBlockFormatter.SourceText="{Binding Name, StringFormat='{}{0}:'}" Foreground="{StaticResource TooltipColor.Highlight}" FontWeight="SemiBold"/>
+                            <Span>
+                                <b:Interaction.Behaviors>
+                                    <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                                </b:Interaction.Behaviors>
+                            </Span>
+                        </TextBlock>
+                        <Grid.ToolTip>
+                            <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                        </Grid.ToolTip>
+                    </Grid>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Keyboard">
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="725"/>
+                            <Setter TargetName="IconContainer" Property="Tag" Value="Keyboard"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="Keyboard">
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="725"/>
+                            <Setter TargetName="IconContainer" Property="Tag" Value="Keyboard"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Keyboard"/>
+                                <Condition Binding="{Binding ElementName=PassiveInfo,Path=Tag}"  Value="{StaticResource FalseValue}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="575" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Visibility, ElementName=IconContainer}" Value="Visible"/>
+                                <Condition Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Keyboard"/>
+                                <Condition Binding="{Binding ElementName=PassiveInfo,Path=Tag}"  Value="{StaticResource FalseValue}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="500" />
+                        </MultiDataTrigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter TargetName="EntryContainer" Property="Margin" Value="0"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Path=Visibility, ElementName=IconContainer}" Value="Visible">
+                            <Setter TargetName="IconContainer" Property="Margin" Value="0,0,8,0"/>
+                            <Setter TargetName="PassiveInfo" Property="MaxWidth" Value="{StaticResource MaxTooltipContentWidth}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Controller">
+                            <Setter  TargetName="PassiveInfo" Property="FontWeight" Value="DemiBold"/>
+                            <Setter TargetName="PassiveInfo" Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMResistance}">
+        <!-- Enum value stored in tag as LocaEnum doesn't correctly support values past MAX. For those cases we have to alter the value (see triggers) -->
+        <StackPanel x:Name="root" Tag="{Binding DamageTypeValue}">
+            <StackPanel.Resources>
+                <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
+                    <Style.Triggers>
+                        <Trigger Property="TagType" Value="hl">
+                            <Setter Property="Foreground" Value="{StaticResource LS_accent75TxtColor}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <!-- Default values and content is Vulnerable -->
+            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                <StackPanel>
+                    <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleNoCollapseStyle}" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h060ad079g2abdg43d8g9873gbb5fc58ba0e0'}"/>
+
+                    <TextBlock Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Source, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                         <ls:TextBlockFormatter.SourceText>
+                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                <Binding Source="hea17a85cg4aaag4679g9cbdge242e8f3bb9a"/>
+                                <Binding Path="Source"/>
+                            </MultiBinding>
+                         </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+            <DockPanel x:Name="BaseDescriptionContainer" Width="{StaticResource MaxTooltipContentWidth}">
+                <Image x:Name="BaseIcon" Source="{StaticResource Vulnerable}" Stretch="None" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
+                <TextBlock x:Name="BaseDescription" Style="{StaticResource TooltipBodyStyle}" Margin="0 20" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h8aa64a61g697ag44eag8025g72455bb15041'}" DockPanel.Dock="Right"/>
+            </DockPanel>
+            <DockPanel x:Name="AdditionalDescriptionContainer" Visibility="Collapsed" Width="{StaticResource MaxTooltipContentWidth}">
+                <Image x:Name="AdditionalIcon" Source="{StaticResource ResistantNonMagical}" Stretch="None" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
+                <TextBlock x:Name="AdditionalDescription" Style="{StaticResource TooltipBodyStyle}" Margin="0 20" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h05322b79g00ecg45c6gbbe0g691acc45fe63'}" DockPanel.Dock="Right"/>
+            </DockPanel>
+
+            <StackPanel x:Name="Duration" Orientation="Horizontal" Margin="{StaticResource DefaultMarginTopBottom}" Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}}">
+                <Image Source="{StaticResource TTHourglassImage}" Stretch="None" VerticalAlignment="Center" />
+                <TextBlock x:Name="DurationText" FontSize="{StaticResource MediumFontSize}" Margin="28,0,0,0"  VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Special}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h2dc60835g9000g440fga70fg330291eda7eb"/>
+                            <Binding Path="Duration"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <!-- Adjusting Tag value for enum values past MAX (Only Spell is used currently) -->
+            <DataTrigger Binding="{Binding DamageType}" Value="Spell">
+                <Setter TargetName="root" Property="Tag" Value="{Binding DamageTypeValue, Converter={StaticResource AddConverter}, ConverterParameter=-1}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding NonMagical}" Value="Immune">
+                <Setter TargetName="BaseIcon" Property="Source" Value="{StaticResource ImmuneNonMagicalShield}"/>
+                <Setter TargetName="BaseDescription" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h97808b5cgaad5g464dg968eg0c072a28050f'}"/>
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h4c9804e9gee38g479agb4d4g58fb0b82ef4a'}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Magical}" Value="Immune">
+                <Setter TargetName="BaseIcon" Property="Source" Value="{StaticResource ImmuneMagicalShield}"/>
+                <Setter TargetName="BaseDescription" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h3aae6c8cg0762g42a1g8009g198913051bda'}"/>
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h4c9804e9gee38g479agb4d4g58fb0b82ef4a'}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Full}" Value="Immune">
+                <Setter TargetName="BaseIcon" Property="Source" Value="{StaticResource ImmuneShield}"/>
+                <Setter TargetName="BaseDescription" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h1a4566fcgb2a0g403bg8290ga38efbb04b46'}"/>
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h4c9804e9gee38g479agb4d4g58fb0b82ef4a'}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding NonMagical}" Value="Resistant">
+                <Setter TargetName="BaseDescriptionContainer" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="AdditionalDescriptionContainer" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h1acad36eg1d2ag46c5g9b98g906b8a17bb70'}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Magical}" Value="Resistant">
+                <Setter TargetName="BaseDescriptionContainer" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="BaseIcon" Property="Source" Value="{StaticResource ResistantMagical}"/>
+                <Setter TargetName="BaseDescription" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h613f3ccbgb531g4175ga9cbge4a9ed938a12'}"/>
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h1acad36eg1d2ag46c5g9b98g906b8a17bb70'}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!-- List of resistances -->
+    <DataTemplate x:Key="ListOfResistancesTooltipTemplate">
+        <StackPanel Orientation="Vertical" MaxWidth="1000">
+            <StackPanel.Resources>
+                <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
+                    <Style.Triggers>
+                        <Trigger Property="TagType" Value="hl">
+                            <Setter Property="Foreground" Value="{StaticResource LS_accent75TxtColor}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock TextWrapping="Wrap" Margin="0,0,0,28" ls:TextBlockFormatter.SourceText="{Binding Source='hf760bd98g64e4g4788g9761gb2d692399f15',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipDescriptionStyle}"/>
+            <ItemsControl ItemsSource="{Binding Stats.Resistances}" Margin="20,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Rectangle x:Name="BackgroundFilling" Grid.Column="0" Grid.ColumnSpan="3" Fill="Transparent" Opacity="0.33"/>
+
+                            <Image Grid.Column="0" Style="{DynamicResource ResistanceImage}"/>
+
+                            <TextBlock x:Name="ResistanceName" Foreground="{StaticResource TooltipColor.Primary}" Style="{DynamicResource DamageTypeNameStyle}" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" Margin="8,0,0,0" FontSize="{StaticResource MediumFontSize}"/>
+
+                            <TextBlock x:Name="ResistanceType" Foreground="{StaticResource TooltipColor.Primary}" Text="- -" Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,8,0" FontSize="{StaticResource MediumFontSize}"/>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Full}" Value="Immune">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_tint00}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='h1198786dg4063g4010g83d9g8cbd36553077',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                <Setter TargetName="ResistanceName" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding NonMagical}" Value="Immune">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_tint00}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='h1198786dg4063g4010g83d9g8cbd36553077',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                <Setter TargetName="ResistanceName" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Magical}" Value="Immune">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_tint00}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='h1198786dg4063g4010g83d9g8cbd36553077',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                <Setter TargetName="ResistanceName" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Full}" Value="Resistant">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_bonusTxtColor}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='h27558299g1099g485eg95f0g4a319139f8f2',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_bonusTxtColor}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding NonMagical}" Value="Resistant">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_bonusTxtColor}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='h27558299g1099g485eg95f0g4a319139f8f2',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_bonusTxtColor}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Magical}" Value="Resistant">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_bonusTxtColor}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='h27558299g1099g485eg95f0g4a319139f8f2',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_bonusTxtColor}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Full}" Value="Vulnerable">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_HealthBarBackgound}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='hb710bce5g9017g4c1bg9330g20a891ce14f6',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_alertTxtColor}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding NonMagical}" Value="Vulnerable">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_HealthBarBackgound}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='hb710bce5g9017g4c1bg9330g20a891ce14f6',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_alertTxtColor}"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Magical}" Value="Vulnerable">
+                                <Setter TargetName="BackgroundFilling" Property="Fill" Value="{StaticResource LS_HealthBarBackgound}"/>
+                                <Setter TargetName="ResistanceType" Property="Text" Value="{Binding Source='hb710bce5g9017g4c1bg9330g20a891ce14f6',Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Setter TargetName="ResistanceType" Property="Foreground" Value="{StaticResource LS_alertTxtColor}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>
