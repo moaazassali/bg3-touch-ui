@@ -274,6 +274,12 @@
                                                         <b:EventTrigger EventName="MouseLeftButtonUp">
                                                             <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
                                                             <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
+                                                            <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="IsOpen" Value="True"/>
+                                                            <!-- Touch UI - LSSpanStyle uses two different ways to show the tooltip -->
+                                                            <!-- Touch UI - The ones using InlineTagTooltip style set tooltip content directly to some ID. The others use Inline.DataContext -->
+                                                            <!-- Touch UI - As such we need to grab the data differently for each case -->
+                                                            <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="DataContext" Value="{Binding}"/>
+                                                            <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="Tag" Value="{Binding ToolTip, RelativeSource={RelativeSource AncestorType={x:Type ls:LSSpan}}}"/>
                                                         </b:EventTrigger>
 
                                                         <b:EventTrigger EventName="MouseLeftButtonDown">
@@ -291,6 +297,66 @@
                                         </Style>
                                     </TextBlock.Resources>
                                 </TextBlock>
+
+                                <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                <Popup x:Name="SelectedTextPopup"
+                                    Placement="Absolute"
+                                    HorizontalOffset="10000" 
+                                    VerticalOffset="0"
+                                    AllowsTransparency="True"
+                                    StaysOpen="True"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Right">
+                                    <Grid>
+                                        <!-- PRESENTER 1: For those using Inline.DataContext -->
+                                        <ContentPresenter x:Name="SpellPresenter"
+                                                        Content="{Binding}"
+                                                        ls:TooltipExtender.IsOpen="True"
+                                                        ls:TooltipExtender.Content="{Binding}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                            <ContentPresenter.Style>
+                                                <Style TargetType="ContentPresenter">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <!-- Show if explicitly set Tag="" which is only the case for those using Inline.DataContext -->
+                                                        <DataTrigger Binding="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentPresenter.Style>
+                                        </ContentPresenter>
+
+                                        <!-- PRESENTER 2: For those using InlineTagTooltip style with direct content binding -->
+                                        <ContentPresenter x:Name="ConceptPresenter"
+                                                        Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
+                                                        ls:TooltipExtender.IsOpen="True"
+                                                        ls:TooltipExtender.Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        Tag="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}"
+                                                        ls:AttachedProperties.InheritedTag="{Binding Tag.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource AncestorType=Popup}}"
+                                                        ContentTemplate="{StaticResource HeaderBodyTemplate}">
+
+                                            <ContentPresenter.Style>
+                                                <Style TargetType="ContentPresenter">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <!-- Hide this if the referenced ToolTip has Tag="" -->
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentPresenter.Style>
+                                        </ContentPresenter>
+                                    </Grid>
+                                </Popup>
 
                                 <!-- Spell Description -->
                                 <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource SpellDescriptionTemplate}" Content="{Binding Spell}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Visibility="{Binding Spell, Converter={StaticResource NullToCollapsedConverter}}"/>
