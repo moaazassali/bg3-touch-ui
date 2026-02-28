@@ -15,24 +15,29 @@
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_VMStatTooltip">
-        <Grid>
-            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
-            <StackPanel>
-                <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
-                    <Control x:Name="StatsTitle" Template="{StaticResource StatsDisplayNameWrap}" Style="{StaticResource TooltipControlTitleStyle}"/>
-                    <TextBlock x:Name="Title" ls:TextBlockFormatter.SourceText="{Binding Name}" Style="{StaticResource TooltipTitleStyle}" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+                <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
+                <StackPanel>
+                    <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
+                        <Control x:Name="StatsTitle" Template="{StaticResource StatsDisplayNameWrap}" Style="{StaticResource TooltipControlTitleStyle}"/>
+                        <TextBlock x:Name="Title" ls:TextBlockFormatter.SourceText="{Binding Name}" Style="{StaticResource TooltipTitleStyle}" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                    <TextBlock x:Name="Owner" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Owner).Name, RelativeSource={RelativeSource Mode=Self}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+
+                    <Grid x:Name="AC" HorizontalAlignment="Left" Margin="-14,0,0,16" Visibility="Collapsed">
+                        <Image Source="{StaticResource TTACImage}" Stretch="None" />
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DamageText}" Text="{Binding Value}"/>
+                    </Grid>
+
+                    <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
+                    <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource StatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
                 </StackPanel>
-                <TextBlock x:Name="Owner" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Owner).Name, RelativeSource={RelativeSource Mode=Self}}" Style="{StaticResource TooltipSubTitleStyle}"/>
-
-                <Grid x:Name="AC" HorizontalAlignment="Left" Margin="-14,0,0,16" Visibility="Collapsed">
-                    <Image Source="{StaticResource TTACImage}" Stretch="None" />
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DamageText}" Text="{Binding Value}"/>
-                </Grid>
-
-                <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}" Width="Auto" MaxWidth="{DynamicResource MaxWideTooltipContentWidth}"/>
-                <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource StatParamsTemplate}" Width="{DynamicResource MaxWideTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
-            </StackPanel>
-        </Grid>
+            </Grid>
+        </ls:LSNineSliceImage>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding .,Converter={StaticResource TypeConverter}}" Value="ls.VMActionResource">
                 <Setter TargetName="Title" Property="Visibility" Value="Visible"/>
