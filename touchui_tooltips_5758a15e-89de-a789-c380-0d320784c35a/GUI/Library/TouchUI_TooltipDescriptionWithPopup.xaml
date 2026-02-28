@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_HeaderBodyTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_TooltipDescriptionWithPopup">
@@ -100,7 +101,7 @@
                         Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         Tag="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}"
                         ls:AttachedProperties.InheritedTag="{Binding Tag.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource AncestorType=Popup}}"
-                        ContentTemplate="{StaticResource HeaderBodyTemplate}">
+                        ContentTemplate="{StaticResource TouchUI_HeaderBodyTemplate}">
                         <ContentPresenter.Style>
                             <Style TargetType="ContentPresenter">
                                 <Setter Property="Visibility" Value="Visible"/>
