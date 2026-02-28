@@ -1,0 +1,118 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="TouchUI_VMStatTooltip">
+        <Grid>
+            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
+            <StackPanel>
+                <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
+                    <Control x:Name="StatsTitle" Template="{StaticResource StatsDisplayNameWrap}" Style="{StaticResource TooltipControlTitleStyle}"/>
+                    <TextBlock x:Name="Title" ls:TextBlockFormatter.SourceText="{Binding Name}" Style="{StaticResource TooltipTitleStyle}" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                </StackPanel>
+                <TextBlock x:Name="Owner" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Owner).Name, RelativeSource={RelativeSource Mode=Self}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+
+                <Grid x:Name="AC" HorizontalAlignment="Left" Margin="-14,0,0,16" Visibility="Collapsed">
+                    <Image Source="{StaticResource TTACImage}" Stretch="None" />
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DamageText}" Text="{Binding Value}"/>
+                </Grid>
+
+                <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}" Width="Auto" MaxWidth="{DynamicResource MaxWideTooltipContentWidth}"/>
+                <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource StatParamsTemplate}" Width="{DynamicResource MaxWideTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
+            </StackPanel>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding .,Converter={StaticResource TypeConverter}}" Value="ls.VMActionResource">
+                <Setter TargetName="Title" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="StatsTitle" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Controller">
+                <Setter TargetName="Owner" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IDString}" Value="ArmorClass"/>
+                    <Condition Binding="{Binding Value, Converter={StaticResource GreaterThanConverter}, ConverterParameter='-1'}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="AC" Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+            <DataTrigger Binding="{Binding IDString}" Value="ArmorClass">
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} ({1})">
+                            <Binding Source="h6d1b6256g3ea8g4e82gaa0agc7fbeb252fdf" Converter="{StaticResource TranslatedStringConverter}"/>
+                            <Binding Source="hc2ca2d88gc99cg4361g801fgd34ecdb85f19" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Title" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="StatsTitle" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IDString}" Value="Health">
+                <Setter TargetName="Title" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} ({1})">
+                            <Binding Source="hc410bc67g130dg4ccdgbb36g42bb0a72c08e" Converter="{StaticResource TranslatedStringConverter}"/>
+                            <Binding Source="h74a449d3g1037g478agb169g8c786aaa7cdd" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Title" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="StatsTitle" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMStat}">
+        <ContentPresenter x:Name="root" Content="{Binding .}" ContentTemplate="{StaticResource TouchUI_VMStatTooltip}"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IDString}" Value="AttackBonus">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource VMDamageStatTooltip}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IDString}" Value="EquippedWeaponDamage">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource VMDamageStatTooltip}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!-- Action Resource Tooltip -->
+    <DataTemplate DataType="{x:Type ls:VMActionResource}">
+        <ContentPresenter x:Name="root" Content="{Binding Path=(ls:TooltipExtender.Data),RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource VMActionResourceTooltip}"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=(ls:TooltipExtender.Data),RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource TypeConverter}}" Value="ls.VMTooltipStat">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource TouchUI_VMStatTooltip}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMGroupResource}">
+        <ContentPresenter x:Name="root" Content="{Binding Path=(ls:TooltipExtender.Data),RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource VMActionResourceTooltip}"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=(ls:TooltipExtender.Data),RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource TypeConverter}}" Value="ls.VMTooltipStat">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource TouchUI_VMStatTooltip}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMActionResourceCostPreview}">
+        <ContentPresenter x:Name="root" Content="{Binding .}" ContentTemplate="{StaticResource VMActionResourceTooltip}"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=(ls:TooltipExtender.Data),RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource TypeConverter}}" Value="ls.VMTooltipStat">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource TouchUI_VMStatTooltip}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>
