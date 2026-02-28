@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Status Tooltip -->
@@ -95,11 +96,12 @@
 
                 <ContentPresenter ContentTemplate="{StaticResource StatusDamageSection}" Content="{Binding .}"/>
 
-                <TextBlock Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" Margin="{StaticResource DefaultMarginTopBottom}">
-                    <b:Interaction.Behaviors>
-                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                    </b:Interaction.Behaviors>
-                </TextBlock>
+                <ContentControl
+                    Content="{Binding Description}"
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                    Margin="{StaticResource DefaultMarginBottom}"
+                    Tag="{StaticResource TouchUI_TooltipCtxTransStringDescriptionStyle}"
+                    Visibility="{Binding Description.Text, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}"/>
 
                 <!-- Permanent warnings -->
                 <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
