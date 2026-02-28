@@ -11,95 +11,102 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Status Tooltip -->
     <DataTemplate x:Key="TouchUI_StatusTooltip" >
-        <StackPanel x:Name="root" DataContext="{Binding Path=(ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}">
-            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
-                <StackPanel>
-                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Name}" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap"/>
-                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h40b6867ag0d94g4132ga679g791cb1c8968a',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel x:Name="root" DataContext="{Binding Path=(ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
+
+                <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                    <StackPanel>
+                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Name}" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap"/>
+                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='h40b6867ag0d94g4132ga679g791cb1c8968a',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+                    </StackPanel>
+                </Border>
+                <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+                <StackPanel x:Name="DurationHolder" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="{StaticResource TTHourglassImage}" Stretch="None" VerticalAlignment="Center" Margin="0, -3, 10, 3" />
+                    <TextBlock x:Name="DurationText" MaxWidth="600" Style="{StaticResource StatusDurationTextStyle}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Special}" TextWrapping="Wrap" TextAlignment="Left" VerticalAlignment="Center" DataContext="{Binding Status}"/>
+
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Margin" Value="0,8,0,0"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Status.DurationType}" Value="None"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Status, Converter={StaticResource NullToBoolTrueConverter}}" Value="True"/>
+                                        <Condition Binding="{Binding DurationType}" Value="None"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </MultiDataTrigger>
+
+                                <MultiDataTrigger >
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Status.Duration}" Value="0"/>
+                                        <Condition Binding="{Binding Status.DurationType}" Value="Timer"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger >
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Status, Converter={StaticResource NullToBoolTrueConverter}}" Value="True"/>
+                                        <Condition Binding="{Binding Duration}" Value="0"/>
+                                        <Condition Binding="{Binding DurationType}" Value="Timer"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Status.DurationType}" Value="Timer" />
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Status, Converter={StaticResource NullToBoolTrueConverter}}" Value="True" />
+                                        <Condition Binding="{Binding DurationType}" Value="Timer" />
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                 </StackPanel>
-            </Border>
-            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
-            <StackPanel x:Name="DurationHolder" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Image Source="{StaticResource TTHourglassImage}" Stretch="None" VerticalAlignment="Center" Margin="0, -3, 10, 3" />
-                <TextBlock x:Name="DurationText" MaxWidth="600" Style="{StaticResource StatusDurationTextStyle}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Special}" TextWrapping="Wrap" TextAlignment="Left" VerticalAlignment="Center" DataContext="{Binding Status}"/>
 
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Setter Property="Margin" Value="0,8,0,0"/>
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Status.DurationType}" Value="None"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Status, Converter={StaticResource NullToBoolTrueConverter}}" Value="True"/>
-                                    <Condition Binding="{Binding DurationType}" Value="None"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </MultiDataTrigger>
+                <ContentPresenter ContentTemplate="{StaticResource StatusDamageSection}" Content="{Binding .}"/>
 
-                            <MultiDataTrigger >
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Status.Duration}" Value="0"/>
-                                    <Condition Binding="{Binding Status.DurationType}" Value="Timer"/>
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger >
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Status, Converter={StaticResource NullToBoolTrueConverter}}" Value="True"/>
-                                    <Condition Binding="{Binding Duration}" Value="0"/>
-                                    <Condition Binding="{Binding DurationType}" Value="Timer"/>
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
+                <TextBlock Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" Margin="{StaticResource DefaultMarginTopBottom}">
+                    <b:Interaction.Behaviors>
+                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                    </b:Interaction.Behaviors>
+                </TextBlock>
 
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Status.DurationType}" Value="Timer" />
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Margin" Value="0"/>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Status, Converter={StaticResource NullToBoolTrueConverter}}" Value="True" />
-                                    <Condition Binding="{Binding DurationType}" Value="Timer" />
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Margin" Value="0"/>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
+                <!-- Permanent warnings -->
+                <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
+
+                <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
             </StackPanel>
-
-            <ContentPresenter ContentTemplate="{StaticResource StatusDamageSection}" Content="{Binding .}"/>
-
-            <TextBlock Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" Margin="{StaticResource DefaultMarginTopBottom}">
-				<b:Interaction.Behaviors>
-                	<ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
-                </b:Interaction.Behaviors>
-            </TextBlock>
-
-            <!-- Permanent warnings -->
-            <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
-
-            <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
-        </StackPanel>
+        </ls:LSNineSliceImage>
 
         <DataTemplate.Triggers>
             <MultiDataTrigger>

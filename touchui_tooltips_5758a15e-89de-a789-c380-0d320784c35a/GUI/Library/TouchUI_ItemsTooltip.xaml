@@ -308,6 +308,10 @@
                                     VerticalAlignment="Stretch"
                                     HorizontalAlignment="Right">
                                     <Grid>
+                                        <Grid.LayoutTransform>
+                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                        </Grid.LayoutTransform>
+
                                         <!-- PRESENTER 1: For those using Inline.DataContext -->
                                         <ContentPresenter x:Name="SpellPresenter"
                                                         Content="{Binding}"
