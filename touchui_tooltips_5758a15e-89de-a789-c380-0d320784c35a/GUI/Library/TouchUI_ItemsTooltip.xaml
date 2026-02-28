@@ -261,9 +261,35 @@
                             <StackPanel x:Name="TechnicalDescriptionSection" HorizontalAlignment="Left">
                                 <!-- Technical description -->
                                 <TextBlock x:Name="technicalDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Margin="{StaticResource DefaultMarginBottom}" Visibility="{Binding TechnicalDescription.Text, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
-                                <b:Interaction.Behaviors>
-                                    <ls:CtxTransStringRunGeneratorBehavior Source="{Binding TechnicalDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
-                                </b:Interaction.Behaviors>
+                                    <b:Interaction.Behaviors>
+                                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding TechnicalDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                                    </b:Interaction.Behaviors>
+                             
+                                    <!-- Touch UI - Add custom click interaction for LSSpan -->
+                                    <TextBlock.Resources>
+                                        <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
+                                            <Setter Property="noesis:StyleInteraction.Triggers">
+                                                <Setter.Value>
+                                                    <noesis:StyleTriggerCollection>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
+                                                            <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
+                                                        </b:EventTrigger>
+
+                                                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <b:ChangePropertyAction PropertyName="TextDecorations" Value="None"/>
+                                                            <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Primary}"/>
+                                                        </b:EventTrigger>
+
+                                                        <b:EventTrigger EventName="MouseLeave">
+                                                            <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
+                                                            <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
+                                                        </b:EventTrigger>
+                                                    </noesis:StyleTriggerCollection>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </TextBlock.Resources>
                                 </TextBlock>
 
                                 <!-- Spell Description -->
