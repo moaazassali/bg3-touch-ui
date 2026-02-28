@@ -10,6 +10,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_LSSpanStyle.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_StatusTooltip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Touch UI - We need to override all resources that use LSSpanStyle to use TouchUI_LSSpanStyle -->
