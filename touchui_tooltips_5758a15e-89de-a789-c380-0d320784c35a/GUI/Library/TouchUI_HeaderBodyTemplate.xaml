@@ -15,15 +15,20 @@
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_HeaderBodyTemplate">
-        <StackPanel>
-            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
-                <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap" Margin="{StaticResource TitleWithoutSubtitleMargin}" Width="{StaticResource MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource TranslatedStringConverter}}"/>
-            </Border>
-            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel>
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
+                <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                    <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap" Margin="{StaticResource TitleWithoutSubtitleMargin}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource TranslatedStringConverter}}"/>
+                </Border>
+                <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
 
-            <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" Margin="{StaticResource ExtraPadSpaceTop}"  TextWrapping="Wrap" Width="{StaticResource MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding ., Converter={StaticResource TranslatedStringConverter}}"/>
+                <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" Margin="{StaticResource ExtraPadSpaceTop}"  TextWrapping="Wrap" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding ., Converter={StaticResource TranslatedStringConverter}}"/>
 
-        </StackPanel>
+            </StackPanel>
+        </ls:LSNineSliceImage>
     </DataTemplate>
 
 </ResourceDictionary>
