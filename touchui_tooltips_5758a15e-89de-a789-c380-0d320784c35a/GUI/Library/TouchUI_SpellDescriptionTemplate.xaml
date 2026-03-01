@@ -54,20 +54,32 @@
                 <!-- Tag is 0-1 value animated by storyboards, and it used to created a dynamic margin -->
                 <System:Double>0</System:Double>
             </StackPanel.Tag>
-            <TextBlock x:Name="TechnicalDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding Description, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource DefaultMarginBottom}">
+            <!-- <TextBlock x:Name="TechnicalDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding Description, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource DefaultMarginBottom}">
                 <Span>
                     <b:Interaction.Behaviors>
                         <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                     </b:Interaction.Behaviors>
                 </Span>
                 <Span x:Name="ExtraDescriptionIcon"/>
-            </TextBlock>
+            </TextBlock> -->
+            <ContentControl x:Name="TechnicalDescription"
+                Content="{Binding Description}"
+                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                Margin="{StaticResource DefaultMarginBottom}"
+                Tag="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}"
+                Visibility="{Binding Description, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-            <TextBlock x:Name="ExtraDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource DefaultMarginBottom}">
+            <!-- <TextBlock x:Name="ExtraDescription" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource DefaultMarginBottom}">
                 <b:Interaction.Behaviors>
                     <ls:CtxTransStringRunGeneratorBehavior Source="{Binding ExtraDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                 </b:Interaction.Behaviors>
-            </TextBlock>
+            </TextBlock> -->
+            <ContentControl x:Name="ExtraDescription"
+                Content="{Binding ExtraDescription}"
+                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                Margin="{StaticResource DefaultMarginBottom}"
+                Tag="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}"
+                Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}"/>
         </StackPanel>
 
         <DataTemplate.Triggers>
