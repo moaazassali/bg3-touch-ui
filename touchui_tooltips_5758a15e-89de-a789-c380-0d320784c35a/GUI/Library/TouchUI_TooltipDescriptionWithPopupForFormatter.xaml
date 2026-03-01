@@ -15,12 +15,12 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Touch UI - Almost the same as TouchUI_TooltipDescriptionWithPopup but for textblocks that use TextBlockFormatter instead of CtxTransStringRunGeneratorBehavior -->
-    <!-- Touch UI - Caller passes their SourceText value via Content, and optional TextBlock Style via Tag. -->
+    <!-- Touch UI - Caller passes their SourceText value via ls:TextBlockFormatter.SourceText directly, and optional TextBlock Style via Tag. -->
     <DataTemplate x:Key="TouchUI_TooltipDescriptionWithPopupForFormatter">
         <Grid>
             <!-- Touch UI - Customize textblock style by passing it in the tag -->
             <TextBlock Style="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}" Visibility="Visible"
-                       ls:TextBlockFormatter.SourceText="{Binding}">
+                       ls:TextBlockFormatter.SourceText="{Binding (ls:TextBlockFormatter.SourceText), RelativeSource={RelativeSource AncestorType=ContentControl}}">
 
                 <TextBlock.Resources>
                     <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">

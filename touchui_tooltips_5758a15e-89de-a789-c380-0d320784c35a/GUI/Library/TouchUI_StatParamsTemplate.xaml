@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Stat Desc Tooltip-->
@@ -19,19 +20,33 @@
         <ItemsControl Visibility="{Binding CalculationParameters.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}" ItemsSource="{Binding CalculationParameters}" AlternationCount="{Binding CalculationParameters.Count}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" MinWidth="{StaticResource StatTooltipMinWidth}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipCtxTransStringBodyStyle}"/>
                         </StackPanel.Resources>
                         <TextBlock x:Name="Value" Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value, StringFormat={}{0:+#;-#;+0}}" Margin="0,0,11,0"/>
-                        <TextBlock x:Name="Description">
+                        <!-- <TextBlock x:Name="Description" TextWrapping="Wrap" Width="300">
                             <ls:TextBlockFormatter.SourceText>
                                 <MultiBinding StringFormat="{}{0} ({1})">
                                     <Binding Path="Description"/>
                                     <Binding Path="SourceName.Str"/>
                                 </MultiBinding>
                             </ls:TextBlockFormatter.SourceText>
-                        </TextBlock>
+                        </TextBlock> -->
+
+                        <!-- Touch UI - Replaced description TextBlock with ContentControl with clickable text and tooltip popup sheet -->
+                        <ContentControl x:Name="Description"
+                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                            Tag="{StaticResource TooltipCtxTransStringBodyStyle}"
+                            Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0} ({1})">
+                                    <Binding Path="Description"/>
+                                    <Binding Path="SourceName.Str"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </ContentControl>
+
                     </StackPanel>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding SourceName.Str}" Value="">

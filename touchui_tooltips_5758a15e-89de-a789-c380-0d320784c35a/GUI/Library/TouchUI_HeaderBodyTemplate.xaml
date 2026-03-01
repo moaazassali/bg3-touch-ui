@@ -31,7 +31,7 @@
                     Margin="{StaticResource ExtraPadSpaceTop}" 
                     Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
                     ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
-                    Content="{Binding ., Converter={StaticResource TranslatedStringConverter}}">
+                    ls:TextBlockFormatter.SourceText="{Binding ., Converter={StaticResource TranslatedStringConverter}}">
                     
                     <ContentControl.Tag>
                         <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipDefaultTextStyle}">
