@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_StatusListElement">
@@ -24,7 +25,7 @@
 
                 <Ellipse x:Name="SectionIcon" DockPanel.Dock="Left" Style="{StaticResource roundStatusIcon}" Fill="{Binding Brush}" Visibility="{Binding Brush, Converter={StaticResource NullToCollapsedConverter}}"/>
 
-                <TextBlock x:Name="SectionDuration" DockPanel.Dock="Left" Margin="14,0,0,0" Style="{StaticResource TooltipDescriptionStyle}" Width="Auto" TextWrapping="Wrap" Foreground="{StaticResource TooltipColor.Secondary}" VerticalAlignment="Center">
+                <TextBlock x:Name="SectionDuration" DockPanel.Dock="Left" Margin="14,0,0,0" Style="{StaticResource TouchUI_TooltipDescriptionStyle}" Width="Auto" TextWrapping="Wrap" Foreground="{StaticResource TooltipColor.Secondary}" VerticalAlignment="Center" TextDecorations="Underline">
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
                             <Binding Source="h6e1e86b5g98f8g42c8ga383gf770838ca349"/>
