@@ -1,0 +1,58 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Stat Desc Tooltip-->
+    <DataTemplate x:Key="TouchUI_StatParamsTemplate">
+        <ItemsControl Visibility="{Binding CalculationParameters.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}" ItemsSource="{Binding CalculationParameters}" AlternationCount="{Binding CalculationParameters.Count}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" MinWidth="{StaticResource StatTooltipMinWidth}">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipCtxTransStringBodyStyle}"/>
+                        </StackPanel.Resources>
+                        <TextBlock x:Name="Value" Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value, StringFormat={}{0:+#;-#;+0}}" Margin="0,0,11,0"/>
+                        <TextBlock x:Name="Description">
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0} ({1})">
+                                    <Binding Path="Description"/>
+                                    <Binding Path="SourceName.Str"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </TextBlock>
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding SourceName.Str}" Value="">
+                            <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Description}"/>
+                        </DataTrigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter TargetName="Value" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Value}"/>
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Value}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </DataTemplate>
+
+</ResourceDictionary>

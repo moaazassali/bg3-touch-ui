@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_StatParamsTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_VMStatTooltip">
@@ -34,7 +35,7 @@
                     </Grid>
 
                     <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
-                    <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource StatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
+                    <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource TouchUI_StatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
         </ls:LSNineSliceImage>
