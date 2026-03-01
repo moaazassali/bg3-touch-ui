@@ -13,6 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Spell Tooltip -->
@@ -40,11 +41,11 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="{StaticResource MaxTooltipContentWidth}" Width="{StaticResource MaxTooltipContentWidth}">
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
                     <!-- HEADER -->
                     <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}">
                         <DockPanel DockPanel.Dock="Top"  LastChildFill="False">
-                            <TextBlock Style="{StaticResource TooltipTitleStyle}" DockPanel.Dock="Left" Text="{Binding Name}" MaxWidth="{StaticResource MaxWidthOnCollisionWithImage}"/>
+                            <TextBlock Style="{StaticResource TooltipTitleStyle}" DockPanel.Dock="Left" Text="{Binding Name}" MaxWidth="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}"/>
                             <Image Source="{StaticResource IconUpcast}" DockPanel.Dock="Left" Margin="8,0" Stretch="None" VerticalAlignment="Top" Visibility="{Binding CanUpcast, Converter={StaticResource BoolToVisibleConverter}}"/>
                         </DockPanel>
                         <ContentPresenter ContentTemplate="{StaticResource SpellSchoolTitle}" Content="{Binding .}"/>
@@ -53,7 +54,7 @@
                     <ItemsControl x:Name="Warnings" ItemsSource="{Binding UnavailableReasons}" Visibility="{Binding UnavailableReasons.Count, Converter={StaticResource CountToVisibilityConverter}}" Margin="0,12,0,12">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <DockPanel HorizontalAlignment="Left" Visibility="{Binding Line, Converter={StaticResource StringToVisibilityConverter}}" Margin="-16,-4,0,0" MaxWidth="{StaticResource MaxWidthOnCollisionWithImage}">
+                                <DockPanel HorizontalAlignment="Left" Visibility="{Binding Line, Converter={StaticResource StringToVisibilityConverter}}" Margin="-16,-4,0,0" MaxWidth="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}">
                                     <Image Source="{StaticResource IconWarning}" DockPanel.Dock="Left" Stretch="None" Style="{StaticResource leftAlignedTooltipWarningIcon}" />
                                     <TextBlock DockPanel.Dock="Left" ls:TextBlockFormatter.SourceText="{Binding Line}" Style="{StaticResource AlertText}" />
                                 </DockPanel>
@@ -65,7 +66,7 @@
                     <ContentPresenter x:Name="SpellDamage" ContentTemplate="{StaticResource SpellDamageSection}" Content="{Binding Path=DataContext , ElementName=root}" Visibility="Collapsed"/>
 
                     <!-- DESCRIPTIONS -->
-                    <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource SpellDescriptionTemplate}" Content="{Binding .}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Margin="{StaticResource ExtraPadSpace}"/>
+                    <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource TouchUI_SpellDescriptionTemplate}" Content="{Binding .}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Margin="{StaticResource ExtraPadSpace}"/>
 
                     <!-- Only enable if visible so as to not eat input used by other systems e.g. World Tooltips -->
                     <ls:LSInputBinding x:Name="expanderInput" BoundEvent="ExpandTooltip" PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
@@ -88,7 +89,7 @@
                     <ItemsControl x:Name="OnMissMessages" ItemsSource="{Binding OnMissMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnMissMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
+                                <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
                                     <Span ls:TextBlockFormatter.SourceText="{Binding Source=h2d431f82g4984g4294ga8edg944f01925773, Converter={StaticResource TranslatedStringConverter}}"/>
                                     <Span>
                                         <b:Interaction.Behaviors>
@@ -102,7 +103,7 @@
                     <ItemsControl x:Name="OnSaveMessages" ItemsSource="{Binding OnSaveMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnSaveMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
+                                <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
                                     <Span ls:TextBlockFormatter.SourceText="{Binding Source=hcd11abdfg86e4g4470gabf5g52fad467aa86, Converter={StaticResource TranslatedStringConverter}}" />
                                     <Span>
                                         <b:Interaction.Behaviors>
@@ -115,13 +116,13 @@
                     </ItemsControl>
 
                     <!-- PERMANENT WARNINGS -->
-                    <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
+                    <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
 
                     <!-- METAMAGIC AND UPCASTING -->
                     <ContentPresenter ContentTemplate="{StaticResource SpellModifiersSection}" Content="{Binding .}" Tag="{Binding .}"/>
 
                     <!-- Spell version availability warnings -->
-                    <StackPanel x:Name="VariationWarnings" Width="{StaticResource MaxTooltipContentWidth}">
+                    <StackPanel x:Name="VariationWarnings" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
                         <TextBlock Text="{Binding Source='h4693f78cge101g4dbcg8d2fg314806236010', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipOverrideTextStyle}"/>
                         <TextBlock Margin="{StaticResource DefaultMarginBottom}" Style="{StaticResource TooltipOverrideTextStyle}"/>
                     </StackPanel>
@@ -129,12 +130,12 @@
                     <!-- CONCENTRATION WILL BREAK WARNING -->
                     <StackPanel x:Name="ConcentrationWarningPanel" 
                                 Orientation="Horizontal" 
-                                Width="{StaticResource MaxTooltipContentWidth}" 
+                                Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
                                 Visibility="{Binding DataContext.WillBreakConcentration, ElementName=root, Converter={StaticResource BoolToVisibleConverter}}" 
                                 Margin="-10,0,0,0">
 
                         <Image x:Name="ConcentrationWarningImage" Source="{StaticResource IconWarningSoft}" VerticalAlignment="Center" Stretch="None"/>
-                        <TextBlock x:Name="ConcentrationWarningText" Foreground="{StaticResource LS_alertTxtColor}" FontSize="{StaticResource MediumFontSize}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="{StaticResource DetailSectionWidth}">
+                        <TextBlock x:Name="ConcentrationWarningText" Foreground="{StaticResource LS_alertTxtColor}" FontSize="{StaticResource MediumFontSize}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
                                     <Binding Source="h0604f01ag5d1eg4f62g8dcbg8cad97adbc59"/>

@@ -15,6 +15,7 @@
     <!-- Touch UI - Override some resources -->
     <System:Double x:Key="TouchUI_MaxTooltipContentWidth">481</System:Double>
     <System:Double x:Key="TouchUI_MaxWidthOnCollisionWithImage">481</System:Double>
+    <System:Double x:Key="TouchUI_DetailSectionWidth">481</System:Double>
 
     <Style x:Key="TouchUI_TooltipDescriptionStyle" TargetType="TextBlock" BasedOn="{StaticResource TooltipBodyStyle}">
         <Setter Property="Width" Value="{StaticResource TouchUI_MaxTooltipContentWidth}" />

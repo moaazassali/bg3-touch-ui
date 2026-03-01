@@ -270,7 +270,7 @@
                                     Visibility="{Binding TechnicalDescription.Text, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}"/>
 
                                 <!-- Spell Description -->
-                                <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource SpellDescriptionTemplate}" Content="{Binding Spell}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Visibility="{Binding Spell, Converter={StaticResource NullToCollapsedConverter}}"/>
+                                <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource TouchUI_SpellDescriptionTemplate}" Content="{Binding Spell}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Visibility="{Binding Spell, Converter={StaticResource NullToCollapsedConverter}}"/>
 
                                 <!-- Status -->
                                 <WrapPanel x:Name="Status" HorizontalAlignment="Left">
