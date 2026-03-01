@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_HeaderBodyTemplate">
@@ -25,97 +26,21 @@
                 </Border>
                 <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
 
-                <!-- Touch UI - We can't easily reuse our TouchUI_TooltipDescriptionWithPopup element here because this textblock processes the the text with ls:TextBlockFormatter not CtxTransStringRunGeneratorBehavior -->
-                <!-- Touch UI - We would also have a circular ref to TouchUI_HeaderBodyTemplate, which we need to make a DynamicResource -->
-                <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" Margin="{StaticResource ExtraPadSpaceTop}"  TextWrapping="Wrap" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding ., Converter={StaticResource TranslatedStringConverter}}">
-                    <TextBlock.Resources>
-                        <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
-                            <Setter Property="noesis:StyleInteraction.Triggers">
-                                <Setter.Value>
-                                    <noesis:StyleTriggerCollection>
-                                        <b:EventTrigger EventName="MouseLeftButtonUp">
-                                            <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
-                                            <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
-                                            <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="IsOpen" Value="True"/>
-                                            <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="DataContext" Value="{Binding}"/>
-                                            <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="Tag" Value="{Binding ToolTip, RelativeSource={RelativeSource AncestorType={x:Type ls:LSSpan}}}"/>
-                                        </b:EventTrigger>
-
-                                        <b:EventTrigger EventName="MouseLeftButtonDown">
-                                            <b:ChangePropertyAction PropertyName="TextDecorations" Value="None"/>
-                                            <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Primary}"/>
-                                        </b:EventTrigger>
-
-                                        <b:EventTrigger EventName="MouseLeave">
-                                            <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
-                                            <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
-                                        </b:EventTrigger>
-                                    </noesis:StyleTriggerCollection>
-                                </Setter.Value>
-                            </Setter>
+                <!-- <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" Margin="{StaticResource ExtraPadSpaceTop}"  TextWrapping="Wrap" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding ., Converter={StaticResource TranslatedStringConverter}}"/> -->
+                <ContentControl 
+                    Margin="{StaticResource ExtraPadSpaceTop}" 
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    Content="{Binding ., Converter={StaticResource TranslatedStringConverter}}">
+                    
+                    <ContentControl.Tag>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipDefaultTextStyle}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="TextAlignment" Value="Left"/>
                         </Style>
-                    </TextBlock.Resources>
-                </TextBlock>
-                <!-- Touch UI - New popup tooltip as a sheet on right side of screen -->
-                <Popup x:Name="SelectedTextPopup"
-                    Placement="Absolute"
-                    HorizontalOffset="10000"
-                    VerticalOffset="0"
-                    AllowsTransparency="True"
-                    StaysOpen="True"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Right">
-                    <Grid>
-                        <Grid.LayoutTransform>
-                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                        </Grid.LayoutTransform>
+                    </ContentControl.Tag>
+                </ContentControl>
 
-                        <!-- PRESENTER 1: For those using Inline.DataContext -->
-                        <ContentPresenter
-                            Content="{Binding}"
-                            ls:TooltipExtender.IsOpen="True"
-                            ls:TooltipExtender.Content="{Binding}"
-                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                            ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                            VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                            <ContentPresenter.Style>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentPresenter.Style>
-                        </ContentPresenter>
-
-                        <!-- PRESENTER 2: For those using InlineTagTooltip style -->
-                        <ContentPresenter
-                            Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
-                            ls:TooltipExtender.IsOpen="True"
-                            ls:TooltipExtender.Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
-                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                            ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                            VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                            Tag="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}"
-                            ls:AttachedProperties.InheritedTag="{Binding Tag.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource AncestorType=Popup}}"
-                            ContentTemplate="{DynamicResource TouchUI_HeaderBodyTemplate}">
-                            <ContentPresenter.Style>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}" Value="">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentPresenter.Style>
-                        </ContentPresenter>
-                    </Grid>
-                </Popup>
             </StackPanel>
         </ls:LSNineSliceImage>
     </DataTemplate>

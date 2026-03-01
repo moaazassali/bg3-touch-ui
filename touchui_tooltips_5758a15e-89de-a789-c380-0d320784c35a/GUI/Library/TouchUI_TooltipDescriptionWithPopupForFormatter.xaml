@@ -1,0 +1,117 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Touch UI - Almost the same as TouchUI_TooltipDescriptionWithPopup but for textblocks that use TextBlockFormatter instead of CtxTransStringRunGeneratorBehavior -->
+    <!-- Touch UI - Caller passes their SourceText value via Content, and optional TextBlock Style via Tag. -->
+    <DataTemplate x:Key="TouchUI_TooltipDescriptionWithPopupForFormatter">
+        <Grid>
+            <!-- Touch UI - Customize textblock style by passing it in the tag -->
+            <TextBlock Style="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}" Visibility="Visible"
+                       ls:TextBlockFormatter.SourceText="{Binding}">
+
+                <TextBlock.Resources>
+                    <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
+                        <Setter Property="noesis:StyleInteraction.Triggers">
+                            <Setter.Value>
+                                <noesis:StyleTriggerCollection>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
+                                        <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
+                                        <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="IsOpen" Value="True"/>
+                                        <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="DataContext" Value="{Binding}"/>
+                                        <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="Tag" Value="{Binding ToolTip, RelativeSource={RelativeSource AncestorType={x:Type ls:LSSpan}}}"/>
+                                    </b:EventTrigger>
+
+                                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                                        <b:ChangePropertyAction PropertyName="TextDecorations" Value="None"/>
+                                        <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Primary}"/>
+                                    </b:EventTrigger>
+
+                                    <b:EventTrigger EventName="MouseLeave">
+                                        <b:ChangePropertyAction PropertyName="TextDecorations" Value="Underline"/>
+                                        <b:ChangePropertyAction PropertyName="Foreground" Value="{StaticResource TooltipColor.Tags}"/>
+                                    </b:EventTrigger>
+                                </noesis:StyleTriggerCollection>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBlock.Resources>
+            </TextBlock>
+
+            <!-- Touch UI - New popup tooltip as a sheet on right side of screen -->
+            <Popup x:Name="SelectedTextPopup"
+                Placement="Absolute"
+                HorizontalOffset="10000"
+                VerticalOffset="0"
+                AllowsTransparency="True"
+                StaysOpen="True"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Right">
+                <Grid>
+                    <Grid.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </Grid.LayoutTransform>
+
+                    <!-- PRESENTER 1: For those using Inline.DataContext -->
+                    <ContentPresenter
+                        Content="{Binding}"
+                        ls:TooltipExtender.IsOpen="True"
+                        ls:TooltipExtender.Content="{Binding}"
+                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                        <ContentPresenter.Style>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentPresenter.Style>
+                    </ContentPresenter>
+
+                    <!-- PRESENTER 2: For those using InlineTagTooltip style -->
+                    <ContentPresenter
+                        Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
+                        ls:TooltipExtender.IsOpen="True"
+                        ls:TooltipExtender.Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
+                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        Tag="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}"
+                        ls:AttachedProperties.InheritedTag="{Binding Tag.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource AncestorType=Popup}}"
+                        ContentTemplate="{DynamicResource TouchUI_HeaderBodyTemplate}"> <!-- Dynamic Resource Prevents Circular Ref -->
+                        <ContentPresenter.Style>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentPresenter.Style>
+                    </ContentPresenter>
+                </Grid>
+            </Popup>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>
