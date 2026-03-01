@@ -1,0 +1,44 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="TouchUI_PermanentWarningSection">
+        <ItemsControl x:Name="PermanentWarnings" ItemsSource="{Binding PermanentWarnings}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding PermanentWarnings.Count, Converter={StaticResource CountToVisibilityConverter}}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <!-- <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}" Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
+                        <b:Interaction.Behaviors>
+                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding .}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                        </b:Interaction.Behaviors>
+                    </TextBlock> -->
+                    <ContentControl
+                        Content="{Binding .}"
+                        ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}">
+                        <ContentControl.Tag>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipStringBodyStyle}">
+                                    <Setter Property="Foreground" Value="{StaticResource TooltipColor.Secondary}"/>
+                                    <Setter Property="MaxWidth" Value="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="8,2,0,2"/>
+                                </Style>
+                        </ContentControl.Tag>
+                    </ContentControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+</ResourceDictionary>

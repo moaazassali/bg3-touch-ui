@@ -13,6 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Status Tooltip -->
@@ -104,7 +105,7 @@
                     Visibility="{Binding Description.Text, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}"/>
 
                 <!-- Permanent warnings -->
-                <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
+                <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
 
                 <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
             </StackPanel>

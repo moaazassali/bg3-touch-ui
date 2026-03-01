@@ -14,6 +14,7 @@
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -386,7 +387,7 @@
 
                             <ContentPresenter ContentTemplate="{StaticResource AlchemySectionTemplate}" Content="{Binding DataContext.AlchemyResult, ElementName=root}" Visibility="{Binding DataContext.AlchemyResult, ElementName=root, Converter={StaticResource NullToCollapsedConverter},FallbackValue=Collapsed}"/>
                             <!-- PERMANENT WARNINGS -->
-                            <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
+                            <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
 
                             <!-- LORE DESCRIPTION -->
                             <Control x:Name="LoreDescriptionSection" Template="{StaticResource TouchUI_TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
