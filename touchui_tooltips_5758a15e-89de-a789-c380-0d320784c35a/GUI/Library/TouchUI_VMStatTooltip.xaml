@@ -13,6 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_StatParamsTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_VMStatTooltip">
@@ -34,7 +35,14 @@
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DamageText}" Text="{Binding Value}"/>
                     </Grid>
 
-                    <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
+                    <!-- <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}"/> -->
+                    <!-- Touch UI - Replace with our custom textblock with clickable text with popup tooltip sheet -->
+                    <ContentControl  
+                        Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                        ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                        ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}"
+                        Tag="{StaticResource TooltipDescriptionStyle}"/>
+
                     <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource TouchUI_StatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
