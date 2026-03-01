@@ -23,204 +23,211 @@
                 <Setter Property="Foreground" Value="{StaticResource TooltipColor.Primary}" />
             </Style>
         </DataTemplate.Resources>
-        <Grid x:Name="root" DataContext="{Binding (ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Owner="{Binding TemplatedParent.TemplatedParent.(ls:TooltipExtender.Owner), RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
-            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid x:Name="root" DataContext="{Binding (ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Owner="{Binding TemplatedParent.TemplatedParent.(ls:TooltipExtender.Owner), RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
 
-            <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
-                <Image.Source>
-                    <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
-                        <Binding Source="Assets/Tooltips/Icons/"/>
-                        <Binding Path="IconName"/>
-                    </MultiBinding>
-                </Image.Source>
-            </Image>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
 
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
-                    <!-- HEADER -->
-                    <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}">
-                        <DockPanel DockPanel.Dock="Top"  LastChildFill="False">
-                            <TextBlock Style="{StaticResource TooltipTitleStyle}" DockPanel.Dock="Left" Text="{Binding Name}" MaxWidth="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}"/>
-                            <Image Source="{StaticResource IconUpcast}" DockPanel.Dock="Left" Margin="8,0" Stretch="None" VerticalAlignment="Top" Visibility="{Binding CanUpcast, Converter={StaticResource BoolToVisibleConverter}}"/>
-                        </DockPanel>
-                        <ContentPresenter ContentTemplate="{StaticResource SpellSchoolTitle}" Content="{Binding .}"/>
-                    </StackPanel>
-                    <!-- WARNINGS -->
-                    <ItemsControl x:Name="Warnings" ItemsSource="{Binding UnavailableReasons}" Visibility="{Binding UnavailableReasons.Count, Converter={StaticResource CountToVisibilityConverter}}" Margin="0,12,0,12">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <DockPanel HorizontalAlignment="Left" Visibility="{Binding Line, Converter={StaticResource StringToVisibilityConverter}}" Margin="-16,-4,0,0" MaxWidth="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}">
-                                    <Image Source="{StaticResource IconWarning}" DockPanel.Dock="Left" Stretch="None" Style="{StaticResource leftAlignedTooltipWarningIcon}" />
-                                    <TextBlock DockPanel.Dock="Left" ls:TextBlockFormatter.SourceText="{Binding Line}" Style="{StaticResource AlertText}" />
-                                </DockPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
+                            <Binding Source="Assets/Tooltips/Icons/"/>
+                            <Binding Path="IconName"/>
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <!-- DAMAGE -->
-                    <ContentPresenter x:Name="SpellDamage" ContentTemplate="{StaticResource SpellDamageSection}" Content="{Binding Path=DataContext , ElementName=root}" Visibility="Collapsed"/>
-
-                    <!-- DESCRIPTIONS -->
-                    <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource TouchUI_SpellDescriptionTemplate}" Content="{Binding .}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Margin="{StaticResource ExtraPadSpace}"/>
-
-                    <!-- Only enable if visible so as to not eat input used by other systems e.g. World Tooltips -->
-                    <ls:LSInputBinding x:Name="expanderInput" BoundEvent="ExpandTooltip" PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                        <ls:LSInputBinding.Style>
-                            <Style TargetType="ls:LSInputBinding">
-                                <Setter Property="IsEnabled" Value ="False"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding ="{Binding ElementName=expandableSection, Path=Visibility}" Value="Visible">
-                                        <Setter Property="IsEnabled" Value ="True"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ls:LSInputBinding.Style>
-                    </ls:LSInputBinding>
-
-                    <!-- STATUS/CONDITIONS -->
-                    <ContentPresenter x:Name="SpellStatus" ContentTemplate="{StaticResource StatusList}" Content="{Binding ResultSections}" HorizontalAlignment="Left"/>
-
-                    <!-- ON MISS AND ON SAVE MESSAGES -->
-                    <ItemsControl x:Name="OnMissMessages" ItemsSource="{Binding OnMissMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnMissMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
-                                    <Span ls:TextBlockFormatter.SourceText="{Binding Source=h2d431f82g4984g4294ga8edg944f01925773, Converter={StaticResource TranslatedStringConverter}}"/>
-                                    <Span>
-                                        <b:Interaction.Behaviors>
-                                           <ls:CtxTransStringRunGeneratorBehavior Source="{Binding .}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
-                                        </b:Interaction.Behaviors>
-                                    </Span>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl x:Name="OnSaveMessages" ItemsSource="{Binding OnSaveMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnSaveMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
-                                    <Span ls:TextBlockFormatter.SourceText="{Binding Source=hcd11abdfg86e4g4470gabf5g52fad467aa86, Converter={StaticResource TranslatedStringConverter}}" />
-                                    <Span>
-                                        <b:Interaction.Behaviors>
-                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding .}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
-                                        </b:Interaction.Behaviors>
-                                    </Span>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <!-- PERMANENT WARNINGS -->
-                    <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
-
-                    <!-- METAMAGIC AND UPCASTING -->
-                    <ContentPresenter ContentTemplate="{StaticResource SpellModifiersSection}" Content="{Binding .}" Tag="{Binding .}"/>
-
-                    <!-- Spell version availability warnings -->
-                    <StackPanel x:Name="VariationWarnings" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
-                        <TextBlock Text="{Binding Source='h4693f78cge101g4dbcg8d2fg314806236010', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipOverrideTextStyle}"/>
-                        <TextBlock Margin="{StaticResource DefaultMarginBottom}" Style="{StaticResource TooltipOverrideTextStyle}"/>
-                    </StackPanel>
-
-                    <!-- CONCENTRATION WILL BREAK WARNING -->
-                    <StackPanel x:Name="ConcentrationWarningPanel" 
-                                Orientation="Horizontal" 
-                                Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
-                                Visibility="{Binding DataContext.WillBreakConcentration, ElementName=root, Converter={StaticResource BoolToVisibleConverter}}" 
-                                Margin="-10,0,0,0">
-
-                        <Image x:Name="ConcentrationWarningImage" Source="{StaticResource IconWarningSoft}" VerticalAlignment="Center" Stretch="None"/>
-                        <TextBlock x:Name="ConcentrationWarningText" Foreground="{StaticResource LS_alertTxtColor}" FontSize="{StaticResource MediumFontSize}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                    <Binding Source="h0604f01ag5d1eg4f62g8dcbg8cad97adbc59"/>
-                                    <Binding Path="OwnerDCWidget.CurrentPlayer.SelectedCharacter.ConcentrationSpell.Name" RelativeSource="{RelativeSource AncestorType={x:Type ls:LSTooltip}}"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </StackPanel>
-
-                    <!-- PROPERTIES -->
-                    <ItemsControl x:Name="PropertiesList" ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
-                </StackPanel>
-
-                <!-- FOOTER -->
-                <ls:LSNineSliceImage Style="{StaticResource TooltipStripBottomStyle}" x:Name="Footer" Grid.Row="1" VerticalAlignment="Bottom"  Visibility="Collapsed">
-                    <WrapPanel Style="{StaticResource footerCostsList}" HorizontalAlignment="Left">
-                        <!-- Cost -->
-                        <ItemsControl x:Name="Costs" AlternationCount="{Binding CostSummary.Count}" ItemsSource="{Binding CostSummary}" HorizontalAlignment="Left" Visibility="{Binding CostSummary.Count, Converter={StaticResource CountToVisibilityConverter}}" >
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
+                    <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                        <!-- HEADER -->
+                        <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}">
+                            <DockPanel DockPanel.Dock="Top"  LastChildFill="False">
+                                <TextBlock Style="{StaticResource TooltipTitleStyle}" DockPanel.Dock="Left" Text="{Binding Name}" MaxWidth="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}"/>
+                                <Image Source="{StaticResource IconUpcast}" DockPanel.Dock="Left" Margin="8,0" Stretch="None" VerticalAlignment="Top" Visibility="{Binding CanUpcast, Converter={StaticResource BoolToVisibleConverter}}"/>
+                            </DockPanel>
+                            <ContentPresenter ContentTemplate="{StaticResource SpellSchoolTitle}" Content="{Binding .}"/>
+                        </StackPanel>
+                        <!-- WARNINGS -->
+                        <ItemsControl x:Name="Warnings" ItemsSource="{Binding UnavailableReasons}" Visibility="{Binding UnavailableReasons.Count, Converter={StaticResource CountToVisibilityConverter}}" Margin="0,12,0,12">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <DockPanel x:Name="CostTemplateRoot" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,30,0">
-                                        <ContentPresenter x:Name="Icon" ContentTemplate="{StaticResource FooterFloatingWarningCost}" Content="{Binding .}"/>
-
-                                        <!-- When in the cost, the max value represents the cost-->
-                                        <TextBlock x:Name="Value" VerticalAlignment="Center" Visibility="{Binding MaxValue, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter='1'}" ls:TextBlockFormatter.SourceText="{Binding MaxValue, StringFormat='{}{0} '}" Style="{StaticResource SectionResourceNameStyle}"/>
-
-                                        <TextBlock x:Name="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource SectionResourceNameStyle}"/>
+                                    <DockPanel HorizontalAlignment="Left" Visibility="{Binding Line, Converter={StaticResource StringToVisibilityConverter}}" Margin="-16,-4,0,0" MaxWidth="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}">
+                                        <Image Source="{StaticResource IconWarning}" DockPanel.Dock="Left" Stretch="None" Style="{StaticResource leftAlignedTooltipWarningIcon}" />
+                                        <TextBlock DockPanel.Dock="Left" ls:TextBlockFormatter.SourceText="{Binding Line}" Style="{StaticResource AlertText}" />
                                     </DockPanel>
-
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding TypeId}" Value="Movement">
-                                            <Setter TargetName="Value" Property="ls:TextBlockFormatter.SourceText" Value="{Binding MaxValue, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short', StringFormat='{}{0} '}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
-                                            <Setter TargetName="CostTemplateRoot" Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Style.Triggers>
-                                        <!-- Ritual -->
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding TypeId}" Value="SpellSlot"/>
-                                                <Condition Binding="{Binding Path=DataContext.Spell.RitualCost, Converter={StaticResource NullToBoolFalseConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="True" />
-                                                <Condition Binding="{Binding Path=DataContext.Spell.IsRitualDisabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding TypeId}" Value="WarlockSpellSlot"/>
-                                                <Condition Binding="{Binding Path=DataContext.Spell.RitualCost, Converter={StaticResource NullToBoolFalseConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="True" />
-                                                <Condition Binding="{Binding Path=DataContext.Spell.IsRitualDisabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
                         </ItemsControl>
 
-                        <StackPanel x:Name="RitualSection" Orientation="Horizontal" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Visibility="Collapsed">
-                            <StackPanel.ToolTip>
+                        <!-- DAMAGE -->
+                        <ContentPresenter x:Name="SpellDamage" ContentTemplate="{StaticResource SpellDamageSection}" Content="{Binding Path=DataContext , ElementName=root}" Visibility="Collapsed"/>
 
-                                <ls:LSTooltip Content="{Binding Source='hc9646ee8gae50g4563g8964gae2ce4d62bac', Converter={StaticResource TranslatedStringConverter}}" ContentTemplate="{StaticResource RitualTooltipContent}" IsHitTestVisible="False" PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.PlayerId.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Placement="Right"/>
-                            </StackPanel.ToolTip>
+                        <!-- DESCRIPTIONS -->
+                        <ContentControl x:Name="SpellDescription" ContentTemplate="{StaticResource TouchUI_SpellDescriptionTemplate}" Content="{Binding .}" ls:AttachedProperties.InheritedTag="{Binding ElementName=DecorationImage}" Margin="{StaticResource ExtraPadSpace}"/>
 
-                            <Image x:Name="RitualIcon" Stretch="None" Style="{DynamicResource SectionImageStyle}" VerticalAlignment="Center" Margin="-10,0,0,0" Source="{StaticResource IconRitualPoint}"/>
+                        <!-- Only enable if visible so as to not eat input used by other systems e.g. World Tooltips -->
+                        <ls:LSInputBinding x:Name="expanderInput" BoundEvent="ExpandTooltip" PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                            <ls:LSInputBinding.Style>
+                                <Style TargetType="ls:LSInputBinding">
+                                    <Setter Property="IsEnabled" Value ="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding ="{Binding ElementName=expandableSection, Path=Visibility}" Value="Visible">
+                                            <Setter Property="IsEnabled" Value ="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ls:LSInputBinding.Style>
+                        </ls:LSInputBinding>
 
-                            <TextBlock x:Name="RitualText" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource SectionResourceNameStyle}" Text="{Binding Source='hc3fa3d4agb98bg4cceg80a4g4ae437a80850', Converter={StaticResource TranslatedStringConverter}}"/>
+                        <!-- STATUS/CONDITIONS -->
+                        <ContentPresenter x:Name="SpellStatus" ContentTemplate="{StaticResource StatusList}" Content="{Binding ResultSections}" HorizontalAlignment="Left"/>
+
+                        <!-- ON MISS AND ON SAVE MESSAGES -->
+                        <ItemsControl x:Name="OnMissMessages" ItemsSource="{Binding OnMissMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnMissMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
+                                        <Span ls:TextBlockFormatter.SourceText="{Binding Source=h2d431f82g4984g4294ga8edg944f01925773, Converter={StaticResource TranslatedStringConverter}}"/>
+                                        <Span>
+                                            <b:Interaction.Behaviors>
+                                            <ls:CtxTransStringRunGeneratorBehavior Source="{Binding .}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                                            </b:Interaction.Behaviors>
+                                        </Span>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl x:Name="OnSaveMessages" ItemsSource="{Binding OnSaveMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnSaveMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Foreground="{StaticResource TooltipColor.Secondary}"  Style="{StaticResource TooltipStringBodyStyle}" Margin="8,2,0,2">
+                                        <Span ls:TextBlockFormatter.SourceText="{Binding Source=hcd11abdfg86e4g4470gabf5g52fad467aa86, Converter={StaticResource TranslatedStringConverter}}" />
+                                        <Span>
+                                            <b:Interaction.Behaviors>
+                                                <ls:CtxTransStringRunGeneratorBehavior Source="{Binding .}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                                            </b:Interaction.Behaviors>
+                                        </Span>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- PERMANENT WARNINGS -->
+                        <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
+
+                        <!-- METAMAGIC AND UPCASTING -->
+                        <ContentPresenter ContentTemplate="{StaticResource SpellModifiersSection}" Content="{Binding .}" Tag="{Binding .}"/>
+
+                        <!-- Spell version availability warnings -->
+                        <StackPanel x:Name="VariationWarnings" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                            <TextBlock Text="{Binding Source='h4693f78cge101g4dbcg8d2fg314806236010', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipOverrideTextStyle}"/>
+                            <TextBlock Margin="{StaticResource DefaultMarginBottom}" Style="{StaticResource TooltipOverrideTextStyle}"/>
                         </StackPanel>
 
-                        
-                    </WrapPanel>
-                </ls:LSNineSliceImage>
+                        <!-- CONCENTRATION WILL BREAK WARNING -->
+                        <StackPanel x:Name="ConcentrationWarningPanel" 
+                                    Orientation="Horizontal" 
+                                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                                    Visibility="{Binding DataContext.WillBreakConcentration, ElementName=root, Converter={StaticResource BoolToVisibleConverter}}" 
+                                    Margin="-10,0,0,0">
+
+                            <Image x:Name="ConcentrationWarningImage" Source="{StaticResource IconWarningSoft}" VerticalAlignment="Center" Stretch="None"/>
+                            <TextBlock x:Name="ConcentrationWarningText" Foreground="{StaticResource LS_alertTxtColor}" FontSize="{StaticResource MediumFontSize}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                        <Binding Source="h0604f01ag5d1eg4f62g8dcbg8cad97adbc59"/>
+                                        <Binding Path="OwnerDCWidget.CurrentPlayer.SelectedCharacter.ConcentrationSpell.Name" RelativeSource="{RelativeSource AncestorType={x:Type ls:LSTooltip}}"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- PROPERTIES -->
+                        <ItemsControl x:Name="PropertiesList" ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
+                    </StackPanel>
+
+                    <!-- FOOTER -->
+                    <ls:LSNineSliceImage Style="{StaticResource TooltipStripBottomStyle}" x:Name="Footer" Grid.Row="1" VerticalAlignment="Bottom"  Visibility="Collapsed">
+                        <WrapPanel Style="{StaticResource footerCostsList}" HorizontalAlignment="Left">
+                            <!-- Cost -->
+                            <ItemsControl x:Name="Costs" AlternationCount="{Binding CostSummary.Count}" ItemsSource="{Binding CostSummary}" HorizontalAlignment="Left" Visibility="{Binding CostSummary.Count, Converter={StaticResource CountToVisibilityConverter}}" >
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel x:Name="CostTemplateRoot" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Margin="0,0,30,0">
+                                            <ContentPresenter x:Name="Icon" ContentTemplate="{StaticResource FooterFloatingWarningCost}" Content="{Binding .}"/>
+
+                                            <!-- When in the cost, the max value represents the cost-->
+                                            <TextBlock x:Name="Value" VerticalAlignment="Center" Visibility="{Binding MaxValue, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter='1'}" ls:TextBlockFormatter.SourceText="{Binding MaxValue, StringFormat='{}{0} '}" Style="{StaticResource SectionResourceNameStyle}"/>
+
+                                            <TextBlock x:Name="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource SectionResourceNameStyle}"/>
+                                        </DockPanel>
+
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding TypeId}" Value="Movement">
+                                                <Setter TargetName="Value" Property="ls:TextBlockFormatter.SourceText" Value="{Binding MaxValue, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short', StringFormat='{}{0} '}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                <Setter TargetName="CostTemplateRoot" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Style.Triggers>
+                                            <!-- Ritual -->
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding TypeId}" Value="SpellSlot"/>
+                                                    <Condition Binding="{Binding Path=DataContext.Spell.RitualCost, Converter={StaticResource NullToBoolFalseConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="True" />
+                                                    <Condition Binding="{Binding Path=DataContext.Spell.IsRitualDisabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding TypeId}" Value="WarlockSpellSlot"/>
+                                                    <Condition Binding="{Binding Path=DataContext.Spell.RitualCost, Converter={StaticResource NullToBoolFalseConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="True" />
+                                                    <Condition Binding="{Binding Path=DataContext.Spell.IsRitualDisabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+
+                            <StackPanel x:Name="RitualSection" Orientation="Horizontal" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Visibility="Collapsed">
+                                <StackPanel.ToolTip>
+
+                                    <ls:LSTooltip Content="{Binding Source='hc9646ee8gae50g4563g8964gae2ce4d62bac', Converter={StaticResource TranslatedStringConverter}}" ContentTemplate="{StaticResource RitualTooltipContent}" IsHitTestVisible="False" PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.PlayerId.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Placement="Right"/>
+                                </StackPanel.ToolTip>
+
+                                <Image x:Name="RitualIcon" Stretch="None" Style="{DynamicResource SectionImageStyle}" VerticalAlignment="Center" Margin="-10,0,0,0" Source="{StaticResource IconRitualPoint}"/>
+
+                                <TextBlock x:Name="RitualText" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource SectionResourceNameStyle}" Text="{Binding Source='hc3fa3d4agb98bg4cceg80a4g4ae437a80850', Converter={StaticResource TranslatedStringConverter}}"/>
+                            </StackPanel>
+
+                            
+                        </WrapPanel>
+                    </ls:LSNineSliceImage>
+                </Grid>
             </Grid>
-        </Grid>
+        </ls:LSNineSliceImage>
+
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding DataContext.Override, ElementName=root }" Value="None">
                 <Setter TargetName="VariationWarnings" Property="Visibility" Value="Collapsed"/>
