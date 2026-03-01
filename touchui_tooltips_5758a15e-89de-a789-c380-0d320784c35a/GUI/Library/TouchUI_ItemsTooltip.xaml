@@ -15,6 +15,7 @@
         <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_WarningLabelTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -393,10 +394,10 @@
                             <Control x:Name="LoreDescriptionSection" Template="{StaticResource TouchUI_TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
 
                             <!-- Gale consume warning -->
-                            <Control x:Name="GaleWarning" Template="{StaticResource WarningLabelTemplate}" Tag="{Binding Source='h12ae3447g8e06g4f92gb0e0gcaeb349c6066', Converter={StaticResource TranslatedStringConverter}}" Background="{StaticResource IconGaleConsume}" Foreground="{StaticResource TooltipColor.Secondary}" Visibility="{Binding FilteredItems.Count, ElementName=FilteredGaleStatuses, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>
+                            <Control x:Name="GaleWarning" Template="{StaticResource TouchUI_WarningLabelTemplate}" Tag="{Binding Source='h12ae3447g8e06g4f92gb0e0gcaeb349c6066', Converter={StaticResource TranslatedStringConverter}}" Background="{StaticResource IconGaleConsume}" Foreground="{StaticResource TooltipColor.Secondary}" Visibility="{Binding FilteredItems.Count, ElementName=FilteredGaleStatuses, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>
 
                             <!-- Armor Class Warning-->
-                            <Control x:Name="ACAbilityWarning" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarningGrey}" Foreground="{StaticResource TooltipColor.Secondary}" Visibility="Collapsed">
+                            <Control x:Name="ACAbilityWarning" Template="{StaticResource TouchUI_WarningLabelTemplate}" Background="{StaticResource IconBrushWarningGrey}" Foreground="{StaticResource TooltipColor.Secondary}" Visibility="Collapsed">
                                 <Control.Tag>
                                     <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
                                         <Binding Source="h4333422eg15d9g4c6egbfbeg9f06915940d1"/>
@@ -409,7 +410,7 @@
                             <ItemsControl ItemsSource="{Binding Spell.UnavailableReasons}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding Spell.UnavailableReasons.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Control Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Tag="{Binding Line}" Foreground="{StaticResource LS_alertTxtColor}"/>
+                                        <Control Template="{StaticResource TouchUI_WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Tag="{Binding Line}" Foreground="{StaticResource LS_alertTxtColor}"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

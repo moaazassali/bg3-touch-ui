@@ -1,0 +1,45 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="TouchUI_WarningLabelTemplate" TargetType="Control">
+        <StackPanel Orientation="Horizontal" Margin="-16,0,0,0" Width="{StaticResource TouchUI_DetailSectionWidth}">
+            <Rectangle Fill="{TemplateBinding Background}" VerticalAlignment="Top" MinHeight="{StaticResource MinimumWarningIconSize}" MinWidth="{StaticResource MinimumWarningIconSize}"/>
+            <!-- <TextBlock VerticalAlignment="Top" ls:TextBlockFormatter.SourceText="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent}}" MaxWidth="{StaticResource DetailSectionWidth}" Foreground="{TemplateBinding Foreground}" Style="{StaticResource TooltipStringBodyStyle}" Margin="0,4,0,0"/> -->
+            <!-- Touch UI - Replace textblock with our custom textblock with tooltip sheet popup -->
+            <ContentControl
+                VerticalAlignment="Top" 
+                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                ls:TextBlockFormatter.SourceText="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                Foreground="{TemplateBinding Foreground}">
+                <ContentControl.Tag>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipStringBodyStyle}">
+                        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"/>
+                        <Setter Property="Margin" Value="0,4,0,0"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </ContentControl.Tag>
+                <ContentControl.Width>
+                    <MultiBinding Converter="{StaticResource SubtractionMultipleConverter}">
+                        <Binding Source="{StaticResource TouchUI_DetailSectionWidth}"/>
+                        <Binding Source="52"/>
+                    </MultiBinding>
+                </ContentControl.Width>
+            </ContentControl>
+        </StackPanel>
+    </ControlTemplate>
+
+</ResourceDictionary>
