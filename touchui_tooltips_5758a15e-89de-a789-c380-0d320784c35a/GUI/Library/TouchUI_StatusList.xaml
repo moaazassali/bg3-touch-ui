@@ -14,18 +14,50 @@
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_StatusListElement">
-        <DockPanel x:Name="StatusRoot" Background="Transparent" Visibility="Visible" ClipToBounds="False" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right">
-            <Ellipse x:Name="SectionIcon" DockPanel.Dock="Left" Style="{StaticResource roundStatusIcon}" Fill="{Binding Brush}" Visibility="{Binding Brush, Converter={StaticResource NullToCollapsedConverter}}"/>
+        <Grid x:Name="StatusElementRoot">
+            <DockPanel x:Name="StatusRoot" Background="Transparent" Visibility="Visible" ClipToBounds="False" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                        <b:ChangePropertyAction TargetName="StatusTooltipPopup" PropertyName="IsOpen" Value="True"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
 
-            <TextBlock x:Name="SectionDuration" DockPanel.Dock="Left" Margin="14,0,0,0" Style="{StaticResource TooltipDescriptionStyle}" Width="Auto" TextWrapping="Wrap" Foreground="{StaticResource TooltipColor.Secondary}" VerticalAlignment="Center">
-                <TextBlock.Text>
-                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                        <Binding Source="h6e1e86b5g98f8g42c8ga383gf770838ca349"/>
-                        <Binding Path="Duration"/>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-        </DockPanel>
+                <Ellipse x:Name="SectionIcon" DockPanel.Dock="Left" Style="{StaticResource roundStatusIcon}" Fill="{Binding Brush}" Visibility="{Binding Brush, Converter={StaticResource NullToCollapsedConverter}}"/>
+
+                <TextBlock x:Name="SectionDuration" DockPanel.Dock="Left" Margin="14,0,0,0" Style="{StaticResource TooltipDescriptionStyle}" Width="Auto" TextWrapping="Wrap" Foreground="{StaticResource TooltipColor.Secondary}" VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h6e1e86b5g98f8g42c8ga383gf770838ca349"/>
+                            <Binding Path="Duration"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DockPanel>
+
+            <!-- Touch UI - New popup tooltip as a sheet on right side of screen -->
+            <Popup x:Name="StatusTooltipPopup"
+                Placement="Absolute"
+                HorizontalOffset="10000"
+                VerticalOffset="0"
+                AllowsTransparency="True"
+                StaysOpen="True"
+                IsOpen="False"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Right">
+                <ContentPresenter
+                    Content="{Binding .}"
+                    ls:TooltipExtender.IsOpen="True"
+                    ls:TooltipExtender.Content="{Binding .}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right"
+                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <ContentPresenter.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </ContentPresenter.LayoutTransform>
+                </ContentPresenter>
+            </Popup>
+        </Grid>
+
         <DataTemplate.Triggers>
             <DataTrigger  Binding="{Binding Statuses.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0, FallbackValue=True}" Value="False" >
                 <Setter Property="ToolTipService.IsEnabled" Value="False" TargetName="StatusRoot"/>
