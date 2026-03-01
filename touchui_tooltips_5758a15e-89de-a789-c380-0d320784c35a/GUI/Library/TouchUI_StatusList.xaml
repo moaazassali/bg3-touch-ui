@@ -1,0 +1,80 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="TouchUI_StatusListElement">
+        <DockPanel x:Name="StatusRoot" Background="Transparent" Visibility="Visible" ClipToBounds="False" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right">
+            <Ellipse x:Name="SectionIcon" DockPanel.Dock="Left" Style="{StaticResource roundStatusIcon}" Fill="{Binding Brush}" Visibility="{Binding Brush, Converter={StaticResource NullToCollapsedConverter}}"/>
+
+            <TextBlock x:Name="SectionDuration" DockPanel.Dock="Left" Margin="14,0,0,0" Style="{StaticResource TooltipDescriptionStyle}" Width="Auto" TextWrapping="Wrap" Foreground="{StaticResource TooltipColor.Secondary}" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                        <Binding Source="h6e1e86b5g98f8g42c8ga383gf770838ca349"/>
+                        <Binding Path="Duration"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger  Binding="{Binding Statuses.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0, FallbackValue=True}" Value="False" >
+                <Setter Property="ToolTipService.IsEnabled" Value="False" TargetName="StatusRoot"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Duration, Converter={StaticResource LessThanConverter}, ConverterParameter=1.1}" Value="True">
+                <Setter TargetName="SectionDuration" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h10fa4ad9ga019g4a5dg96edg94a25156b950"/>
+                            <Binding Path="Duration"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Duration, Converter={StaticResource LessThanConverter}, ConverterParameter=0.1}" Value="True">
+                <Setter TargetName="SectionDuration" Property="Text" Value="{Binding Source='h50ea69dagf61eg466fga47eg530c55933114',Converter={StaticResource TranslatedStringConverter}}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DurationType}" Value="Permanent">
+                <Setter TargetName="SectionDuration" Property="Text" Value="{Binding Source='hf5d92374g1f72g4b7bga1d5g178ff9c36ed5',Converter={StaticResource TranslatedStringConverter}}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DurationType}" Value="UntilRest">
+                <Setter TargetName="SectionDuration" Property="Text" Value="{Binding Source='h50ea69dagf61eg466fga47eg530c55933114',Converter={StaticResource TranslatedStringConverter}}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TouchUI_StatusList">
+        <ItemsControl ItemsSource="{Binding .}" HorizontalAlignment="Center" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}" AlternationCount="{Binding Count}"  Margin="0,0,0,10">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl x:Name="ItemEntry" ItemsSource="{Binding Details}" VerticalAlignment="Center" Margin="0,6,0,0" ItemTemplate="{StaticResource TouchUI_StatusListElement}"/>
+
+                    <DataTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter TargetName="ItemEntry" Property="Margin" Value="0"/>
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </DataTemplate>
+
+</ResourceDictionary>

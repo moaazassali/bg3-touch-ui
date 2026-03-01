@@ -16,6 +16,7 @@
         <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_WarningLabelTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_StatusList.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -275,8 +276,8 @@
 
                                 <!-- Status -->
                                 <WrapPanel x:Name="Status" HorizontalAlignment="Left">
-                                    <ContentPresenter ContentTemplate="{StaticResource StatusList}" Content="{Binding Spell.ResultSections}" Visibility="{Binding DataContext.Spell.ResultSections.Count, ElementName=Status, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>
-                                    <ContentPresenter ContentTemplate="{StaticResource StatusList}" Content="{Binding StatusSections}" Visibility="{Binding DataContext.StatusSections.Count, ElementName=Status, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource TouchUI_StatusList}" Content="{Binding Spell.ResultSections}" Visibility="{Binding DataContext.Spell.ResultSections.Count, ElementName=Status, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>
+                                    <ContentPresenter ContentTemplate="{StaticResource TouchUI_StatusList}" Content="{Binding StatusSections}" Visibility="{Binding DataContext.StatusSections.Count, ElementName=Status, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}"/>
                                 </WrapPanel>
                             </StackPanel>
 
