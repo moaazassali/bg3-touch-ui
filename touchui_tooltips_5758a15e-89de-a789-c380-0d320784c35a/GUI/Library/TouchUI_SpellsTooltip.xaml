@@ -32,14 +32,14 @@
 
                 <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
 
-                <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
+                <!-- <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
                             <Binding Source="Assets/Tooltips/Icons/"/>
                             <Binding Path="IconName"/>
                         </MultiBinding>
                     </Image.Source>
-                </Image>
+                </Image> -->
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -155,13 +155,13 @@
                     </StackPanel>
 
                     <!-- FOOTER -->
-                    <ls:LSNineSliceImage Style="{StaticResource TooltipStripBottomStyle}" x:Name="Footer" Grid.Row="1" VerticalAlignment="Bottom"  Visibility="Collapsed">
-                        <WrapPanel Style="{StaticResource footerCostsList}" HorizontalAlignment="Left">
+                    <ls:LSNineSliceImage Style="{StaticResource TouchUI_TooltipStripBottomStyle}" x:Name="Footer" Grid.Row="1" VerticalAlignment="Bottom" Visibility="Collapsed">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="18,0,0,9">
                             <!-- Cost -->
                             <ItemsControl x:Name="Costs" AlternationCount="{Binding CostSummary.Count}" ItemsSource="{Binding CostSummary}" HorizontalAlignment="Left" Visibility="{Binding CostSummary.Count, Converter={StaticResource CountToVisibilityConverter}}" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel/>
+                                        <StackPanel HorizontalAlignment="Left" Orientation="Vertical"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -222,7 +222,7 @@
                             </StackPanel>
 
                             
-                        </WrapPanel>
+                        </StackPanel>
                     </ls:LSNineSliceImage>
                 </Grid>
             </Grid>
