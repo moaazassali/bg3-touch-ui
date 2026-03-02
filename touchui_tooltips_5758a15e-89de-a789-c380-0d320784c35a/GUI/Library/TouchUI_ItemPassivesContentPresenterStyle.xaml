@@ -1,0 +1,112 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Items Passives -->
+    <DataTemplate x:Key="TouchUI_ItemPassivesSection">
+        <DataTemplate.Resources>
+            <Style TargetType="ls:LSSpan" BasedOn="{StaticResource LSSpanStyle}">
+                <Style.Triggers>
+                    <Trigger Property="TagType" Value="hl">
+                        <Setter Property="Foreground" Value="{StaticResource TooltipColor.Secondary}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DataTemplate.Resources>
+        <ItemsControl ItemsSource="{Binding .}" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}" AlternationCount="{Binding Count}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:Name="EntryContainer" Margin="{StaticResource DefaultMarginTop}" Width="{StaticResource MaxTooltipContentWidth}" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid x:Name="IconContainer" Grid.Column="0" Visibility="{Binding IconName, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}" Tag="Controller" VerticalAlignment="Top" HorizontalAlignment="Left" ClipToBounds="False">
+                            <Image Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
+                                        <Binding Source="Assets/Tooltips/Icons/"/>
+                                        <Binding Path="IconName"/>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                            <Ellipse Height="56" Width="56" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Brush}" />
+                        </Grid>
+
+                        <TextBlock x:Name="PassiveInfo" Grid.Column="1" FontSize="{StaticResource MediumFontSize}" TextWrapping="Wrap" ls:MeasurementProperties.CalculateMeasures="True" Style="{StaticResource TooltipSectionTextStyle}" Foreground="{StaticResource TooltipColor.Secondary}">
+                            <TextBlock.Tag>
+                                <MultiBinding Converter="{StaticResource GreaterOrEqualThanMultiConverter}">
+                                    <Binding Path="(ls:MeasurementProperties.TopY)" RelativeSource="{RelativeSource Self}"/>
+                                    <Binding Path="(ls:MeasurementProperties.BottomY)" ElementName="DecorationImage"/>
+                                </MultiBinding>
+                            </TextBlock.Tag>
+                            <Span ls:TextBlockFormatter.SourceText="{Binding Name, StringFormat='{}{0}:'}" Foreground="{StaticResource TooltipColor.Highlight}" FontWeight="SemiBold"/>
+                            <Span>
+                                <b:Interaction.Behaviors>
+                                    <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                                </b:Interaction.Behaviors>
+                            </Span>
+                        </TextBlock>
+                        <Grid.ToolTip>
+                            <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                        </Grid.ToolTip>
+                    </Grid>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Keyboard">
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="725"/>
+                            <Setter TargetName="IconContainer" Property="Tag" Value="Keyboard"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="Keyboard">
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="725"/>
+                            <Setter TargetName="IconContainer" Property="Tag" Value="Keyboard"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Keyboard"/>
+                                <Condition Binding="{Binding ElementName=PassiveInfo,Path=Tag}"  Value="{StaticResource FalseValue}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="575" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Visibility, ElementName=IconContainer}" Value="Visible"/>
+                                <Condition Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Keyboard"/>
+                                <Condition Binding="{Binding ElementName=PassiveInfo,Path=Tag}"  Value="{StaticResource FalseValue}"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="500" />
+                        </MultiDataTrigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter TargetName="EntryContainer" Property="Margin" Value="0"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Path=Visibility, ElementName=IconContainer}" Value="Visible">
+                            <Setter TargetName="IconContainer" Property="Margin" Value="0,0,8,0"/>
+                            <Setter TargetName="PassiveInfo" Property="MaxWidth" Value="{StaticResource MaxTooltipContentWidth}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Controller">
+                            <Setter  TargetName="PassiveInfo" Property="FontWeight" Value="DemiBold"/>
+                            <Setter TargetName="PassiveInfo" Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <Style x:Key="TouchUI_ItemPassivesContentPresenterStyle" TargetType="ContentPresenter">
+        <Setter Property="ContentTemplate" Value="{StaticResource TouchUI_ItemPassivesSection}" />
+    </Style>
+
+</ResourceDictionary>
