@@ -1,0 +1,61 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Text section template -->
+    <DataTemplate x:Key="TouchUI_DetailSectionsTemplate" DataType="{x:Type ls:VMTooltipSectionDetail}">
+        <StackPanel x:Name="DetailContainer" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="Visible">
+            <b:Interaction.Behaviors>
+                <ls:ConcatenateListBehavior x:Name="CharacterList" ItemsSource="{Binding Entries}" Separator="h2519408dg5fd7g4cbcg840cg14370239edf8"/>
+            </b:Interaction.Behaviors>
+            <Grid x:Name="SectionIcon" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Image Style="{DynamicResource SectionImageStyle}"/>
+                <Rectangle Fill="{Binding Brush}" Width="48" Height="48"/>
+            </Grid>
+
+            <TextBlock x:Name="DetailText" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource SectionDescriptionStyle}" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
+                <b:Interaction.Behaviors>
+                    <ls:CtxTransStringRunGeneratorBehavior LocaSource="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                </b:Interaction.Behaviors>
+            </TextBlock>
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Brush}" Value="{x:Null}" />
+                    <Condition Binding="{Binding TypeId}" Value="" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="SectionIcon"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding Entries, Converter={StaticResource NullToBoolFalseConverter}, FallbackValue=False}" Value="True">
+                <Setter TargetName="DetailText" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h5f70fbe9g3fc1g4d97g9619g407012798c10"/>
+                            <Binding Path="Result" ElementName="CharacterList"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TouchUI_SectionTemplate" DataType="{x:Type ls:VMTooltipSection}">
+        <ItemsControl ItemsSource="{Binding Details}" ItemTemplate="{StaticResource TouchUI_DetailSectionsTemplate}"/>
+    </DataTemplate>
+
+</ResourceDictionary>

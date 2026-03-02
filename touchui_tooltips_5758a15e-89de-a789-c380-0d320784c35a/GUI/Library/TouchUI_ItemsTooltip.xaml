@@ -19,6 +19,7 @@
         <ResourceDictionary Source="../Library/TouchUI_WarningLabelTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_StatusList.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PropertyTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_SectionTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -454,7 +455,7 @@
                             </ItemsControl>
 
                             <!-- WARNINGS -->
-                            <ItemsControl x:Name="WarningSection" ItemsSource="{Binding WarningSections}" ItemTemplate="{StaticResource SectionTemplate}" Visibility="{Binding WarningSections.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource AdditionalMessagesMargin}"/>
+                            <ItemsControl x:Name="WarningSection" ItemsSource="{Binding WarningSections}" ItemTemplate="{StaticResource TouchUI_SectionTemplate}" Visibility="{Binding WarningSections.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}" Margin="{StaticResource AdditionalMessagesMargin}"/>
 
                             <!-- ACTIVE CONDITIONS -->
                             <ItemsControl ItemsSource="{Binding NonPermanentStatusEffects}" DataContext="{Binding DataContext,ElementName=root}" Style="{StaticResource ActiveConditionsSection}"/>
