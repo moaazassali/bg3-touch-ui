@@ -11,6 +11,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Text section template -->
@@ -24,11 +26,28 @@
                 <Rectangle Fill="{Binding Brush}" Width="48" Height="48"/>
             </Grid>
 
-            <TextBlock x:Name="DetailText" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource SectionDescriptionStyle}" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
+            <!-- <TextBlock x:Name="DetailText" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource SectionDescriptionStyle}" MaxWidth="{StaticResource DetailSectionWidth}" Margin="8,0,0,0">
                 <b:Interaction.Behaviors>
                     <ls:CtxTransStringRunGeneratorBehavior LocaSource="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                 </b:Interaction.Behaviors>
-            </TextBlock>
+            </TextBlock> -->
+            <!-- Touch UI - Although this TextBlock uses CtxTransStringRunGeneratorBehavior, we will use the formatter variant because the data trigger below directly sets the text, which is hard to target otherwise  -->
+            <ContentControl x:Name="DetailText"
+                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                ls:TextBlockFormatter.SourceText="{Binding Description}"
+                HorizontalAlignment="Left">
+                <ContentControl.Tag>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource SectionDescriptionStyle}">
+                            <Setter Property="Margin" Value="8,0,0,0"/>
+                        </Style>
+                </ContentControl.Tag>
+                <ContentControl.Width>
+                    <MultiBinding Converter="{StaticResource SubtractionMultipleConverter}">
+                        <Binding Source="{StaticResource TouchUI_DetailSectionWidth}"/>
+                        <Binding Source="52"/>
+                    </MultiBinding>
+                </ContentControl.Width>
+            </ContentControl>
         </StackPanel>
         <DataTemplate.Triggers>
             <MultiDataTrigger>
@@ -42,7 +61,7 @@
             </MultiDataTrigger>
 
             <DataTrigger Binding="{Binding Entries, Converter={StaticResource NullToBoolFalseConverter}, FallbackValue=False}" Value="True">
-                <Setter TargetName="DetailText" Property="Text">
+                <Setter TargetName="DetailText" Property="ls:TextBlockFormatter.SourceText">
                     <Setter.Value>
                         <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
                             <Binding Source="h5f70fbe9g3fc1g4d97g9619g407012798c10"/>
