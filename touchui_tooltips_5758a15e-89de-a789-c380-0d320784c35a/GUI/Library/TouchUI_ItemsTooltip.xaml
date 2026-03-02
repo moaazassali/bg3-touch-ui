@@ -14,6 +14,7 @@
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_WarningLabelTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_StatusList.xaml"/>
@@ -146,8 +147,43 @@
 
                                     <!-- Keyboard Versatile Messaging-->
                                     <StackPanel x:Name="KeyboardVersatileMessaging" Orientation="Horizontal" Margin="0,-4,0,0" Visibility="Collapsed">
-                                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hfbf78535g63cbg497bg9f0ag260553831875',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource TooltipColor.Primary}" FontSize="{StaticResource MediumFontSize}" FontFamily="{StaticResource DefaultFont}"/>
-                                        <TextBlock x:Name="VersatileEquippedLabel" ls:TextBlockFormatter.SourceText="{Binding Source='h3aa09574g4d88g474bgbe97g5a989944c7e9',Converter={StaticResource TranslatedStringConverter}, StringFormat='{} - {0}'}" Foreground="{StaticResource TooltipColor.Primary}" FontSize="{StaticResource MediumFontSize}" FontFamily="{StaticResource DefaultFont}" Visibility="Collapsed"/>
+                                        <!-- <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hfbf78535g63cbg497bg9f0ag260553831875',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource TooltipColor.Primary}" FontSize="{StaticResource MediumFontSize}" FontFamily="{StaticResource DefaultFont}"/> -->
+                                        <ContentControl
+                                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                                            ls:TextBlockFormatter.SourceText="{Binding Source='hfbf78535g63cbg497bg9f0ag260553831875',Converter={StaticResource TranslatedStringConverter}}">
+                                            <ContentControl.Tag>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource TooltipColor.Primary}"/>
+                                                    <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+                                                    <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>
+                                                </Style>
+                                            </ContentControl.Tag>
+                                        </ContentControl>
+
+                                        <!-- <TextBlock x:Name="VersatileEquippedLabel" ls:TextBlockFormatter.SourceText="{Binding Source='h3aa09574g4d88g474bgbe97g5a989944c7e9',Converter={StaticResource TranslatedStringConverter}, StringFormat='{} - {0}'}" Foreground="{StaticResource TooltipColor.Primary}" FontSize="{StaticResource MediumFontSize}" FontFamily="{StaticResource DefaultFont}" Visibility="Collapsed"/> -->
+                                        <!-- Touch UI - Add textblock with just '-' so that the wrapped line in the textblock below starts from the same left alignment -->
+                                        <TextBlock
+                                            Text="-"
+                                            Foreground="{StaticResource TooltipColor.Primary}"
+                                            FontSize="{StaticResource MediumFontSize}"
+                                            FontFamily="{StaticResource DefaultFont}"
+                                            Margin="8,0"
+                                            Visibility="{Binding ElementName=VersatileEquippedLabel, Path=Visibility}"/>
+                                        <ContentControl x:Name="VersatileEquippedLabel"
+                                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                                            ls:TextBlockFormatter.SourceText="{Binding Source='h3aa09574g4d88g474bgbe97g5a989944c7e9',Converter={StaticResource TranslatedStringConverter}}"
+                                            Visibility="Collapsed">
+                                            <ContentControl.Tag>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource TooltipColor.Primary}"/>
+                                                    <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+                                                    <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>
+                                                    <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>
+                                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                                    <Setter Property="Width" Value="350"/>
+                                                </Style>
+                                            </ContentControl.Tag>
+                                        </ContentControl>
                                     </StackPanel>
 
                                     <!-- Controller Versatile Messaging-->
@@ -729,7 +765,7 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding (ls:TooltipExtender.Data).VersatileTwohanded, RelativeSource={RelativeSource Mode=Self}}" Value="True">
-                <Setter TargetName="VersatileEquippedLabel" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hab0f38bfg982fg417bg9246gd38f135b3964',Converter={StaticResource TranslatedStringConverter}, StringFormat='{} - {0}'}"/>
+                <Setter TargetName="VersatileEquippedLabel" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hab0f38bfg982fg417bg9246gd38f135b3964',Converter={StaticResource TranslatedStringConverter}}"/>
                 <Setter TargetName="VersatileEquippedLabelPad" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hab0f38bfg982fg417bg9246gd38f135b3964',Converter={StaticResource TranslatedStringConverter}}"/>
                 <Setter TargetName="VersatileDie1H" Property="Opacity" Value="0.4"/>
                 <Setter TargetName="VersatileDie1H" Property="Panel.ZIndex" Value="0"/>
