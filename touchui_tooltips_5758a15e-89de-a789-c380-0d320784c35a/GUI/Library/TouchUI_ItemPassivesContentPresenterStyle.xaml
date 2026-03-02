@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Items Passives -->
@@ -27,7 +28,7 @@
         <ItemsControl ItemsSource="{Binding .}" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}" AlternationCount="{Binding Count}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="EntryContainer" Margin="{StaticResource DefaultMarginTop}" Width="{StaticResource MaxTooltipContentWidth}" HorizontalAlignment="Left">
+                    <Grid x:Name="EntryContainer" Margin="{StaticResource DefaultMarginTop}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -45,7 +46,8 @@
                             <Ellipse Height="56" Width="56" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{Binding Brush}" />
                         </Grid>
 
-                        <TextBlock x:Name="PassiveInfo" Grid.Column="1" FontSize="{StaticResource MediumFontSize}" TextWrapping="Wrap" ls:MeasurementProperties.CalculateMeasures="True" Style="{StaticResource TooltipSectionTextStyle}" Foreground="{StaticResource TooltipColor.Secondary}">
+                        <!-- Touch UI - Width set to TouchUI_MaxTooltipContentWidth - 32 -->
+                        <TextBlock x:Name="PassiveInfo" Grid.Column="1" FontSize="{StaticResource MediumFontSize}" TextWrapping="Wrap" ls:MeasurementProperties.CalculateMeasures="True" Style="{StaticResource TooltipSectionTextStyle}" Foreground="{StaticResource TooltipColor.Secondary}" Width="449">
                             <TextBlock.Tag>
                                 <MultiBinding Converter="{StaticResource GreaterOrEqualThanMultiConverter}">
                                     <Binding Path="(ls:MeasurementProperties.TopY)" RelativeSource="{RelativeSource Self}"/>
@@ -66,11 +68,11 @@
 
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Keyboard">
-                            <Setter TargetName="PassiveInfo" Property="Width" Value="725"/>
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="449"/>
                             <Setter TargetName="IconContainer" Property="Tag" Value="Keyboard"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSElementCopy}}}" Value="Keyboard">
-                            <Setter TargetName="PassiveInfo" Property="Width" Value="725"/>
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="449"/>
                             <Setter TargetName="IconContainer" Property="Tag" Value="Keyboard"/>
                         </DataTrigger>
                         <MultiDataTrigger>
@@ -78,7 +80,7 @@
                                 <Condition Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Keyboard"/>
                                 <Condition Binding="{Binding ElementName=PassiveInfo,Path=Tag}"  Value="{StaticResource FalseValue}"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="PassiveInfo" Property="Width" Value="575" />
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="449" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -86,7 +88,7 @@
                                 <Condition Binding="{Binding Path=Tag,ElementName=IconContainer}" Value="Keyboard"/>
                                 <Condition Binding="{Binding ElementName=PassiveInfo,Path=Tag}"  Value="{StaticResource FalseValue}"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="PassiveInfo" Property="Width" Value="500" />
+                            <Setter TargetName="PassiveInfo" Property="Width" Value="449" />
                         </MultiDataTrigger>
                         <Trigger Property="ItemsControl.AlternationIndex" Value="0">
                             <Setter TargetName="EntryContainer" Property="Margin" Value="0"/>
