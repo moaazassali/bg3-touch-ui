@@ -17,6 +17,7 @@
         <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_WarningLabelTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_StatusList.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PropertyTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -425,8 +426,8 @@
                             <ItemsControl x:Name="InheritedStatusList" ItemsSource="{Binding InheritedStatuses}" Margin="{StaticResource DefaultMarginBottom}" Style="{StaticResource ActiveConditionsSection}"/>
 
                             <WrapPanel x:Name="PropertiesSection" Orientation="Horizontal" Margin="0,4,0,20">
-                                <ItemsControl ItemsSource="{Binding Spell.Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Spell.Properties.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
-                                <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
+                                <ItemsControl ItemsSource="{Binding Spell.Properties}" ItemTemplate="{StaticResource TouchUI_PropertyTemplate}" Visibility="{Binding Spell.Properties.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
+                                <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource TouchUI_PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}, FallbackValue=Collapsed}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
                             </WrapPanel>
                         </StackPanel>
                     </StackPanel>

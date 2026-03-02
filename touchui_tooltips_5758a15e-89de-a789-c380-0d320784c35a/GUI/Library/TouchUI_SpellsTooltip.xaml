@@ -14,6 +14,7 @@
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PropertyTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Spell Tooltip -->
@@ -151,7 +152,7 @@
                         </StackPanel>
 
                         <!-- PROPERTIES -->
-                        <ItemsControl x:Name="PropertiesList" ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
+                        <ItemsControl x:Name="PropertiesList" ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource TouchUI_PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
                     </StackPanel>
 
                     <!-- FOOTER -->
