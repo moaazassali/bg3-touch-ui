@@ -95,7 +95,7 @@
                             <!-- DAMAGES -->
                             <StackPanel x:Name="DamagesSection">
                                 <!-- Camp Supplies -->
-                                <DockPanel x:Name="suppliesDisplay" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="0" MaxWidth="{StaticResource DetailSectionWidth}" Visibility="{Binding DataContext.CampSupplies, ElementName=root, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}" HorizontalAlignment="Left">
+                                <DockPanel x:Name="suppliesDisplay" ToolTipService.Placement="Top" ToolTipService.VerticalOffset="0" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}" Visibility="{Binding DataContext.CampSupplies, ElementName=root, Converter={StaticResource CountToVisibilityConverter},FallbackValue=Collapsed}" HorizontalAlignment="Left">
                                     <Image Style="{StaticResource CampFireIcon}"/>
                                     <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left" FontSize="{StaticResource LargeFontSize}" LineStackingStrategy="BlockLineHeight" LineHeight="{StaticResource IntermediateFontSizeLineHeight}" Foreground="{StaticResource LS_tint100}" TextWrapping="Wrap">
                                     <ls:TextBlockFormatter.SourceText>
