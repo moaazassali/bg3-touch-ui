@@ -11,6 +11,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_PropertyTemplate">
@@ -157,11 +159,33 @@
             </StackPanel.ToolTip>
 
             <Image x:Name="PropertyIcon" HorizontalAlignment="Center" Style="{DynamicResource SectionImageStyle}"/>
-            <TextBlock x:Name="PropertyText" Style="{StaticResource IconDetailSectionTextStyle}" Visibility="Visible" Margin="8,0,0,0">
+            <!-- <TextBlock x:Name="PropertyText" Style="{StaticResource IconDetailSectionTextStyle}" Visibility="Visible" Margin="8,0,0,0">
                 <b:Interaction.Behaviors>
                     <ls:CtxTransStringRunGeneratorBehavior Source="{Binding ContextStringValue}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                 </b:Interaction.Behaviors>
-            </TextBlock>
+            </TextBlock> -->
+            <!-- Touch UI - Replace with clickable text with popup tooltip sheet -->
+            <!-- Touch UI - We need both variations of TouchUI_TooltipDescriptionWithPopup because the default behavior as seen above is using CtxTransStringRunGeneratorBehavior while all the data triggers below use ls:TextBlockFormatter.SourceText -->
+            <!-- Touch UI - I am actually not sure what this default behavior shows because all the examples I have tested rely on the second variant but we will keep it in case. -->
+            <ContentControl x:Name="PropertyText_Default"
+                Content="{Binding ContextStringValue}"
+                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                Visibility="{Binding ContextStringValue, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}">
+                <ContentControl.Tag>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource IconDetailSectionTextStyle}">
+                        <Setter Property="Margin" Value="8,0,0,0"/>
+                    </Style>
+                </ContentControl.Tag>
+            </ContentControl>
+
+            <ContentControl x:Name="PropertyText"
+                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}">
+                <ContentControl.Tag>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource IconDetailSectionTextStyle}">
+                        <Setter Property="Margin" Value="8,0,0,0"/>
+                    </Style>
+                </ContentControl.Tag>
+            </ContentControl>
         </StackPanel>
 
         <DataTemplate.Triggers>
