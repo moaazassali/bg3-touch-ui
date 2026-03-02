@@ -12,6 +12,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopup.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Items Passives -->
@@ -47,7 +49,7 @@
                         </Grid>
 
                         <!-- Touch UI - Width set to TouchUI_MaxTooltipContentWidth - 32 -->
-                        <TextBlock x:Name="PassiveInfo" Grid.Column="1" FontSize="{StaticResource MediumFontSize}" TextWrapping="Wrap" ls:MeasurementProperties.CalculateMeasures="True" Style="{StaticResource TooltipSectionTextStyle}" Foreground="{StaticResource TooltipColor.Secondary}" Width="449">
+                        <!-- <TextBlock x:Name="PassiveInfo" Grid.Column="1" FontSize="{StaticResource MediumFontSize}" TextWrapping="Wrap" ls:MeasurementProperties.CalculateMeasures="True" Style="{StaticResource TooltipSectionTextStyle}" Foreground="{StaticResource TooltipColor.Secondary}" Width="449">
                             <TextBlock.Tag>
                                 <MultiBinding Converter="{StaticResource GreaterOrEqualThanMultiConverter}">
                                     <Binding Path="(ls:MeasurementProperties.TopY)" RelativeSource="{RelativeSource Self}"/>
@@ -60,7 +62,41 @@
                                     <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                                 </b:Interaction.Behaviors>
                             </Span>
-                        </TextBlock>
+                        </TextBlock> -->
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <ContentControl x:Name="PassiveName"
+                                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                                ls:TextBlockFormatter.SourceText="{Binding Name, StringFormat='{}{0}:'}"
+                                Width="449">
+                                <ContentControl.Tag>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipSectionTextStyle}">
+                                        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TooltipColor.Highlight}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </ContentControl.Tag>
+                            </ContentControl>
+
+                            <ContentControl x:Name="PassiveInfo"
+                                Grid.Column="1"
+                                Content="{Binding Description}"
+                                ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                                Width="449"
+                                Margin="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                                <ContentControl.Tag>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipSectionTextStyle}">
+                                        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TooltipColor.Secondary}"/>
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </ContentControl.Tag>
+                            </ContentControl>
+                        </StackPanel>
+
                         <Grid.ToolTip>
                             <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                         </Grid.ToolTip>
