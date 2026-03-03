@@ -9,10 +9,6 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
     <!--
         LSSpan Styling
     -->

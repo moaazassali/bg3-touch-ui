@@ -8,10 +8,6 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
     <!-- Touch UI - Override some resources -->
     <System:Double x:Key="TouchUI_MaxTooltipContentWidth">481</System:Double>
     <System:Double x:Key="TouchUI_MaxWidthOnCollisionWithImage">481</System:Double>

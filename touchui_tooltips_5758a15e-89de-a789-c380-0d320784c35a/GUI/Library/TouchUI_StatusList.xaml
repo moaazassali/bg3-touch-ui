@@ -10,7 +10,6 @@
                 mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Core;component/Library/DataTemplates.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
