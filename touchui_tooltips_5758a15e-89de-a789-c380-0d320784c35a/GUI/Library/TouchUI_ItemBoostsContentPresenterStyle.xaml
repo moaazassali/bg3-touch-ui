@@ -1,0 +1,96 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <!-- Items Boosts -->
+    <DataTemplate x:Key="TouchUI_ItemBoostsSection">
+        <ItemsControl ItemsSource="{Binding .}" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}" AlternationCount="{Binding Count}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel x:Name="EntryContainer" Margin="{StaticResource DefaultMarginTop}" Width="{StaticResource MaxTooltipContentWidth}" HorizontalAlignment="Left">
+                        <DockPanel.ToolTip>
+                            <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                        </DockPanel.ToolTip>
+
+                        <Grid x:Name="Icon" DockPanel.Dock="Left" Visibility="Collapsed" Margin="{StaticResource DefaultMarginRight}">
+                            <Rectangle x:Name="IconBorder" Style="{StaticResource TooltipBoostIconBorderDashedStyle}" Width="{StaticResource TooltipActionIconFrameSize}" Height="{StaticResource TooltipActionIconFrameSize}"/>
+                            <Rectangle x:Name="IconImage" Style="{StaticResource TooltipBoostIconStyle}" Fill="{Binding Icon}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}">
+                            </Rectangle>
+                        </Grid>
+
+                        <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Background="Transparent" Margin="0,4,0,0">
+                            <WrapPanel HorizontalAlignment="Stretch">
+                                <TextBlock x:Name="Name" ls:TextBlockFormatter.SourceText="{Binding Name}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Highlight}" Style="{StaticResource TooltipDefaultTextStyle}" Margin="0,0,0,0"/>
+                                <TextBlock x:Name="Value" Text="{Binding Value, StringFormat={}{0:+#;-#;''}}" Visibility="Visible" FontSize="{StaticResource MediumFontSize}" Style="{StaticResource TooltipBaseTextStyle}" Margin="10,0,0,0"/>
+                                <TextBlock x:Name="Maximum" Visibility="Collapsed" Style="{StaticResource TooltipBaseTextStyle}" FontSize="{StaticResource MediumFontSize}" Margin="10,0,0,0">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                            <Binding Source="h29900944ga4c3g49ffg8a15g5970c20a9cdd"/>
+                                            <Binding Path="Maximum"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </WrapPanel>
+
+                            <ContentPresenter ContentTemplate="{StaticResource SpellSchoolTitle}" Content="{Binding UnlockSpell}" Width="430" HorizontalAlignment="Left" ls:AttachedProperties.InheritedTag="SmallSize"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataTemplate.Triggers>
+
+                        <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Controller">
+                            <Setter  TargetName="Name" Property="FontWeight" Value="DemiBold"/>
+                            <Setter TargetName="Name" Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+                            <Setter  TargetName="Value" Property="FontWeight" Value="DemiBold"/>
+                            <Setter TargetName="Value" Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+                            <Setter  TargetName="Maximum" Property="FontWeight" Value="DemiBold"/>
+                            <Setter TargetName="Maximum" Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+                        </DataTrigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter TargetName="EntryContainer" Property="Margin" Value="0"/>
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding Type}" Value="WeaponEnchantment">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="IconBorder" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="IconImage" Property="Width" Value="56" />
+                            <Setter TargetName="IconImage" Property="Height" Value="56" />
+                            <Setter TargetName="IconImage" Property="Fill">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="{StaticResource IconDippable}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Type}" Value="UnlockSpell">
+                            <Setter TargetName="Value" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Icon" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Value, Converter={StaticResource LessThanConverter}, ConverterParameter=0}" Value="True">
+                            <Setter TargetName="Value" Property="Foreground" Value="{StaticResource TooltipColor.Alert}"/>
+                            <Setter TargetName="Name" Property="Foreground" Value="{StaticResource TooltipColor.Alert}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding GUID}" Value="Movement">
+                            <Setter TargetName="Value" Property="Text" Value="{Binding DValue,Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short',StringFormat='+{0}'}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Maximum, Converter={StaticResource GreaterThanConverter}, ConverterParameter=1}" Value="True">
+                            <Setter TargetName="Maximum" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <Style x:Key="TouchUI_ItemBoostsContentPresenterStyle" TargetType="ContentPresenter">
+        <Setter Property="ContentTemplate" Value="{StaticResource TouchUI_ItemBoostsSection}" />
+    </Style>
+
+</ResourceDictionary>

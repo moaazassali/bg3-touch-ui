@@ -21,6 +21,7 @@
         <ResourceDictionary Source="../Library/TouchUI_SectionTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_ItemPassivesContentPresenterStyle.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_SpellsTooltip.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_ItemBoostsContentPresenterStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -329,13 +330,13 @@
                                 <StackPanel>
                                     <StackPanel x:Name="BoostsAndPassives" Visibility="Collapsed">
                                         <ContentPresenter Style="{StaticResource TouchUI_ItemPassivesContentPresenterStyle}" Content="{Binding Passives}" DataContext="{Binding .}"/>
-                                        <ContentPresenter x:Name="Boosts" Style="{StaticResource ItemBoostsContentPresenterStyle}" Content="{Binding Boosts}" DataContext="{Binding .}"/>
+                                        <ContentPresenter x:Name="Boosts" Style="{StaticResource TouchUI_ItemBoostsContentPresenterStyle}" Content="{Binding Boosts}" DataContext="{Binding .}"/>
                                     </StackPanel>
 
                                     <StackPanel x:Name="BoostsAndPassivesMainHand" Visibility="Collapsed">
                                         <TextBlock x:Name="BoostTitleMainHand" Style="{StaticResource TooltipSectionTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Source='h8a2addc4gb160g4358g90a6gb65f1f7c0000', Converter={StaticResource TranslatedStringConverter}}" Margin="0,8,0,4"/>
                                         <ContentPresenter Style="{StaticResource TouchUI_ItemPassivesContentPresenterStyle}" Content="{Binding PassivesMainHand}" DataContext="{Binding .}"/>
-                                        <ContentPresenter x:Name="BoostsMainHand" Style="{StaticResource ItemBoostsContentPresenterStyle}" Content="{Binding BoostsMainHand}" DataContext="{Binding .}"/>
+                                        <ContentPresenter x:Name="BoostsMainHand" Style="{StaticResource TouchUI_ItemBoostsContentPresenterStyle}" Content="{Binding BoostsMainHand}" DataContext="{Binding .}"/>
 
                                         <StackPanel.Style>
                                             <Style TargetType="StackPanel">
@@ -359,7 +360,7 @@
                                         <TextBlock x:Name="BoostTitleOffHand" Style="{StaticResource TooltipSectionTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Source='h80276877gd95cg4477ga1a3g85986f4f919b', Converter={StaticResource TranslatedStringConverter}}"
                                             Margin="0,8,0,4"/>
                                         <ContentPresenter Style="{StaticResource TouchUI_ItemPassivesContentPresenterStyle}" Content="{Binding PassivesOffHand}" DataContext="{Binding .}"/>
-                                        <ContentPresenter x:Name="BoostsOffHand" Style="{StaticResource ItemBoostsContentPresenterStyle}" Content="{Binding BoostsOffHand}" DataContext="{Binding .}"/>
+                                        <ContentPresenter x:Name="BoostsOffHand" Style="{StaticResource TouchUI_ItemBoostsContentPresenterStyle}" Content="{Binding BoostsOffHand}" DataContext="{Binding .}"/>
                                     </StackPanel>
 
                                     <ItemsControl x:Name="PermanentStatuses" Style="{StaticResource ActiveConditionsSection}" ItemsSource="{Binding DataContext.PermanentStatusEffects, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="Collapsed">
