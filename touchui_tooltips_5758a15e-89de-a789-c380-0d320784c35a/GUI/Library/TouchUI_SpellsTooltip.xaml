@@ -14,6 +14,7 @@
         <ResourceDictionary Source="../Library/TouchUI_SpellDescriptionTemplate.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PropertyTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_StatusList.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Spell Tooltip -->
@@ -88,7 +89,7 @@
                         </ls:LSInputBinding>
 
                         <!-- STATUS/CONDITIONS -->
-                        <ContentPresenter x:Name="SpellStatus" ContentTemplate="{StaticResource StatusList}" Content="{Binding ResultSections}" HorizontalAlignment="Left"/>
+                        <ContentPresenter x:Name="SpellStatus" ContentTemplate="{StaticResource TouchUI_StatusList}" Content="{Binding ResultSections}" HorizontalAlignment="Left"/>
 
                         <!-- ON MISS AND ON SAVE MESSAGES -->
                         <ItemsControl x:Name="OnMissMessages" ItemsSource="{Binding OnMissMessages}" Margin="{StaticResource AdditionalMessagesMargin}" Visibility="{Binding OnMissMessages.Count, Converter={StaticResource CountToVisibilityConverter}}">
