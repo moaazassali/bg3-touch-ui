@@ -15,32 +15,91 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel x:Name="EntryContainer" Margin="{StaticResource DefaultMarginTop}" Width="{StaticResource MaxTooltipContentWidth}" HorizontalAlignment="Left">
-                        <DockPanel.ToolTip>
+                        <!-- <DockPanel.ToolTip>
                             <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                        </DockPanel.ToolTip>
+                        </DockPanel.ToolTip> -->
 
-                        <Grid x:Name="Icon" DockPanel.Dock="Left" Visibility="Collapsed" Margin="{StaticResource DefaultMarginRight}">
-                            <Rectangle x:Name="IconBorder" Style="{StaticResource TooltipBoostIconBorderDashedStyle}" Width="{StaticResource TooltipActionIconFrameSize}" Height="{StaticResource TooltipActionIconFrameSize}"/>
-                            <Rectangle x:Name="IconImage" Style="{StaticResource TooltipBoostIconStyle}" Fill="{Binding Icon}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}">
-                            </Rectangle>
-                        </Grid>
+                        <!-- Touch UI - Make weapon actions/spells clickable to show tooltip sheet -->
+                        <ls:LSButton x:Name="OpenSpellPopupButton"
+                            Focusable="False"
+                            Padding="0" 
+                            Background="Transparent" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Top"
+                            IsHitTestVisible="False">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=ls:LSButton}}" Value="True">
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                                <Setter Property="StackPanel.RenderTransform">
+                                                    <Setter.Value>
+                                                        <TranslateTransform Y="4"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
 
-                        <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Background="Transparent" Margin="0,4,0,0">
-                            <WrapPanel HorizontalAlignment="Stretch">
-                                <TextBlock x:Name="Name" ls:TextBlockFormatter.SourceText="{Binding Name}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Highlight}" Style="{StaticResource TooltipDefaultTextStyle}" Margin="0,0,0,0"/>
-                                <TextBlock x:Name="Value" Text="{Binding Value, StringFormat={}{0:+#;-#;''}}" Visibility="Visible" FontSize="{StaticResource MediumFontSize}" Style="{StaticResource TooltipBaseTextStyle}" Margin="10,0,0,0"/>
-                                <TextBlock x:Name="Maximum" Visibility="Collapsed" Style="{StaticResource TooltipBaseTextStyle}" FontSize="{StaticResource MediumFontSize}" Margin="10,0,0,0">
-                                    <TextBlock.Text>
-                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                            <Binding Source="h29900944ga4c3g49ffg8a15g5970c20a9cdd"/>
-                                            <Binding Path="Maximum"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </WrapPanel>
+                                <Grid x:Name="Icon" DockPanel.Dock="Left" Visibility="Collapsed" Margin="{StaticResource DefaultMarginRight}">
+                                    <Rectangle x:Name="IconBorder" Style="{StaticResource TooltipBoostIconBorderDashedStyle}" Width="{StaticResource TooltipActionIconFrameSize}" Height="{StaticResource TooltipActionIconFrameSize}"/>
+                                    <Rectangle x:Name="IconImage" Style="{StaticResource TooltipBoostIconStyle}" Fill="{Binding Icon}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" Width="{StaticResource TooltipActionIconSize}" Height="{StaticResource TooltipActionIconSize}">
+                                    </Rectangle>
+                                </Grid>
 
-                            <ContentPresenter ContentTemplate="{StaticResource SpellSchoolTitle}" Content="{Binding UnlockSpell}" Width="430" HorizontalAlignment="Left" ls:AttachedProperties.InheritedTag="SmallSize"/>
-                        </StackPanel>
+                                <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Background="Transparent" Margin="0,4,0,0">
+                                    <WrapPanel HorizontalAlignment="Stretch">
+                                        <TextBlock x:Name="Name" ls:TextBlockFormatter.SourceText="{Binding Name}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Highlight}" Style="{StaticResource TooltipDefaultTextStyle}" Margin="0,0,0,0"/>
+                                        <TextBlock x:Name="Value" Text="{Binding Value, StringFormat={}{0:+#;-#;''}}" Visibility="Visible" FontSize="{StaticResource MediumFontSize}" Style="{StaticResource TooltipBaseTextStyle}" Margin="10,0,0,0"/>
+                                        <TextBlock x:Name="Maximum" Visibility="Collapsed" Style="{StaticResource TooltipBaseTextStyle}" FontSize="{StaticResource MediumFontSize}" Margin="10,0,0,0">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                    <Binding Source="h29900944ga4c3g49ffg8a15g5970c20a9cdd"/>
+                                                    <Binding Path="Maximum"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </WrapPanel>
+
+                                    <ContentPresenter ContentTemplate="{StaticResource SpellSchoolTitle}" Content="{Binding UnlockSpell}" Width="430" HorizontalAlignment="Left" ls:AttachedProperties.InheritedTag="SmallSize"/>
+                                </StackPanel>
+
+                            </StackPanel>
+
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Click">
+                                    <b:ChangePropertyAction TargetName="SelectedIconPopup" PropertyName="IsOpen" Value="True"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ls:LSButton>
+
+                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                        <Popup x:Name="SelectedIconPopup"
+                            Placement="Absolute"
+                            HorizontalOffset="10000" 
+                            VerticalOffset="0"
+                            AllowsTransparency="True"
+                            StaysOpen="True"
+                            IsOpen="False"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right">
+                            <ContentPresenter
+                                Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                ls:TooltipExtender.IsOpen="{Binding IsOpen, ElementName=SelectedIconPopup}"
+                                ls:TooltipExtender.Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Right"
+                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                <ContentPresenter.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentPresenter.LayoutTransform>
+                            </ContentPresenter>
+                        </Popup>
                     </DockPanel>
 
                     <DataTemplate.Triggers>
@@ -72,6 +131,7 @@
                         <DataTrigger Binding="{Binding Type}" Value="UnlockSpell">
                             <Setter TargetName="Value" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Icon" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="OpenSpellPopupButton" Property="IsHitTestVisible" Value="True" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Value, Converter={StaticResource LessThanConverter}, ConverterParameter=0}" Value="True">
                             <Setter TargetName="Value" Property="Foreground" Value="{StaticResource TooltipColor.Alert}"/>
