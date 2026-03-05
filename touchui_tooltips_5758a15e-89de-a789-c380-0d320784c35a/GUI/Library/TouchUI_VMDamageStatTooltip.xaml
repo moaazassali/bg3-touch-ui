@@ -1,0 +1,36 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="TouchUI_VMDamageStatTooltip">
+        <StackPanel ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner) , RelativeSource={RelativeSource Mode=TemplatedParent}}">
+            <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding (ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="Auto" MaxWidth="{DynamicResource MaxWideTooltipContentWidth}"/>
+            <ContentControl Content="{Binding (ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource DamageStatParamsTemplate}" Width="{DynamicResource MaxWideTooltipContentWidth}" Visibility="{Binding CalculationParameters.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMStat}">
+        <ContentPresenter x:Name="root" Content="{Binding .}" ContentTemplate="{StaticResource VMStatTooltip}"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IDString}" Value="AttackBonus">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource TouchUI_VMDamageStatTooltip}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IDString}" Value="EquippedWeaponDamage">
+                <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource TouchUI_VMDamageStatTooltip}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+
+</ResourceDictionary>
