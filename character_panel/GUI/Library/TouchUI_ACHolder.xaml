@@ -1,0 +1,33 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <!-- ===== ACHOLDER TEMPLATE=====-->
+    <ControlTemplate x:Key="TouchUI_ACHolder">
+        <Grid Name="root" DataContext="{Binding Stats.ArmorClass}" Background="Transparent">
+            <Grid.Resources>
+                <BitmapImage x:Key="ACShield">pack://application:,,,/Core;component/Assets/CharacterPanel/EQSlots_AC.png</BitmapImage>
+            </Grid.Resources>
+            <Grid.ToolTip>
+                <ls:LSTooltip Content="{Binding Path=DataContext, ElementName=root}" ls:TooltipExtender.Owner="{Binding (ls:TooltipExtender.Owner), ElementName=root}"/>
+            </Grid.ToolTip>
+            <Image Stretch="None" Source="{StaticResource ACShield}">
+                <Image.Effect>
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="1" Color="{StaticResource tint00}"/>
+                </Image.Effect>
+            </Image>
+            <StackPanel VerticalAlignment="Center" Margin="0,-18,0,0">
+                <TextBlock Text="{Binding Source='hc2ca2d88gc99cg4361g801fgd34ecdb85f19',Converter={StaticResource TranslatedStringConverter}}" Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource SmallFontSize}" HorizontalAlignment="Center"/>
+                <TextBlock Foreground="{StaticResource LS_tint100}" FontSize="{StaticResource ScaledTitleFontSize}" Text="{Binding Value}" HorizontalAlignment="Center" Margin="0,-16"/>
+            </StackPanel>
+        </Grid>
+    </ControlTemplate>
+
+</ResourceDictionary>

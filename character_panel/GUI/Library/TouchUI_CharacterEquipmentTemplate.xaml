@@ -14,6 +14,7 @@
         <ResourceDictionary Source="TouchUI_HelmetEQTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_MuscialEQTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_WeaponAttackBonusTemplate.xaml"/>
+        <ResourceDictionary Source="TouchUI_ACHolder.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml to override tooltip behavior -->
@@ -359,7 +360,7 @@
                     </StackPanel>
 
                     <!--ArmorClass-->
-                    <Control Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Template="{StaticResource ACHolder}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                    <Control Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Template="{StaticResource TouchUI_ACHolder}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                 </Grid>
 
                 <Control Grid.Row="2" Template="{StaticResource TouchUI_WeaponAttackBonusTemplate}" VerticalAlignment="Bottom" Margin="0,8,0,0"/>
