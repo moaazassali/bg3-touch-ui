@@ -941,4 +941,43 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ls:VMItem}">
+        <ContentPresenter x:Name="root" Content="{Binding .}" ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMTooltipItemSectionDetail}">
+        <ContentPresenter x:Name="root" Content="{Binding Item}" ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"/>
+    </DataTemplate>
+
+    <!-- Compare Tooltip Template (without background images or pin message) -->
+    <ControlTemplate x:Key="CompareTooltipTemplate" TargetType="ContentControl">
+        <DockPanel x:Name="EnclosingPanel" VerticalAlignment="Top">
+            <DockPanel.Tag>
+                <MultiBinding Converter="{StaticResource EquippedItemConverter}" FallbackValue="{x:Null}">
+                    <Binding Path="Content" RelativeSource="{RelativeSource TemplatedParent}"/>
+                    <Binding Path="(ls:TooltipExtender.Owner)" RelativeSource="{RelativeSource TemplatedParent}"/>
+                </MultiBinding>
+            </DockPanel.Tag>
+            <Border x:Name="EquippedItemPanelBorder" VerticalAlignment="Top" DockPanel.Dock ="Right"  Width="{Binding ElementName=HoveredItemPanel, Path=ActualWidth}" Visibility="{Binding ElementName=EnclosingPanel,Path=Tag,Converter={StaticResource NullToCollapsedConverter}}">
+                <ContentControl x:Name="EquippedItemPanel" Template="{x:Null}" ls:AttachedProperties.InheritedTag="Equipped" ContentTemplate="{StaticResource TouchUI_ItemsTooltip}" Content="{Binding Path=Tag,ElementName=EnclosingPanel}" ls:TooltipExtender.IsOpen="{Binding ElementName=EquippedItemPanel,Path=IsVisible}" ls:TooltipExtender.Content="{Binding ElementName=EnclosingPanel,Path=Tag}" Visibility="Collapsed"/>
+            </Border>
+
+            <ContentControl x:Name="HoveredItemPanel" Template="{StaticResource BaseTooltipTemplate}" Content="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Top" DockPanel.Dock="Left" ls:TooltipExtender.Data ="{Binding Path=(ls:TooltipExtender.Data),ElementName=EnclosingPanel}" ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"/>
+
+        </DockPanel>
+        <ControlTemplate.Triggers>
+            <Trigger SourceName="EquippedItemPanelBorder" Property="IsVisible" Value="True">
+                <Setter TargetName="EquippedItemPanel" Property="Template" Value="{StaticResource BaseTooltipTemplate}"/>
+                <Setter TargetName="EquippedItemPanel" Property="Visibility" Value="Visible"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding FinalPlacement,RelativeSource={RelativeSource Mode=Self}}" Value="Left">
+                <Setter TargetName="EquippedItemPanelBorder" Property="DockPanel.Dock" Value="Left"/>
+                <Setter TargetName="HoveredItemPanel" Property="DockPanel.Dock" Value="Right"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="PinnedTooltips_c">
+                <Setter TargetName="EquippedItemPanelBorder" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
 </ResourceDictionary>
