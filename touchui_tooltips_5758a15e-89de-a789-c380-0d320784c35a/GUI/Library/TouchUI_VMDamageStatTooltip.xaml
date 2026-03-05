@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_VMStatTooltip.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_VMDamageStatTooltip">
@@ -21,7 +22,14 @@
                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                 </StackPanel.LayoutTransform>
 
-                <TextBlock Style="{StaticResource TouchUI_TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding (ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="Auto" MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
+                <!-- <TextBlock Style="{StaticResource TouchUI_TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding (ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="Auto" MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}"/> -->
+                <!-- Touch UI - Replace with our custom textblock with clickable text with popup tooltip sheet -->
+                <ContentControl  
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    ls:TextBlockFormatter.SourceText="{Binding (ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    Tag="{StaticResource TouchUI_TooltipDescriptionStyle}"/>
+                
                 <ContentControl Content="{Binding (ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource DamageStatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding CalculationParameters.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
             </StackPanel>
         </ls:LSNineSliceImage>
