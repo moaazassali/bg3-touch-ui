@@ -11,17 +11,24 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_VMStatTooltip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_VMDamageStatTooltip">
-        <StackPanel ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner) , RelativeSource={RelativeSource Mode=TemplatedParent}}">
-            <TextBlock Style="{StaticResource TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding (ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="Auto" MaxWidth="{DynamicResource MaxWideTooltipContentWidth}"/>
-            <ContentControl Content="{Binding (ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource DamageStatParamsTemplate}" Width="{DynamicResource MaxWideTooltipContentWidth}" Visibility="{Binding CalculationParameters.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
-        </StackPanel>
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner) , RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
+
+                <TextBlock Style="{StaticResource TouchUI_TooltipDescriptionStyle}" ls:TextBlockFormatter.SourceText="{Binding (ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="Auto" MaxWidth="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
+                <ContentControl Content="{Binding (ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource DamageStatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding CalculationParameters.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
+            </StackPanel>
+        </ls:LSNineSliceImage>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ls:VMStat}">
-        <ContentPresenter x:Name="root" Content="{Binding .}" ContentTemplate="{StaticResource VMStatTooltip}"/>
+        <ContentPresenter x:Name="root" Content="{Binding .}" ContentTemplate="{StaticResource TouchUI_VMStatTooltip}"/>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IDString}" Value="AttackBonus">
                 <Setter TargetName="root" Property="ContentTemplate" Value="{StaticResource TouchUI_VMDamageStatTooltip}"/>
