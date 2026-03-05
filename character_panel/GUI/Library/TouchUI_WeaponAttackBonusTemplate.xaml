@@ -1,0 +1,158 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <ControlTemplate x:Key="TouchUI_WeaponAttackBonusTemplate" TargetType="Control">
+        <Grid x:Name="rootWeaponBonus" HorizontalAlignment="Stretch" Background="{StaticResource LS_PopUpBackgroundColor}">
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource DetailedListValue}">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="DualLineBreaks" TargetType="Border">
+                    <Setter Property="BorderBrush" Value="{StaticResource LS_tint20}"/>
+                    <Setter Property="BorderThickness" Value="0,0,3,0"/>
+                    <Setter Property="Margin" Value="0,6"/>
+                </Style>
+                <Style x:Key="DualLineBreaksMirror" BasedOn="{StaticResource DualLineBreaks}" TargetType="Border">
+                    <Setter Property="BorderThickness" Value="3,0,0,0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ==== ATTACK BONUS ROW ==== -->
+            <Border x:Name="AtackBonusRow" Grid.Row="0" Style="{StaticResource RowBG_d}" DataContext="{Binding Stats}" HorizontalAlignment="Stretch" Margin="2,0" ToolTipService.Placement="Right"  ToolTipService.VerticalOffset="-80">
+                <Border.ToolTip>
+                    <ls:LSTooltip Content="{Binding Path=DataContext.AttackBonus, ElementName=AtackBonusRow}" ls:TooltipExtender.Owner="{Binding DataContext, ElementName=rootWeaponBonus}"/>
+                </Border.ToolTip>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                    </Grid.ColumnDefinitions>
+                    <!--MELEE BONUS-->
+                    <TextBlock Grid.Column="0" x:Name="MeleeBonus_MainH" Text="{Binding MeleeAttackBonus.Value, StringFormat=' {0:+#;-#;- }'}"/>
+                    <Border x:Name="MeleeBonusSeparatorLine" Grid.Column="0" Style="{StaticResource DualLineBreaks}"/>
+                    <TextBlock Grid.Column="1" x:Name="MeleeBonus_OffH" Text="{Binding OffHandMeleeAttackBonus.Value, StringFormat=' {0:+#;-#;- }'}"/>
+
+                    <!--LABEL-->
+                    <TextBlock Grid.Column="2" Text="{Binding Source='h4db5409ag8fb5g4d46g88a1g465c84e20fef',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource DetailedListText}" HorizontalAlignment="Center"/>
+
+                    <!--RANGED BONUS-->
+                    <TextBlock Grid.Column="3" x:Name="RangedBonus_MainH" Text="{Binding RangedAttackBonus.Value, StringFormat=' {0:+#;-#;- }'}"/>
+                    <Border x:Name="RangedBonusSeparatorLine" Grid.Column="4" Style="{StaticResource DualLineBreaksMirror}"/>
+                    <TextBlock x:Name="RangedBonus_OffH" Grid.Column="4" Text="{Binding OffHandRangedAttackBonus.Value, StringFormat=' {0:+#;-#;- }'}"/>
+                </Grid>
+            </Border>
+
+            <!-- ==== DAMAGE ROW ==== -->
+            <Border x:Name="DamageBonusRow"  Grid.Row="1" Style="{StaticResource RowBG_d}" DataContext="{Binding Stats}" HorizontalAlignment="Stretch" Margin="2,0" ToolTipService.Placement="Right" ToolTipService.VerticalOffset="-80">
+                <Border.ToolTip>
+                    <ls:LSTooltip Content="{Binding Path=DataContext.EquippedWeaponDamage, ElementName=DamageBonusRow}" ls:TooltipExtender.Owner="{Binding DataContext, ElementName=rootWeaponBonus}"/>
+                </Border.ToolTip>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                        <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
+                    </Grid.ColumnDefinitions>
+                    <!--MELEE DAMAGE -->
+                    <TextBlock Grid.Column="0" x:Name="MeleeDamage_MainH">
+                        <ls:TextBlockFormatter.SourceText>                                 
+                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                <Binding Source="h1c706361g066ag4701gb902g31e2406b5dea"/>
+                                <Binding Path="MeleeAttackDamageRange.Value"/>
+                                <Binding Path="MeleeAttackDamageRange.Max"/>
+                            </MultiBinding>
+                        </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                    <Border Grid.Column="0" x:Name="MeleeDamageSeparatorLine" Style="{StaticResource DualLineBreaks}"/>
+                    <TextBlock Grid.Column="1" x:Name="MeleeDamage_OffH">
+                        <ls:TextBlockFormatter.SourceText>
+                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                <Binding Source="h1c706361g066ag4701gb902g31e2406b5dea"/>
+                                <Binding Path="OffHandMeleeAttackDamageRange.Value"/>
+                                <Binding Path="OffHandMeleeAttackDamageRange.Max"/>
+                            </MultiBinding>
+                        </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                    <!--LABEL-->
+                    <TextBlock Grid.Column="2" Text="{Binding Source='h53477166gd2ebg4769gad58gc949e73e89c4',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource DetailedListText}" HorizontalAlignment="Center"/>
+
+                    <!--RANGED DAMAGE -->
+                    <TextBlock Grid.Column="3" x:Name="RangedDamage_MainH">
+                        <ls:TextBlockFormatter.SourceText>       
+                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                <Binding Source="h1c706361g066ag4701gb902g31e2406b5dea"/>
+                                <Binding Path="RangedAttackDamageRange.Value"/>
+                                <Binding Path="RangedAttackDamageRange.Max"/>
+                            </MultiBinding>
+                        </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                    <Border Grid.Column="4" x:Name="RangedDamageSeparatorLine" Style="{StaticResource DualLineBreaksMirror}"/>
+                    <TextBlock Grid.Row="4" x:Name="RangedDamage_OffH" Grid.Column="4">
+                        <ls:TextBlockFormatter.SourceText>       
+                            <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                <Binding Source="h1c706361g066ag4701gb902g31e2406b5dea"/>
+                                <Binding Path="OffHandRangedAttackDamageRange.Value"/>
+                                <Binding Path="OffHandRangedAttackDamageRange.Max"/>
+                            </MultiBinding>
+                        </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True" SourceName="AtackBonusRow">
+                <Setter TargetName="AtackBonusRow" Property="Background" Value="{StaticResource RowBG_h}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True" SourceName="DamageBonusRow">
+                <Setter TargetName="DamageBonusRow" Property="Background" Value="{StaticResource RowBG_h}"/>
+            </Trigger>
+
+            <DataTrigger Binding="{Binding PlayerCharacterProperties.HasMeleeDualWielding}" Value="False">
+                <Setter TargetName="MeleeBonus_MainH" Property="Grid.ColumnSpan" Value="2"/>
+                <Setter TargetName="MeleeBonus_OffH" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="MeleeBonusSeparatorLine" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="MeleeDamage_MainH" Property="Grid.ColumnSpan" Value="2"/>
+                <Setter TargetName="MeleeDamage_OffH" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="MeleeDamageSeparatorLine" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding PlayerCharacterProperties.HasRangedDualWielding}" Value="False">
+                <Setter TargetName="RangedBonus_MainH" Property="Grid.ColumnSpan" Value="2"/>
+                <Setter TargetName="RangedBonus_OffH" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="RangedBonusSeparatorLine" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="RangedDamage_MainH" Property="Grid.ColumnSpan" Value="2"/>
+                <Setter TargetName="RangedDamage_OffH" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="RangedDamageSeparatorLine" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Equipment.RangedMainHand.Item, Converter={StaticResource NullToBoolTrueConverter}}" Value="True">
+                <Setter TargetName="RangedBonus_MainH" Property="Text" Value="-"/>
+                <Setter TargetName="RangedDamage_MainH" Property="ls:TextBlockFormatter.SourceText" Value="-"/>
+            </DataTrigger>
+
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>
