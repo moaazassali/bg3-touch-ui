@@ -181,7 +181,7 @@
                 VerticalOffset="0"
                 AllowsTransparency="True"
                 StaysOpen="True"
-                IsOpen="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot, ElementName=CharacterPanelHolder, Converter={StaticResource NullToBoolFalseConverter}, Mode=OneWay}"
+                IsOpen="False"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Right">
                 <ContentPresenter
