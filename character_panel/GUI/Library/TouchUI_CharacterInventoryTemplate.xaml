@@ -9,10 +9,6 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/touchui_tooltips;component/Library/TouchUI_ItemsTooltip.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
     <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
     <Style x:Key="TouchUI_InvContainerItemStyle"  TargetType="ListBoxItem"   BasedOn="{StaticResource BaseInvContainerItemStyle}">
         <Setter Property="Template" >
@@ -284,7 +280,6 @@
                     HorizontalAlignment="Right">
                     <ContentPresenter
                         Content="{Binding SelectedItem.Object, ElementName=InventoryHolder}"
-                        ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
                         ls:TooltipExtender.IsOpen="True"
                         ls:TooltipExtender.Content="{Binding SelectedItem.Object, ElementName=InventoryHolder}"
                         ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"

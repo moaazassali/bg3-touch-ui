@@ -13,7 +13,6 @@
         <ResourceDictionary Source="TouchUI_VanityButtonTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_HelmetEQTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_MuscialEQTemplate.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/touchui_tooltips;component/Library/TouchUI_ItemsTooltip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml to override tooltip behavior -->
@@ -380,7 +379,6 @@
                 HorizontalAlignment="Right">
                 <ContentPresenter
                     Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
-                    ContentTemplate="{StaticResource TouchUI_ItemsTooltip}"
                     ls:TooltipExtender.IsOpen="True"
                     ls:TooltipExtender.Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
                     ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
