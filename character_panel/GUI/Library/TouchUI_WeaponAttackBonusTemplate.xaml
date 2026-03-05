@@ -42,13 +42,13 @@
                     <b:EventTrigger EventName="MouseLeftButtonUp">
                         <b:ChangePropertyAction TargetName="AttackBonusPopup" PropertyName="IsOpen" Value="True"/>
                         <b:ChangePropertyAction TargetName="DamageBonusPopup" PropertyName="IsOpen" Value="False"/>
-                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="Transparent"/>
                     </b:EventTrigger>
                     <b:EventTrigger EventName="MouseLeftButtonDown">
                         <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
                     </b:EventTrigger>
                     <b:EventTrigger EventName="MouseLeave">
-                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="Transparent"/>
                     </b:EventTrigger>
                 </b:Interaction.Triggers>
 
@@ -85,13 +85,13 @@
                     <b:EventTrigger EventName="MouseLeftButtonUp">
                         <b:ChangePropertyAction TargetName="DamageBonusPopup" PropertyName="IsOpen" Value="True"/>
                         <b:ChangePropertyAction TargetName="AttackBonusPopup" PropertyName="IsOpen" Value="False"/>
-                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="Transparent"/>
                     </b:EventTrigger>
                     <b:EventTrigger EventName="MouseLeftButtonDown">
                         <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
                     </b:EventTrigger>
                     <b:EventTrigger EventName="MouseLeave">
-                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="Transparent"/>
                     </b:EventTrigger>
                 </b:Interaction.Triggers>
 
@@ -197,7 +197,7 @@
                         <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                     </ContentPresenter.LayoutTransform>
                 </ContentPresenter>
-                    </Popup>
+            </Popup>
         </Grid>
 
         <ControlTemplate.Triggers>
