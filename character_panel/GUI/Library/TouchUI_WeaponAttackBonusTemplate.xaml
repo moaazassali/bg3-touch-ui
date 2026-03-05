@@ -34,9 +34,24 @@
 
             <!-- ==== ATTACK BONUS ROW ==== -->
             <Border x:Name="AtackBonusRow" Grid.Row="0" Style="{StaticResource RowBG_d}" DataContext="{Binding Stats}" HorizontalAlignment="Stretch" Margin="2,0" ToolTipService.Placement="Right"  ToolTipService.VerticalOffset="-80">
-                <Border.ToolTip>
+                <!-- <Border.ToolTip>
                     <ls:LSTooltip Content="{Binding Path=DataContext.AttackBonus, ElementName=AtackBonusRow}" ls:TooltipExtender.Owner="{Binding DataContext, ElementName=rootWeaponBonus}"/>
-                </Border.ToolTip>
+                </Border.ToolTip> -->
+
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                        <b:ChangePropertyAction TargetName="AttackBonusPopup" PropertyName="IsOpen" Value="True"/>
+                        <b:ChangePropertyAction TargetName="DamageBonusPopup" PropertyName="IsOpen" Value="False"/>
+                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="MouseLeave">
+                        <b:ChangePropertyAction TargetName="AtackBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
@@ -62,9 +77,24 @@
 
             <!-- ==== DAMAGE ROW ==== -->
             <Border x:Name="DamageBonusRow"  Grid.Row="1" Style="{StaticResource RowBG_d}" DataContext="{Binding Stats}" HorizontalAlignment="Stretch" Margin="2,0" ToolTipService.Placement="Right" ToolTipService.VerticalOffset="-80">
-                <Border.ToolTip>
+                <!-- <Border.ToolTip>
                     <ls:LSTooltip Content="{Binding Path=DataContext.EquippedWeaponDamage, ElementName=DamageBonusRow}" ls:TooltipExtender.Owner="{Binding DataContext, ElementName=rootWeaponBonus}"/>
-                </Border.ToolTip>
+                </Border.ToolTip> -->
+
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                        <b:ChangePropertyAction TargetName="DamageBonusPopup" PropertyName="IsOpen" Value="True"/>
+                        <b:ChangePropertyAction TargetName="AttackBonusPopup" PropertyName="IsOpen" Value="False"/>
+                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="MouseLeave">
+                        <b:ChangePropertyAction TargetName="DamageBonusRow" PropertyName="Background" Value="{x:Null}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{StaticResource CSSlotSize}"/>
@@ -118,15 +148,65 @@
                     </TextBlock>
                 </Grid>
             </Border>
+
+            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+            <Popup x:Name="AttackBonusPopup"
+                Placement="Absolute"
+                HorizontalOffset="10000" 
+                VerticalOffset="0"
+                AllowsTransparency="True"
+                StaysOpen="True"
+                IsOpen="False"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Right">
+                <ContentPresenter
+                    Content="{Binding Path=DataContext.AttackBonus, ElementName=AtackBonusRow}"
+                    ls:TooltipExtender.IsOpen="True"
+                    ls:TooltipExtender.Content="{Binding Path=DataContext.AttackBonus, ElementName=AtackBonusRow}"
+                    ls:TooltipExtender.Owner="{Binding DataContext, ElementName=rootWeaponBonus}"
+                    ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right"
+                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <ContentPresenter.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </ContentPresenter.LayoutTransform>
+                </ContentPresenter>
+            </Popup>
+
+            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+            <Popup x:Name="DamageBonusPopup"
+                Placement="Absolute"
+                HorizontalOffset="10000" 
+                VerticalOffset="0"
+                AllowsTransparency="True"
+                StaysOpen="True"
+                IsOpen="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot, ElementName=CharacterPanelHolder, Converter={StaticResource NullToBoolFalseConverter}, Mode=OneWay}"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Right">
+                <ContentPresenter
+                    Content="{Binding Path=DataContext.EquippedWeaponDamage, ElementName=DamageBonusRow}"
+                    ls:TooltipExtender.IsOpen="{Binding IsOpen, RelativeSource={RelativeSource AncestorType={x:Type Popup}}}"
+                    ls:TooltipExtender.Content="{Binding Path=DataContext.EquippedWeaponDamage, ElementName=DamageBonusRow}"
+                    ls:TooltipExtender.Owner="{Binding DataContext, ElementName=rootWeaponBonus}"
+                    ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right"
+                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <ContentPresenter.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </ContentPresenter.LayoutTransform>
+                </ContentPresenter>
+                    </Popup>
         </Grid>
 
         <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True" SourceName="AtackBonusRow">
+            <!-- <Trigger Property="IsMouseOver" Value="True" SourceName="AtackBonusRow">
                 <Setter TargetName="AtackBonusRow" Property="Background" Value="{StaticResource RowBG_h}"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True" SourceName="DamageBonusRow">
                 <Setter TargetName="DamageBonusRow" Property="Background" Value="{StaticResource RowBG_h}"/>
-            </Trigger>
+            </Trigger> -->
 
             <DataTrigger Binding="{Binding PlayerCharacterProperties.HasMeleeDualWielding}" Value="False">
                 <Setter TargetName="MeleeBonus_MainH" Property="Grid.ColumnSpan" Value="2"/>
