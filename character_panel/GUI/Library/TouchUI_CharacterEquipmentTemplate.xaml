@@ -15,11 +15,12 @@
         <ResourceDictionary Source="TouchUI_MuscialEQTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_WeaponAttackBonusTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_ACHolder.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml to override tooltip behavior -->
     <Style x:Key="TouchUI_EquipmentSlotBaseStyle" TargetType="ls:LSButton" BasedOn="{StaticResource {x:Type ls:LSButton}}">
-        <Setter Property="Command" Value="{Binding DataContext.ShowAvailableEquipmentDelayedCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+        <Setter Property="Command" Value="{Binding DataContext.ShowAvailableEquipmentCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
         <Setter Property="CommandParameter" Value="{Binding}" />
         
         <Setter Property="noesis:StyleInteraction.Triggers">
@@ -227,12 +228,18 @@
                     <b:ChangePropertyAction TargetName="FilteringContainerHolder" PropertyName="CurrentFilter" Value="{Binding PlayerCharacterProperties.ActiveEquipmentSlot.FilterType}"/>
                     <b:ChangePropertyAction TargetName="ChangePartyContextButton" PropertyName="IsChecked" Value="True"/>
                     <b:InvokeCommandAction Command="{Binding DataContext.SelectCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
+
+                    <!-- Touch UI - Open tooltip sheet popup -->
+                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Visible"/>
                 </b:PropertyChangedTrigger>
 
                 <!--Selecting the slot while it's active = no more filtering-->
                 <b:DataTrigger Binding="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" Value="{x:Null}">
                     <b:ChangePropertyAction TargetName="FilteringContainerHolder" PropertyName="CurrentFilter" Value="{x:Null}"/>
                     <b:ChangePropertyAction TargetName="ChangePartyContextButton" PropertyName="IsChecked" Value="False"/>
+
+                    <!-- Touch UI - Close tooltip sheet popup -->
+                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Collapsed"/>
                 </b:DataTrigger>
 
                 <b:DataTrigger Binding="{Binding IsVisible, ElementName=CharacterPanelHolder}" Value="True">
@@ -370,30 +377,35 @@
             <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
             <!-- Touch UI - We need to place it outside of the item element because a double click in the popup is triggering a double click on the item which uses/equips it -->
             <!-- Touch UI - I couldn't find a better solution. I tried wrapping it with a button, swallowing all mouse events, etc... and nothing worked -->
-            <Popup x:Name="SelectedItemPopup"
-                Placement="Absolute"
-                HorizontalOffset="10000" 
-                VerticalOffset="0"
-                AllowsTransparency="True"
-                StaysOpen="True"
-                IsOpen="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot, ElementName=CharacterPanelHolder, Converter={StaticResource NullToBoolFalseConverter}, Mode=OneWay}"
-                VerticalAlignment="Stretch"
-                HorizontalAlignment="Right">
-                <ContentPresenter
-                    Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
-                    ls:TooltipExtender.IsOpen="True"
-                    ls:TooltipExtender.Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
-                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                    ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Right"
-                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                    <ContentPresenter.LayoutTransform>
-                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                    </ContentPresenter.LayoutTransform>
-                </ContentPresenter>
-            </Popup>
+            <ContentControl
+                x:Name="SelectedItemPopup"
+                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
+                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                <ContentControl.LayoutTransform>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                </ContentControl.LayoutTransform>
 
+                <b:Interaction.Triggers>
+                    <!-- Touch UI - Close the popout inventory when the template's background click collapses this popup -->
+                    <b:PropertyChangedTrigger Binding="{Binding Visibility, ElementName=SelectedItemPopup}">
+                        <b:Interaction.Behaviors>
+                            <b:ConditionBehavior>
+                                <b:ConditionalExpression>
+                                    <b:ComparisonCondition LeftOperand="{Binding Visibility, ElementName=SelectedItemPopup}" Operator="Equal" RightOperand="Collapsed"/>
+                                    <!-- Touch UI - Ensure we only fire this command if the popout inventory is actually open -->
+                                    <b:ComparisonCondition LeftOperand="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                </b:ConditionalExpression>
+                            </b:ConditionBehavior>
+                        </b:Interaction.Behaviors>
+                        
+                        <!-- Touch UI - Taken from PopOutInventoryTemplate in Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+                        <b:InvokeCommandAction 
+                            Command="{Binding DataContext.HideAvailableEquipmentCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" 
+                            CommandParameter="{Binding Equipment}"/>
+                    </b:PropertyChangedTrigger>
+                </b:Interaction.Triggers>
+            </ContentControl>
         </Grid>
 
         <ControlTemplate.Triggers>
