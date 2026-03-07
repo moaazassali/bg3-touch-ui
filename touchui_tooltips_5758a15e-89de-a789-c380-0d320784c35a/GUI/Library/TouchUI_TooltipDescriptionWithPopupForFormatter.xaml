@@ -17,6 +17,13 @@
     <!-- Touch UI - Caller passes their SourceText value via ls:TextBlockFormatter.SourceText directly, and optional TextBlock Style via Tag. -->
     <DataTemplate x:Key="TouchUI_TooltipDescriptionWithPopupForFormatter">
         <Grid>
+            <!-- Touch UI - Close the popup if we 'unload' this element because if this is a nested popup and the original parent popup was closed and then re-opened. All previously opened popups sometimes persist. -->
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Unloaded">
+                    <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="IsOpen" Value="False"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+
             <!-- Touch UI - Customize textblock style by passing it in the tag -->
             <TextBlock Style="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}" Visibility="Visible"
                        ls:TextBlockFormatter.SourceText="{Binding (ls:TextBlockFormatter.SourceText), RelativeSource={RelativeSource AncestorType=ContentControl}}">

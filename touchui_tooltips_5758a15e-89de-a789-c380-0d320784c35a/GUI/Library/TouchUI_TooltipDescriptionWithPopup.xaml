@@ -16,6 +16,13 @@
 
     <DataTemplate x:Key="TouchUI_TooltipDescriptionWithPopup">
         <Grid>
+            <!-- Touch UI - Close the popup if we 'unload' this element because if this is a nested popup and the original parent popup was closed and then re-opened. All previously opened popups sometimes persist. -->
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Unloaded">
+                    <b:ChangePropertyAction TargetName="SelectedTextPopup" PropertyName="IsOpen" Value="False"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+
             <!-- Touch UI - Customize textblock style by passing is in the tag -->
             <TextBlock Style="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}" Visibility="Visible">
 
