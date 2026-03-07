@@ -11,6 +11,9 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PermanentWarningSection.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_PropertyTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_SectionTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Passive Tooltip -->
@@ -78,23 +81,23 @@
                     </ContentControl>
 
                     <!-- Permanent warnings -->
-                    <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
+                    <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
 
                     <!-- Properties and warnings -->
                     <StackPanel x:Name="PropertiesAndWarningsSection">
-                        <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
+                        <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource TouchUI_PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
 
-                        <Control x:Name="WarningToggleable" Background="{StaticResource IconBrushWarningSoft}" Template="{StaticResource WarningLabelTemplate}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h0600e546g6545g4d00g8794g72aad11f278a',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed"/>
+                        <Control x:Name="WarningToggleable" Background="{StaticResource IconBrushWarningSoft}" Template="{StaticResource TouchUI_WarningLabelTemplate}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h0600e546g6545g4d00g8794g72aad11f278a',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed"/>
 
-                        <Control x:Name="WarningShortRest" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h2e273132g455dg487cgbe1ag5a57d9edf32f',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+                        <Control x:Name="WarningShortRest" Template="{StaticResource TouchUI_WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h2e273132g455dg487cgbe1ag5a57d9edf32f',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
 
-                        <Control x:Name="WarningLongRest" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h62353a25g90fbg4d59gb43cg41980724bfb5',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+                        <Control x:Name="WarningLongRest" Template="{StaticResource TouchUI_WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h62353a25g90fbg4d59gb43cg41980724bfb5',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
 
-                        <Control x:Name="WarningCombatLimit" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h70bf753ege90eg4f5ag96a5ge6535b9a1267',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+                        <Control x:Name="WarningCombatLimit" Template="{StaticResource TouchUI_WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h70bf753ege90eg4f5ag96a5ge6535b9a1267',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
 
-                        <Control x:Name="WarningTurnLimit" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h7a505843g6315g491fgb777ga13adac924b2',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+                        <Control x:Name="WarningTurnLimit" Template="{StaticResource TouchUI_WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h7a505843g6315g491fgb777ga13adac924b2',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
 
-                        <ItemsControl ItemsSource="{Binding WarningSections}" ItemTemplate="{StaticResource SectionTemplate}" Visibility="{Binding WarningSections.Count, Converter={StaticResource CountToVisibilityConverter}}" Margin="-10,0,0,0"/>
+                        <ItemsControl ItemsSource="{Binding WarningSections}" ItemTemplate="{StaticResource TouchUI_SectionTemplate}" Visibility="{Binding WarningSections.Count, Converter={StaticResource CountToVisibilityConverter}}" Margin="-10,0,0,0"/>
 
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
@@ -115,9 +118,9 @@
                     </StackPanel>
 
                     <!-- Lore description -->
-                    <Control x:Name="LoreDescriptionSection" Template="{StaticResource TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
+                    <Control x:Name="LoreDescriptionSection" Template="{StaticResource TouchUI_TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
 
-                    <ls:LSNineSliceImage Style="{StaticResource TooltipStripBottomStyle}" x:Name="footer" Visibility="{Binding CostSummary.Count, Converter={StaticResource CountToVisibilityConverter}}" ContentTemplate="{StaticResource FooterCosts}" Content="{Binding CostSummary}" />
+                    <ls:LSNineSliceImage Style="{StaticResource TouchUI_TooltipStripBottomStyle}" x:Name="footer" Visibility="{Binding CostSummary.Count, Converter={StaticResource CountToVisibilityConverter}}" ContentTemplate="{StaticResource FooterCosts}" Content="{Binding CostSummary}"/>
                 </StackPanel>
             </Grid>
         </ls:LSNineSliceImage>
