@@ -40,7 +40,7 @@
                         Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
                         ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
                         ls:TextBlockFormatter.SourceText="{Binding Path=(ls:TooltipExtender.Data).Description, RelativeSource={RelativeSource Mode=Self}}"
-                        Tag="{StaticResource TooltipDescriptionStyle}"/>
+                        Tag="{StaticResource TouchUI_TooltipDescriptionStyle}"/>
 
                     <ContentControl Content="{Binding Path=(ls:TooltipExtender.Data), RelativeSource={RelativeSource Mode=Self}}" ContentTemplate="{StaticResource TouchUI_StatParamsTemplate}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Visibility="{Binding Path=(ls:TooltipExtender.Data).CalculationParameters.Count, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CountToVisibilityConverter}}"/>
                 </StackPanel>
