@@ -1,0 +1,151 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <!-- Passive Tooltip -->
+    <DataTemplate x:Key="TouchUI_PassivesTooltip">
+        <Grid>
+            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
+            <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
+                <Image.Source>
+                    <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
+                        <Binding Source="Assets/Tooltips/Icons/"/>
+                        <Binding Path="IconName"/>
+                    </MultiBinding>
+                </Image.Source>
+            </Image>
+
+            <StackPanel HorizontalAlignment="Center" Margin="0 5 0 0" Width="{StaticResource MaxTooltipContentWidth}" >
+                <!-- Title -->
+                <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}">
+                    <TextBlock x:Name="TitleText" Text="{Binding Name}" Style="{StaticResource TooltipCtxTransStringTitleStyle}" Width="{StaticResource MaxWidthOnCollisionWithImage}"/>
+
+                    <TextBlock x:Name="subtitleText" Style="{StaticResource TooltipSubTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Source='he8ad7cd6g0ffag472ega526g52c8ef0560f1',Converter={StaticResource TranslatedStringConverter}}"/>
+                </StackPanel>
+                <!-- Description -->
+                <TextBlock x:Name="DescriptionText" Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" Width="{StaticResource MaxWidthOnCollisionWithImage}" Margin="{StaticResource DefaultMarginBottom}">
+                    <b:Interaction.Behaviors>
+                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
+                    </b:Interaction.Behaviors>
+                </TextBlock>
+
+                <!-- Extra descrìption -->
+                <TextBlock x:Name="PassiveExtraDescription" Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}}"  VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" >
+                    <b:Interaction.Behaviors>
+                        <ls:CtxTransStringRunGeneratorBehavior Source="{Binding ExtraDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
+                    </b:Interaction.Behaviors>
+                    <TextBlock.Tag>
+                        <MultiBinding Converter="{StaticResource GreaterOrEqualThanMultiConverter}">
+                            <Binding Path="(ls:MeasurementProperties.TopY)" RelativeSource="{RelativeSource Self}"/>
+                            <Binding Path="(ls:MeasurementProperties.BottomY)" ElementName="DecorationImage"/>
+                        </MultiBinding>
+                    </TextBlock.Tag>
+                </TextBlock>
+
+                <!-- Permanent warnings -->
+                <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
+
+                <!-- Properties and warnings -->
+                <StackPanel x:Name="PropertiesAndWarningsSection">
+                    <ItemsControl ItemsSource="{Binding Properties}" ItemTemplate="{StaticResource PropertyTemplate}" Visibility="{Binding Properties.Count, Converter={StaticResource CountToVisibilityConverter}}" Style="{StaticResource ItemsControlHorizontalWrapPanel}"/>
+
+                    <Control x:Name="WarningToggleable" Background="{StaticResource IconBrushWarningSoft}" Template="{StaticResource WarningLabelTemplate}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h0600e546g6545g4d00g8794g72aad11f278a',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed"/>
+
+                    <Control x:Name="WarningShortRest" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h2e273132g455dg487cgbe1ag5a57d9edf32f',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+
+                    <Control x:Name="WarningLongRest" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h62353a25g90fbg4d59gb43cg41980724bfb5',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+
+                    <Control x:Name="WarningCombatLimit" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h70bf753ege90eg4f5ag96a5ge6535b9a1267',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+
+                    <Control x:Name="WarningTurnLimit" Template="{StaticResource WarningLabelTemplate}" Background="{StaticResource IconBrushWarning}" Foreground="{StaticResource LS_warning50TxtColor}" Tag="{Binding Source='h7a505843g6315g491fgb777ga13adac924b2',Converter={StaticResource TranslatedStringConverter}}" Visibility="Collapsed" />
+
+                    <ItemsControl ItemsSource="{Binding WarningSections}" ItemTemplate="{StaticResource SectionTemplate}" Visibility="{Binding WarningSections.Count, Converter={StaticResource CountToVisibilityConverter}}" Margin="-10,0,0,0"/>
+
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Margin" Value="{StaticResource DefaultMarginBottom}"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Properties.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="False"/>
+                                        <Condition Binding="{Binding WarningSections.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter=0}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+
+                <!-- Lore description -->
+                <Control x:Name="LoreDescriptionSection" Template="{StaticResource TooltipStripLoreTextTemplate}" Visibility="{Binding LoreDescription, Converter={StaticResource StringToVisibilityConverter}}" />
+
+                <ls:LSNineSliceImage Style="{StaticResource TooltipStripBottomStyle}" x:Name="footer" Visibility="{Binding CostSummary.Count, Converter={StaticResource CountToVisibilityConverter}}" ContentTemplate="{StaticResource FooterCosts}" Content="{Binding CostSummary}" />
+            </StackPanel>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="Tag" SourceName="PassiveExtraDescription" Value="{StaticResource FalseValue}">
+                <Setter TargetName="PassiveExtraDescription" Property="Width" Value="{StaticResource MaxWidthOnCollisionWithImage}" />
+            </Trigger>
+            <DataTrigger Binding="{Binding IsToggleable}" Value="False">
+                <Setter TargetName="subtitleText" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h099ebd82g6ea7g43b7gbf0fg69e32653f322',Converter={StaticResource TranslatedStringConverter}}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ElementName=PassiveExtraDescription, Path=Visibility}" Value="Visible">
+                <Setter TargetName="PassiveExtraDescription" Property="Margin" Value="{StaticResource DefaultMarginBottom}"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsToggleable}" Value="True"/>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="StatsPanel"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="WarningToggleable" Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <DataTrigger Binding="{Binding ShortRestLimitExceeded}" Value="True">
+                <Setter TargetName="WarningShortRest" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding LongRestLimitExceeded}" Value="True">
+                <Setter TargetName="WarningLongRest" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding CombatLimitExceeded}" Value="True">
+                <Setter TargetName="WarningCombatLimit" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TurnLimitExceeded}" Value="True">
+                <Setter TargetName="WarningTurnLimit" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Controller" >
+                <Setter TargetName="DescriptionText" Property="Width" Value="{StaticResource MaxTooltipContentWidth}" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMPassive}">
+        <ContentPresenter Content="{Binding (ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource TouchUI_PassivesTooltip}"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMContextTransStringPassiveParam}" >
+        <ContentPresenter Content="{Binding (ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource TouchUI_PassivesTooltip}"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMCharacterCreationPassive}">
+        <ContentPresenter Content="{Binding (ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" ContentTemplate="{StaticResource TouchUI_PassivesTooltip}"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ls:VMTooltipPassive}">
+        <ContentPresenter Content="{Binding .}" ContentTemplate="{StaticResource TouchUI_PassivesTooltip}"/>
+    </DataTemplate>
+
+</ResourceDictionary>
