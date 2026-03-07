@@ -39,14 +39,21 @@
                         <TextBlock x:Name="subtitleText" Style="{StaticResource TooltipSubTitleStyle}" ls:TextBlockFormatter.SourceText="{Binding Source='he8ad7cd6g0ffag472ega526g52c8ef0560f1',Converter={StaticResource TranslatedStringConverter}}"/>
                     </StackPanel>
                     <!-- Description -->
-                    <TextBlock x:Name="DescriptionText" Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" Width="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}" Margin="{StaticResource DefaultMarginBottom}">
+                    <!-- <TextBlock x:Name="DescriptionText" Style="{StaticResource TouchUI_TooltipCtxTransStringDescriptionStyle}" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" Width="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}" Margin="{StaticResource DefaultMarginBottom}">
                         <b:Interaction.Behaviors>
                             <ls:CtxTransStringRunGeneratorBehavior Source="{Binding Description}" ParamRunStyle="{StaticResource TooltipUnitParamRun}"/>
                         </b:Interaction.Behaviors>
-                    </TextBlock>
+                    </TextBlock> -->
+                    <ContentControl x:Name="DescriptionText"
+                        Content="{Binding Description}"
+                        ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                        VerticalAlignment="Center"
+                        Margin="{StaticResource DefaultMarginBottom}"
+                        Tag="{StaticResource TouchUI_TooltipCtxTransStringDescriptionStyle}"
+                        Width="{StaticResource TouchUI_MaxWidthOnCollisionWithImage}"/>
 
                     <!-- Extra descrìption -->
-                    <TextBlock x:Name="PassiveExtraDescription" Style="{StaticResource TooltipCtxTransStringDescriptionStyle}" Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}}"  VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" >
+                    <!-- <TextBlock x:Name="PassiveExtraDescription" Style="{StaticResource TouchUI_TooltipCtxTransStringDescriptionStyle}" Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}}"  VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Primary}" >
                         <b:Interaction.Behaviors>
                             <ls:CtxTransStringRunGeneratorBehavior Source="{Binding ExtraDescription}" ParamRunStyle="{StaticResource TooltipUnitParamRun}" />
                         </b:Interaction.Behaviors>
@@ -56,7 +63,19 @@
                                 <Binding Path="(ls:MeasurementProperties.BottomY)" ElementName="DecorationImage"/>
                             </MultiBinding>
                         </TextBlock.Tag>
-                    </TextBlock>
+                    </TextBlock> -->
+                    <ContentControl x:Name="PassiveExtraDescription"
+                        Content="{Binding ExtraDescription}"
+                        ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopup}"
+                        VerticalAlignment="Center"
+                        Margin="{StaticResource DefaultMarginBottom}"
+                        Visibility="{Binding ExtraDescription, Converter={StaticResource StringToVisibilityConverter}}">
+                        <ContentControl.Tag>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource TouchUI_TooltipCtxTransStringDescriptionStyle}">
+                                <Setter Property="Foreground" Value="{StaticResource TooltipColor.Primary}"/>
+                            </Style>
+                        </ContentControl.Tag>
+                    </ContentControl>
 
                     <!-- Permanent warnings -->
                     <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource PermanentWarningSection}" Content="{Binding .}"/>
