@@ -34,6 +34,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_WeightBarTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_MultiClassSpellbookTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_AlchemyPanelTemplate.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_CharSheetTabController.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -692,7 +693,7 @@
                                         
                                         <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Source='hd0a79314g0517g4938ga883g9f991801df75', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource DetailedListText}" Margin="10,0,0,0"/>
                                     </Grid>
-                                    <Control Name="CharacterInfoPanel" Template="{StaticResource CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="0,50,0,0"/>
+                                    <Control Name="CharacterInfoPanel" Template="{StaticResource TouchUI_CharSheetTabController}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding CurrentPlayer.SelectedCharacter}" Margin="0,50,0,0"/>
                                 </Grid>
 
                                 <!-- ===== SPELLBOOK ===== -->
