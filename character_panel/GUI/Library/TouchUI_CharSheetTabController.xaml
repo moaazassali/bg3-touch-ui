@@ -55,6 +55,219 @@
         </Border>
     </DataTemplate>
 
+    <!--===== SKILLS VIEW TEMPLATE =====-->
+    <ControlTemplate x:Key="TouchUI_SkillsTemplate">
+        <Grid x:Name="SkillsPanelContent" Margin="-22,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Proficiency Bonus-->
+            <Border Name="ProficiencyBonusLegend" Grid.Row="0" Background="Transparent" ToolTip="{StaticResource PlacementParentDCTooltip}" DataContext="{Binding Stats.ProficiencyBonus}" ToolTipService.Placement="Right" ToolTipService.VerticalOffset="-40">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
+                    <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock Name="ProficiencyBonusLabel" Foreground="{StaticResource LS_accent75TxtColor}" FontSize="{StaticResource ScaledSmallFontSize}" VerticalAlignment="Center">
+                                <Run Text="{Binding Source='h65b46ad4g2eacg47d5gb4b4g124ca3b8aaef', Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Run Text="{Binding Value, StringFormat='(+{0})'}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+
+            <!--SkillsList-->
+            <ScrollViewer Style="{StaticResource NoForcedScrollViewerStyle}" Grid.Row="1" Padding="{StaticResource ScrollOffset}">
+                <Grid x:Name="CharacterSkills">
+                    <Grid.Resources>
+                        <Style x:Key="SkillTextStyle" TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="{DynamicResource ScaledSmallFontSize}"/>
+                            <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
+                        </Style>
+
+                        <Style x:Key="SkillTitleTextStyle" TargetType="TextBlock" BasedOn="{StaticResource SkillTextStyle}">
+                            <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                            <Setter Property="ToolTipService.Placement" Value="Right"/>
+                            <Setter Property="ToolTipService.HorizontalOffset" Value="188"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <ItemsControl ItemsSource="{Binding Stats.Abilities}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="AbillitySkillSection" Visibility="{Binding Skills.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=0}" Style="{StaticResource RowBG_d}" BorderBrush="{StaticResource LS_accent00TxtColor}" BorderThickness="2" Margin="0,4">
+                                    <StackPanel Orientation="Vertical" Margin="0,8,0,0">
+                                        <Border x:Name="SkillTitle" Background="Transparent" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right">
+                                            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                                                <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                                <TextBlock x:Name="TitleValue" Style="{StaticResource SkillTitleTextStyle}" Text="{Binding Modifier, StringFormat=' ({0:+#;-#;0})'}"/>
+                                            </StackPanel>
+                                        </Border>
+                                                          
+                                        <ItemsControl ItemsSource="{Binding Skills}" Margin="12,4,12,12">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="ls:VMSkill">
+                                                    <Border Name="GridRow" Style="{StaticResource RowBG_d}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right">
+                                                        <Grid HorizontalAlignment="Stretch" Height="56" >
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="44"/>
+                                                                <ColumnDefinition Width="66"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Image x:Name="SkillIcon" Grid.Column="0" Style="{StaticResource SkillsIcon}" Margin="8,4,8,4" Stretch="UniformToFill" Height="44"/>
+
+                                                            <TextBlock x:Name="SkillName" Text="{Binding SkillValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h65e11968gf9b6g4c47g9efcg03fb60fb923c'}" Style="{StaticResource SkillTextStyle}" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" Margin="8,0,0,0"/>
+
+                                                            <Grid x:Name="ExpertiseIcon" Grid.Column="2" Visibility="Collapsed" Background="Transparent" ToolTipService.PlacementTarget="{Binding ElementName=GridRow}" ToolTipService.Placement="Right" VerticalAlignment="Center">
+                                                                <Grid.ToolTip>
+                                                                    <ls:LSTooltip IsHitTestVisible="False" Content="hfa5d1a58ged7dg40c8g8783g14f58399525d" ls:AttachedProperties.InheritedTag="h314e6b7ege3a1g4333g8798g461554dfda30" Style="{StaticResource InlineTagTooltip}"/>
+                                                                </Grid.ToolTip>
+                                                                <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="-18,0,0,0"/>
+                                                                <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="8,0,0,0"/>
+                                                            </Grid>
+
+                                                            <Border x:Name="ProficiencyIcon" Grid.Column="2" Visibility="Collapsed" Background="Transparent" ToolTipService.PlacementTarget="{Binding ElementName=GridRow}" ToolTipService.Placement="Right" VerticalAlignment="Center">
+                                                                <Border.ToolTip>
+                                                                    <ls:LSTooltip x:Name="ProficiencyTooltip" IsHitTestVisible="False" Content="{Binding Source='h1a87477cge794g43eag8f06ge44364db9f39',Converter={StaticResource TranslatedStringConverter}}" ls:AttachedProperties.InheritedTag="hc36a544fg6ae1g45f0gb74aga36d2961a9b1" Style="{StaticResource InlineTagTooltip}"/>
+                                                                </Border.ToolTip>
+                                                                <Image Source="{StaticResource ProficientDice}" Stretch="None"/>
+                                                            </Border>
+
+                                                            <TextBlock x:Name="SkillModifier" Style="{StaticResource SkillTextStyle}" Text="{Binding Value, StringFormat={}{0:+#;-#;0}}" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,18,0" Foreground="{StaticResource LS_accent100TxtColor}"/>
+                                                            <b:Interaction.Triggers>
+                                                                <b:EventTrigger EventName="MouseEnter">
+                                                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                                </b:EventTrigger>
+                                                            </b:Interaction.Triggers>
+                                                        </Grid>
+                                                    </Border>
+                                                    <DataTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="GridRow" Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                            <Setter TargetName="SkillName" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                                            <Setter TargetName="SkillModifier" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding IsProficient}" Value="True">
+                                                            <Setter TargetName="ProficiencyIcon" Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsExpert}" Value="True">
+                                                            <Setter TargetName="ExpertiseIcon" Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+
+                                                        <!--Proficiency TT Variants-->
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Athletics">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h3bad03f6gbd5bg41dfg851fg20ef293804a7"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Acrobatics">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h98fde208g8d95g4832g80e3g09076bb94095"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="SleightOfHand">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h49679d28ga32fg4073gb86bgb5c5af905140"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Stealth">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="hebaa0c62gdcecg4493g98f2g4b9d4bd09c8a"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Arcana">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h6f02c973gced3g4f0bg824egd8a9e908673e"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="History">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="heaf1d1ebg749eg4c72g8660g10a7f86c96bb"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Investigation">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h48b6b30bg488eg45e3gb488g9e7ccd6d99db"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Nature">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h53d646f7g0a96g4399g830eg5bbd0525e421"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Religion">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h37367995g46d6g473bg9a2bgcb3f9f3fccaa"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="AnimalHandling">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h1a87477cge794g43eag8f06ge44364db9f39"/>
+
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Insight">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h33f3ebfdg817cg480cg9dccg22c4bbceefd0"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Medicine">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h2ebacb87g7bf2g482ag8f79gfc747bb6b00b"/>
+                                                        </DataTrigger>
+                                                        
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Perception">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h27c02de4g0f49g4788ga01fgca43a6f7fb13"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Survival">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="ha37dde39g3bd1g410eg84e5g672e713d3445"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Deception">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="he56b4fb7g8194g4d5fg93f9g0737ccb7875a"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Intimidation">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h1863263agc7e4g4ca0g8080g20bc6405bc5e"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Performance">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="hebc5cb52gc046g47b5ga9bfgd0151eaa60c9"/>
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding Skill}" Value="Persuasion">
+                                                            <Setter TargetName="ProficiencyTooltip" Property="Content" Value="hd14e778dgecd6g45a2gb292g0361a5eb047c"/>
+                                                        </DataTrigger>
+
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="AbillitySkillSection" Property="Background" Value="{StaticResource RowBG_h}"/>
+                                        <Setter TargetName="TitleName" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                        <Setter TargetName="TitleValue" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True" SourceName="SkillTitle">
+                                        <Setter TargetName="TitleName" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                        <Setter TargetName="TitleValue" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True" SourceName="ProficiencyBonusLegend">
+                <Setter TargetName="ProficiencyBonusLabel" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <!--TAB CONTENT-->
     <ControlTemplate x:Key="TouchUI_CharSheetTabController" TargetType="Control">
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -256,7 +469,7 @@
                             <Image Width="60" Height="60" Source="pack://application:,,,/Core;component/Assets/CharacterCreation/ico_skills.png" Stretch="Uniform"/>
                         </Border>
                     </TabItem.Header>
-                    <Control x:Name="SkillsList" Template="{StaticResource SkillsTemplate}"/>
+                    <Control x:Name="SkillsList" Template="{StaticResource TouchUI_SkillsTemplate}"/>
                 </TabItem>
 
                 <!-- ====== DETAILS TAB ======-->
