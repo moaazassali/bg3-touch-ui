@@ -462,19 +462,21 @@
                                                         IsOpen="False"
                                                         VerticalAlignment="Stretch"
                                                         HorizontalAlignment="Right">
-                                                        <ContentPresenter
-                                                            Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                            ls:TooltipExtender.IsOpen="{Binding IsOpen, ElementName=SelectedIconPopup}"
-                                                            ls:TooltipExtender.Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                                            ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                                                            VerticalAlignment="Stretch"
-                                                            HorizontalAlignment="Right"
-                                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                                                            <ContentPresenter.LayoutTransform>
-                                                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                                                            </ContentPresenter.LayoutTransform>
-                                                        </ContentPresenter>
+                                                        <Grid>
+                                                            <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                                                            <ContentPresenter
+                                                                Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                                ls:TooltipExtender.IsOpen="{Binding IsOpen, ElementName=SelectedIconPopup}"
+                                                                ls:TooltipExtender.Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                                VerticalAlignment="Stretch"
+                                                                HorizontalAlignment="Right">
+                                                                <ContentPresenter.LayoutTransform>
+                                                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                                </ContentPresenter.LayoutTransform>
+                                                            </ContentPresenter>
+                                                        </Grid>
                                                     </Popup>
                                                 </Grid>
                                                 <DataTemplate.Triggers>

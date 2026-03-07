@@ -57,17 +57,20 @@
                 IsOpen="False"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Right">
-                <ContentPresenter
-                    Content="{Binding .}"
-                    ls:TooltipExtender.IsOpen="True"
-                    ls:TooltipExtender.Content="{Binding .}"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Right"
-                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                    <ContentPresenter.LayoutTransform>
-                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                    </ContentPresenter.LayoutTransform>
-                </ContentPresenter>
+                <Grid>
+                    <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                    <ContentPresenter
+                        Content="{Binding .}"
+                        ls:TooltipExtender.IsOpen="True"
+                        ls:TooltipExtender.Content="{Binding .}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                        <ContentPresenter.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </ContentPresenter.LayoutTransform>
+                    </ContentPresenter>
+                </Grid>
             </Popup>
         </Grid>
 

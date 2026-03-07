@@ -67,9 +67,9 @@
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Right">
                 <Grid>
-                    <Grid.LayoutTransform>
-                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                    </Grid.LayoutTransform>
+                    <!-- Touch UI - Just an element to define the height of the popup as full screen height -->
+                    <!-- Touch UI - Defining this directly on the content presenter is introducing some strange bottom margin -->
+                    <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
 
                     <!-- PRESENTER 1: For those using Inline.DataContext -->
                     <ContentPresenter
@@ -78,8 +78,7 @@
                         ls:TooltipExtender.Content="{Binding}"
                         ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                        VerticalAlignment="Stretch" HorizontalAlignment="Right">
                         <ContentPresenter.Style>
                             <Style TargetType="ContentPresenter">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -90,6 +89,9 @@
                                 </Style.Triggers>
                             </Style>
                         </ContentPresenter.Style>
+                        <ContentPresenter.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </ContentPresenter.LayoutTransform>
                     </ContentPresenter>
 
                     <!-- PRESENTER 2: For those using InlineTagTooltip style -->
@@ -100,7 +102,6 @@
                         ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         Tag="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}"
                         ls:AttachedProperties.InheritedTag="{Binding Tag.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource AncestorType=Popup}}"
                         ContentTemplate="{DynamicResource TouchUI_HeaderBodyTemplate}"> <!-- Dynamic Resource Prevents Circular Ref -->
@@ -114,6 +115,9 @@
                                 </Style.Triggers>
                             </Style>
                         </ContentPresenter.Style>
+                        <ContentPresenter.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </ContentPresenter.LayoutTransform>
                     </ContentPresenter>
                 </Grid>
             </Popup>
