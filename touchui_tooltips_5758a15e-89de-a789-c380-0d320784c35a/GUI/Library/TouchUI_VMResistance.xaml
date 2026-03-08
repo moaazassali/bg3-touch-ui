@@ -9,55 +9,67 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
-    <DataTemplate DataType="{x:Type ls:VMResistance}">
-        <!-- Enum value stored in tag as LocaEnum doesn't correctly support values past MAX. For those cases we have to alter the value (see triggers) -->
-        <StackPanel x:Name="root" Tag="{Binding DamageTypeValue}">
-            <StackPanel.Resources>
-                <Style TargetType="ls:LSSpan" BasedOn="{StaticResource LSSpanStyle}">
-                    <Style.Triggers>
-                        <Trigger Property="TagType" Value="hl">
-                            <Setter Property="Foreground" Value="{StaticResource LS_accent75TxtColor}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Resources>
-            <!-- Default values and content is Vulnerable -->
-            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
-                <StackPanel>
-                    <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleNoCollapseStyle}" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h060ad079g2abdg43d8g9873gbb5fc58ba0e0'}"/>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_LSSpanStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 
-                    <TextBlock Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Source, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
-                         <ls:TextBlockFormatter.SourceText>
+    <DataTemplate DataType="{x:Type ls:VMResistance}">
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <!-- Enum value stored in tag as LocaEnum doesn't correctly support values past MAX. For those cases we have to alter the value (see triggers) -->
+            <StackPanel x:Name="root" Tag="{Binding DamageTypeValue}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
+
+                <StackPanel.Resources>
+                    <Style TargetType="ls:LSSpan" BasedOn="{StaticResource TouchUI_LSSpanStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="TagType" Value="hl">
+                                <Setter Property="Foreground" Value="{StaticResource LS_accent75TxtColor}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                <!-- Default values and content is Vulnerable -->
+                <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                    <StackPanel>
+                        <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleNoCollapseStyle}" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h060ad079g2abdg43d8g9873gbb5fc58ba0e0'}"/>
+
+                        <TextBlock Style="{StaticResource TouchUI_TooltipDescriptionStyle}" Visibility="{Binding Source, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                    <Binding Source="hea17a85cg4aaag4679g9cbdge242e8f3bb9a"/>
+                                    <Binding Path="Source"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+                <DockPanel x:Name="BaseDescriptionContainer" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                    <Image x:Name="BaseIcon" Source="{StaticResource Vulnerable}" Stretch="None" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
+                    <TextBlock x:Name="BaseDescription" Style="{StaticResource TooltipBodyStyle}" Margin="0 20" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h8aa64a61g697ag44eag8025g72455bb15041'}" DockPanel.Dock="Right"/>
+                </DockPanel>
+                <DockPanel x:Name="AdditionalDescriptionContainer" Visibility="Collapsed" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                    <Image x:Name="AdditionalIcon" Source="{StaticResource ResistantNonMagical}" Stretch="None" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
+                    <TextBlock x:Name="AdditionalDescription" Style="{StaticResource TooltipBodyStyle}" Margin="0 20" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h05322b79g00ecg45c6gbbe0g691acc45fe63'}" DockPanel.Dock="Right"/>
+                </DockPanel>
+
+                <StackPanel x:Name="Duration" Orientation="Horizontal" Margin="{StaticResource DefaultMarginTopBottom}" Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}}">
+                    <Image Source="{StaticResource TTHourglassImage}" Stretch="None" VerticalAlignment="Center" />
+                    <TextBlock x:Name="DurationText" FontSize="{StaticResource MediumFontSize}" Margin="28,0,0,0"  VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Special}">
+                        <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                <Binding Source="hea17a85cg4aaag4679g9cbdge242e8f3bb9a"/>
-                                <Binding Path="Source"/>
+                                <Binding Source="h2dc60835g9000g440fga70fg330291eda7eb"/>
+                                <Binding Path="Duration"/>
                             </MultiBinding>
-                         </ls:TextBlockFormatter.SourceText>
+                        </TextBlock.Text>
                     </TextBlock>
                 </StackPanel>
-            </Border>
-            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
-            <DockPanel x:Name="BaseDescriptionContainer" Width="{StaticResource MaxTooltipContentWidth}">
-                <Image x:Name="BaseIcon" Source="{StaticResource Vulnerable}" Stretch="None" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                <TextBlock x:Name="BaseDescription" Style="{StaticResource TooltipBodyStyle}" Margin="0 20" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h8aa64a61g697ag44eag8025g72455bb15041'}" DockPanel.Dock="Right"/>
-            </DockPanel>
-            <DockPanel x:Name="AdditionalDescriptionContainer" Visibility="Collapsed" Width="{StaticResource MaxTooltipContentWidth}">
-                <Image x:Name="AdditionalIcon" Source="{StaticResource ResistantNonMagical}" Stretch="None" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                <TextBlock x:Name="AdditionalDescription" Style="{StaticResource TooltipBodyStyle}" Margin="0 20" ls:TextBlockFormatter.SourceText="{Binding Tag, ElementName=root, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h05322b79g00ecg45c6gbbe0g691acc45fe63'}" DockPanel.Dock="Right"/>
-            </DockPanel>
-
-            <StackPanel x:Name="Duration" Orientation="Horizontal" Margin="{StaticResource DefaultMarginTopBottom}" Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}}">
-                <Image Source="{StaticResource TTHourglassImage}" Stretch="None" VerticalAlignment="Center" />
-                <TextBlock x:Name="DurationText" FontSize="{StaticResource MediumFontSize}" Margin="28,0,0,0"  VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Special}">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                            <Binding Source="h2dc60835g9000g440fga70fg330291eda7eb"/>
-                            <Binding Path="Duration"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
             </StackPanel>
-        </StackPanel>
+        </ls:LSNineSliceImage>
+
         <DataTemplate.Triggers>
             <!-- Adjusting Tag value for enum values past MAX (Only Spell is used currently) -->
             <DataTrigger Binding="{Binding DamageType}" Value="Spell">
