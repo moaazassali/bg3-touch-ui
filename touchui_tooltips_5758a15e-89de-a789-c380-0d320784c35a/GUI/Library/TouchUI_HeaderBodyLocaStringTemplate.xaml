@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="TouchUI_HeaderBodyLocaStringTemplate">
@@ -25,8 +26,19 @@
                 </Border>
                 <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
 
-                <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" TextWrapping="Wrap" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding .}"/>
-
+                <!-- <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" TextWrapping="Wrap" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding .}"/> -->
+                <ContentControl 
+                    Margin="{StaticResource ExtraPadSpaceTop}" 
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    ls:TextBlockFormatter.SourceText="{Binding .}">
+                    <ContentControl.Tag>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipDefaultTextStyle}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="TextAlignment" Value="Left"/>
+                        </Style>
+                    </ContentControl.Tag>
+                </ContentControl>
             </StackPanel>
         </ls:LSNineSliceImage>
     </DataTemplate>
