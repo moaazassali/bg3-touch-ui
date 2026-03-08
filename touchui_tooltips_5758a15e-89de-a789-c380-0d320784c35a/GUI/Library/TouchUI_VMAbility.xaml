@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_StatParamsTemplate.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Ability Tooltip-->
@@ -30,25 +31,48 @@
                             <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipTitleStyle}"/>
                             <TextBlock x:Name="TitleValue" Text="{Binding Value, StringFormat={}({0})}" Style="{StaticResource TooltipTitleStyle}" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
                         </StackPanel>
-                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+                        <!-- <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/> -->
+                        <ContentControl 
+                            Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                            ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}"
+                            Tag="{StaticResource TooltipSubTitleStyle}"/>
                     </StackPanel>
                     <!-- Modifier -->
                     <StackPanel x:Name="Modifier" Orientation="Horizontal">
 
                         <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="-4,0,6,8"/>
 
-                        <TextBlock x:Name="AbilityModifierDesc" VerticalAlignment="Center" Width="{StaticResource MaxNarrowTooltipContentWidth}" Style="{StaticResource TooltipAbilityModifierStyle}" >
+                        <!-- <TextBlock x:Name="AbilityModifierDesc" VerticalAlignment="Center" Width="{StaticResource MaxNarrowTooltipContentWidth}" Style="{StaticResource TooltipAbilityModifierStyle}" >
                             <ls:TextBlockFormatter.SourceText>
                                 <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
                                     <Binding Path="Modifier"/>
                                     <Binding Source="hc95995a6gafa6g4d02g9e9ag87ed78dc1144" Converter="{StaticResource TranslatedStringConverter}"/>
                                 </MultiBinding>
                             </ls:TextBlockFormatter.SourceText>
-                        </TextBlock>
+                        </TextBlock> -->
+                        <ContentControl x:Name="AbilityModifierDesc"
+                            VerticalAlignment="Center"
+                            Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                            Tag="{StaticResource TooltipAbilityModifierStyle}">
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                    <Binding Path="Modifier"/>
+                                    <Binding Source="hc95995a6gafa6g4d02g9e9ag87ed78dc1144" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </ContentControl>
 
                     </StackPanel>
 
-                    <TextBlock x:Name="Description" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" ls:TextBlockFormatter.SourceText="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"/>
+                    <!-- <TextBlock x:Name="Description" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" ls:TextBlockFormatter.SourceText="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"/> -->
+                    <ContentControl x:Name="Description"
+                        Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                        ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                        ls:TextBlockFormatter.SourceText="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"
+                        Tag="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}"
+                        Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}"/>
 
                     <StackPanel x:Name="SavingThrows" Margin="0,16,0,0" Style="{StaticResource SubSectionPanelStyle}">
                         <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="0,0,6,0" RenderTransformOrigin="0.5,0.5">
@@ -57,14 +81,31 @@
                             </ContentControl.LayoutTransform>
                         </ContentControl>
 
-                        <TextBlock Style="{StaticResource TooltipSectionTitleStyle}" Visibility="Visible" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Title}">
+                        <!-- <TextBlock Style="{StaticResource TooltipSectionTitleStyle}" Visibility="Visible" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Title}">
                             <ls:TextBlockFormatter.SourceText>
                                 <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
                                     <Binding Path="SavingThrow.AdditionalValue"/>
                                     <Binding Source="ha9eabfe7ga85ag413cgb41dgb3dc10ac60f9" Converter="{StaticResource TranslatedStringConverter}"/>
                                 </MultiBinding>
                             </ls:TextBlockFormatter.SourceText>
-                        </TextBlock>
+                        </TextBlock> -->
+                        <ContentControl
+                            VerticalAlignment="Center"
+                            Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                            Visibility="Visible">
+                            <ContentControl.Tag>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipSectionTitleStyle}">
+                                    <Setter Property="Foreground" Value="{StaticResource TooltipColor.Title}"/>
+                                </Style>
+                            </ContentControl.Tag>
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                    <Binding Path="SavingThrow.AdditionalValue"/>
+                                    <Binding Source="ha9eabfe7ga85ag413cgb41dgb3dc10ac60f9" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </ContentControl>
                     </StackPanel>
 
                     <ItemsControl x:Name="SavingThrowParams"
@@ -83,8 +124,22 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0">
-                                        <TextBlock Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value ,StringFormat='{}{0:+#;-#;+0}'}" Margin="0,0,11,0"/>
-                                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Description}"/>
+                                        <!-- <TextBlock Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value ,StringFormat='{}{0:+#;-#;+0}'}" Margin="0,0,11,0"/> -->
+                                        <ContentControl 
+                                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                                            ls:TextBlockFormatter.SourceText="{Binding Value ,StringFormat='{}{0:+#;-#;+0}'}">
+                                            <ContentControl.Tag>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{DynamicResource TooltipColor.Secondary}"/>
+                                                    <Setter Property="Margin" Value="0,0,11,0"/>
+                                                </Style>
+                                            </ContentControl.Tag>
+                                        </ContentControl>
+
+                                        <!-- <TextBlock ls:TextBlockFormatter.SourceText="{Binding Description}"/> -->
+                                        <ContentControl 
+                                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                                            ls:TextBlockFormatter.SourceText="{Binding Description}"/>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

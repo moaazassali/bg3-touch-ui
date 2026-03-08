@@ -433,7 +433,7 @@
             <Setter.Value>
                 <DataTemplate DataType="ls:VMAbility">
                     <Grid>
-                        <Grid x:Name="base" Height="88" Width="88" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right" ToolTipService.HorizontalOffset="50">
+                        <Grid x:Name="base" Height="88" Width="88">
                             <Grid.Style>
                                 <Style TargetType="Grid">
                                     <Setter Property="Background" Value="Transparent"/>
