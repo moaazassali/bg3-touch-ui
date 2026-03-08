@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--===== WEAPON PROFICIENCY TOOLTIP =====-->
@@ -23,7 +24,7 @@
 
     <DataTemplate x:Key="TouchUI_ProficiencyTooltipTemplate">
         <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <StackPanel Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Margin="12">
+            <StackPanel Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
                 <StackPanel.LayoutTransform>
                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                 </StackPanel.LayoutTransform>
@@ -38,8 +39,20 @@
                     </Style>
                 </StackPanel.Resources>
 
-                <TextBlock x:Name="title" Style="{StaticResource TooltipTitleStyle}"/>
-                <TextBlock x:Name="desc" Style="{StaticResource TooltipBaseTextStyle}"/>
+                <!-- <TextBlock x:Name="title" Style="{StaticResource TooltipTitleStyle}"/> -->
+                <ContentControl x:Name="title"
+                    Margin="{StaticResource ExtraPadSpaceTop}" 
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    Tag="{StaticResource TooltipTitleStyle}"/>
+
+                <!-- <TextBlock x:Name="desc" Style="{StaticResource TooltipBaseTextStyle}"/> -->
+                <ContentControl x:Name="desc"
+                    Margin="{StaticResource ExtraPadSpaceTop}" 
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    Tag="{StaticResource TooltipBaseTextStyle}"/>
+
                 <ItemsControl x:Name="list" ItemTemplate="{StaticResource TouchUI_ExtendedEquipmentProficiencyTemplate}"/>
             </StackPanel>
         </ls:LSNineSliceImage>
