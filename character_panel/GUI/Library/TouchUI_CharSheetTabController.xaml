@@ -303,6 +303,281 @@
         </ControlTemplate.Triggers> -->
     </ControlTemplate>
 
+    <!--===== DETAILSVIEW TEMPLATE =====-->
+    <DataTemplate x:Key="TouchUI_CharacterSheetDetailedTemplate" DataType="{x:Type ls:Character}">
+        <DataTemplate.Resources>
+            <ControlTemplate x:Key="DetailedEntry">
+                <ControlTemplate.Resources>
+                    <Style TargetType="DockPanel">
+                        <Setter Property="Margin" Value="8,0"/>
+                    </Style>
+                </ControlTemplate.Resources>
+                <Border x:Name="Entry" Style="{StaticResource RowBG_d}" MinHeight="48">
+                    <ContentPresenter/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Entry" Property="Background" Value="{StaticResource RowBG_h}"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <!--APPROVAL LIST TEMPLATE-->
+            <DataTemplate x:Key="ApprovalDataTemplate" DataType="{x:Type ls:VMApprovalRating}">
+                <ContentControl x:Name="entry" ToolTip="{StaticResource ManagedTooltip}" Template="{StaticResource DetailedEntry}" >
+                    <Grid Margin="16,0">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource DetailedListText}" Text="{Binding Character.Name}"/>
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource DetailedListValue}">
+                                <Run Text="{Binding Rating, Converter={StaticResource ApprovalRatingToStringConverter}}"/>
+                                <Run Text="{Binding Rating, StringFormat='({0})'}"/>
+                        </TextBlock>
+                    </Grid>
+                </ContentControl>
+            </DataTemplate>
+
+            <ControlTemplate x:Key="ApprovalRatingTemplate" TargetType="ContentControl">
+                <StackPanel x:Name="ApprovalHolder">
+                    <ContentControl Name="ApprovalTitle" Style="{StaticResource BaseTitleStyle}" Grid.Row="0">
+                        <TextBlock Text="{Binding Source='hab8d8423g3797g4f2ega601g18f13af5add6', Converter={StaticResource TranslatedStringConverter}}"/>
+                    </ContentControl>
+                    <ItemsControl x:Name="RatingsList" ItemsSource="{Binding PlayerCharacterProperties.ApprovalRatings}" ItemTemplate="{StaticResource ApprovalDataTemplate}"/>
+                </StackPanel>
+                <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding PlayerCharacterProperties.ApprovalRatings.Count, FallbackValue=0}" Value="0">
+                        <Setter TargetName="ApprovalHolder" Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </DataTemplate.Resources>
+
+        <Grid x:Name="DetailedPanelContent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1" Style="{StaticResource NoForcedScrollViewerStyle}" Padding="{StaticResource ScrollOffset}">
+                <StackPanel>
+                    <!--Health-->
+                    <ContentControl Name="Health" Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.Health}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                        <DockPanel>
+                            <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                            <TextBlock Text="{Binding Max, StringFormat='/{0}'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                            <TextBlock Text="{Binding Value}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+                    <!--TempHealth-->
+                    <ContentControl Name="TempHealth" Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.TemporaryHealth}" ToolTip="{StaticResource PlacementParentDCTooltip}" Visibility="{Binding Value, Converter={StaticResource CountToVisibilityConverter}}">
+                        <DockPanel>
+                            <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                            <TextBlock Text="{Binding Max, StringFormat='/{0}'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                            <TextBlock Text="{Binding Value}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+                    <!--Armour Class-->
+                    <ContentControl Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.ArmorClass}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                        <DockPanel>
+                            <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                            <TextBlock Style="{StaticResource SkillTitleTextStyle}">
+                                                <Run Text="{Binding Value}"/><Run Text="{Binding Max, StringFormat='/{0}'}"/>
+                            </TextBlock>
+                        </DockPanel>
+                    </ContentControl>
+                    <!--Class-->
+                    <ItemsControl ItemsSource="{Binding Stats.ClassList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Template="{StaticResource DetailedEntry}">
+                                    <ContentControl.ToolTip>
+                                        <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.ClassDescription, RelativeSource={RelativeSource TemplatedParent}}" ls:AttachedProperties.InheritedTag="{Binding Path=DataContext.ClassDisplayName, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
+                                    </ContentControl.ToolTip>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding Source='h3f540c7ag325cg447egadbdgb30b8c580fa4', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <TextBlock Style="{StaticResource SkillTitleTextStyle}" TextAlignment="Right">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                        <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
+                                                        <Binding Path="DataContext.Level.Value" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                        <Binding Path="DataContext.ClassDisplayName" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding SubclassDisplayName}" Visibility="{Binding SubclassDisplayName, Converter={StaticResource StringToVisibilityConverter}}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </ContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!--Race-->
+                    <ContentControl Template="{StaticResource DetailedEntry}">
+                        <ContentControl.ToolTip>
+                            <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
+                        </ContentControl.ToolTip>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Source='h4810b5bag5482g4b47ga5b7ge7c1156969d9', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                            <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <!--Background-->
+                    <ContentControl Template="{StaticResource DetailedEntry}" Visibility="{Binding Stats.Background, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                        <ContentControl.ToolTip>
+                            <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.BackgroundDescription, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Background, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
+                        </ContentControl.ToolTip>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Source='hd020153fg6a95g4ebegb6c3g043bb05c7bba', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                            <TextBlock Text="{Binding Stats.Background}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <!--Diety-->
+                    <ContentControl Name="DietyRowHolder" Template="{StaticResource DetailedEntry}" Visibility="{Binding DataContext.Stats.God, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Converter={StaticResource StringToVisibilityConverter}}">
+                        <DockPanel>
+                            <TextBlock Text="{Binding Source='h5238a9c6gb90fg40bbg9335gfb37d6e91b94', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                            <TextBlock Text="{Binding Stats.God}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <!--Attributes-->
+                    <ContentControl Name="AttributesTitle" Style="{StaticResource BaseTitleStyle}" Grid.Row="0">
+                        <TextBlock Text="{Binding Source='h6f7a7018gd5f6g4c32g9386g6df0744d7ecd', Converter={StaticResource TranslatedStringConverter}}"/>
+                    </ContentControl>
+
+                    <ContentControl Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.Initiative}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                        <DockPanel>
+                            <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                            <TextBlock Text="{Binding Value, StringFormat={}{0:+#;-#;+0}}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <ContentControl Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.MovementResource}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                        <DockPanel>
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource SkillTextStyle}"/>
+                            <TextBlock Text="{Binding MaxValue, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <ContentControl x:Name="darkVisionStat" Template="{StaticResource DetailedEntry}" Visibility="{Binding DataContext.IsPlayableCharacter, ElementName=DetailedPanelContent, Converter={StaticResource BoolToVisibleConverter}}" DataContext="{Binding Stats.DarkVisionRange}">
+                        <ContentControl.ToolTip>
+                            <ls:LSTooltip Content="{Binding ElementName=darkVisionStat,Path=DataContext}"/>
+                        </ContentControl.ToolTip>
+                        <DockPanel>
+                            <Control x:Name="DarkVisionRangeName" Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                            <TextBlock Text="{Binding Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <ContentControl x:Name="BodyType" Template="{StaticResource DetailedEntry}">
+                        <DockPanel>
+                            <TextBlock Text="{Binding Source='h83fee0c7g1777g4fddga60dg6a31e2320de2', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                            <TextBlock Text="{Binding Stats.Race.Type}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <ContentControl Template="{StaticResource DetailedEntry}">
+                        <ContentControl.ToolTip>
+                            <ls:LSTooltip Content="{Binding Source='h219ed287gbc86g4f87g93a6gb930860114e6',Converter={StaticResource TranslatedStringConverter}}"/>
+                        </ContentControl.ToolTip>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Source='hfc7ce51bga5d6g4711g8e19g3fcebf236de0', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                            <Control Template="{StaticResource ObjectSizeTextTemplate}">
+                                <Control.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}"/>
+                                </Control.Resources>
+                            </Control>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <ContentControl x:Name="weightStat" Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.Weight}" >
+                        <ContentControl.ToolTip>
+                            <ls:LSTooltip Content="{Binding ElementName=weightStat,Path=DataContext}"/>
+                        </ContentControl.ToolTip>
+                        <DockPanel>
+                            <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                            <TextBlock Text="{Binding Value, Converter={StaticResource UnitConverter}, ConverterParameter='Weight Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <ContentControl Template="{StaticResource DetailedEntry}" Visibility="{Binding IsPlayableCharacter, Converter={StaticResource BoolToVisibleConverter}}">
+                        <ContentControl.ToolTip>
+                            <ls:LSTooltip Content="{Binding Source='h97226633g565ag44c0gbd64g89e70c886cba',Converter={StaticResource TranslatedStringConverter}}"/>
+                        </ContentControl.ToolTip>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Source='h3faf5e3cg719dg4b1cgb21egf2afeafb0eea', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                            <TextBlock Text="{Binding EncumbranceStats.WeightMaximum, Converter={StaticResource UnitConverter}, ConverterParameter='Weight Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                        </DockPanel>
+                    </ContentControl>
+
+                    <StackPanel>
+                        <!-- Proficiency Bonus-->
+                        <ContentControl Style="{StaticResource BaseTitleStyle}" ToolTip="{StaticResource PlacementParentDCTooltip}" DataContext="{Binding Stats.ProficiencyBonus}" Margin="0,12">
+                            <TextBlock>
+                                <Run Text="{Binding Source='h65b46ad4g2eacg47d5gb4b4g124ca3b8aaef', Converter={StaticResource TranslatedStringConverter}}"/>
+                                <Run Text="{Binding Value, StringFormat='(+{0})'}"/>
+                            </TextBlock>
+                        </ContentControl>
+                        <!--Equipment Proficiency-->
+                        <Control x:Name="EquipmentProficienciesBody" Template="{StaticResource WeaponProficienciesTemplate}"/>
+
+                        <!-- SavingThrow Bonus-->
+                        <ContentControl Style="{StaticResource BaseTitleStyle}">
+                            <TextBlock Text="{Binding Source='ha1262989ge5e8g47aegb0begd830dd1a946f', Converter={StaticResource TranslatedStringConverter}}">
+                                <TextBlock.ToolTip>
+                                    <ls:LSTooltip IsHitTestVisible="False" Content="hb4ebc93egdb2dg4489g9386ga0b39c71b536" ls:AttachedProperties.InheritedTag="h20f2c1b6g2815g402ag8549gd6042c56c6db" Style="{StaticResource InlineTagTooltip}"/>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </ContentControl>
+                        <Border Style="{StaticResource ListSectionBackground}">
+                            <ItemsControl x:Name="SavingThrow" ItemsSource="{Binding Stats.Abilities}" VerticalAlignment="Center" Style="{StaticResource SavingThrowGridStyle}" Margin="0,8"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!--Approval-->
+                    <ContentControl x:Name="approvalRatings" Template="{StaticResource ApprovalRatingTemplate}"/>
+
+                    <!--TAGS-->
+                    <StackPanel Visibility="{Binding Tags.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                        <ContentControl Name="TagTitle" Style="{StaticResource BaseTitleStyle}">
+                            <TextBlock Text="{Binding Source='hd0bb8a34g4e48g4816g8ca0g234f3f99c934', Converter={StaticResource TranslatedStringConverter}}"/>
+                        </ContentControl>
+
+                        <ContentControl Template="{StaticResource DetailedEntry}">
+                            <b:Interaction.Behaviors>
+                                <ls:ConcatenateListBehavior x:Name="TagList" ItemsSource="{Binding Tags}" Separator="h2519408dg5fd7g4cbcg840cg14370239edf8"/>
+                            </b:Interaction.Behaviors>
+                            <TextBlock Style="{StaticResource DetailedListText}" Text="{Binding Result, ElementName=TagList}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </ContentControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <b:Interaction.Behaviors>
+                <ls:RuleSetModifierValueBehavior x:Name="HideNpcHpModifier" Modifiers="{Binding DataContext.Data.CurrentRuleSetModifiers, RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" ModifierName="HIDE_NPC_HP"/>
+            </b:Interaction.Behaviors>
+        </Grid>
+        
+        <DataTemplate.Triggers>
+            <!--Hide Diety on Examine Panel-->
+            <DataTrigger Binding="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Examine" >
+                <Setter TargetName="DietyRowHolder" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <!--Hide HP if ruleset enabled-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsPlayableCharacter}" Value="False"/>
+                    <Condition Binding="{Binding ModifierEnabled, ElementName=HideNpcHpModifier}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Health" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="Health" Property="Visibility" Value="Collapsed"/>
+            </MultiDataTrigger>
+        </DataTemplate.Triggers>
+        
+
+    </DataTemplate>
+
     <!--TAB CONTENT-->
     <ControlTemplate x:Key="TouchUI_CharSheetTabController" TargetType="Control">
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -517,7 +792,7 @@
                             <Image Width="60" Height="60" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_d.png" Stretch="Uniform"/>
                         </Border>
                     </TabItem.Header>
-                    <ContentControl x:Name="DetailedView" Content="{Binding .}" ContentTemplate="{StaticResource CharacterSheetDetailedTemplate}" />
+                    <ContentControl x:Name="DetailedView" Content="{Binding .}" ContentTemplate="{StaticResource TouchUI_CharacterSheetDetailedTemplate}" />
                 </TabItem>
 
             </TabControl>
