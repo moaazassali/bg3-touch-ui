@@ -1,0 +1,172 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <!-- Ability Tooltip-->
+    <DataTemplate DataType="{x:Type ls:VMAbility}">
+        <Grid x:Name="root" Tag="{Binding Path=(ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" >
+            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
+            <Image x:Name="DecorationImage" Style="{DynamicResource AbilityTooltipIconStyle}" DataContext="{Binding}"/>
+            <StackPanel Width="{DynamicResource MaxWideTooltipContentWidth}">
+                <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipTitleStyle}"/>
+                        <TextBlock x:Name="TitleValue" Text="{Binding Value, StringFormat={}({0})}" Style="{StaticResource TooltipTitleStyle}" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+                </StackPanel>
+                <!-- Modifier -->
+                <StackPanel x:Name="Modifier" Orientation="Horizontal">
+
+                    <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="-4,0,6,8"/>
+
+                    <TextBlock x:Name="AbilityModifierDesc" VerticalAlignment="Center" Width="{StaticResource MaxNarrowTooltipContentWidth}" Style="{StaticResource TooltipAbilityModifierStyle}" >
+                        <ls:TextBlockFormatter.SourceText>
+                            <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                <Binding Path="Modifier"/>
+                                <Binding Source="hc95995a6gafa6g4d02g9e9ag87ed78dc1144" Converter="{StaticResource TranslatedStringConverter}"/>
+                            </MultiBinding>
+                        </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+
+                </StackPanel>
+
+                <TextBlock x:Name="Description" Style="{StaticResource TooltipAdjustableDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" ls:TextBlockFormatter.SourceText="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"/>
+
+                <StackPanel x:Name="SavingThrows" Margin="0,16,0,0" Style="{StaticResource SubSectionPanelStyle}">
+                    <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="0,0,6,0" RenderTransformOrigin="0.5,0.5">
+                        <ContentControl.LayoutTransform>
+                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                        </ContentControl.LayoutTransform>
+                    </ContentControl>
+
+                    <TextBlock Style="{StaticResource TooltipSectionTitleStyle}" Visibility="Visible" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Title}">
+                        <ls:TextBlockFormatter.SourceText>
+                            <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                <Binding Path="SavingThrow.AdditionalValue"/>
+                                <Binding Source="ha9eabfe7ga85ag413cgb41dgb3dc10ac60f9" Converter="{StaticResource TranslatedStringConverter}"/>
+                            </MultiBinding>
+                        </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                </StackPanel>
+
+                <ItemsControl x:Name="SavingThrowParams"
+                              Visibility="{Binding Path=Tag.SavingThrowParameters.Count, ElementName=root, Converter={StaticResource CountToVisibilityConverter}}"
+                              ItemsSource="{Binding Path=Tag.SavingThrowParameters, ElementName=root}"
+                              AlternationCount="{Binding Path=Tag.SavingThrowParameters.Count, ElementName=root}"
+                              Margin="68,-4,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid MinWidth="{StaticResource StatTooltipMinWidth}">
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipCtxTransStringBodyStyle}"/>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0">
+                                    <TextBlock Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value ,StringFormat='{}{0:+#;-#;+0}'}" Margin="0,0,11,0"/>
+                                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Description}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Value}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+
+                <TextBlock x:Name="AbilityModifiersLabel" Text="{Binding Source='h6d38bfa3gc691g4615ga348g558bba90d805', Converter={StaticResource TranslatedStringConverter}}"
+                           Style="{StaticResource TooltipSubTitleStyle}" FontSize="{StaticResource SmallishFontSize}"
+                           Margin="0,24,0,0"
+                           Visibility="{Binding Tag.CalculationParameters.Count, ElementName=root, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}"/>
+
+                <ContentControl x:Name="AbilityStatParams" Content="{Binding Tag, ElementName=root}" ContentTemplate="{StaticResource StatParamsTemplate}" Margin="12,4,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Ability}" Value="Strength">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="AbilityModifierDesc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Modifier"/>
+                            <Binding Source="h0d7c6ca5g3899g4a98ga481g6ebcb5e33ace" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Ability}" Value="Dexterity">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hbf128ebdgdfffg4ea9gbf4bg1659ccefd287', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="AbilityModifierDesc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Modifier"/>
+                            <Binding Source="h40b510fcg6ca8g41a5ga64ag1ba1e466ca59" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Ability}" Value="Intelligence">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h411a732ag4b4cg4094g9a5egd325fecf4645', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="AbilityModifierDesc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Modifier"/>
+                            <Binding Source="h747b2490g6db3g4eb4gafb6geb7727fa7380" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Ability}" Value="Constitution">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h7a02f64dg4593g408fgbf93gb0dbabc182c9', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="AbilityModifierDesc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Modifier"/>
+                            <Binding Source="hc5fd4b41g56f4g4697gbd8bg26157dbd98bc" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Ability}" Value="Wisdom">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h35233e68gf68ag461cgac5fgc15806be3dc7', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="AbilityModifierDesc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Modifier"/>
+                            <Binding Source="h075239cfg1a10g4488g9f69gd17325f79bc6" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Ability}" Value="Charisma">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h441085efge3a5g4004gba8dgf2378e8986c8', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="AbilityModifierDesc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Modifier"/>
+                            <Binding Source="h4f9a292fg3aa1g4fb0gb503g472a8ceac6f0" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>
