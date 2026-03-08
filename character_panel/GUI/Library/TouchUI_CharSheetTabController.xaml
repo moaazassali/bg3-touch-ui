@@ -17,6 +17,94 @@
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_ProficiencyTooltipTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!--=== ABILITIES TEMPLATE ===-->
+    <Style x:Key="TouchUI_AbilitiesGridStyle" TargetType="ItemsControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="ls:VMAbility">
+                    <Grid x:Name="base" MinWidth="84" MaxWidth="98">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="PrimaryAbillity" Visibility="Hidden" Grid.Row="0" Background="Transparent">
+                            <Image Source="{StaticResource ProficientAbility}" Stretch="None"/>
+                            <!-- <Grid.ToolTip>
+                                <ls:LSTooltip IsHitTestVisible="False" ContentTemplate="{StaticResource PrimaryAbilityTooltipContentTemplate}" Style="{StaticResource ManagedTooltipStyle}"/>
+                            </Grid.ToolTip> -->
+                        </Grid>
+
+                        <StackPanel x:Name="AbilityBlock" Grid.Row="1">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=AbilityBlockTooltipPopup, Path=Visibility}" Value="Visible">
+                                            <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+
+                            <Control x:Name="attrName" Template="{StaticResource AbilityShortDisplayName}"  FontSize="{StaticResource ScaledSmallishFontSize}" Foreground="{StaticResource LS_baseTxtColor}" HorizontalAlignment="Center" Margin="4,0,4,-6"/>
+                            <Grid Height="80">
+                                <Image x:Name="SavingThrowIcon" Visibility="{Binding HasSavingThrowProficiency, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{StaticResource SavingThrowDice}">
+                                <Image.Effect>
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="1" Color="{StaticResource tint00}"/>
+                                </Image.Effect>
+                            </Image>
+                                <TextBlock x:Name="value" Text="{Binding Value}" FontSize="{StaticResource ScaledDefaultFontSize}" HorizontalAlignment="Center" Foreground="{StaticResource LS_tint100}" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="MouseLeftButtonUp">
+                                    <b:ChangePropertyAction TargetName="AbilityBlockTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </StackPanel>
+
+                        <ContentControl x:Name="AbilityBlockTooltipPopup"
+                            Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                            Visibility="Collapsed"
+                            Content="{Binding}"
+                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
+                    </Grid>
+
+                    <DataTemplate.Triggers>
+                        <!-- <Trigger Property="IsMouseOver" Value="True" SourceName="PrimaryAbillity">
+                            <Setter TargetName="PrimaryAbillity" Property="Background" Value="{StaticResource RowBG_h}"/>
+                            <Setter TargetName="AbilityBlock" Property="Background" Value="{StaticResource RowBG_h}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="AbilityBlock">
+                            <Setter TargetName="AbilityBlock" Property="Background" Value="{StaticResource RowBG_h}"/>
+                        </Trigger> -->
+                        <DataTrigger Binding="{Binding IsPrimary}" Value="True">
+                            <Setter TargetName="PrimaryAbillity" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- ===== PASSIVE FEATURES TEMPLATE=====-->
     <DataTemplate x:Key="TouchUI_FeaturesListItemTemplate" DataType="{x:Type ls:VMPassive}">
         <Border Name="root">
@@ -1272,7 +1360,7 @@
                                     </Grid>
 
                                     <!-- ======== ABILITIES INFO ======== -->
-                                    <ItemsControl x:Name="Abilities" ItemsSource="{Binding Stats.Abilities}" VerticalAlignment="Center" Style="{StaticResource AbilitiesGridStyle}"/>
+                                    <ItemsControl x:Name="Abilities" ItemsSource="{Binding Stats.Abilities}" VerticalAlignment="Center" Style="{StaticResource TouchUI_AbilitiesGridStyle}"/>
 
                                     <!-- ======== CONDITIONS ======== -->
                                     <StackPanel Visibility="{Binding StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}}">
