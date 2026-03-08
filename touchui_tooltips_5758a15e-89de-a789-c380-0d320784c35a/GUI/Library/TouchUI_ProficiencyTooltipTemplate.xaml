@@ -1,0 +1,161 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--===== WEAPON PROFICIENCY TOOLTIP =====-->
+    <DataTemplate x:Key="TouchUI_ExtendedEquipmentProficiencyTemplate">
+        <StackPanel x:Name="Object" Background="Transparent" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,2">
+            <Image Style="{StaticResource EquipmentProficiencyIconStyle}" VerticalAlignment="Center" Stretch="Fill" Width="48" Height="48"/>
+            <TextBlock Style="{StaticResource EquipmentProficiencyNameStyle}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Primary}" Margin="8,0,0,0" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TouchUI_ProficiencyTooltipTemplate">
+        <StackPanel MaxWidth="800" Margin="12">
+            <StackPanel.Resources>
+                <Style TargetType="ls:LSSpan" BasedOn="{StaticResource {x:Type ls:LSSpan}}">
+                    <Style.Triggers>
+                        <Trigger Property="TagType" Value="hl">
+                            <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBlock x:Name="title" Style="{StaticResource TooltipTitleStyle}"/>
+            <TextBlock x:Name="desc" Style="{StaticResource TooltipBaseTextStyle}"/>
+            <ItemsControl x:Name="list" ItemTemplate="{StaticResource TouchUI_ExtendedEquipmentProficiencyTemplate}"/>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource Self}}" Value="Armour">
+                <Setter TargetName="title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hb677b3f7g5cf6g49c3g84fag2f773ef50dd6',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h6352fd8fg07b1g4c3agab89g4ec0a2b479e6"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="list" Property="ItemsSource" Value="{Binding (ls:TooltipExtender.Owner).Stats.ProtectionProficiencies, RelativeSource={RelativeSource Self}}"/>
+            </DataTrigger>
+
+
+            <!-- Armour part -->
+            <DataTrigger Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource TemplatedParent}}" Value="Armour">
+                <Setter TargetName="title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hb677b3f7g5cf6g49c3g84fag2f773ef50dd6',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h6352fd8fg07b1g4c3agab89g4ec0a2b479e6"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="list" Property="ItemsSource" Value="{Binding (ls:TooltipExtender.Owner).Stats.ProtectionProficiencies, RelativeSource={RelativeSource Self}}"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="Armour"/>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Owner).Stats.ProtectionProficiencies.Count, RelativeSource={RelativeSource Self}}" Value="0"/>
+                </MultiDataTrigger.Conditions>
+
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h3f2a13d0g43dfg45c3g9054gac4435262f3b"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+
+            <!-- Simple weapons part -->
+            <DataTrigger Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource TemplatedParent}}" Value="SimpleWeapons">
+                <Setter TargetName="title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hd0ea839ag4be2g455bgbff6g71446c4f1355',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="haa84e19cg142fg4128g97b3g4bbed0390545"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="list" Property="ItemsSource" Value="{Binding (ls:TooltipExtender.Owner).Stats.SimpleWeaponProficiencies, RelativeSource={RelativeSource Self}}"/>
+            </DataTrigger>
+
+            <!-- Martial weapons part -->
+            <DataTrigger Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource TemplatedParent}}" Value="MartialWeapons">
+                <Setter TargetName="title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h93cf8a7dgf14dg4f68g816fgdbf4de0dae41',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="haa84e19cg142fg4128g97b3g4bbed0390545"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="list" Property="ItemsSource" Value="{Binding (ls:TooltipExtender.Owner).Stats.MartialWeaponProficiencies, RelativeSource={RelativeSource Self}}"/>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource TemplatedParent}}" Value="MartialWeapons"/>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Owner).Stats.MartialWeaponProficiencies.Count, RelativeSource={RelativeSource Self}}" Value="0"/>
+                </MultiDataTrigger.Conditions>
+
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h8ad022f5g5e8eg409eg8577gb83095463181"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+
+            <!-- Musical instruments part -->
+            <DataTrigger Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource TemplatedParent}}" Value="MusicalInstrument">
+                <Setter TargetName="title" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hd29bbe68g0a7fg4861g8e94gf6e9ee63804d',Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="h8f9f545dg237eg49fcg9f12g84f1cff2218d"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource Self}}" Value="MusicalInstrument"/>
+                    <Condition Binding="{Binding (ls:TooltipExtender.Owner).Stats.MusicalInstrumentProficiency, RelativeSource={RelativeSource Self}}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+
+                <Setter TargetName="desc" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                            <Binding Source="hb9eb8424gbd5eg483bg9ce6g783cad20513d"/>
+                            <Binding Path="(ls:TooltipExtender.Owner).Name" RelativeSource="{RelativeSource Mode=Self}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>
