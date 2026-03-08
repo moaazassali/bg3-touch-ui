@@ -9,16 +9,26 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <DataTemplate x:Key="TouchUI_HeaderBodyLocaStringTemplate">
-        <StackPanel>
-            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
-                <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap" Margin="{StaticResource TitleWithoutSubtitleMargin}" Width="{StaticResource MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-            </Border>
-            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel>
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
 
-            <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" TextWrapping="Wrap" Width="{StaticResource MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding .}"/>
+                <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                    <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap" Margin="{StaticResource TitleWithoutSubtitleMargin}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                </Border>
+                <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
 
-        </StackPanel>
+                <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" TextWrapping="Wrap" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding .}"/>
+
+            </StackPanel>
+        </ls:LSNineSliceImage>
     </DataTemplate>
 
 </ResourceDictionary>
