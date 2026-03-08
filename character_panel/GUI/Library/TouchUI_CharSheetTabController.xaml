@@ -166,40 +166,42 @@
                                                 </Style>
                                             </Border.Style>
 
-                                            <Grid HorizontalAlignment="Stretch" Margin="0,5">
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}">
-                                                      <TextBlock.Style>
-                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}">
-                                                                <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
-                                                                        <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                    
-                                                    <TextBlock x:Name="TitleValue" Text="{Binding Modifier, StringFormat=' ({0:+#;-#;0})'}">
+                                            <Grid HorizontalAlignment="Stretch" Margin="0,10">
+                                                <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}">
                                                         <TextBlock.Style>
-                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}">
-                                                                <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
-                                                                        <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}">
+                                                                    <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
+                                                                            <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                        
+                                                        <TextBlock x:Name="TitleValue" Text="{Binding Modifier, StringFormat=' ({0:+#;-#;0})'}">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}">
+                                                                    <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
+                                                                            <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
 
+                                                    </StackPanel>
                                                     <b:Interaction.Triggers>
                                                         <b:EventTrigger EventName="MouseLeftButtonUp">
                                                             <b:ChangePropertyAction TargetName="SkillTitleTooltipPopup" PropertyName="Visibility" Value="Visible"/>
                                                         </b:EventTrigger>
                                                     </b:Interaction.Triggers>
-                                                </StackPanel>
+                                                </Grid>
 
                                                 <ContentControl x:Name="SkillTitleTooltipPopup"
                                                     Template="{StaticResource TouchUI_TooltipSheetPopup}"
@@ -216,48 +218,96 @@
                                         <ItemsControl ItemsSource="{Binding Skills}" Margin="12,4,12,12">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate DataType="ls:VMSkill">
-                                                    <Border Name="GridRow" Style="{StaticResource RowBG_d}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right">
-                                                        <Grid HorizontalAlignment="Stretch" Height="56" >
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="44"/>
-                                                                <ColumnDefinition Width="66"/>
-                                                            </Grid.ColumnDefinitions>
+                                                    <Border Name="GridRow">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Visibility, ElementName=SkillItemTooltipPopup}" Value="Visible">
+                                                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <Grid>
+                                                            <Grid HorizontalAlignment="Stretch" Height="56" Background="Transparent">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="44"/>
+                                                                    <ColumnDefinition Width="66"/>
+                                                                </Grid.ColumnDefinitions>
 
-                                                            <Image x:Name="SkillIcon" Grid.Column="0" Style="{StaticResource SkillsIcon}" Margin="8,4,8,4" Stretch="UniformToFill" Height="44"/>
+                                                                <Image x:Name="SkillIcon" Grid.Column="0" Style="{StaticResource SkillsIcon}" Margin="8,4,8,4" Stretch="UniformToFill" Height="44"/>
 
-                                                            <TextBlock x:Name="SkillName" Text="{Binding SkillValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h65e11968gf9b6g4c47g9efcg03fb60fb923c'}" Style="{StaticResource SkillTextStyle}" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" Margin="8,0,0,0"/>
+                                                                <TextBlock x:Name="SkillName" Text="{Binding SkillValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h65e11968gf9b6g4c47g9efcg03fb60fb923c'}" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" Margin="8,0,0,0">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTextStyle}">
+                                                                            <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Visibility, ElementName=SkillItemTooltipPopup}" Value="Visible">
+                                                                                    <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
 
-                                                            <Grid x:Name="ExpertiseIcon" Grid.Column="2" Visibility="Collapsed" Background="Transparent" ToolTipService.PlacementTarget="{Binding ElementName=GridRow}" ToolTipService.Placement="Right" VerticalAlignment="Center">
-                                                                <Grid.ToolTip>
-                                                                    <ls:LSTooltip IsHitTestVisible="False" Content="hfa5d1a58ged7dg40c8g8783g14f58399525d" ls:AttachedProperties.InheritedTag="h314e6b7ege3a1g4333g8798g461554dfda30" Style="{StaticResource InlineTagTooltip}"/>
-                                                                </Grid.ToolTip>
-                                                                <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="-18,0,0,0"/>
-                                                                <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="8,0,0,0"/>
+                                                                <Grid x:Name="ExpertiseIcon" Grid.Column="2" Visibility="Collapsed" Background="Transparent" ToolTipService.PlacementTarget="{Binding ElementName=GridRow}" ToolTipService.Placement="Right" VerticalAlignment="Center">
+                                                                    <!-- <Grid.ToolTip>
+                                                                        <ls:LSTooltip IsHitTestVisible="False" Content="hfa5d1a58ged7dg40c8g8783g14f58399525d" ls:AttachedProperties.InheritedTag="h314e6b7ege3a1g4333g8798g461554dfda30" Style="{StaticResource InlineTagTooltip}"/>
+                                                                    </Grid.ToolTip> -->
+                                                                    <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="-18,0,0,0"/>
+                                                                    <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="8,0,0,0"/>
+                                                                </Grid>
+
+                                                                <Border x:Name="ProficiencyIcon" Grid.Column="2" Visibility="Collapsed" Background="Transparent" ToolTipService.PlacementTarget="{Binding ElementName=GridRow}" ToolTipService.Placement="Right" VerticalAlignment="Center">
+                                                                    <!-- <Border.ToolTip>
+                                                                        <ls:LSTooltip x:Name="ProficiencyTooltip" IsHitTestVisible="False" Content="{Binding Source='h1a87477cge794g43eag8f06ge44364db9f39',Converter={StaticResource TranslatedStringConverter}}" ls:AttachedProperties.InheritedTag="hc36a544fg6ae1g45f0gb74aga36d2961a9b1" Style="{StaticResource InlineTagTooltip}"/>
+                                                                    </Border.ToolTip> -->
+                                                                    <Image Source="{StaticResource ProficientDice}" Stretch="None"/>
+                                                                </Border>
+
+                                                                <TextBlock x:Name="SkillModifier" Text="{Binding Value, StringFormat={}{0:+#;-#;0}}" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,18,0">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTextStyle}">
+                                                                            <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Visibility, ElementName=SkillItemTooltipPopup}" Value="Visible">
+                                                                                    <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+
+                                                                <b:Interaction.Triggers>
+                                                                    <!-- <b:EventTrigger EventName="MouseEnter">
+                                                                        <ls:LSPlaySound Sound="UI_Shared_Hover"/>
+                                                                    </b:EventTrigger> -->
+                                                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                                        <b:ChangePropertyAction TargetName="SkillItemTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                                    </b:EventTrigger>
+                                                                </b:Interaction.Triggers>
                                                             </Grid>
 
-                                                            <Border x:Name="ProficiencyIcon" Grid.Column="2" Visibility="Collapsed" Background="Transparent" ToolTipService.PlacementTarget="{Binding ElementName=GridRow}" ToolTipService.Placement="Right" VerticalAlignment="Center">
-                                                                <Border.ToolTip>
-                                                                    <ls:LSTooltip x:Name="ProficiencyTooltip" IsHitTestVisible="False" Content="{Binding Source='h1a87477cge794g43eag8f06ge44364db9f39',Converter={StaticResource TranslatedStringConverter}}" ls:AttachedProperties.InheritedTag="hc36a544fg6ae1g45f0gb74aga36d2961a9b1" Style="{StaticResource InlineTagTooltip}"/>
-                                                                </Border.ToolTip>
-                                                                <Image Source="{StaticResource ProficientDice}" Stretch="None"/>
-                                                            </Border>
-
-                                                            <TextBlock x:Name="SkillModifier" Style="{StaticResource SkillTextStyle}" Text="{Binding Value, StringFormat={}{0:+#;-#;0}}" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,18,0" Foreground="{StaticResource LS_accent100TxtColor}"/>
-                                                            <b:Interaction.Triggers>
-                                                                <b:EventTrigger EventName="MouseEnter">
-                                                                    <ls:LSPlaySound Sound="UI_Shared_Hover"/>
-                                                                </b:EventTrigger>
-                                                            </b:Interaction.Triggers>
+                                                            <ContentControl x:Name="SkillItemTooltipPopup"
+                                                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                                Visibility="Collapsed"
+                                                                Content="{Binding}"
+                                                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                                                <ContentControl.LayoutTransform>
+                                                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                                </ContentControl.LayoutTransform>
+                                                            </ContentControl>
                                                         </Grid>
                                                     </Border>
                                                     <DataTemplate.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                        <!-- <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter TargetName="GridRow" Property="Background" Value="{StaticResource RowBG_h}"/>
                                                             <Setter TargetName="SkillName" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
                                                             <Setter TargetName="SkillModifier" Property="Foreground" Value="{StaticResource LS_tint100}"/>
-                                                        </Trigger>
+                                                        </Trigger> -->
                                                         <DataTrigger Binding="{Binding IsProficient}" Value="True">
                                                             <Setter TargetName="ProficiencyIcon" Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
@@ -266,7 +316,7 @@
                                                         </DataTrigger>
 
                                                         <!--Proficiency TT Variants-->
-                                                        <DataTrigger Binding="{Binding Skill}" Value="Athletics">
+                                                        <!-- <DataTrigger Binding="{Binding Skill}" Value="Athletics">
                                                             <Setter TargetName="ProficiencyTooltip" Property="Content" Value="h3bad03f6gbd5bg41dfg851fg20ef293804a7"/>
                                                         </DataTrigger>
 
@@ -335,7 +385,7 @@
 
                                                         <DataTrigger Binding="{Binding Skill}" Value="Persuasion">
                                                             <Setter TargetName="ProficiencyTooltip" Property="Content" Value="hd14e778dgecd6g45a2gb292g0361a5eb047c"/>
-                                                        </DataTrigger>
+                                                        </DataTrigger> -->
 
                                                     </DataTemplate.Triggers>
                                                 </DataTemplate>
