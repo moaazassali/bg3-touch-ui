@@ -1,0 +1,24 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <DataTemplate x:Key="TouchUI_HeaderBodyLocaStringTemplate">
+        <StackPanel>
+            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                <TextBlock x:Name="Title" Style="{StaticResource TooltipTitleStyle}" TextWrapping="Wrap" Margin="{StaticResource TitleWithoutSubtitleMargin}" Width="{StaticResource MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding Path=(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+            </Border>
+            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+
+            <TextBlock Style="{StaticResource TooltipDefaultTextStyle}" TextWrapping="Wrap" Width="{StaticResource MaxTooltipContentWidth}" TextAlignment="Left" ls:TextBlockFormatter.SourceText="{Binding .}"/>
+
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>
