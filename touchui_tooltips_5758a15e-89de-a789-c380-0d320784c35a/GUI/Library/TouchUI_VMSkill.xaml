@@ -38,17 +38,43 @@
                             <Path x:Name="DiceBg" Stretch="None" VerticalAlignment="Center" Width="88" Height="88" StrokeThickness="10" Fill="White" Data="{StaticResource DiceGeometryD20}"/>
                             <Image x:Name="DiceIcon" VerticalAlignment="Center" Source="{StaticResource IconD20}" Stretch="None"/>
                         </Grid>
-                        <TextBlock Grid.Column="1" x:Name="SkillValue" VerticalAlignment="Center" Style="{StaticResource TooltipAbilityModifierStyle}" Margin="4,0,0,0">
+                        <!-- <TextBlock Grid.Column="1" x:Name="SkillValue" VerticalAlignment="Center" Style="{StaticResource TooltipAbilityModifierStyle}" Margin="4,0,0,0">
                                 <ls:TextBlockFormatter.SourceText>
                                 <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
                                     <Binding Path="Value"/>
                                     <Binding Source="h5f6a1f2ag0bc4g4ae6ga52ege6e0048af203" Converter="{StaticResource TranslatedStringConverter}"/>
                                 </MultiBinding>
                             </ls:TextBlockFormatter.SourceText>
-                        </TextBlock>
+                        </TextBlock> -->
+                        <ContentControl Grid.Column="1" x:Name="SkillValue"
+                            Width="393"
+                            VerticalAlignment="Center"
+                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                            ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}"
+                            Tag="{StaticResource TooltipAbilityModifierStyle}"
+                            Margin="4,0,0,0">
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                    <Binding Path="Value"/>
+                                    <Binding Source="h5f6a1f2ag0bc4g4ae6ga52ege6e0048af203" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </ContentControl>
                     </Grid>
                 </ContentControl>
-                <TextBlock x:Name="Description" Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Margin="{StaticResource DefaultMarginBottom}"/>
+                <!-- <TextBlock x:Name="Description" Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Margin="{StaticResource DefaultMarginBottom}"/> -->
+                <ContentControl x:Name="Description" 
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    Margin="{StaticResource DefaultMarginBottom}"
+                    Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                    <ContentControl.Tag>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipDescriptionStyle}">
+                            <Setter Property="Width" Value="{StaticResource TouchUI_MaxTooltipContentWidth}"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </ContentControl.Tag>
+                </ContentControl>
             </StackPanel>
         </ls:LSNineSliceImage>
 
