@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_HeaderBodyLocaStringTemplate.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_HeaderBodyTemplate.xaml"/>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_DescriptionOnlyTooltip.xaml"/>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_ProficiencyTooltipTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
@@ -906,11 +907,41 @@
 
                         <!-- SavingThrow Bonus-->
                         <ContentControl Style="{StaticResource BaseTitleStyle}">
-                            <TextBlock Text="{Binding Source='ha1262989ge5e8g47aegb0begd830dd1a946f', Converter={StaticResource TranslatedStringConverter}}">
-                                <TextBlock.ToolTip>
-                                    <ls:LSTooltip IsHitTestVisible="False" Content="hb4ebc93egdb2dg4489g9386ga0b39c71b536" ls:AttachedProperties.InheritedTag="h20f2c1b6g2815g402ag8549gd6042c56c6db" Style="{StaticResource InlineTagTooltip}"/>
-                                </TextBlock.ToolTip>
-                            </TextBlock>
+                            <Grid>
+                                <ContentControl x:Name="SavingThrowTooltipPopup"
+                                    Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                    Visibility="Collapsed"
+                                    Content="hb4ebc93egdb2dg4489g9386ga0b39c71b536"
+                                    ls:AttachedProperties.InheritedTag="h20f2c1b6g2815g402ag8549gd6042c56c6db"
+                                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                    ContentTemplate="{StaticResource TouchUI_HeaderBodyTemplate}">
+                                    <ContentControl.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                    </ContentControl.LayoutTransform>
+                                </ContentControl>
+                                <Border Padding="20,5" CornerRadius="15">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=SavingThrowTooltipPopup, Path=Visibility}" Value="Visible">
+                                                    <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding Source='ha1262989ge5e8g47aegb0begd830dd1a946f', Converter={StaticResource TranslatedStringConverter}}">
+                                        <!-- <TextBlock.ToolTip>
+                                            <ls:LSTooltip IsHitTestVisible="False" Content="hb4ebc93egdb2dg4489g9386ga0b39c71b536" ls:AttachedProperties.InheritedTag="h20f2c1b6g2815g402ag8549gd6042c56c6db" Style="{StaticResource InlineTagTooltip}"/>
+                                        </TextBlock.ToolTip> -->
+                                    </TextBlock>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                            <b:ChangePropertyAction TargetName="SavingThrowTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </Border>
+                            </Grid>
                         </ContentControl>
                         <Border Style="{StaticResource ListSectionBackground}">
                             <ItemsControl x:Name="SavingThrow" ItemsSource="{Binding Stats.Abilities}" VerticalAlignment="Center" Style="{StaticResource SavingThrowGridStyle}" Margin="0,8"/>
