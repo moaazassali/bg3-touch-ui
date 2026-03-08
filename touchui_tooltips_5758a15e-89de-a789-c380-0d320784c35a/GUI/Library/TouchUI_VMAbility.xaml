@@ -23,7 +23,7 @@
                 </Grid.LayoutTransform>
 
                 <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
-                <Image x:Name="DecorationImage" Style="{DynamicResource AbilityTooltipIconStyle}" DataContext="{Binding}"/>
+                <!-- <Image x:Name="DecorationImage" Style="{DynamicResource AbilityTooltipIconStyle}" DataContext="{Binding}"/> -->
                 <StackPanel Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
                     <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
                         <StackPanel Orientation="Horizontal">
