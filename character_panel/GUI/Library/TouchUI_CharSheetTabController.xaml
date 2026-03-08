@@ -105,6 +105,84 @@
         </Setter>
     </Style>
 
+    <!-- ===== CONDITIONS LIST TEMPLATE =====-->
+    <DataTemplate x:Key="TouchUI_StatusListItemTemplate" DataType="{x:Type ls:VMStatus}">
+        <DataTemplate.Resources>
+            <BitmapImage x:Key="statusBG" UriSource="pack://application:,,,/Core;component/Assets/TargetInfo/statusBG.png"/>
+            <BitmapImage x:Key="statusBG_fill" UriSource="pack://application:,,,/Core;component/Assets/TargetInfo/statusBG_fill.png"/>
+        </DataTemplate.Resources>
+        <Border Name="root">
+            <Border.Style>
+                <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ConditionTooltipPopup, Path=Visibility}" Value="Visible">
+                            <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Grid>
+                <Grid Height="56">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="8,4,8,4">
+                        <Image Source="{StaticResource statusBG}" Stretch="Uniform" VerticalAlignment="Center"/>
+
+                        <ls:LSPie Value="{Binding RemainingPercentage}" SweepDirection="Clockwise">
+                            <Image Source="{StaticResource statusBG_fill}" Stretch="Uniform"/>
+                        </ls:LSPie>
+
+                        <Rectangle Style="{StaticResource SummaryRoundIcons}" Fill="{Binding Icon}"/>
+
+                        <TextBlock Text="{Binding Duration}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-12" Foreground="{StaticResource LS_PrimaryColor}"
+                                noesis:Text.Stroke="{StaticResource LS_PrimaryColorOutlineColor}" noesis:Text.StrokeThickness="6" Style="{StaticResource NarrowTooltipModifierText}"
+                                Visibility="{Binding Duration, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=0}" FontSize="{DynamicResource ScaledSmallFontSize}"/>
+                    </Grid>
+                    <TextBlock x:Name="NameLabel" Grid.Column="1" Text="{Binding Name}" TextTrimming="CharacterEllipsis">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource SummaryListText}">
+                                <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Visibility, ElementName=ConditionTooltipPopup}" Value="Visible">
+                                        <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                            <b:ChangePropertyAction TargetName="ConditionTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Grid>
+
+                <ContentControl x:Name="ConditionTooltipPopup"
+                    Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                    Visibility="Collapsed"
+                    Content="{Binding}"
+                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                    <ContentControl.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </ContentControl.LayoutTransform>
+                </ContentControl>
+            </Grid>
+        </Border>
+        <!-- <DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" SourceName="root" Value="True">
+                <Setter TargetName="root" Property="Background" Value="{StaticResource RowBG_h}"/>
+                <Setter TargetName="NameLabel" Property="Foreground" Value="{StaticResource LS_tint100}"/>
+            </Trigger>
+        </DataTemplate.Triggers> -->
+
+    </DataTemplate>
+
+
     <!-- ===== RESISTANCES GRID TEMPLATE=====-->
     <ControlTemplate x:Key="TouchUI_ResistancesGridTemplate">
         <Grid>
@@ -1512,7 +1590,7 @@
                                             <TextBlock Text="{Binding Source='h3baf1fe2g7d16g4d77gbc35gc17a90fb27d6', Converter={StaticResource TranslatedStringConverter}}"/>
                                         </ContentControl>
                                         <Border Style="{StaticResource ListSectionBackground}" Visibility="{Binding StatusEffects.Count, Converter={StaticResource CountToVisibilityConverter}}">
-                                            <ItemsControl x:Name="StatusHolder" ItemsSource="{Binding StatusEffects}" ItemTemplate="{StaticResource StatusListItemTemplate}" Background="Transparent" Margin="12"/>
+                                            <ItemsControl x:Name="StatusHolder" ItemsSource="{Binding StatusEffects}" ItemTemplate="{StaticResource TouchUI_StatusListItemTemplate}" Background="Transparent" Margin="12"/>
                                         </Border>
                                     </StackPanel>
 
