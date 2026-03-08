@@ -9,95 +9,106 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_StatParamsTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <!-- Ability Tooltip-->
     <DataTemplate DataType="{x:Type ls:VMAbility}">
-        <Grid x:Name="root" Tag="{Binding Path=(ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" >
-            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
-            <Image x:Name="DecorationImage" Style="{DynamicResource AbilityTooltipIconStyle}" DataContext="{Binding}"/>
-            <StackPanel Width="{DynamicResource MaxWideTooltipContentWidth}">
-                <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipTitleStyle}"/>
-                        <TextBlock x:Name="TitleValue" Text="{Binding Value, StringFormat={}({0})}" Style="{StaticResource TooltipTitleStyle}" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid x:Name="root" Tag="{Binding Path=(ls:TooltipExtender.Data) , RelativeSource={RelativeSource Mode=TemplatedParent}}" >
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+
+                <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25" />
+                <Image x:Name="DecorationImage" Style="{DynamicResource AbilityTooltipIconStyle}" DataContext="{Binding}"/>
+                <StackPanel Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                    <StackPanel x:Name="TitleArea" Style="{StaticResource TooltipTitleSurround}" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipTitleStyle}"/>
+                            <TextBlock x:Name="TitleValue" Text="{Binding Value, StringFormat={}({0})}" Style="{StaticResource TooltipTitleStyle}" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/>
                     </StackPanel>
-                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source='hdb40eff6g84d1g421dg906cg6779df63479f', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipSubTitleStyle}"/>
+                    <!-- Modifier -->
+                    <StackPanel x:Name="Modifier" Orientation="Horizontal">
+
+                        <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="-4,0,6,8"/>
+
+                        <TextBlock x:Name="AbilityModifierDesc" VerticalAlignment="Center" Width="{StaticResource MaxNarrowTooltipContentWidth}" Style="{StaticResource TooltipAbilityModifierStyle}" >
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                    <Binding Path="Modifier"/>
+                                    <Binding Source="hc95995a6gafa6g4d02g9e9ag87ed78dc1144" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </TextBlock>
+
+                    </StackPanel>
+
+                    <TextBlock x:Name="Description" Style="{StaticResource TouchUI_TooltipAdjustableDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" ls:TextBlockFormatter.SourceText="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"/>
+
+                    <StackPanel x:Name="SavingThrows" Margin="0,16,0,0" Style="{StaticResource SubSectionPanelStyle}">
+                        <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="0,0,6,0" RenderTransformOrigin="0.5,0.5">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
+
+                        <TextBlock Style="{StaticResource TooltipSectionTitleStyle}" Visibility="Visible" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Title}">
+                            <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                    <Binding Path="SavingThrow.AdditionalValue"/>
+                                    <Binding Source="ha9eabfe7ga85ag413cgb41dgb3dc10ac60f9" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <ItemsControl x:Name="SavingThrowParams"
+                                Visibility="{Binding Path=Tag.SavingThrowParameters.Count, ElementName=root, Converter={StaticResource CountToVisibilityConverter}}"
+                                ItemsSource="{Binding Path=Tag.SavingThrowParameters, ElementName=root}"
+                                AlternationCount="{Binding Path=Tag.SavingThrowParameters.Count, ElementName=root}"
+                                Margin="68,-4,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid MinWidth="{StaticResource StatTooltipMinWidth}">
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipCtxTransStringBodyStyle}"/>
+                                    </Grid.Resources>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0">
+                                        <TextBlock Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value ,StringFormat='{}{0:+#;-#;+0}'}" Margin="0,0,11,0"/>
+                                        <TextBlock ls:TextBlockFormatter.SourceText="{Binding Description}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Value}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+
+                    <TextBlock x:Name="AbilityModifiersLabel" Text="{Binding Source='h6d38bfa3gc691g4615ga348g558bba90d805', Converter={StaticResource TranslatedStringConverter}}"
+                            Style="{StaticResource TooltipSubTitleStyle}" FontSize="{StaticResource SmallishFontSize}"
+                            Margin="0,24,0,0"
+                            Visibility="{Binding Tag.CalculationParameters.Count, ElementName=root, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}"/>
+
+                    <ContentControl x:Name="AbilityStatParams" Content="{Binding Tag, ElementName=root}" ContentTemplate="{StaticResource TouchUI_StatParamsTemplate}" Margin="12,4,0,0"/>
                 </StackPanel>
-                <!-- Modifier -->
-                <StackPanel x:Name="Modifier" Orientation="Horizontal">
-
-                    <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="-4,0,6,8"/>
-
-                    <TextBlock x:Name="AbilityModifierDesc" VerticalAlignment="Center" Width="{StaticResource MaxNarrowTooltipContentWidth}" Style="{StaticResource TooltipAbilityModifierStyle}" >
-                        <ls:TextBlockFormatter.SourceText>
-                            <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
-                                <Binding Path="Modifier"/>
-                                <Binding Source="hc95995a6gafa6g4d02g9e9ag87ed78dc1144" Converter="{StaticResource TranslatedStringConverter}"/>
-                            </MultiBinding>
-                        </ls:TextBlockFormatter.SourceText>
-                    </TextBlock>
-
-                </StackPanel>
-
-                <TextBlock x:Name="Description" Style="{StaticResource TooltipAdjustableDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" ls:TextBlockFormatter.SourceText="{Binding Source='haaf3959ag320eg4f68ga9c9gc143d7f64a8c', Converter={StaticResource TranslatedStringConverter}}"/>
-
-                <StackPanel x:Name="SavingThrows" Margin="0,16,0,0" Style="{StaticResource SubSectionPanelStyle}">
-                    <ContentControl ContentTemplate="{StaticResource DamageDiceSet}" VerticalAlignment="Center" Margin="0,0,6,0" RenderTransformOrigin="0.5,0.5">
-                        <ContentControl.LayoutTransform>
-                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                        </ContentControl.LayoutTransform>
-                    </ContentControl>
-
-                    <TextBlock Style="{StaticResource TooltipSectionTitleStyle}" Visibility="Visible" VerticalAlignment="Center" Foreground="{StaticResource TooltipColor.Title}">
-                        <ls:TextBlockFormatter.SourceText>
-                            <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
-                                <Binding Path="SavingThrow.AdditionalValue"/>
-                                <Binding Source="ha9eabfe7ga85ag413cgb41dgb3dc10ac60f9" Converter="{StaticResource TranslatedStringConverter}"/>
-                            </MultiBinding>
-                        </ls:TextBlockFormatter.SourceText>
-                    </TextBlock>
-                </StackPanel>
-
-                <ItemsControl x:Name="SavingThrowParams"
-                              Visibility="{Binding Path=Tag.SavingThrowParameters.Count, ElementName=root, Converter={StaticResource CountToVisibilityConverter}}"
-                              ItemsSource="{Binding Path=Tag.SavingThrowParameters, ElementName=root}"
-                              AlternationCount="{Binding Path=Tag.SavingThrowParameters.Count, ElementName=root}"
-                              Margin="68,-4,0,0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid MinWidth="{StaticResource StatTooltipMinWidth}">
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipCtxTransStringBodyStyle}"/>
-                                </Grid.Resources>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0">
-                                    <TextBlock Foreground="{DynamicResource TooltipColor.Secondary}" ls:TextBlockFormatter.SourceText="{Binding Value ,StringFormat='{}{0:+#;-#;+0}'}" Margin="0,0,11,0"/>
-                                    <TextBlock ls:TextBlockFormatter.SourceText="{Binding Description}"/>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Value}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-
-                <TextBlock x:Name="AbilityModifiersLabel" Text="{Binding Source='h6d38bfa3gc691g4615ga348g558bba90d805', Converter={StaticResource TranslatedStringConverter}}"
-                           Style="{StaticResource TooltipSubTitleStyle}" FontSize="{StaticResource SmallishFontSize}"
-                           Margin="0,24,0,0"
-                           Visibility="{Binding Tag.CalculationParameters.Count, ElementName=root, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=1}"/>
-
-                <ContentControl x:Name="AbilityStatParams" Content="{Binding Tag, ElementName=root}" ContentTemplate="{StaticResource StatParamsTemplate}" Margin="12,4,0,0"/>
-            </StackPanel>
-        </Grid>
+            </Grid>
+        </ls:LSNineSliceImage>
 
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Ability}" Value="Strength">
