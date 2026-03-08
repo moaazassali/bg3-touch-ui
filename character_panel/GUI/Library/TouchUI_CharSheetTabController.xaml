@@ -83,29 +83,38 @@
                 <Grid>
                     <Border x:Name="ProficiencyBonusBackground" 
                         CornerRadius="8" 
-                        Background="Transparent" 
                         HorizontalAlignment="Center"
                         Margin="0,0,0,12">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Visibility, ElementName=ProficiencyBonusTooltipPopup}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
                         <StackPanel x:Name="ProficiencyBonusStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,12,4">
                             <Image Source="{StaticResource ProficientDice}" Stretch="None" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Name="ProficiencyBonusLabel" Foreground="{StaticResource LS_accent75TxtColor}" FontSize="{StaticResource ScaledSmallFontSize}" VerticalAlignment="Center">
+                            <TextBlock Name="ProficiencyBonusLabel" FontSize="{StaticResource ScaledSmallFontSize}" VerticalAlignment="Center">
                                         <Run Text="{Binding Source='h65b46ad4g2eacg47d5gb4b4g124ca3b8aaef', Converter={StaticResource TranslatedStringConverter}}"/>
                                         <Run Text="{Binding Value, StringFormat='(+{0})'}"/>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Visibility, ElementName=ProficiencyBonusTooltipPopup}" Value="Visible">
+                                                <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             </TextBlock>
 
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="MouseLeftButtonUp">
                                     <b:ChangePropertyAction TargetName="ProficiencyBonusTooltipPopup" PropertyName="Visibility" Value="Visible"/>
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusBackground" PropertyName="Background" Value="Transparent"/>
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusLabel" PropertyName="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
-                                </b:EventTrigger>
-                                <b:EventTrigger EventName="MouseLeftButtonDown">
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusBackground" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusLabel" PropertyName="Foreground" Value="{StaticResource LS_tint100}"/>
-                                </b:EventTrigger>
-                                <b:EventTrigger EventName="MouseLeave">
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusBackground" PropertyName="Background" Value="Transparent"/>
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusLabel" PropertyName="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </StackPanel>
@@ -145,11 +154,63 @@
                             <DataTemplate>
                                 <Border x:Name="AbillitySkillSection" Visibility="{Binding Skills.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=0}" Style="{StaticResource RowBG_d}" BorderBrush="{StaticResource LS_accent00TxtColor}" BorderThickness="2" Margin="0,4">
                                     <StackPanel Orientation="Vertical" Margin="0,8,0,0">
-                                        <Border x:Name="SkillTitle" Background="Transparent" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Right">
-                                            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
-                                                <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource SkillTitleTextStyle}"/>
-                                                <TextBlock x:Name="TitleValue" Style="{StaticResource SkillTitleTextStyle}" Text="{Binding Modifier, StringFormat=' ({0:+#;-#;0})'}"/>
-                                            </StackPanel>
+                                        <Border x:Name="SkillTitle">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
+                                                            <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+
+                                            <Grid HorizontalAlignment="Stretch" Margin="0,5">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <TextBlock x:Name="TitleName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}">
+                                                      <TextBlock.Style>
+                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}">
+                                                                <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
+                                                                        <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    
+                                                    <TextBlock x:Name="TitleValue" Text="{Binding Modifier, StringFormat=' ({0:+#;-#;0})'}">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}">
+                                                                <Setter Property="Foreground" Value="{StaticResource LS_baseTxtColor}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Visibility, ElementName=SkillTitleTooltipPopup}" Value="Visible">
+                                                                        <Setter Property="Foreground" Value="{StaticResource LS_tint100}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:ChangePropertyAction TargetName="SkillTitleTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                </StackPanel>
+
+                                                <ContentControl x:Name="SkillTitleTooltipPopup"
+                                                    Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                    Visibility="Collapsed"
+                                                    Content="{Binding}"
+                                                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                                    <ContentControl.LayoutTransform>
+                                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                    </ContentControl.LayoutTransform>
+                                                </ContentControl>
+                                            </Grid>
                                         </Border>
                                                           
                                         <ItemsControl ItemsSource="{Binding Skills}" Margin="12,4,12,12">
@@ -287,7 +348,7 @@
                                         </ItemsControl>
                                     </StackPanel>
                                 </Border>
-                                <DataTemplate.Triggers>
+                                <!-- <DataTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="AbillitySkillSection" Property="Background" Value="{StaticResource RowBG_h}"/>
                                         <Setter TargetName="TitleName" Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
@@ -297,7 +358,7 @@
                                         <Setter TargetName="TitleName" Property="Foreground" Value="{StaticResource LS_tint100}"/>
                                         <Setter TargetName="TitleValue" Property="Foreground" Value="{StaticResource LS_tint100}"/>
                                     </Trigger>
-                                </DataTemplate.Triggers>
+                                </DataTemplate.Triggers> -->
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
 
