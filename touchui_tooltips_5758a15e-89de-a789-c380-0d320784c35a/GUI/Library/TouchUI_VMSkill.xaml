@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Skill Tooltip-->
