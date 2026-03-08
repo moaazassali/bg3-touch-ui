@@ -1,0 +1,274 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <!-- Skill Tooltip-->
+    <DataTemplate DataType="{x:Type ls:VMSkill}">
+        <StackPanel x:Name="root">
+            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                <StackPanel>
+                    <TextBlock x:Name="TitleName" Text="{Binding SkillValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h65e11968gf9b6g4c47g9efcg03fb60fb923c'}" Style="{StaticResource TooltipTitleStyle}"/>
+                    <TextBlock x:Name="AbilityName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipSubTitleStyle}"/>
+                </StackPanel>
+            </Border>
+            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+            <ContentControl x:Name="ValueStripBG" Template="{StaticResource TooltipStripTemplate}" Margin="{StaticResource DefaultMarginBottom}">
+                <Grid x:Name="ValueStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Width="{StaticResource MaxNarrowTooltipContentWidth}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" VerticalAlignment="Top">
+                        <Path x:Name="DiceBg" Stretch="None" VerticalAlignment="Center" Width="88" Height="88" StrokeThickness="10" Fill="White" Data="{StaticResource DiceGeometryD20}"/>
+                        <Image x:Name="DiceIcon" VerticalAlignment="Center" Source="{StaticResource IconD20}" Stretch="None"/>
+                    </Grid>
+                    <TextBlock Grid.Column="1" x:Name="SkillValue" VerticalAlignment="Center" Style="{StaticResource TooltipAbilityModifierStyle}" Margin="4,0,0,0">
+                            <ls:TextBlockFormatter.SourceText>
+                            <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                <Binding Path="Value"/>
+                                <Binding Source="h5f6a1f2ag0bc4g4ae6ga52ege6e0048af203" Converter="{StaticResource TranslatedStringConverter}"/>
+                            </MultiBinding>
+                         </ls:TextBlockFormatter.SourceText>
+                    </TextBlock>
+                </Grid>
+            </ContentControl>
+            <TextBlock x:Name="Description" Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Margin="{StaticResource DefaultMarginBottom}"/>
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Controller">
+                <Setter TargetName="DiceIcon" Property="Width" Value="126" />
+                <Setter TargetName="DiceIcon" Property="Stretch" Value="Uniform"/>
+                <Setter TargetName="DiceBg" Property="Width" Value="100"/>
+                <Setter TargetName="DiceBg" Property="Height" Value="100"/>
+                <Setter TargetName="DiceBg" Property="Stretch" Value="Uniform"/>
+                <Setter TargetName="DiceBg" Property="Fill" Value="{StaticResource DiceColor.Default}"/>
+                <Setter TargetName="SkillValue" Property="FontSize" Value="{StaticResource LargeFontSize}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Deception">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h5febcaf6g13f4g4662g9c68ge24ec3c2d80a', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h5d18a95bgbe59g4d35g83b3g720d74f4b1bb" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Intimidation">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h5e849499g23bfg4e5dga9f3gb6ce36f9abc2', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="hbb4b11fag38c1g4a50g8b68g311e8ff34997" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Performance">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='ha6c0ffb0g73ccg4435g9d7ag8a24ee90a849', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="hed4f2ecfg1ee8g4015g9954g7efed806cbf8" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Persuasion">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h3d5ecb16g20f8g4febgba03g41ae11b9ddf2', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h114841e2gc52fg4ea3g985bgb85a03117ef5" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Acrobatics">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h241bfb0fgffa2g4ccega96fgb26da384ecf8', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="hb51313bbga377g42f2g99e9g68b7d51c64ff" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="SleightOfHand">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='ha18e79b2g111ag441egb532g3ff79d4ba842', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="hf46b2617g8fd2g4c84g9ea3g90e35dbef93e" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Stealth">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hb2487d1bga7a8g4a2dgb6a8g447842179f6d', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h968f7f17gb2ecg4bd4ga96cgd708bebb38cd" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Arcana">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hda75bbd8g5613g4f40g8b8dgb8d3f4f6855d', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h0ba372fdge68bg40d6g94a2g43cb9c369eb4" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="History">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='ha31089eegb95fg44d8gb191g302341c0b57a', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h8c1259b2g1231g4b68g893ag1b2bc53cc7c5" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Investigation">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h2a7019efgfaf7g455fg8fd9g4b7c275fbbfa', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h0e43523ag5ae7g4b17g8251g95f14a6d61a9" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Nature">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h94f2954eg8a71g49c9ga9bdg66b65a04a23c', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h5837aba1gf5f1g4eb2g8e4ag2ec040ec9264" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Religion">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h3adc18e5gc8c3g459dgbe82gb27aca09da54', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h538e17dbge0cag4c76gbc64g74fb4e2e42e7" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Athletics">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='ha90cb8b6g3aa7g4b94ga7e3gfa0823672af1', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="hc4cbc7bcg3413g42a4g83f8g3379dc6a4e08" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="AnimalHandling">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='hfa186a8cg869cg4ecdgadf3gb7326ab444c4', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="he9ae12d6gccc1g4c8dg8e74gdffd58287cdc" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Insight">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h2eb576b5gc088g40e6gad9ag52751e1f9be7', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h09a5ea20g22abg4d9bgb914geece8bd371eb" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Medicine">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h0eb7380bg4477g4d04ga797ge577e24aa856', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h34dc74d6g8374g44b8g97b0gde4b69690f5a" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Perception">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='h7896bd12g83b9g4058gbc2cg477ba13c728a', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="hffe5599agfcf2g496dga29cg493db6d1c9cf" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Skill}" Value="Survival">
+                <Setter TargetName="Description" Property="ls:TextBlockFormatter.SourceText" Value="{Binding Source='had65a34cg53b1g4d6ag86d2g04258e4ed338', Converter={StaticResource TranslatedStringConverter}}"/>
+                <Setter TargetName="SkillValue" Property="ls:TextBlockFormatter.SourceText">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                            <Binding Path="Value"/>
+                            <Binding Source="h33b37b3eg71efg4ef1g8318g3baa0f40c41a" Converter="{StaticResource TranslatedStringConverter}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

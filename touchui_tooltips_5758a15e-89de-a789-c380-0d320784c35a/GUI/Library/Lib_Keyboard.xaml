@@ -17,6 +17,7 @@
         <ResourceDictionary Source="../Library/TouchUI_VMDamageStatTooltip.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_PassivesTooltip.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_VMAbility.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_VMSkill.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Touch UI - We need to override all resources that use LSSpanStyle to use TouchUI_LSSpanStyle -->
