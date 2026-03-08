@@ -25,6 +25,8 @@
                     ls:TooltipExtender.IsOpen="{Binding IsOpen, RelativeSource={RelativeSource AncestorType={x:Type Popup}}}"
                     ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), RelativeSource={RelativeSource TemplatedParent}}"
                     ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                    ls:AttachedProperties.InheritedTag="{Binding Path=(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource TemplatedParent}}"
+                    ContentTemplate="{Binding Path=ContentTemplate, RelativeSource={RelativeSource TemplatedParent}}"
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Right"
                     LayoutTransform="{Binding LayoutTransform, RelativeSource={RelativeSource TemplatedParent}}"/>
