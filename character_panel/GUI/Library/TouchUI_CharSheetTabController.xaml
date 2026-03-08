@@ -316,9 +316,9 @@
                 <TabItem x:Name="SummaryTab" IsSelected="True" >
                     <TabItem.Header>
                         <Border>
-                            <Border.ToolTip>
+                            <!-- <Border.ToolTip>
                                 <ls:LSTooltip Content="{Binding Source='h890f4cddg2bdcg4bb2gb73eg43fe16b11b08',Converter={StaticResource TranslatedStringConverter}}"/>
-                            </Border.ToolTip>
+                            </Border.ToolTip> -->
                             <Image Width="60" Height="60" Source="pack://application:,,,/Core;component/Assets/CharacterCreation/ico_class.png" Stretch="Uniform"/>
                             
                         </Border>
@@ -498,9 +498,9 @@
                 <TabItem x:Name="SkillsTab" Visibility="{Binding IsPlayableCharacter, Converter={StaticResource BoolToVisibleConverter}}">
                     <TabItem.Header>
                         <Border>
-                            <Border.ToolTip>
+                            <!-- <Border.ToolTip>
                                 <ls:LSTooltip Content="{Binding Source='h12abe296ga0fbg44feg9451gb10a0bf92acb',Converter={StaticResource TranslatedStringConverter}}"/>
-                            </Border.ToolTip>
+                            </Border.ToolTip> -->
                             <Image Width="60" Height="60" Source="pack://application:,,,/Core;component/Assets/CharacterCreation/ico_skills.png" Stretch="Uniform"/>
                         </Border>
                     </TabItem.Header>
@@ -511,9 +511,9 @@
                 <TabItem x:Name="DetailsTab">
                     <TabItem.Header>
                         <Border>
-                            <Border.ToolTip>
+                            <!-- <Border.ToolTip>
                                 <ls:LSTooltip Content="{Binding Source='he8e3236cgbf7eg4975gb5d8g3f4e3c0663f5',Converter={StaticResource TranslatedStringConverter}}"/>
-                            </Border.ToolTip>
+                            </Border.ToolTip> -->
                             <Image Width="60" Height="60" Source="pack://application:,,,/Core;component/Assets/BottomBar/ico_identity_d.png" Stretch="Uniform"/>
                         </Border>
                     </TabItem.Header>
