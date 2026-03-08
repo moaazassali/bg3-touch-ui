@@ -486,24 +486,60 @@
 
                     <!--Race-->
                     <ContentControl Template="{StaticResource DetailedEntry}">
-                        <ContentControl.ToolTip>
-                            <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
-                        </ContentControl.ToolTip>
-                        <DockPanel>
-                            <TextBlock Text="{Binding Source='h4810b5bag5482g4b47ga5b7ge7c1156969d9', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
-                            <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SkillTitleTextStyle}"/>
-                        </DockPanel>
+                        <Grid>
+                            <!-- <ContentControl.ToolTip>
+                                <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
+                            </ContentControl.ToolTip> -->
+                            <ContentControl x:Name="RaceTooltipPopup"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Visibility="Collapsed"
+                                Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}"
+                                ContentTemplate="{StaticResource TouchUI_HeaderBodyLocaStringTemplate}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                            <DockPanel Background="Transparent">
+                                <TextBlock Text="{Binding Source='h4810b5bag5482g4b47ga5b7ge7c1156969d9', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                                <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="RaceTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </DockPanel>
+                        </Grid>
                     </ContentControl>
 
                     <!--Background-->
                     <ContentControl Template="{StaticResource DetailedEntry}" Visibility="{Binding Stats.Background, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
-                        <ContentControl.ToolTip>
-                            <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.BackgroundDescription, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Background, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
-                        </ContentControl.ToolTip>
-                        <DockPanel>
-                            <TextBlock Text="{Binding Source='hd020153fg6a95g4ebegb6c3g043bb05c7bba', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
-                            <TextBlock Text="{Binding Stats.Background}" Style="{StaticResource SkillTitleTextStyle}"/>
-                        </DockPanel>
+                        <Grid>
+                            <!-- <ContentControl.ToolTip>
+                                <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.BackgroundDescription, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Background, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
+                            </ContentControl.ToolTip> -->
+                            <ContentControl x:Name="BackgroundTooltipPopup"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Visibility="Collapsed"
+                                Content="{Binding DataContext.Stats.BackgroundDescription, ElementName=DetailedView}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Background, ElementName=DetailedView}"
+                                ContentTemplate="{StaticResource TouchUI_HeaderBodyLocaStringTemplate}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                            <DockPanel Background="Transparent">
+                                <TextBlock Text="{Binding Source='hd020153fg6a95g4ebegb6c3g043bb05c7bba', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                                <TextBlock Text="{Binding Stats.Background}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="BackgroundTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </DockPanel>
+                        </Grid>
                     </ContentControl>
 
                     <!--Diety-->
