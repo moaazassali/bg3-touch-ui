@@ -313,19 +313,8 @@
                         <Setter Property="Margin" Value="8,0"/>
                     </Style>
                 </ControlTemplate.Resources>
-                <Border x:Name="Entry" Style="{StaticResource RowBG_d}" MinHeight="48">
+                <Border x:Name="Entry" MinHeight="48">
                     <ContentPresenter/>
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="MouseLeftButtonUp">
-                            <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseLeftButtonDown">
-                            <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseLeave">
-                            <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
                 </Border>
                 <!-- <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
@@ -340,20 +329,23 @@
                         <Setter Property="Margin" Value="8,0"/>
                     </Style>
                 </ControlTemplate.Resources>
-                <Border x:Name="Entry" Style="{StaticResource RowBG_d}" MinHeight="48">
+                <Border x:Name="Entry" MinHeight="48">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=DetailedEntryTooltipPopup, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <Grid>
                         <Grid Background="Transparent">
                             <ContentPresenter/>
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="MouseLeftButtonUp">
                                     <b:ChangePropertyAction TargetName="DetailedEntryTooltipPopup" PropertyName="Visibility" Value="Visible"/>
-                                    <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
-                                </b:EventTrigger>
-                                <b:EventTrigger EventName="MouseLeftButtonDown">
-                                    <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
-                                </b:EventTrigger>
-                                <b:EventTrigger EventName="MouseLeave">
-                                    <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </Grid>
@@ -441,6 +433,17 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl Template="{StaticResource DetailedEntry}">
+                                    <ContentControl.Resources>
+                                        <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                            <Setter Property="MinHeight" Value="48"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ClassTooltipPopup, Path=Visibility}" Value="Visible">
+                                                    <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Resources>
                                     <Grid>
                                         <!-- <ContentControl.ToolTip>
                                             <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.ClassDescription, RelativeSource={RelativeSource TemplatedParent}}" ls:AttachedProperties.InheritedTag="{Binding Path=DataContext.ClassDisplayName, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
@@ -486,6 +489,17 @@
 
                     <!--Race-->
                     <ContentControl Template="{StaticResource DetailedEntry}">
+                        <ContentControl.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="MinHeight" Value="48"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=RaceTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Resources>
                         <Grid>
                             <!-- <ContentControl.ToolTip>
                                 <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
@@ -515,6 +529,17 @@
 
                     <!--Background-->
                     <ContentControl Template="{StaticResource DetailedEntry}" Visibility="{Binding Stats.Background, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                        <ContentControl.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="MinHeight" Value="48"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=BackgroundTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Resources>
                         <Grid>
                             <!-- <ContentControl.ToolTip>
                                 <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.BackgroundDescription, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Background, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
