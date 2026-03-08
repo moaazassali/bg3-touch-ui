@@ -11,6 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_HeaderBodyLocaStringTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- ===== PASSIVE FEATURES TEMPLATE=====-->
@@ -314,12 +315,23 @@
                 </ControlTemplate.Resources>
                 <Border x:Name="Entry" Style="{StaticResource RowBG_d}" MinHeight="48">
                     <ContentPresenter/>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                            <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseLeave">
+                            <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
                 </Border>
-                <ControlTemplate.Triggers>
+                <!-- <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter TargetName="Entry" Property="Background" Value="{StaticResource RowBG_h}"/>
                     </Trigger>
-                </ControlTemplate.Triggers>
+                </ControlTemplate.Triggers> -->
             </ControlTemplate>
 
             <ControlTemplate x:Key="TouchUI_DetailedEntryWithPlacementParentDCTooltip">
@@ -429,24 +441,44 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl Template="{StaticResource DetailedEntry}">
-                                    <ContentControl.ToolTip>
-                                        <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.ClassDescription, RelativeSource={RelativeSource TemplatedParent}}" ls:AttachedProperties.InheritedTag="{Binding Path=DataContext.ClassDisplayName, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
-                                    </ContentControl.ToolTip>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Source='h3f540c7ag325cg447egadbdgb30b8c580fa4', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
-                                        <StackPanel DockPanel.Dock="Right">
-                                            <TextBlock Style="{StaticResource SkillTitleTextStyle}" TextAlignment="Right">
-                                                <TextBlock.Text>
-                                                    <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
-                                                        <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
-                                                        <Binding Path="DataContext.Level.Value" RelativeSource="{RelativeSource Mode=Self}"/>
-                                                        <Binding Path="DataContext.ClassDisplayName" RelativeSource="{RelativeSource Mode=Self}"/>
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
-                                            <TextBlock Text="{Binding SubclassDisplayName}" Visibility="{Binding SubclassDisplayName, Converter={StaticResource StringToVisibilityConverter}}" Style="{StaticResource SkillTitleTextStyle}"/>
-                                        </StackPanel>
-                                    </DockPanel>
+                                    <Grid>
+                                        <!-- <ContentControl.ToolTip>
+                                            <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.ClassDescription, RelativeSource={RelativeSource TemplatedParent}}" ls:AttachedProperties.InheritedTag="{Binding Path=DataContext.ClassDisplayName, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
+                                        </ContentControl.ToolTip> -->
+                                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                        <ContentControl x:Name="ClassTooltipPopup"
+                                            Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                            Visibility="Collapsed"
+                                            Content="{Binding Path=DataContext.ClassDescription, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                            ls:AttachedProperties.InheritedTag="{Binding Path=DataContext.ClassDisplayName, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ContentTemplate="{StaticResource TouchUI_HeaderBodyLocaStringTemplate}">
+                                            <ContentControl.LayoutTransform>
+                                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                            </ContentControl.LayoutTransform>
+                                        </ContentControl>
+                                        <DockPanel Background="Transparent">
+                                            <TextBlock Text="{Binding Source='h3f540c7ag325cg447egadbdgb30b8c580fa4', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                                            <StackPanel DockPanel.Dock="Right">
+                                                <TextBlock Style="{StaticResource SkillTitleTextStyle}" TextAlignment="Right">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                                            <Binding Source="h5df00b79ga6acg4d9fgb8dag23340151fba7"/>
+                                                            <Binding Path="DataContext.Level.Value" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                            <Binding Path="DataContext.ClassDisplayName" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding SubclassDisplayName}" Visibility="{Binding SubclassDisplayName, Converter={StaticResource StringToVisibilityConverter}}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                            </StackPanel>
+
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <b:ChangePropertyAction TargetName="ClassTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </DockPanel>
+                                    </Grid>
                                 </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
