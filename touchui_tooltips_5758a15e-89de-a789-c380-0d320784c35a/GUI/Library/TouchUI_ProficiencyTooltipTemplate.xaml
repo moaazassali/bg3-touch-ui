@@ -22,21 +22,27 @@
     </DataTemplate>
 
     <DataTemplate x:Key="TouchUI_ProficiencyTooltipTemplate">
-        <StackPanel MaxWidth="800" Margin="12">
-            <StackPanel.Resources>
-                <Style TargetType="ls:LSSpan" BasedOn="{StaticResource {x:Type ls:LSSpan}}">
-                    <Style.Triggers>
-                        <Trigger Property="TagType" Value="hl">
-                            <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Resources>
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Margin="12">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
 
-            <TextBlock x:Name="title" Style="{StaticResource TooltipTitleStyle}"/>
-            <TextBlock x:Name="desc" Style="{StaticResource TooltipBaseTextStyle}"/>
-            <ItemsControl x:Name="list" ItemTemplate="{StaticResource TouchUI_ExtendedEquipmentProficiencyTemplate}"/>
-        </StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="ls:LSSpan" BasedOn="{StaticResource {x:Type ls:LSSpan}}">
+                        <Style.Triggers>
+                            <Trigger Property="TagType" Value="hl">
+                                <Setter Property="Foreground" Value="{StaticResource LS_accent100TxtColor}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+
+                <TextBlock x:Name="title" Style="{StaticResource TooltipTitleStyle}"/>
+                <TextBlock x:Name="desc" Style="{StaticResource TooltipBaseTextStyle}"/>
+                <ItemsControl x:Name="list" ItemTemplate="{StaticResource TouchUI_ExtendedEquipmentProficiencyTemplate}"/>
+            </StackPanel>
+        </ls:LSNineSliceImage>
 
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding (ls:TooltipExtender.Context), RelativeSource={RelativeSource Self}}" Value="Armour">
