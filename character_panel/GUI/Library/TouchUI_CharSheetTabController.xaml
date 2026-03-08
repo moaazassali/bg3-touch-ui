@@ -12,6 +12,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
         <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_HeaderBodyLocaStringTemplate.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_DescriptionOnlyTooltip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- ===== PASSIVE FEATURES TEMPLATE=====-->
@@ -580,14 +581,14 @@
                         <TextBlock Text="{Binding Source='h6f7a7018gd5f6g4c32g9386g6df0744d7ecd', Converter={StaticResource TranslatedStringConverter}}"/>
                     </ContentControl>
 
-                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.Initiative}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.Initiative}">
                         <DockPanel>
                             <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
                             <TextBlock Text="{Binding Value, StringFormat={}{0:+#;-#;+0}}" Style="{StaticResource SkillTitleTextStyle}"/>
                         </DockPanel>
                     </ContentControl>
 
-                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.MovementResource}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.MovementResource}">
                         <DockPanel>
                             <TextBlock Text="{Binding Name}" Style="{StaticResource SkillTextStyle}"/>
                             <TextBlock Text="{Binding MaxValue, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
@@ -595,13 +596,40 @@
                     </ContentControl>
 
                     <ContentControl x:Name="darkVisionStat" Template="{StaticResource DetailedEntry}" Visibility="{Binding DataContext.IsPlayableCharacter, ElementName=DetailedPanelContent, Converter={StaticResource BoolToVisibleConverter}}" DataContext="{Binding Stats.DarkVisionRange}">
-                        <ContentControl.ToolTip>
-                            <ls:LSTooltip Content="{Binding ElementName=darkVisionStat,Path=DataContext}"/>
-                        </ContentControl.ToolTip>
-                        <DockPanel>
-                            <Control x:Name="DarkVisionRangeName" Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
-                            <TextBlock Text="{Binding Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
-                        </DockPanel>
+                        <ContentControl.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="MinHeight" Value="48"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=DarkVisionTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Resources>
+                        <Grid>
+                            <!-- <ContentControl.ToolTip>
+                                <ls:LSTooltip Content="{Binding ElementName=darkVisionStat,Path=DataContext}"/>
+                            </ContentControl.ToolTip> -->
+                            <ContentControl x:Name="DarkVisionTooltipPopup"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Visibility="Collapsed"
+                                Content="{Binding ElementName=darkVisionStat,Path=DataContext}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                            <DockPanel Background="Transparent">
+                                <Control x:Name="DarkVisionRangeName" Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                                <TextBlock Text="{Binding Value, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="DarkVisionTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </DockPanel>
+                        </Grid>
                     </ContentControl>
 
                     <ContentControl x:Name="BodyType" Template="{StaticResource DetailedEntry}">
@@ -612,37 +640,121 @@
                     </ContentControl>
 
                     <ContentControl Template="{StaticResource DetailedEntry}">
-                        <ContentControl.ToolTip>
-                            <ls:LSTooltip Content="{Binding Source='h219ed287gbc86g4f87g93a6gb930860114e6',Converter={StaticResource TranslatedStringConverter}}"/>
-                        </ContentControl.ToolTip>
-                        <DockPanel>
-                            <TextBlock Text="{Binding Source='hfc7ce51bga5d6g4711g8e19g3fcebf236de0', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
-                            <Control Template="{StaticResource ObjectSizeTextTemplate}">
-                                <Control.Resources>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}"/>
-                                </Control.Resources>
-                            </Control>
-                        </DockPanel>
+                        <ContentControl.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="MinHeight" Value="48"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=SizeTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Resources>
+                        <Grid>
+                            <!-- <ContentControl.ToolTip>
+                                <ls:LSTooltip Content="{Binding Source='h219ed287gbc86g4f87g93a6gb930860114e6',Converter={StaticResource TranslatedStringConverter}}"/>
+                            </ContentControl.ToolTip> -->
+                            <ContentControl x:Name="SizeTooltipPopup"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Visibility="Collapsed"
+                                Content="{Binding Source='h219ed287gbc86g4f87g93a6gb930860114e6',Converter={StaticResource TranslatedStringConverter}}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ContentTemplate="{StaticResource TouchUI_DescriptionOnlyTooltip}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+
+                            <DockPanel Background="Transparent">
+                                <TextBlock Text="{Binding Source='hfc7ce51bga5d6g4711g8e19g3fcebf236de0', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                                <Control Template="{StaticResource ObjectSizeTextTemplate}">
+                                    <Control.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource SkillTitleTextStyle}"/>
+                                    </Control.Resources>
+                                </Control>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="SizeTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </DockPanel>
+                        </Grid>
                     </ContentControl>
 
                     <ContentControl x:Name="weightStat" Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.Weight}" >
-                        <ContentControl.ToolTip>
-                            <ls:LSTooltip Content="{Binding ElementName=weightStat,Path=DataContext}"/>
-                        </ContentControl.ToolTip>
-                        <DockPanel>
-                            <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
-                            <TextBlock Text="{Binding Value, Converter={StaticResource UnitConverter}, ConverterParameter='Weight Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
-                        </DockPanel>
+                        <ContentControl.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="MinHeight" Value="48"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=WeightTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Resources>
+                            <Grid>
+                                <!-- <ContentControl.ToolTip>
+                                    <ls:LSTooltip Content="{Binding ElementName=weightStat,Path=DataContext}"/>
+                                </ContentControl.ToolTip> -->
+                                <ContentControl x:Name="WeightTooltipPopup"
+                                    Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                    Visibility="Collapsed"
+                                    Content="{Binding ElementName=weightStat,Path=DataContext}"
+                                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                    <ContentControl.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                    </ContentControl.LayoutTransform>
+                                </ContentControl>
+                            <DockPanel Background="Transparent">
+                                <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
+                                <TextBlock Text="{Binding Value, Converter={StaticResource UnitConverter}, ConverterParameter='Weight Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="WeightTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </DockPanel>
+                        </Grid>
                     </ContentControl>
 
                     <ContentControl Template="{StaticResource DetailedEntry}" Visibility="{Binding IsPlayableCharacter, Converter={StaticResource BoolToVisibleConverter}}">
-                        <ContentControl.ToolTip>
-                            <ls:LSTooltip Content="{Binding Source='h97226633g565ag44c0gbd64g89e70c886cba',Converter={StaticResource TranslatedStringConverter}}"/>
-                        </ContentControl.ToolTip>
-                        <DockPanel>
-                            <TextBlock Text="{Binding Source='h3faf5e3cg719dg4b1cgb21egf2afeafb0eea', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
-                            <TextBlock Text="{Binding EncumbranceStats.WeightMaximum, Converter={StaticResource UnitConverter}, ConverterParameter='Weight Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
-                        </DockPanel>
+                         <ContentControl.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="MinHeight" Value="48"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=CarryingCapacityTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Resources>
+                        <Grid>
+                            <!-- <ContentControl.ToolTip>
+                                <ls:LSTooltip Content="{Binding Source='h97226633g565ag44c0gbd64g89e70c886cba',Converter={StaticResource TranslatedStringConverter}}"/>
+                            </ContentControl.ToolTip> -->
+                            <ContentControl x:Name="CarryingCapacityTooltipPopup"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Visibility="Collapsed"
+                                Content="{Binding Source='h97226633g565ag44c0gbd64g89e70c886cba',Converter={StaticResource TranslatedStringConverter}}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ContentTemplate="{StaticResource TouchUI_DescriptionOnlyTooltip}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                            <DockPanel Background="Transparent">
+                                <TextBlock Text="{Binding Source='h3faf5e3cg719dg4b1cgb21egf2afeafb0eea', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource SkillTextStyle}"/>
+                                <TextBlock Text="{Binding EncumbranceStats.WeightMaximum, Converter={StaticResource UnitConverter}, ConverterParameter='Weight Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="CarryingCapacityTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </DockPanel>
+                        </Grid>
                     </ContentControl>
 
                     <StackPanel>

@@ -1,0 +1,41 @@
+<!-- Copied from Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+                xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                xmlns:ls="clr-namespace:ls;assembly=Code"
+                mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Touch UI - Adapted from Description tooltip in Patch8_HotFix4\Public\Game\GUI\Library\Tooltips.xaml -->
+    <DataTemplate x:Key="TouchUI_DescriptionOnlyTooltip">
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Grid.LayoutTransform>
+                <!-- <TextBlock ls:TextBlockFormatter.SourceText="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{StaticResource TooltipBodyStyle}" Width="{StaticResource TouchUI_MaxTooltipContentWidth}" Margin="0,11,0,0"/> -->
+                <ContentControl 
+                    Margin="{StaticResource ExtraPadSpaceTop}" 
+                    Width="{StaticResource TouchUI_MaxTooltipContentWidth}" 
+                    ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                    ls:TextBlockFormatter.SourceText="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                    <ContentControl.Tag>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipBodyStyle}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="TextAlignment" Value="Left"/>
+                        </Style>
+                    </ContentControl.Tag>
+                </ContentControl>
+            </Grid>
+        </ls:LSNineSliceImage>
+    </DataTemplate>
+
+</ResourceDictionary>
