@@ -322,6 +322,48 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
+            <ControlTemplate x:Key="TouchUI_DetailedEntryWithPlacementParentDCTooltip">
+                <ControlTemplate.Resources>
+                    <Style TargetType="DockPanel">
+                        <Setter Property="Margin" Value="8,0"/>
+                    </Style>
+                </ControlTemplate.Resources>
+                <Border x:Name="Entry" Style="{StaticResource RowBG_d}" MinHeight="48">
+                    <Grid>
+                        <Grid Background="Transparent">
+                            <ContentPresenter/>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="MouseLeftButtonUp">
+                                    <b:ChangePropertyAction TargetName="DetailedEntryTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                    <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="MouseLeftButtonDown">
+                                    <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="{StaticResource RowBG_h}"/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="MouseLeave">
+                                    <b:ChangePropertyAction TargetName="Entry" PropertyName="Background" Value="Transparent"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Grid>
+                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                        <ContentControl x:Name="DetailedEntryTooltipPopup"
+                            Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                            Visibility="Collapsed"
+                            Content="{Binding}"
+                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
+                    </Grid>
+                </Border>
+                <!-- <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Entry" Property="Background" Value="{StaticResource RowBG_h}"/>
+                    </Trigger>
+                </ControlTemplate.Triggers> -->
+            </ControlTemplate>
+
             <!--APPROVAL LIST TEMPLATE-->
             <DataTemplate x:Key="ApprovalDataTemplate" DataType="{x:Type ls:VMApprovalRating}">
                 <ContentControl x:Name="entry" ToolTip="{StaticResource ManagedTooltip}" Template="{StaticResource DetailedEntry}" >
@@ -358,7 +400,7 @@
             <ScrollViewer Grid.Row="1" Style="{StaticResource NoForcedScrollViewerStyle}" Padding="{StaticResource ScrollOffset}">
                 <StackPanel>
                     <!--Health-->
-                    <ContentControl Name="Health" Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.Health}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                    <ContentControl Name="Health" Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.Health}">
                         <DockPanel>
                             <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
                             <TextBlock Text="{Binding Max, StringFormat='/{0}'}" Style="{StaticResource SkillTitleTextStyle}"/>
@@ -366,7 +408,7 @@
                         </DockPanel>
                     </ContentControl>
                     <!--TempHealth-->
-                    <ContentControl Name="TempHealth" Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.TemporaryHealth}" ToolTip="{StaticResource PlacementParentDCTooltip}" Visibility="{Binding Value, Converter={StaticResource CountToVisibilityConverter}}">
+                    <ContentControl Name="TempHealth" Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.TemporaryHealth}" Visibility="{Binding Value, Converter={StaticResource CountToVisibilityConverter}}">
                         <DockPanel>
                             <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
                             <TextBlock Text="{Binding Max, StringFormat='/{0}'}" Style="{StaticResource SkillTitleTextStyle}"/>
@@ -374,7 +416,7 @@
                         </DockPanel>
                     </ContentControl>
                     <!--Armour Class-->
-                    <ContentControl Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.ArmorClass}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.ArmorClass}">
                         <DockPanel>
                             <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
                             <TextBlock Style="{StaticResource SkillTitleTextStyle}">
@@ -445,14 +487,14 @@
                         <TextBlock Text="{Binding Source='h6f7a7018gd5f6g4c32g9386g6df0744d7ecd', Converter={StaticResource TranslatedStringConverter}}"/>
                     </ContentControl>
 
-                    <ContentControl Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.Initiative}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.Initiative}" ToolTip="{StaticResource PlacementParentDCTooltip}">
                         <DockPanel>
                             <Control Template="{StaticResource StatsDisplayName}" Style="{StaticResource StatsNameStyle}"/>
                             <TextBlock Text="{Binding Value, StringFormat={}{0:+#;-#;+0}}" Style="{StaticResource SkillTitleTextStyle}"/>
                         </DockPanel>
                     </ContentControl>
 
-                    <ContentControl Template="{StaticResource DetailedEntry}" DataContext="{Binding Stats.MovementResource}" ToolTip="{StaticResource PlacementParentDCTooltip}">
+                    <ContentControl Template="{StaticResource TouchUI_DetailedEntryWithPlacementParentDCTooltip}" DataContext="{Binding Stats.MovementResource}" ToolTip="{StaticResource PlacementParentDCTooltip}">
                         <DockPanel>
                             <TextBlock Text="{Binding Name}" Style="{StaticResource SkillTextStyle}"/>
                             <TextBlock Text="{Binding MaxValue, Converter={StaticResource UnitConverter}, ConverterParameter='Distance Short'}" Style="{StaticResource SkillTitleTextStyle}"/>
