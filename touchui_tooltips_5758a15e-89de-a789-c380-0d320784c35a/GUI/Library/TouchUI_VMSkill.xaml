@@ -9,38 +9,49 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <!-- Skill Tooltip-->
     <DataTemplate DataType="{x:Type ls:VMSkill}">
-        <StackPanel x:Name="root">
-            <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
-                <StackPanel>
-                    <TextBlock x:Name="TitleName" Text="{Binding SkillValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h65e11968gf9b6g4c47g9efcg03fb60fb923c'}" Style="{StaticResource TooltipTitleStyle}"/>
-                    <TextBlock x:Name="AbilityName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipSubTitleStyle}"/>
-                </StackPanel>
-            </Border>
-            <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
-            <ContentControl x:Name="ValueStripBG" Template="{StaticResource TooltipStripTemplate}" Margin="{StaticResource DefaultMarginBottom}">
-                <Grid x:Name="ValueStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Width="{StaticResource MaxNarrowTooltipContentWidth}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" VerticalAlignment="Top">
-                        <Path x:Name="DiceBg" Stretch="None" VerticalAlignment="Center" Width="88" Height="88" StrokeThickness="10" Fill="White" Data="{StaticResource DiceGeometryD20}"/>
-                        <Image x:Name="DiceIcon" VerticalAlignment="Center" Source="{StaticResource IconD20}" Stretch="None"/>
+        <ls:LSNineSliceImage Style="{DynamicResource DefaultTooltip9Slice}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel x:Name="root" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </StackPanel.LayoutTransform>
+
+                <Border Style="{StaticResource TooltipStripTopStyleWithContent}">
+                    <StackPanel>
+                        <TextBlock x:Name="TitleName" Text="{Binding SkillValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='h65e11968gf9b6g4c47g9efcg03fb60fb923c'}" Style="{StaticResource TooltipTitleStyle}"/>
+                        <TextBlock x:Name="AbilityName" Text="{Binding AbilityValue, Converter={StaticResource EnumTranslatedStringConverter}, ConverterParameter='hec30ce0dgb76bg45cagaf40gad771ff7902b'}" Style="{StaticResource TooltipSubTitleStyle}"/>
+                    </StackPanel>
+                </Border>
+                <Rectangle Style="{StaticResource tooltipHeaderDividerLine}" />
+                <ContentControl x:Name="ValueStripBG" Template="{StaticResource TooltipStripTemplate}" Margin="{StaticResource DefaultMarginBottom}">
+                    <Grid x:Name="ValueStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Width="{StaticResource TouchUI_MaxTooltipContentWidth}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" VerticalAlignment="Top">
+                            <Path x:Name="DiceBg" Stretch="None" VerticalAlignment="Center" Width="88" Height="88" StrokeThickness="10" Fill="White" Data="{StaticResource DiceGeometryD20}"/>
+                            <Image x:Name="DiceIcon" VerticalAlignment="Center" Source="{StaticResource IconD20}" Stretch="None"/>
+                        </Grid>
+                        <TextBlock Grid.Column="1" x:Name="SkillValue" VerticalAlignment="Center" Style="{StaticResource TooltipAbilityModifierStyle}" Margin="4,0,0,0">
+                                <ls:TextBlockFormatter.SourceText>
+                                <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
+                                    <Binding Path="Value"/>
+                                    <Binding Source="h5f6a1f2ag0bc4g4ae6ga52ege6e0048af203" Converter="{StaticResource TranslatedStringConverter}"/>
+                                </MultiBinding>
+                            </ls:TextBlockFormatter.SourceText>
+                        </TextBlock>
                     </Grid>
-                    <TextBlock Grid.Column="1" x:Name="SkillValue" VerticalAlignment="Center" Style="{StaticResource TooltipAbilityModifierStyle}" Margin="4,0,0,0">
-                            <ls:TextBlockFormatter.SourceText>
-                            <MultiBinding StringFormat="{}{0:+#;-#;+0} {1}">
-                                <Binding Path="Value"/>
-                                <Binding Source="h5f6a1f2ag0bc4g4ae6ga52ege6e0048af203" Converter="{StaticResource TranslatedStringConverter}"/>
-                            </MultiBinding>
-                         </ls:TextBlockFormatter.SourceText>
-                    </TextBlock>
-                </Grid>
-            </ContentControl>
-            <TextBlock x:Name="Description" Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Margin="{StaticResource DefaultMarginBottom}"/>
-        </StackPanel>
+                </ContentControl>
+                <TextBlock x:Name="Description" Style="{StaticResource TooltipDescriptionStyle}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}" Margin="{StaticResource DefaultMarginBottom}"/>
+            </StackPanel>
+        </ls:LSNineSliceImage>
+
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Path=OwnerDCWidget.Data.UIInputMethod, RelativeSource={RelativeSource AncestorType={x:Type ls:LSTooltip}}}" Value="Controller">
                 <Setter TargetName="DiceIcon" Property="Width" Value="126" />
