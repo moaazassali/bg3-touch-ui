@@ -9,6 +9,12 @@
                 xmlns:ls="clr-namespace:ls;assembly=Code"
                 mc:Ignorable="d">
 
+                
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipResourceOverrides.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_TooltipDescriptionWithPopupForFormatter.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <!-- Items Boosts -->
     <DataTemplate x:Key="TouchUI_ItemBoostsSection">
         <ItemsControl ItemsSource="{Binding .}" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}" AlternationCount="{Binding Count}">
@@ -19,20 +25,15 @@
                             <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                         </DockPanel.ToolTip> -->
 
-                        <!-- Touch UI - Make weapon actions/spells clickable to show tooltip sheet -->
-                        <ls:LSButton x:Name="OpenSpellPopupButton"
-                            Focusable="False"
-                            Padding="0" 
-                            Background="Transparent" 
+                        <Grid
                             HorizontalAlignment="Left" 
-                            VerticalAlignment="Top"
-                            IsHitTestVisible="False">
+                            VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Opacity" Value="1"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=ls:LSButton}}" Value="True">
+                                            <DataTrigger Binding="{Binding IsPressed, ElementName=OpenSpellPopupButton}" Value="True">
                                                 <Setter Property="Opacity" Value="0.7"/>
                                                 <Setter Property="StackPanel.RenderTransform">
                                                     <Setter.Value>
@@ -52,7 +53,20 @@
 
                                 <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Background="Transparent" Margin="0,4,0,0">
                                     <WrapPanel HorizontalAlignment="Stretch">
-                                        <TextBlock x:Name="Name" ls:TextBlockFormatter.SourceText="{Binding Name}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Highlight}" Style="{StaticResource TooltipDefaultTextStyle}" Margin="0,0,0,0"/>
+                                        <!-- <TextBlock x:Name="Name" ls:TextBlockFormatter.SourceText="{Binding Name}" FontSize="{StaticResource MediumFontSize}" Foreground="{StaticResource TooltipColor.Highlight}" Style="{StaticResource TooltipDefaultTextStyle}" Margin="0,0,0,0"/> -->
+                                        <ContentControl x:Name="Name"
+                                            ContentTemplate="{StaticResource TouchUI_TooltipDescriptionWithPopupForFormatter}"
+                                            ls:TextBlockFormatter.SourceText="{Binding Name}"
+                                            Width="449"
+                                            Margin="0,0,0,0">
+                                            <ContentControl.Tag>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource TooltipDefaultTextStyle}">
+                                                    <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource TooltipColor.Highlight}"/>
+                                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </ContentControl.Tag>
+                                        </ContentControl>
                                         <TextBlock x:Name="Value" Text="{Binding Value, StringFormat={}{0:+#;-#;''}}" Visibility="Visible" FontSize="{StaticResource MediumFontSize}" Style="{StaticResource TooltipBaseTextStyle}" Margin="10,0,0,0"/>
                                         <TextBlock x:Name="Maximum" Visibility="Collapsed" Style="{StaticResource TooltipBaseTextStyle}" FontSize="{StaticResource MediumFontSize}" Margin="10,0,0,0">
                                             <TextBlock.Text>
@@ -69,12 +83,22 @@
 
                             </StackPanel>
 
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="Click">
-                                    <b:ChangePropertyAction TargetName="SelectedIconPopup" PropertyName="IsOpen" Value="True"/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </ls:LSButton>
+                            <!-- Touch UI - Make weapon actions/spells clickable to show tooltip sheet -->
+                            <!-- Touch UI - Must be sibling of the stackpanel because we need the Name text to also be clickable. Otherwise, this button element swallows all clicks. -->
+                            <ls:LSButton x:Name="OpenSpellPopupButton"
+                                Focusable="False"
+                                Padding="0" 
+                                Background="Transparent" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"
+                                Visibility="Collapsed">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Click">
+                                        <b:ChangePropertyAction TargetName="SelectedIconPopup" PropertyName="IsOpen" Value="True"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                        </Grid>
 
                         <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
                         <Popup x:Name="SelectedIconPopup"
@@ -134,7 +158,7 @@
                         <DataTrigger Binding="{Binding Type}" Value="UnlockSpell">
                             <Setter TargetName="Value" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Icon" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="OpenSpellPopupButton" Property="IsHitTestVisible" Value="True" />
+                            <Setter TargetName="OpenSpellPopupButton" Property="Visibility" Value="Visible" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Value, Converter={StaticResource LessThanConverter}, ConverterParameter=0}" Value="True">
                             <Setter TargetName="Value" Property="Foreground" Value="{StaticResource TooltipColor.Alert}"/>
