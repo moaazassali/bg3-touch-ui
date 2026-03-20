@@ -11,6 +11,7 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="TouchUI_InterruptPanelTemplate.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_MultiClassSpellbookTemplate">
@@ -392,7 +393,7 @@
                             <Condition Binding="{Binding Datacontext, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource NullToBoolTrueConverter}}" Value="False"/>
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
-                            <Setter TargetName="hover" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="hover" Property="Visibility" Value="Visible"/> -->
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
 
@@ -405,7 +406,7 @@
                             <Condition Binding="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="True"/>
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
-                            <Setter TargetName="hoverIcon" Property="Visibility" Value="Visible"/>
+                            <!-- <Setter TargetName="hoverIcon" Property="Visibility" Value="Visible"/> -->
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
 
@@ -556,14 +557,47 @@
             </Style>
 
             <DataTemplate x:Key="ActionGroupItemTemplate">
-                <ls:LSButton x:Name="Container" Command="{Binding DataContext.ToggleCharacterAction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTipService.Placement="Right" ToolTipService.ShowOnDisabled="True" Template="{StaticResource SpellCellTemplate}">
-                    <ls:LSButton.ToolTip>
-                        <ls:LSTooltip Content="{TemplateBinding DataContext}" IsHitTestVisible="False"/>
-                    </ls:LSButton.ToolTip>
-                    <b:Interaction.Behaviors>
-                        <ls:DragGenericBehavior StartDragCommand="{Binding DataContext.DragCharacterActionCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-                    </b:Interaction.Behaviors>
-                </ls:LSButton>
+                <Grid>
+                    <ls:LSButton x:Name="Container" Command="{Binding DataContext.ToggleCharacterAction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTipService.Placement="Right" ToolTipService.ShowOnDisabled="True" Template="{StaticResource SpellCellTemplate}">
+                        <!-- <ls:LSButton.ToolTip>
+                            <ls:LSTooltip Content="{TemplateBinding DataContext}" IsHitTestVisible="False"/>
+                        </ls:LSButton.ToolTip> -->
+
+                        <b:Interaction.Behaviors>
+                            <ls:DragGenericBehavior StartDragCommand="{Binding DataContext.DragCharacterActionCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                        </b:Interaction.Behaviors>
+
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                <b:ChangePropertyAction TargetName="ActionGroupItemPopup" PropertyName="Visibility" Value="Visible"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ls:LSButton>
+                    
+                    <Rectangle x:Name="hover" Fill="{StaticResource LS_HoverColor}" >
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Visibility, ElementName=ActionGroupItemPopup}" Value="Visible">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+
+                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                    <ContentControl
+                        x:Name="ActionGroupItemPopup"
+                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                        Visibility="Collapsed"
+                        Content="{TemplateBinding DataContext}">
+                        <ContentControl.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </ContentControl.LayoutTransform>
+                    </ContentControl>
+                </Grid>
             </DataTemplate>
 
             <Style x:Key="ActionCellItemsControlStyle" TargetType="ItemsControl">
