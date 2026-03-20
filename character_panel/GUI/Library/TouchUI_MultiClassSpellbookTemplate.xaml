@@ -446,9 +446,9 @@
 
             <DataTemplate x:Key="PreparedSpellCellTemplate" DataType="ls:VMCharacterAction">
                 <ContentControl x:Name="Container" IsEnabled="{Binding DataContext.CurrentPlayer.UIData.AllowInteraction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" ToolTipService.Placement="Right" ToolTipService.ShowOnDisabled="True" ls:DragAndDropProperties.DropTargetOwner="{Binding Path=(ls:TooltipExtender.Owner), RelativeSource={RelativeSource Mode=Self}}">
-                    <ContentControl.ToolTip>
+                    <!-- <ContentControl.ToolTip>
                         <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource TemplatedParent}}" IsHitTestVisible="False"/>
-                    </ContentControl.ToolTip>
+                    </ContentControl.ToolTip> -->
 
                     <b:Interaction.Behaviors>
                         <ls:DragGenericBehavior StartDragCommand="{Binding DataContext.DragCharacterActionCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
@@ -457,20 +457,49 @@
 
                     <b:Interaction.Triggers>
                         <b:DataTrigger Binding="{Binding DataContext, ElementName=Container, Converter={StaticResource NullToBoolTrueConverter}}" Value="False">
-                            <b:ChangePropertyAction TargetName="SlotButton" PropertyName="IsEnabled" Value="True"/>
+                            <!-- <b:ChangePropertyAction TargetName="SlotButton" PropertyName="IsEnabled" Value="True"/> -->
                         </b:DataTrigger>
                     </b:Interaction.Triggers>
 
                     <Grid Width="{StaticResource SpellCellSize}" Height="{StaticResource SpellCellSize}">
-                        <ls:LSButton x:Name="SlotButton" HorizontalAlignment="Center" VerticalAlignment="Center" Template="{StaticResource SpellCellTemplate}" ls:AttachedProperties.InheritedTag="PreparedSpell" Command="{Binding DataContext.ToggleCharacterAction, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}">
+                        <ls:LSButton x:Name="SlotButton" HorizontalAlignment="Center" VerticalAlignment="Center" Template="{StaticResource SpellCellTemplate}" ls:AttachedProperties.InheritedTag="PreparedSpell">
                             <Image Source="{StaticResource RemoveSpellIcon}" Stretch="None"/>
 
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="Click">
-                                    <b:ChangePropertyAction TargetName="SlotButton" PropertyName="IsEnabled" Value="False"/>
+                                    <!-- <b:ChangePropertyAction TargetName="SlotButton" PropertyName="IsEnabled" Value="False"/> -->
+                                </b:EventTrigger>
+
+                                <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <b:ChangePropertyAction TargetName="PreparedSpellCellPopup" PropertyName="Visibility" Value="Visible"/>
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </ls:LSButton>
+
+                        <Rectangle x:Name="hover" Fill="{StaticResource LS_HoverColor}" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Visibility, ElementName=PreparedSpellCellPopup}" Value="Visible">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+
+                        <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                        <ContentControl
+                            x:Name="PreparedSpellCellPopup"
+                            Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                            Visibility="Collapsed"
+                            Content="{TemplateBinding DataContext}">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
+
 
                         <TextBlock x:Name="SpellSlotLevel" Text="{Binding SpellSlotLevel, Converter={StaticResource DecimalToRomanConverter}}" Foreground="{StaticResource LS_tint100}" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsHitTestVisible="False" Margin="0,0,12,0" FontSize="{StaticResource SmallishFontSize}" FontWeight="Bold" noesis:Text.Stroke="{StaticResource LS_tint00}" noesis:Text.StrokeThickness="5"/>
                     </Grid>
