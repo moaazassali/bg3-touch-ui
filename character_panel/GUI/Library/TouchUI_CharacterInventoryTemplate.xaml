@@ -97,22 +97,49 @@
                     <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="3b433da9-3bd4-4273-8e7f-f85e03ee1601"/>
                 </b:DataTrigger>
 
-                <!-- Touch UI - Show the popup when an inventory item is selected -->
-                <b:PropertyChangedTrigger Binding="{Binding SelectedItem, ElementName=InventoryHolder}">
+                <!-- Touch UI - Mark that a left click is being completed. The engine selects the item on the
+                     bubbling MouseLeftButtonUp (after this preview phase), so the actual opening happens via
+                     the PropertyChangedTrigger below once the selection is made.
+                     Preview event because the ListBoxItem handles (marks handled) the bubbling MouseLeftButtonDown -->
+                <b:EventTrigger EventName="PreviewMouseLeftButtonUp" SourceObject="{Binding ElementName=InventoryHolder}">
+                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Tag" Value="L"/>
+                </b:EventTrigger>
+
+                <!-- Touch UI - Open the sheet when the selection becomes a real item AND the click that caused
+                     the selection was a left click. Right clicking a ListBoxItem also selects it, and it must
+                     show the engine context menu instead.
+                     We check SelectedItem.Object (not SelectedItem) because empty grid slots are also
+                     selectable ListBoxItems with a null Object -->
+                <b:PropertyChangedTrigger Binding="{Binding SelectedItem.Object, ElementName=InventoryHolder}">
                     <b:Interaction.Behaviors>
                         <b:ConditionBehavior>
                             <b:ConditionalExpression>
-                                <b:ComparisonCondition LeftOperand="{Binding SelectedItem, ElementName=InventoryHolder}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                <b:ComparisonCondition LeftOperand="{Binding SelectedItem.Object, ElementName=InventoryHolder}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                <b:ComparisonCondition LeftOperand="{Binding Tag, ElementName=SelectedItemPopup}" Operator="Equal" RightOperand="L"/>
+                                <!-- Touch UI - Don't open the sheet when the click was actually a drag (long press) -->
+                                <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
                             </b:ConditionalExpression>
                         </b:ConditionBehavior>
                     </b:Interaction.Behaviors>
                     <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Visible"/>
                 </b:PropertyChangedTrigger>
 
-                <!-- Touch UI - Hide the popup when the inventory selection is cleared -->
-                <b:DataTrigger Binding="{Binding SelectedItem, ElementName=InventoryHolder}" Value="{x:Null}">
+                <!-- Touch UI - Hide the popup when the selection has no item (cleared or an empty slot is selected) -->
+                <b:DataTrigger Binding="{Binding SelectedItem.Object, ElementName=InventoryHolder}" Value="{x:Null}">
                     <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Collapsed"/>
                 </b:DataTrigger>
+
+                <!-- Touch UI - On right click close the popup sheet so the engine context menu is visible and
+                     clear the left click marker (right click also changes the selection, which must not open
+                     the sheet). Preview event because the ListBoxItem also handles the bubbling
+                     MouseRightButtonDown (for right-click selection). We use Hidden instead of Collapsed on
+                     purpose: the nested trigger on the popup only clears the listbox selection on Collapsed,
+                     and the right-clicked item must stay selected for the context menu fill
+                     (Source=SelectedItems) to show its actions -->
+                <b:EventTrigger EventName="PreviewMouseRightButtonDown" SourceObject="{Binding ElementName=InventoryHolder}">
+                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Hidden"/>
+                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Tag" Value=""/>
+                </b:EventTrigger>
             </b:Interaction.Triggers>
 
 
