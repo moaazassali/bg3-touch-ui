@@ -19,6 +19,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Library/TouchUI_ActionResources.xaml"/>
+                <!-- Touch UI - Popup tooltip sheet template used by clickable tooltips -->
+                <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ls:UIWidget.Resources>
@@ -289,7 +291,27 @@
                                     <Setter Property="Template" >
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
-                                                <ls:LSButton x:Name="contentContainer" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource HotBarSlotStyle}" Content="{Binding Content}"/>
+                                                <Grid>
+                                                    <!-- Touch UI - Hover tooltip disabled via the overridden HotBarSlotStyle; info shown via clickable popup instead -->
+                                                    <ls:LSButton x:Name="contentContainer" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource HotBarSlotStyle}" Content="{Binding Content}"/>
+                                                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                                    <ContentControl x:Name="SlotTooltipPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding Content}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:TooltipExtender.Context="Hotbar">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
+                                                    <b:Interaction.Triggers>
+                                                        <!-- Preview event because the LSButton handles the bubbling MouseLeftButtonUp for Click -->
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                </Grid>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
