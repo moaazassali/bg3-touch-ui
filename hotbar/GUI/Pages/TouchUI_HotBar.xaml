@@ -2245,8 +2245,14 @@
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
 
-                                                <ls:LSButton x:Name="HotbarslotBtn" ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.VerticalOffset="-110" ls:TooltipExtender.Context="Hotbar" CommandParameter="{Binding .}" IsEnabled="{Binding CanUse}" ToolTipService.ShowOnDisabled="True">
-                                                    <ls:LSButton.Template>
+                                                <Grid>
+                                                    <ls:LSButton x:Name="HotbarslotBtn" ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" ToolTipService.VerticalOffset="-110" ls:TooltipExtender.Context="Hotbar" CommandParameter="{Binding .}" IsEnabled="{Binding CanUse}" ToolTipService.ShowOnDisabled="True">
+                                                        <!-- Touch UI - Hover tooltip commented out; info is shown via the clickable popup instead
+                                                        <ls:LSButton.ToolTip>
+                                                            <StaticResource ResourceKey="ManagedTooltip"/>
+                                                        </ls:LSButton.ToolTip>
+                                                        -->
+                                                        <ls:LSButton.Template>
                                                         <ControlTemplate TargetType="ls:LSButton">
                                                             <ControlTemplate.Resources>
                                                                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CellTextStyle}">
@@ -2344,6 +2350,32 @@
                                                         </ControlTemplate>
                                                     </ls:LSButton.Template>
                                                 </ls:LSButton>
+                                                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                                    <ContentControl x:Name="SlotTooltipPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:TooltipExtender.Context="Hotbar">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
+                                                    <b:Interaction.Triggers>
+                                                        <!-- Preview event because the LSButton handles the bubbling MouseLeftButtonUp for Click -->
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:Interaction.Behaviors>
+                                                                <!-- Touch UI - Don't show the popup for fake (empty) slots, same as the disabled hover tooltip -->
+                                                                <b:ConditionBehavior>
+                                                                    <b:ConditionalExpression>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding IsFake}" Operator="NotEqual" RightOperand="True"/>
+                                                                    </b:ConditionalExpression>
+                                                                </b:ConditionBehavior>
+                                                            </b:Interaction.Behaviors>
+                                                            <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                </Grid>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
