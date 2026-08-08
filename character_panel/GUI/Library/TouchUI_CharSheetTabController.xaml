@@ -1598,12 +1598,39 @@
                                                     <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="1" Color="{StaticResource tint00}"/>
                                                 </Image.Effect>
                                             </Image>
-                                            <TextBlock x:Name="SubclassLabel" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Stats.ClassList[0].SubclassDisplayName}" Style="{StaticResource SummaryListText}" Visibility="{Binding Text, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
-                                                <TextBlock.ToolTip>
-                                                    <ls:LSTooltip IsHitTestVisible="False" Content="{Binding Path=DataContext.Stats.ClassList[0].SubclassDescription, ElementName=SubclassLabel}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.ClassList[0].SubclassDisplayName, ElementName=SubclassLabel}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
-
-                                                </TextBlock.ToolTip>
-                                            </TextBlock>
+                                            <Border Visibility="{Binding Text, ElementName=SubclassLabel, Converter={StaticResource NullToCollapsedConverter}, ConverterParameter='EmptyString'}">
+                                                <Border.Style>
+                                                    <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=SubclassTooltipPopup, Path=Visibility}" Value="Visible">
+                                                                <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <Grid>
+                                                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                                    <ContentControl x:Name="SubclassTooltipPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding Path=DataContext.Stats.ClassList[0].SubclassDescription, ElementName=SubclassLabel}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.ClassList[0].SubclassDisplayName, ElementName=SubclassLabel}"
+                                                        ContentTemplate="{StaticResource TouchUI_HeaderBodyLocaStringTemplate}">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
+                                                    <TextBlock x:Name="SubclassLabel" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Stats.ClassList[0].SubclassDisplayName}" Style="{StaticResource SummaryListText}">
+                                                        <b:Interaction.Triggers>
+                                                            <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                                <b:ChangePropertyAction TargetName="SubclassTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                            </b:EventTrigger>
+                                                        </b:Interaction.Triggers>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
 
                                             <Control Template="{StaticResource PlayerMultiClass}" DataContext="{Binding}" />
                                         </StackPanel>
