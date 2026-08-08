@@ -1560,8 +1560,8 @@
 
                                     <!-- ======== NAME Stack For Party ======== -->
                                     <Grid x:Name="NamePanelParty" Grid.Row="0" Visibility="{Binding IsPlayableCharacter, Converter={StaticResource BoolToVisibleConverter}}" DataContext="{Binding}">
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Border>
+                                        <StackPanel>
+                                            <Border HorizontalAlignment="Stretch">
                                                 <Border.Style>
                                                     <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
                                                         <Setter Property="Background" Value="Transparent"/>
@@ -1573,6 +1573,11 @@
                                                     </Style>
                                                 </Border.Style>
                                                 <Grid>
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:ChangePropertyAction TargetName="RaceTitleTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
                                                     <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
                                                     <ContentControl x:Name="RaceTitleTooltipPopup"
                                                         Template="{StaticResource TouchUI_TooltipSheetPopup}"
@@ -1585,16 +1590,10 @@
                                                             <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                                                         </ContentControl.LayoutTransform>
                                                     </ContentControl>
-                                                    <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SummaryListText}" TextWrapping="Wrap" TextAlignment="Center">
-                                                        <b:Interaction.Triggers>
-                                                            <b:EventTrigger EventName="MouseLeftButtonUp">
-                                                                <b:ChangePropertyAction TargetName="RaceTitleTooltipPopup" PropertyName="Visibility" Value="Visible"/>
-                                                            </b:EventTrigger>
-                                                        </b:Interaction.Triggers>
-                                                    </TextBlock>
+                                                    <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SummaryListText}" TextWrapping="Wrap" TextAlignment="Center"/>
                                                 </Grid>
                                             </Border>
-                                            <Image DataContext="{Binding Stats.ClassList[0]}" Style="{DynamicResource MainClassIconStyle}" Stretch="UniformToFill" Width="200" Margin="0,-6,0,-6">
+                                            <Image DataContext="{Binding Stats.ClassList[0]}" Style="{DynamicResource MainClassIconStyle}" Stretch="UniformToFill" Width="200" Margin="0,-6,0,-6" HorizontalAlignment="Center">
                                                 <Image.Effect>
                                                     <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="1" Color="{StaticResource tint00}"/>
                                                 </Image.Effect>
@@ -1611,6 +1610,11 @@
                                                     </Style>
                                                 </Border.Style>
                                                 <Grid>
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:ChangePropertyAction TargetName="SubclassTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
                                                     <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
                                                     <ContentControl x:Name="SubclassTooltipPopup"
                                                         Template="{StaticResource TouchUI_TooltipSheetPopup}"
@@ -1623,13 +1627,7 @@
                                                             <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                                                         </ContentControl.LayoutTransform>
                                                     </ContentControl>
-                                                    <TextBlock x:Name="SubclassLabel" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Stats.ClassList[0].SubclassDisplayName}" Style="{StaticResource SummaryListText}">
-                                                        <b:Interaction.Triggers>
-                                                            <b:EventTrigger EventName="MouseLeftButtonUp">
-                                                                <b:ChangePropertyAction TargetName="SubclassTooltipPopup" PropertyName="Visibility" Value="Visible"/>
-                                                            </b:EventTrigger>
-                                                        </b:Interaction.Triggers>
-                                                    </TextBlock>
+                                                    <TextBlock x:Name="SubclassLabel" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Stats.ClassList[0].SubclassDisplayName}" Style="{StaticResource SummaryListText}"/>
                                                 </Grid>
                                             </Border>
 
