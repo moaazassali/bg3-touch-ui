@@ -35,6 +35,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_MultiClassSpellbookTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_AlchemyPanelTemplate.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharSheetTabController.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_HeaderInspirationPointsGold.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BitmapImage x:Key="decorated_header_4">pack://application:,,,/Core;component/Assets/CharacterPanel/header_charactersheet_faded_4.png</BitmapImage>
@@ -747,7 +748,7 @@
                                 <!--CLOSE & LOCK-->
                                 <StackPanel Grid.Column="2" Panel.ZIndex="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                                     <!--GOLD AND INSPIRATION-->
-                                    <Control Template="{StaticResource HeaderInspirationPointsGold}" DataContext="{Binding CurrentPlayer}" Panel.ZIndex="1" VerticalAlignment="Center" Margin="0,0,22,0">
+                                    <Control Template="{StaticResource TouchUI_HeaderInspirationPointsGold}" DataContext="{Binding CurrentPlayer}" Panel.ZIndex="1" VerticalAlignment="Center" Margin="0,0,22,0">
                                     </Control>
                                 </StackPanel>
                             </Grid>
