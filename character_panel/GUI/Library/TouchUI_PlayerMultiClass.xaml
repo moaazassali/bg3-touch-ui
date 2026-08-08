@@ -1,0 +1,92 @@
+<!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ls="clr-namespace:ls;assembly=Code"
+                    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_HeaderBodyLocaStringTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--===== PLAYER MULTICLASS TEMPLATE =====-->
+    <ControlTemplate x:Key="TouchUI_PlayerMultiClass">
+        <ItemsControl ItemsSource="{Binding Stats.ClassList}" AlternationCount="{Binding Stats.ClassList.Count}" HorizontalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ls:AlignableWrapPanel HorizontalContentAlignment="Center" IsItemsHost="True" MaxWidth="{StaticResource ExaminePanelWidth}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="ls:VMClass">
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=MultiClassTooltipPopup, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                            <ContentControl x:Name="MultiClassTooltipPopup"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Visibility="Collapsed"
+                                Content="{Binding ClassDescription}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                ls:AttachedProperties.InheritedTag="{Binding ClassDisplayName}"
+                                ContentTemplate="{StaticResource TouchUI_HeaderBodyLocaStringTemplate}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                            <StackPanel x:Name="class" Orientation="Horizontal" >
+                                <StackPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="{DynamicResource ScaledDefaultFontSize}"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <StackPanel.Tag>
+                                    <MultiBinding Converter="{StaticResource EqualConverter}">
+                                        <Binding Path="(ItemsControl.AlternationIndex)" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}" Converter="{StaticResource AddConverter}" ConverterParameter="1"/>
+                                        <Binding Path="AlternationCount" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}"/>
+                                    </MultiBinding>
+                                </StackPanel.Tag>
+
+                                <TextBlock x:Name="classInfo">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                            <b:ChangePropertyAction TargetName="MultiClassTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource ParameterizedTranslatedStringConverter}">
+                                            <Binding Source="hd678d4eeg181fg499dg9e81g2146ab24e03a"/>
+                                            <Binding Path="Level.Value" />
+                                            <Binding Path="ClassDisplayName"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock x:Name="separator" Text="{Binding Source='hd64bfe4cgadadg4468g8b0ag70330ffc717c', Converter={StaticResource TranslatedStringConverter}}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Tag, ElementName=class}" Value="True">
+                            <Setter TargetName="separator" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ControlTemplate>
+
+</ResourceDictionary>
