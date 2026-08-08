@@ -9,6 +9,10 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="TouchUI_EquipmentSlotStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <ControlTemplate x:Key="TouchUI_StowedVisibilityButtonTemplate" TargetType="ls:LSButton">
         <Grid x:Name="ButtonContainer" Width="60" Height="86" Background="Transparent">
             
@@ -115,7 +119,7 @@
     <ControlTemplate x:Key="TouchUI_MuscialEQTemplate">
 
         <Grid>
-            <ls:LSButton x:Name="EquipmentInstrumentSlot" Style="{StaticResource EquipmentSlotStyle}" VerticalAlignment="Bottom" Tag="{TemplateBinding Tag}"/>
+            <ls:LSButton x:Name="EquipmentInstrumentSlot" Style="{StaticResource TouchUI_EquipmentSlotStyle}" VerticalAlignment="Bottom" Tag="{TemplateBinding Tag}"/>
             <ls:LSButton x:Name="VisibilityButton" Command="{Binding DataContext.ChangeStowedVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}" Template="{StaticResource TouchUI_StowedVisibilityButtonTemplate}" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,-58,0">
             </ls:LSButton>
         </Grid>

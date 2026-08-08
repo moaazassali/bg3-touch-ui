@@ -9,6 +9,10 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="TouchUI_EquipmentSlotStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <ControlTemplate x:Key="TouchUI_VisibilityButtonTemplate" TargetType="ls:LSButton">
         <Grid x:Name="ButtonContainer" Width="60" Height="86" Background="Transparent">
             
@@ -126,7 +130,7 @@
 
     <ControlTemplate x:Key="TouchUI_HelmetEQTemplate" TargetType="Control">
         <Grid HorizontalAlignment="Left">
-            <ls:LSButton x:Name="EquipmentHelmetSlot" Style="{StaticResource EquipmentSlotStyle}" Tag="{TemplateBinding Tag}"/>
+            <ls:LSButton x:Name="EquipmentHelmetSlot" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Tag="{TemplateBinding Tag}"/>
             <ls:LSButton x:Name="VisibilityButton" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,-60,0" Command="{Binding DataContext.ChangeEquipmentVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}" Template="{StaticResource TouchUI_VisibilityButtonTemplate}" Opacity="1"/>
         </Grid>
         <!-- Touch UI - Make the toggle always visible -->
