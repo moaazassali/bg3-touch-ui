@@ -2530,9 +2530,9 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="ls:VMHotBarSlot">
                                             <Border x:Name="contentContainer" ToolTipService.IsEnabled="True" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"  Background="{StaticResource HotbarSlotBackground}" Width="{StaticResource MinimalistSlotSize}" Height="{StaticResource MinimalistSlotSize}">
-                                                <Border.ToolTip>
+                                                <!-- <Border.ToolTip>
                                                     <ls:LSTooltip Content="{Binding DataContext.Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" ls:TooltipExtender.Context="Hotbar" VerticalOffset="-60" ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), ElementName=contentContainer}"/>
-                                                </Border.ToolTip>
+                                                </Border.ToolTip> -->
                                                 <b:Interaction.Triggers>
                                                     <b:EventTrigger EventName="MouseEnter">
                                                         <b:InvokeCommandAction Command="{Binding DataContext.HighlightResourcesCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
@@ -2541,7 +2541,26 @@
                                                         <b:InvokeCommandAction Command="{Binding DataContext.ClearResourceHighlightsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
-                                                <ls:LSButton x:Name="HotbarslotBtn" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" Content="{Binding Content}"/>
+                                                <Grid>
+                                                    <ls:LSButton x:Name="HotbarslotBtn" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" Content="{Binding Content}"/>
+                                                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                                    <ContentControl x:Name="SlotTooltipPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding Content}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:TooltipExtender.Context="Hotbar">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
+                                                    <b:Interaction.Triggers>
+                                                        <!-- Preview event because the LSButton handles the bubbling MouseLeftButtonUp for Click -->
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                </Grid>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
