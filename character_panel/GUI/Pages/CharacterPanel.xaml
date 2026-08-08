@@ -755,7 +755,9 @@
                         </Grid>
                     </ls:LSNineSliceImage>
 
+                    <!-- Touch UI - Similar equipment popout window disabled; item info is shown via the clickable tooltip popup instead
                     <Control x:Name="PopoutFilters"  Template="{StaticResource PopOutInventoryTemplate}" DataContext="{Binding CurrentPlayer.SelectedCharacter}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.2" />
+                    -->
                 </Grid>
 				<ls:LSButton x:Name="ClosePage" Command="ls:UIWidget.CloseRequestCommand"/>
                 <!-- Close keybind depending on current tab -->
