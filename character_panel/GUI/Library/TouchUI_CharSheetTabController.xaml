@@ -392,9 +392,14 @@
             <!-- Proficiency Bonus-->
             <Border Name="ProficiencyBonusLegend" Grid.Row="0" Background="Transparent" DataContext="{Binding Stats.ProficiencyBonus}">
                 <Grid>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                            <b:ChangePropertyAction TargetName="ProficiencyBonusTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
                     <Border x:Name="ProficiencyBonusBackground" 
                         CornerRadius="8" 
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Stretch"
                         Margin="0,0,0,12">
                         <Border.Style>
                             <Style TargetType="Border">
@@ -422,12 +427,6 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="MouseLeftButtonUp">
-                                    <b:ChangePropertyAction TargetName="ProficiencyBonusTooltipPopup" PropertyName="Visibility" Value="Visible"/>
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
                         </StackPanel>
                     </Border>
                     <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
