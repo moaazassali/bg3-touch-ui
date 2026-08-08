@@ -1560,11 +1560,39 @@
                                     <!-- ======== NAME Stack For Party ======== -->
                                     <Grid x:Name="NamePanelParty" Grid.Row="0" Visibility="{Binding IsPlayableCharacter, Converter={StaticResource BoolToVisibleConverter}}" DataContext="{Binding}">
                                         <StackPanel HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SummaryListText}" TextWrapping="Wrap" TextAlignment="Center">
-                                                <TextBlock.ToolTip>
-                                                    <ls:LSTooltip IsHitTestVisible="False" Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}" ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}" ContentTemplate="{StaticResource HeaderBodyLocaStringTemplate}"/>
-                                                </TextBlock.ToolTip>
-                                            </TextBlock>
+                                            <Border>
+                                                <Border.Style>
+                                                    <Style TargetType="Border" BasedOn="{StaticResource RowBG_d}">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=RaceTitleTooltipPopup, Path=Visibility}" Value="Visible">
+                                                                <Setter Property="Background" Value="{StaticResource RowBG_h}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <Grid>
+                                                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
+                                                    <ContentControl x:Name="RaceTitleTooltipPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding DataContext.Stats.Race.Description, ElementName=DetailedView}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:AttachedProperties.InheritedTag="{Binding DataContext.Stats.Race.DisplayName, ElementName=DetailedView}"
+                                                        ContentTemplate="{StaticResource TouchUI_HeaderBodyLocaStringTemplate}">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
+                                                    <TextBlock Text="{Binding Stats.Race.DisplayName}" Style="{StaticResource SummaryListText}" TextWrapping="Wrap" TextAlignment="Center">
+                                                        <b:Interaction.Triggers>
+                                                            <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                                <b:ChangePropertyAction TargetName="RaceTitleTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                            </b:EventTrigger>
+                                                        </b:Interaction.Triggers>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
                                             <Image DataContext="{Binding Stats.ClassList[0]}" Style="{DynamicResource MainClassIconStyle}" Stretch="UniformToFill" Width="200" Margin="0,-6,0,-6">
                                                 <Image.Effect>
                                                     <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="1" Color="{StaticResource tint00}"/>
