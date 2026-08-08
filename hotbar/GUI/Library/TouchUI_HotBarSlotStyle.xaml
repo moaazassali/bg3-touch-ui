@@ -109,9 +109,9 @@
                     </ControlTemplate.Resources>
                     <Grid x:Name="Slot" ToolTipService.Placement="Top" ToolTipService.IsEnabled="True" Tag="{Binding IsActive, FallbackValue=False}" ToolTipService.ShowOnDisabled="True" Background="Transparent"
                           d:DataContext="{d:DesignInstance {x:Type ls:VMHotBarSlot}, IsDesignTimeCreatable=True}">
-                        <Grid.ToolTip>
+                        <!-- <Grid.ToolTip>
                             <ls:LSTooltip x:Name="hbTooltip" Content="{Binding DataContext.Content, ElementName=Slot}" ls:TooltipExtender.Context="Hotbar" VerticalOffset="-60"/>
-                        </Grid.ToolTip>
+                        </Grid.ToolTip> -->
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
                                 <b:InvokeCommandAction Command="{Binding (ls:WidgetData.DataContext).HighlightResourcesCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{Binding}"/>
@@ -206,7 +206,8 @@
                             <Setter TargetName="Slot" Property="Tag" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding SlotIndex, Converter={StaticResource ModuloConverter}, ConverterParameter='2'}" Value="1">
-                            <Setter TargetName="hbTooltip" Property="VerticalOffset" Value="-148"/>
+                            <!-- Touch UI - Removed because it references tooltip -->
+                            <!-- <Setter TargetName="hbTooltip" Property="VerticalOffset" Value="-148"/> -->
                         </DataTrigger>
                         <DataTrigger Binding="{Binding SlotType}" Value="Character">
                             <Setter TargetName="Slot" Property="Tag" Value="False"/>
