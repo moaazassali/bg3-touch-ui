@@ -19,6 +19,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Library/TouchUI_ActionResources.xaml"/>
+                <!-- Touch UI - Copy of the game's HotBarSlotStyle with the hover tooltip removed -->
+                <ResourceDictionary Source="../Library/TouchUI_HotBarSlotStyle.xaml"/>
                 <!-- Touch UI - Popup tooltip sheet template used by clickable tooltips -->
                 <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -293,7 +295,7 @@
                                             <ControlTemplate TargetType="ListBoxItem">
                                                 <Grid>
                                                     <!-- Touch UI - Hover tooltip disabled via the overridden HotBarSlotStyle; info shown via clickable popup instead -->
-                                                    <ls:LSButton x:Name="contentContainer" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource HotBarSlotStyle}" Content="{Binding Content}"/>
+                                                    <ls:LSButton x:Name="contentContainer" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" Content="{Binding Content}"/>
                                                     <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
                                                     <ContentControl x:Name="SlotTooltipPopup"
                                                         Template="{StaticResource TouchUI_TooltipSheetPopup}"
@@ -2243,7 +2245,7 @@
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
 
-                                                <ls:LSButton x:Name="HotbarslotBtn" ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Style="{StaticResource HotBarSlotStyle}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.VerticalOffset="-110" ls:TooltipExtender.Context="Hotbar" CommandParameter="{Binding .}" IsEnabled="{Binding CanUse}" ToolTipService.ShowOnDisabled="True">
+                                                <ls:LSButton x:Name="HotbarslotBtn" ToolTipService.IsEnabled="{Binding IsFake, Converter={StaticResource InvertBoolConverter}}" ToolTipService.Placement="Top" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.VerticalOffset="-110" ls:TooltipExtender.Context="Hotbar" CommandParameter="{Binding .}" IsEnabled="{Binding CanUse}" ToolTipService.ShowOnDisabled="True">
                                                     <ls:LSButton.Template>
                                                         <ControlTemplate TargetType="ls:LSButton">
                                                             <ControlTemplate.Resources>
@@ -2539,7 +2541,7 @@
                                                         <b:InvokeCommandAction Command="{Binding DataContext.ClearResourceHighlightsCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
                                                     </b:EventTrigger>
                                                 </b:Interaction.Triggers>
-                                                <ls:LSButton x:Name="HotbarslotBtn" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource HotBarSlotStyle}" Content="{Binding Content}"/>
+                                                <ls:LSButton x:Name="HotbarslotBtn" ls:WidgetData.DataContext="{Binding Path=(ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource TouchUI_HotBarSlotStyle}" Content="{Binding Content}"/>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -2874,7 +2876,7 @@
                                             </b:Interaction.Triggers>
                                         </Button>
                                         <!--UNEQUIPPED-->
-                                        <ls:LSButton x:Name="MainAttack" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource HotBarSlotStyle}" Visibility="Collapsed"  Width="{StaticResource HotBarSlotWidth}"
+                                        <ls:LSButton x:Name="MainAttack" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource TouchUI_HotBarSlotStyle}" Visibility="Collapsed"  Width="{StaticResource HotBarSlotWidth}"
                                                      Height="{StaticResource HotBarSlotWidth}" DataContext="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.MainMeleeSpell, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                                                      Content="{Binding DataContext.CurrentPlayer.SelectedCharacter.PlayerCharacterProperties.MainMeleeSpell.Content, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
                                         </ls:LSButton>
