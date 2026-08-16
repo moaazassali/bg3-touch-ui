@@ -10,7 +10,7 @@
                     mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_ContextMenuWithTooltip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
@@ -21,9 +21,7 @@
                     <ls:LSEntityObject x:Name="invCellBase" Context="{Binding (ls:ContextMenuService.Context) , RelativeSource={RelativeSource Mode=TemplatedParent} }" DataContext="{Binding Object}" EntityRef="{Binding EntityHandle}" Background="{TemplateBinding Background}"
                                                                ToolTipService.Placement="Right" Tag="{Binding (ls:WidgetData.DataContext), RelativeSource={RelativeSource TemplatedParent}}"
                                                                ls:ContextMenuService.GenerateEnabled="False" ls:MoveFocus.Focusable="True" Focusable="True">
-                        <b:Interaction.Behaviors>
-                            <ls:ContextMenuFillBehavior Context="{Binding (ls:ContextMenuService.Context) , RelativeSource={RelativeSource Mode=TemplatedParent} }" Player="{Binding (ls:WidgetData.DataContext).CurrentPlayer, RelativeSource={RelativeSource TemplatedParent}}" TargetObject="{Binding .}" Source="{Binding SelectedItems,ElementName=InventoryHolder}" FillCommand="{Binding DataContext.ContextActionMenuFill, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-                        </b:Interaction.Behaviors>
+
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseEnter">
                                 <b:InvokeCommandAction IsEnabled="{Binding IsNew}" Command="{Binding (ls:WidgetData.DataContext).ClearItemNewFlag, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{Binding .}"/>
@@ -38,6 +36,53 @@
                                 </b:Interaction.Behaviors>
                                 <ls:LSPlaySound Sound="UI_HUD_Inventory_PickupCharacter"/>
                             </b:EventTrigger>
+
+                            <!-- Touch UI - Open the engine context menu on left click (instead of the tooltip sheet).
+                                 A left click is routed as: bubbling MouseLeftButtonUp (fires this trigger; the
+                                 ListBox selects the item only AFTER this trigger, in its class handler). So at
+                                 trigger time the cell is not yet selected and the anchor's DataContext
+                                 (SelectedItem.Object) is stale. Also, the engine ignores a
+                                 ShowContextMenuCommand while a context menu is still open: the very click
+                                 that dismisses an open menu (tapping another item) is dropped. Instead of
+                                 opening directly we start a short storyboard that flips this cell's Opacity
+                                 to 2 after 50ms (Opacity is clamped to 1 for rendering, so the flick is
+                                 invisible), and the Opacity DataTrigger below does the actual open - by then
+                                 the selection has been applied and the dismissed menu has fully closed, so
+                                 the engine accepts the new open.
+                                 The entry trigger is unguarded: the Opacity DataTrigger re-checks ALL the
+                                 guards (selection, non-empty slot, no drag) at the 50ms moment right before
+                                 opening, so a tap that was cancelled mid-delay opens nothing. Selection changes
+                                 via keyboard or right click never fire MouseLeftButtonUp, so only real left
+                                 clicks can start the storyboard. Each cell runs its own storyboard, so
+                                 multi-select is unaffected. -->
+                            <b:EventTrigger EventName="MouseLeftButtonUp">
+                                <b:ControlStoryboardAction>
+                                    <b:ControlStoryboardAction.Storyboard>
+                                        <Storyboard FillBehavior="Stop">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="invCellBase" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </b:ControlStoryboardAction.Storyboard>
+                                </b:ControlStoryboardAction>
+                            </b:EventTrigger>
+                            <b:DataTrigger Binding="{Binding Opacity, ElementName=invCellBase}" Value="2">
+                                <b:Interaction.Behaviors>
+                                    <b:ConditionBehavior>
+                                        <b:ConditionalExpression>
+                                            <!-- Touch UI - Re-check the guards after the delay: the user may have
+                                                 clicked elsewhere or pressed a key while the open was pending -->
+                                            <b:ComparisonCondition LeftOperand="{Binding IsSelected, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="True"/>
+                                            <!-- Touch UI - Empty grid slots are selectable ListBoxItems with a null Object -->
+                                            <b:ComparisonCondition LeftOperand="{Binding DataContext, ElementName=invCellBase}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                            <!-- Touch UI - Don't open the menu when a drag is in progress -->
+                                            <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                        </b:ConditionalExpression>
+                                    </b:ConditionBehavior>
+                                </b:Interaction.Behaviors>
+                                <b:InvokeCommandAction Command="{Binding ShowContextMenuCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding ElementName=ItemMenuAnchor}"/>
+                            </b:DataTrigger>
                             <b:EventTrigger EventName="DragEnter">
                                 <b:InvokeCommandAction Command="{Binding (ls:WidgetData.DataContext).UpdateDragErrorCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{Binding Path=DataContext.Object, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </b:EventTrigger>
@@ -96,50 +141,6 @@
                     <!-- Tutorial UI Event - Inventory Closed-->
                     <b:InvokeCommandAction Command="{Binding DataContext.TutorialEvent, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="3b433da9-3bd4-4273-8e7f-f85e03ee1601"/>
                 </b:DataTrigger>
-
-                <!-- Touch UI - Mark that a left click is being completed. The engine selects the item on the
-                     bubbling MouseLeftButtonUp (after this preview phase), so the actual opening happens via
-                     the PropertyChangedTrigger below once the selection is made.
-                     Preview event because the ListBoxItem handles (marks handled) the bubbling MouseLeftButtonDown -->
-                <b:EventTrigger EventName="PreviewMouseLeftButtonUp" SourceObject="{Binding ElementName=InventoryHolder}">
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Tag" Value="L"/>
-                </b:EventTrigger>
-
-                <!-- Touch UI - Open the sheet when the selection becomes a real item AND the click that caused
-                     the selection was a left click. Right clicking a ListBoxItem also selects it, and it must
-                     show the engine context menu instead.
-                     We check SelectedItem.Object (not SelectedItem) because empty grid slots are also
-                     selectable ListBoxItems with a null Object -->
-                <b:PropertyChangedTrigger Binding="{Binding SelectedItem.Object, ElementName=InventoryHolder}">
-                    <b:Interaction.Behaviors>
-                        <b:ConditionBehavior>
-                            <b:ConditionalExpression>
-                                <b:ComparisonCondition LeftOperand="{Binding SelectedItem.Object, ElementName=InventoryHolder}" Operator="NotEqual" RightOperand="{x:Null}"/>
-                                <b:ComparisonCondition LeftOperand="{Binding Tag, ElementName=SelectedItemPopup}" Operator="Equal" RightOperand="L"/>
-                                <!-- Touch UI - Don't open the sheet when the click was actually a drag (long press) -->
-                                <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
-                            </b:ConditionalExpression>
-                        </b:ConditionBehavior>
-                    </b:Interaction.Behaviors>
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Visible"/>
-                </b:PropertyChangedTrigger>
-
-                <!-- Touch UI - Hide the popup when the selection has no item (cleared or an empty slot is selected) -->
-                <b:DataTrigger Binding="{Binding SelectedItem.Object, ElementName=InventoryHolder}" Value="{x:Null}">
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Collapsed"/>
-                </b:DataTrigger>
-
-                <!-- Touch UI - On right click close the popup sheet so the engine context menu is visible and
-                     clear the left click marker (right click also changes the selection, which must not open
-                     the sheet). Preview event because the ListBoxItem also handles the bubbling
-                     MouseRightButtonDown (for right-click selection). We use Hidden instead of Collapsed on
-                     purpose: the nested trigger on the popup only clears the listbox selection on Collapsed,
-                     and the right-clicked item must stay selected for the context menu fill
-                     (Source=SelectedItems) to show its actions -->
-                <b:EventTrigger EventName="PreviewMouseRightButtonDown" SourceObject="{Binding ElementName=InventoryHolder}">
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Hidden"/>
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Tag" Value=""/>
-                </b:EventTrigger>
             </b:Interaction.Triggers>
 
 
@@ -308,38 +309,21 @@
 
             </Grid>
 
-            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
-            <!-- Touch UI - We need to place it outside of the item element because a double click in the popup is triggering a double click on the item which uses/equips it -->
-            <!-- Touch UI - I couldn't find a better solution. I tried wrapping it with a button, swallowing all mouse events, etc... and nothing worked -->
-            <ContentControl
-                x:Name="SelectedItemPopup"
-                Visibility="Collapsed"
-                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+            <!-- Touch UI - The tooltip sheet popup is REMOVED. The engine context menu now opens in a
+                 popup anchored to the right edge of the window (like the old sheet) with the item tooltip
+                 embedded beside the menu entries in the SAME popup (TouchUI_ContextMenuWithTooltip template
+                 in the touchui_tooltips module), so the tooltip can never cover the menu. The item template
+                 triggers (TouchUI_InvContainerItemStyle) open this anchor via ShowContextMenuCommand on
+                 left click. The wrapper below carries the data contract (Content, Tag, TooltipExtender)
+                 that TouchUI_ContextMenuWithTooltip reads back via TemplatedParent. -->
+            <ContentControl x:Name="ItemMenuAnchor"
+                Template="{StaticResource TouchUI_ContextMenuWithTooltip}"
                 Content="{Binding SelectedItem.Object, ElementName=InventoryHolder}"
-                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                <ContentControl.LayoutTransform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                </ContentControl.LayoutTransform>
-
-                 <b:Interaction.Triggers>
-                    <!-- Touch UI - Close the popout inventory when the template's background click collapses this popup -->
-                    <b:PropertyChangedTrigger Binding="{Binding Visibility, ElementName=SelectedItemPopup}">
-                        <b:Interaction.Behaviors>
-                            <b:ConditionBehavior>
-                                <b:ConditionalExpression>
-                                    <b:ComparisonCondition LeftOperand="{Binding Visibility, ElementName=SelectedItemPopup}" Operator="Equal" RightOperand="Collapsed"/>
-                                    <!-- Touch UI - Ensure we only fire this if there is actually an item selected -->
-                                    <b:ComparisonCondition LeftOperand="{Binding SelectedItem, ElementName=InventoryHolder}" Operator="NotEqual" RightOperand="{x:Null}"/>
-                                </b:ConditionalExpression>
-                            </b:ConditionBehavior>
-                        </b:Interaction.Behaviors>
-                        
-                        <!-- Touch UI - Unselect the item in the listbox -->
-                        <b:ChangePropertyAction TargetName="InventoryHolder" PropertyName="SelectedIndex" Value="-1"/>
-                    </b:PropertyChangedTrigger>
-                </b:Interaction.Triggers>
-            </ContentControl>
-            
+                Tag="{Binding SelectedItems, ElementName=InventoryHolder}"
+                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                ls:TooltipExtender.Context="Inventory"
+                HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
         </Grid>
         <ControlTemplate.Triggers>
             <DataTrigger Binding="{Binding SelectedItems.Count,ElementName=InventoryHolder,Converter={StaticResource GreaterThanConverter},ConverterParameter=1}" Value="True">
