@@ -63,6 +63,8 @@
                         Content="{Binding .}"
                         ls:TooltipExtender.IsOpen="True"
                         ls:TooltipExtender.Content="{Binding .}"
+                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                        ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Right"
                         Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
