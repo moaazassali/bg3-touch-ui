@@ -413,49 +413,36 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Margin="0,4,8,12">
-                                                    <!-- Touch UI - Make weapon actions/spells clickable to show tooltip sheet -->
-                                                    <ls:LSButton
-                                                        Focusable="False"
-                                                        Padding="0" 
-                                                        Background="Transparent" 
-                                                        HorizontalAlignment="Left" 
-                                                        VerticalAlignment="Top">
-                                                        <Grid>
-                                                            <Grid.Style>
-                                                                <Style TargetType="Grid">
-                                                                    <Setter Property="Opacity" Value="1"/>
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=ls:LSButton}}" Value="True">
-                                                                            <Setter Property="Opacity" Value="0.7"/>
-                                                                            <Setter Property="Grid.RenderTransform">
-                                                                                <Setter.Value>
-                                                                                    <TranslateTransform Y="4"/>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Grid.Style>
+                                                    <!-- Touch UI - Weapon actions/spells: plain elements + a right-edge tooltip sheet popup
+                                                         (same pattern as the character panel/hotbar popup sheets). No LSButton (its press
+                                                         closes the context menu), no native tooltip (no hover emulation on tap). The
+                                                         TooltipBox's SuppressMouseEvents claims the tap and the Up trigger opens the
+                                                         popup, which renders the action's tooltip at its natural size on the right edge. -->
+                                                    <Rectangle x:Name="IconBorder" Style="{StaticResource TooltipBoostIconBorderDashedStyle}"/>
+                                                    <Rectangle x:Name="Icon" Style="{StaticResource TooltipBoostIconStyle}" Fill="{Binding Icon}"/>
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <b:ChangePropertyAction PropertyName="Opacity" Value="0.7"/>
+                                                            <b:ChangePropertyAction PropertyName="RenderTransform">
+                                                                <b:ChangePropertyAction.Value>
+                                                                    <TranslateTransform Y="4"/>
+                                                                </b:ChangePropertyAction.Value>
+                                                            </b:ChangePropertyAction>
+                                                        </b:EventTrigger>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:ChangePropertyAction PropertyName="Opacity" Value="1"/>
+                                                            <b:ChangePropertyAction PropertyName="RenderTransform">
+                                                                <b:ChangePropertyAction.Value>
+                                                                    <TranslateTransform Y="0"/>
+                                                                </b:ChangePropertyAction.Value>
+                                                            </b:ChangePropertyAction>
+                                                            <b:ChangePropertyAction TargetName="SelectedIconPopup" PropertyName="IsOpen" Value="True"/>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
 
-                                                            <Rectangle x:Name="IconBorder" Style="{StaticResource TooltipBoostIconBorderDashedStyle}"/>
-                                                            <Rectangle x:Name="Icon" Style="{StaticResource TooltipBoostIconStyle}" Fill="{Binding Icon}" ToolTipService.IsEnabled="True" ToolTipService.Placement="Right" >
-                                                                <!-- <Rectangle.ToolTip>
-                                                                    <ls:LSTooltip Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                                </Rectangle.ToolTip> -->
-                                                            </Rectangle>
-                                                        </Grid>
-
-                                                        <b:Interaction.Triggers>
-                                                            <b:EventTrigger EventName="Click">
-                                                                <b:ChangePropertyAction TargetName="SelectedIconPopup" PropertyName="IsOpen" Value="True"/>
-                                                            </b:EventTrigger>
-                                                        </b:Interaction.Triggers>
-                                                    </ls:LSButton>
-
-                                                    <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
                                                     <Popup x:Name="SelectedIconPopup"
                                                         Placement="Absolute"
-                                                        HorizontalOffset="10000" 
+                                                        HorizontalOffset="10000"
                                                         VerticalOffset="0"
                                                         AllowsTransparency="True"
                                                         StaysOpen="True"
@@ -465,9 +452,9 @@
                                                         <Grid>
                                                             <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                                             <ContentPresenter
-                                                                Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                                Content="{Binding}"
                                                                 ls:TooltipExtender.IsOpen="{Binding IsOpen, ElementName=SelectedIconPopup}"
-                                                                ls:TooltipExtender.Content="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                                ls:TooltipExtender.Content="{Binding}"
                                                                 ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                                                                 ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                                                                 VerticalAlignment="Stretch"
