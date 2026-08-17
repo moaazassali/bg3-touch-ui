@@ -28,22 +28,7 @@
                         <Grid
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                <StackPanel.Style>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Opacity" Value="1"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsPressed, ElementName=OpenSpellPopupButton}" Value="True">
-                                                <Setter Property="Opacity" Value="0.7"/>
-                                                <Setter Property="StackPanel.RenderTransform">
-                                                    <Setter.Value>
-                                                        <TranslateTransform Y="4"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </StackPanel.Style>
+                            <StackPanel x:Name="BoostContentStack" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
 
                                 <Grid x:Name="Icon" DockPanel.Dock="Left" Visibility="Collapsed" Margin="{StaticResource DefaultMarginRight}">
                                     <Rectangle x:Name="IconBorder" Style="{StaticResource TooltipBoostIconBorderDashedStyle}" Width="{StaticResource TooltipActionIconFrameSize}" Height="{StaticResource TooltipActionIconFrameSize}"/>
@@ -83,21 +68,35 @@
 
                             </StackPanel>
 
-                            <!-- Touch UI - Make weapon actions/spells clickable to show tooltip sheet -->
-                            <!-- Touch UI - Must be sibling of the stackpanel because we need the Name text to also be clickable. Otherwise, this button element swallows all clicks. -->
-                            <ls:LSButton x:Name="OpenSpellPopupButton"
-                                Focusable="False"
-                                Padding="0" 
-                                Background="Transparent" 
+                            <!-- Touch UI - UnlockSpell boosts: fake button (plain overlay), no LSButton (its press closes
+                                 the context menu). Must be a sibling of the stackpanel so the Name text is also
+                                 clickable. The Down/Up triggers reproduce the press feedback and open the
+                                 right-edge tooltip sheet popup. -->
+                            <Grid x:Name="OpenSpellPopupButton"
+                                Background="Transparent"
                                 HorizontalAlignment="Stretch" 
                                 VerticalAlignment="Stretch"
                                 Visibility="Collapsed">
                                 <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Click">
+                                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                                        <b:ChangePropertyAction TargetName="BoostContentStack" PropertyName="Opacity" Value="0.7"/>
+                                        <b:ChangePropertyAction TargetName="BoostContentStack" PropertyName="RenderTransform">
+                                            <b:ChangePropertyAction.Value>
+                                                <TranslateTransform Y="4"/>
+                                            </b:ChangePropertyAction.Value>
+                                        </b:ChangePropertyAction>
+                                    </b:EventTrigger>
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="BoostContentStack" PropertyName="Opacity" Value="1"/>
+                                        <b:ChangePropertyAction TargetName="BoostContentStack" PropertyName="RenderTransform">
+                                            <b:ChangePropertyAction.Value>
+                                                <TranslateTransform Y="0"/>
+                                            </b:ChangePropertyAction.Value>
+                                        </b:ChangePropertyAction>
                                         <b:ChangePropertyAction TargetName="SelectedIconPopup" PropertyName="IsOpen" Value="True"/>
                                     </b:EventTrigger>
                                 </b:Interaction.Triggers>
-                            </ls:LSButton>
+                            </Grid>
                         </Grid>
 
                         <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
