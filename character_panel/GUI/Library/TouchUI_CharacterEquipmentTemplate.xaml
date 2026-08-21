@@ -16,7 +16,7 @@
         <ResourceDictionary Source="TouchUI_EquipmentSlotStyles.xaml"/>
         <ResourceDictionary Source="TouchUI_WeaponAttackBonusTemplate.xaml"/>
         <ResourceDictionary Source="TouchUI_ACHolder.xaml"/>
-        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_ContextMenuWithTooltip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_CharacterEquipmentTemplate" TargetType="Control">
@@ -36,17 +36,40 @@
                     <b:ChangePropertyAction TargetName="ChangePartyContextButton" PropertyName="IsChecked" Value="True"/>
                     <b:InvokeCommandAction Command="{Binding DataContext.SelectCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding}"/>
 
-                    <!-- Touch UI - Open tooltip sheet popup -->
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Visible"/>
+                    <!-- Touch UI - Open the combined context menu + tooltip popup (like the inventory slots).
+                         The open is delayed 50ms via an Opacity flick (invisible, Opacity clamps to 1):
+                         the anchor's Content binding needs to catch up with the newly selected slot,
+                         otherwise the menu opens with the PREVIOUS item's tooltip. The Opacity
+                         DataTrigger below does the actual open once the flick lands. -->
+                    <b:ControlStoryboardAction>
+                        <b:ControlStoryboardAction.Storyboard>
+                            <Storyboard FillBehavior="Stop">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </b:ControlStoryboardAction.Storyboard>
+                    </b:ControlStoryboardAction>
                 </b:PropertyChangedTrigger>
+
+                <!-- Touch UI - Fires 50ms after a slot selection (storyboard above) and opens the menu
+                     with the freshly selected item -->
+                <b:DataTrigger Binding="{Binding Opacity, ElementName=EquipmentMenuAnchor}" Value="2">
+                    <b:Interaction.Behaviors>
+                        <b:ConditionBehavior>
+                            <b:ConditionalExpression>
+                                <b:ComparisonCondition LeftOperand="{Binding Content, ElementName=EquipmentMenuAnchor}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                            </b:ConditionalExpression>
+                        </b:ConditionBehavior>
+                    </b:Interaction.Behaviors>
+                    <b:InvokeCommandAction Command="{Binding ShowContextMenuCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding ElementName=EquipmentMenuAnchor}"/>
+                </b:DataTrigger>
 
                 <!--Selecting the slot while it's active = no more filtering-->
                 <b:DataTrigger Binding="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" Value="{x:Null}">
                     <b:ChangePropertyAction TargetName="FilteringContainerHolder" PropertyName="CurrentFilter" Value="{x:Null}"/>
                     <b:ChangePropertyAction TargetName="ChangePartyContextButton" PropertyName="IsChecked" Value="False"/>
-
-                    <!-- Touch UI - Close tooltip sheet popup -->
-                    <b:ChangePropertyAction TargetName="SelectedItemPopup" PropertyName="Visibility" Value="Collapsed"/>
                 </b:DataTrigger>
 
                 <b:DataTrigger Binding="{Binding IsVisible, ElementName=CharacterPanelHolder}" Value="True">
@@ -181,38 +204,18 @@
 
             </Grid>
 
-            <!-- Touch UI - New popup tooltip as a sheet on right side of screen to replace hover tooltips -->
-            <!-- Touch UI - We need to place it outside of the item element because a double click in the popup is triggering a double click on the item which uses/equips it -->
-            <!-- Touch UI - I couldn't find a better solution. I tried wrapping it with a button, swallowing all mouse events, etc... and nothing worked -->
+            <!-- Touch UI - The engine context menu now opens in a popup anchored to the right edge of the window
+                 with the item tooltip embedded beside the menu entries in the SAME popup
+                 (TouchUI_ContextMenuWithTooltip), like the inventory slots. Selecting a slot opens it via
+                 ShowContextMenuCommand (trigger at the top of this template). -->
             <ContentControl
-                x:Name="SelectedItemPopup"
-                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                x:Name="EquipmentMenuAnchor"
+                Template="{StaticResource TouchUI_ContextMenuWithTooltip}"
                 Content="{Binding Path=DataContext.PlayerCharacterProperties.ActiveEquipmentSlot.Item, ElementName=CharacterPanelHolder}"
-                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
-                <ContentControl.LayoutTransform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                </ContentControl.LayoutTransform>
-
-                <b:Interaction.Triggers>
-                    <!-- Touch UI - Close the popout inventory when the template's background click collapses this popup -->
-                    <b:PropertyChangedTrigger Binding="{Binding Visibility, ElementName=SelectedItemPopup}">
-                        <b:Interaction.Behaviors>
-                            <b:ConditionBehavior>
-                                <b:ConditionalExpression>
-                                    <b:ComparisonCondition LeftOperand="{Binding Visibility, ElementName=SelectedItemPopup}" Operator="Equal" RightOperand="Collapsed"/>
-                                    <!-- Touch UI - Ensure we only fire this command if the popout inventory is actually open -->
-                                    <b:ComparisonCondition LeftOperand="{Binding PlayerCharacterProperties.ActiveEquipmentSlot}" Operator="NotEqual" RightOperand="{x:Null}"/>
-                                </b:ConditionalExpression>
-                            </b:ConditionBehavior>
-                        </b:Interaction.Behaviors>
-                        
-                        <!-- Touch UI - Taken from PopOutInventoryTemplate in Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml -->
-                        <b:InvokeCommandAction 
-                            Command="{Binding DataContext.HideAvailableEquipmentCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" 
-                            CommandParameter="{Binding Equipment}"/>
-                    </b:PropertyChangedTrigger>
-                </b:Interaction.Triggers>
-            </ContentControl>
+                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                ls:TooltipExtender.Context="Equipment"
+                HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
         </Grid>
 
         <ControlTemplate.Triggers>
