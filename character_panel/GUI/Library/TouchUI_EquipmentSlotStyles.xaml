@@ -203,4 +203,23 @@
         </Setter>
     </Style>
 
+    <!-- Touch UI - Character-panel variants used by the combined tooltip + context menu flow: while a
+         slot is the active one (IsSelecting), its toggle command is suppressed so retapping it doesn't
+         deselect - the per-slot retap triggers in the equipment templates reopen the menu instead -->
+    <Style x:Key="TouchUI_PanelEquipmentSlotStyle" TargetType="ls:LSButton" BasedOn="{StaticResource TouchUI_EquipmentSlotStyle}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelecting}" Value="True">
+                <Setter Property="Command" Value="{x:Null}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TouchUI_PanelEquipmentSlotBaseStyle" TargetType="ls:LSButton" BasedOn="{StaticResource TouchUI_EquipmentSlotBaseStyle}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelecting}" Value="True">
+                <Setter Property="Command" Value="{x:Null}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

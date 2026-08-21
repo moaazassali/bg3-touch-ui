@@ -130,7 +130,30 @@
 
                                 <!-- Put vanity toggle to left of body slot -->
                                 <Grid Grid.Row="0" HorizontalAlignment="Left">
-                                    <ls:LSButton x:Name="VanityBodySlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBody}"/>
+                                    <ls:LSButton x:Name="VanityBodySlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBody}">
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                                <!-- Touch UI - Retap on the active slot reopens the menu (toggle command suppressed while active) -->
+                                                <b:ControlStoryboardAction>
+                                                    <b:ControlStoryboardAction.Storyboard>
+                                                        <Storyboard FillBehavior="Stop">
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </b:ControlStoryboardAction.Storyboard>
+                                                </b:ControlStoryboardAction>
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                    </ls:LSButton>
                                     
                                     <ls:LSButton x:Name="ArmorVisibilityToggle" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Command="{Binding DataContext.ToggleArmorSetVisibility, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" Template="{StaticResource TouchUI_VanityButtonTemplate}"
                                         HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-60,0,0,0">
@@ -140,28 +163,255 @@
                                     </ls:LSButton>
                                 </Grid>
 
-                                <ls:LSButton x:Name="VanityBootsSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Grid.Row="1" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBoots}"/>
+                                <ls:LSButton x:Name="VanityBootsSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Grid.Row="1" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.VanityBoots}">
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                <b:Interaction.Behaviors>
+                                                    <b:ConditionBehavior>
+                                                        <b:ConditionalExpression>
+                                                            <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                        </b:ConditionalExpression>
+                                                    </b:ConditionBehavior>
+                                                </b:Interaction.Behaviors>
+                                                <b:ControlStoryboardAction>
+                                                    <b:ControlStoryboardAction.Storyboard>
+                                                        <Storyboard FillBehavior="Stop">
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </b:ControlStoryboardAction.Storyboard>
+                                                </b:ControlStoryboardAction>
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                    </ls:LSButton>
                             </Grid>
-                            <ls:LSButton x:Name="VanityUnderwearSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Underwear}"/>
-                            <ls:LSButton x:Name="EquipmentAmuletSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Amulet}"/>
-                            <ls:LSButton x:Name="EquipmentRing1Slot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Ring}"/>
-                            <ls:LSButton x:Name="EquipmentRing2Slot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Ring2}"/>
+                            <ls:LSButton x:Name="VanityUnderwearSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Underwear}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentAmuletSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Amulet}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentRing1Slot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Ring}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentRing2Slot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Ring2}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
                         </StackPanel>
                     </DockPanel>
 
                     <DockPanel Name="EquipmentLeft" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="{StaticResource EquipMargin}">
                         <StackPanel DockPanel.Dock="Top">
                             <Control Template="{StaticResource TouchUI_HelmetEQTemplate}" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Helmet}" ToolTipService.Placement="Left"/>
-                            <ls:LSButton x:Name="EquipmentCloakSlot" HorizontalAlignment="Left"  Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Cloak}" ToolTipService.Placement="Left"/>
-                            <ls:LSButton x:Name="EquipmentBreastSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Breast}" ToolTipService.Placement="Left"/>
-                            <ls:LSButton x:Name="EquipmentGlovesSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Gloves}" ToolTipService.Placement="Left"/>
-                            <ls:LSButton x:Name="EquipmentBootsSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Boots}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentCloakSlot" HorizontalAlignment="Left"  Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Cloak}" ToolTipService.Placement="Left">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentBreastSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Breast}" ToolTipService.Placement="Left">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentGlovesSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Gloves}" ToolTipService.Placement="Left">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentBootsSlot" HorizontalAlignment="Left" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.Boots}" ToolTipService.Placement="Left">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
                             <!--LIGHTSOURCE-->
                             <StackPanel Orientation="Horizontal">
-                                <ls:LSButton x:Name="LightSource" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotBaseStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.LightSource}" ToolTipService.Placement="Left">
+                                <ls:LSButton x:Name="LightSource" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotBaseStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.LightSource}" ToolTipService.Placement="Left">
                                     <b:Interaction.Behaviors>
                                         <ls:DropOnGenericBehavior DropCommand="{Binding DataContext.DropLightSourceCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
                                     </b:Interaction.Behaviors>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                            <b:Interaction.Behaviors>
+                                                <b:ConditionBehavior>
+                                                    <b:ConditionalExpression>
+                                                        <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    </b:ConditionalExpression>
+                                                </b:ConditionBehavior>
+                                            </b:Interaction.Behaviors>
+                                            <b:ControlStoryboardAction>
+                                                <b:ControlStoryboardAction.Storyboard>
+                                                    <Storyboard FillBehavior="Stop">
+                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                        </DoubleAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </b:ControlStoryboardAction.Storyboard>
+                                            </b:ControlStoryboardAction>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                 </ls:LSButton>
                                 <Control Tag="{Binding DataContext, ElementName=EquipmentSlots}" Template="{StaticResource TouchUI_MuscialEQTemplate}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MusicalInstrument}"/>
                             </StackPanel>
@@ -177,8 +427,54 @@
                             </TextBlock.Effect>
                         </TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <ls:LSButton x:Name="EquipmentMeleeMainSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MeleeMainHand}" ToolTipService.Placement="Left"/>
-                            <ls:LSButton x:Name="EquipmentMeleeOffSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MeleeOffHand}" ToolTipService.Placement="Left"/>
+                            <ls:LSButton x:Name="EquipmentMeleeMainSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MeleeMainHand}" ToolTipService.Placement="Left">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentMeleeOffSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.MeleeOffHand}" ToolTipService.Placement="Left">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
                         </StackPanel>
                     </StackPanel>
 
@@ -191,8 +487,54 @@
                             </TextBlock.Effect>
                         </TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <ls:LSButton x:Name="EquipmentRangedMainSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.RangedMainHand}"/>
-                            <ls:LSButton x:Name="EquipmentRangedOffSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_EquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.RangedOffHand}"/>
+                            <ls:LSButton x:Name="EquipmentRangedMainSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.RangedMainHand}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
+                            <ls:LSButton x:Name="EquipmentRangedOffSlot" Tag="{Binding DataContext, ElementName=EquipmentSlots}" Style="{StaticResource TouchUI_PanelEquipmentSlotStyle}" Panel.ZIndex="{Binding IsSelecting, Converter={StaticResource BoolToIntConverter}, ConverterParameter=20}" DataContext="{Binding Equipment.RangedOffHand}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <b:Interaction.Behaviors>
+                                            <b:ConditionBehavior>
+                                                <b:ConditionalExpression>
+                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelecting}" Operator="Equal" RightOperand="True"/>
+                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                </b:ConditionalExpression>
+                                            </b:ConditionBehavior>
+                                        </b:Interaction.Behaviors>
+                                        <b:ControlStoryboardAction>
+                                            <b:ControlStoryboardAction.Storyboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EquipmentMenuAnchor" Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </b:ControlStoryboardAction.Storyboard>
+                                        </b:ControlStoryboardAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ls:LSButton>
                         </StackPanel>
                     </StackPanel>
 
