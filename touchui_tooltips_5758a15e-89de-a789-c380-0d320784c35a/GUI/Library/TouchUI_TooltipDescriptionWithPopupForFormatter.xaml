@@ -67,10 +67,9 @@
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Right">
                 <Grid>
-                    <!-- Touch UI - Just an element to define the height of the popup as full screen height -->
-                    <!-- Touch UI - Defining this directly on the content presenter is introducing some strange bottom margin -->
-                    <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-
+                    <!-- Touch UI - The sheet hosts hug their content from the top of the window instead of
+                         stretching to the full window height (like the context menu + tooltip popup).
+                         MaxHeight caps very long sheets at the window height so inner scroll areas work. -->
                     <!-- PRESENTER 1: For those using Inline.DataContext -->
                     <ContentPresenter
                         Content="{Binding}"
@@ -78,7 +77,8 @@
                         ls:TooltipExtender.Content="{Binding}"
                         ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                        VerticalAlignment="Top" HorizontalAlignment="Right"
+                        MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
                         <ContentPresenter.Style>
                             <Style TargetType="ContentPresenter">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -101,7 +101,8 @@
                         ls:TooltipExtender.Content="{Binding Tag.Content, RelativeSource={RelativeSource AncestorType=Popup}}"
                         ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                        VerticalAlignment="Top" HorizontalAlignment="Right"
+                        MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                         Tag="{Binding Tag.Tag, RelativeSource={RelativeSource AncestorType=Popup}}"
                         ls:AttachedProperties.InheritedTag="{Binding Tag.(ls:AttachedProperties.InheritedTag), RelativeSource={RelativeSource AncestorType=Popup}}"
                         ContentTemplate="{DynamicResource TouchUI_HeaderBodyTemplate}"> <!-- Dynamic Resource Prevents Circular Ref -->
