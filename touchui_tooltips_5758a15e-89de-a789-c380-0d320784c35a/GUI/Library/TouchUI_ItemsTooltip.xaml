@@ -486,8 +486,58 @@
                                 </StackPanel>
 
                                 <!-- Alchemy Produce -->
-
-                                <ContentPresenter ContentTemplate="{StaticResource AlchemySectionTemplate}" Content="{Binding DataContext.AlchemyResult, ElementName=root}" Visibility="{Binding DataContext.AlchemyResult, ElementName=root, Converter={StaticResource NullToCollapsedConverter},FallbackValue=Collapsed}"/>
+                                <!-- Touch UI - Ingredient -> produced potion row: tappable, opens the potion's sheet on the
+                                     right edge (same fake-button + popup pattern as the weapon actions above) -->
+                                <Grid Background="Transparent" HorizontalAlignment="Left"
+                                      Visibility="{Binding DataContext.AlchemyResult, ElementName=root, Converter={StaticResource NullToCollapsedConverter},FallbackValue=Collapsed}">
+                                    <ContentPresenter ContentTemplate="{StaticResource AlchemySectionTemplate}" Content="{Binding DataContext.AlchemyResult, ElementName=root}"/>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                                            <b:ChangePropertyAction PropertyName="Opacity" Value="0.7"/>
+                                            <b:ChangePropertyAction PropertyName="RenderTransform">
+                                                <b:ChangePropertyAction.Value>
+                                                    <TranslateTransform Y="4"/>
+                                                </b:ChangePropertyAction.Value>
+                                            </b:ChangePropertyAction>
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                            <b:ChangePropertyAction PropertyName="Opacity" Value="1"/>
+                                            <b:ChangePropertyAction PropertyName="RenderTransform">
+                                                <b:ChangePropertyAction.Value>
+                                                    <TranslateTransform Y="0"/>
+                                                </b:ChangePropertyAction.Value>
+                                            </b:ChangePropertyAction>
+                                            <b:ChangePropertyAction TargetName="AlchemyResultPopup" PropertyName="IsOpen" Value="True"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                    <Popup x:Name="AlchemyResultPopup"
+                                        Placement="Absolute"
+                                        HorizontalOffset="10000"
+                                        VerticalOffset="0"
+                                        AllowsTransparency="True"
+                                        StaysOpen="True"
+                                        IsOpen="False"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Right">
+                                        <Grid>
+                                            <!-- Touch UI - The sheet hugs its content from the top of the window instead of
+                                                 stretching to the full window height (like the context menu + tooltip popup) -->
+                                            <ContentPresenter
+                                                Content="{Binding DataContext.AlchemyResult, ElementName=root}"
+                                                ls:TooltipExtender.IsOpen="{Binding IsOpen, ElementName=AlchemyResultPopup}"
+                                                ls:TooltipExtender.Content="{Binding DataContext.AlchemyResult, ElementName=root}"
+                                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                VerticalAlignment="Top"
+                                                HorizontalAlignment="Right"
+                                                MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                                <ContentPresenter.LayoutTransform>
+                                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                </ContentPresenter.LayoutTransform>
+                                            </ContentPresenter>
+                                        </Grid>
+                                    </Popup>
+                                </Grid>
                                 <!-- PERMANENT WARNINGS -->
                                 <ContentPresenter x:Name="PermanentWarnings" ContentTemplate="{StaticResource TouchUI_PermanentWarningSection}" Content="{Binding .}"/>
 
