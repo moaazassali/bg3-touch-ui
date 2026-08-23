@@ -595,7 +595,7 @@
             <!-- EXTRACT CRAFTING -->
             <DataTemplate x:Key="ExtractCraftingSlot" DataType="{x:Type ls:VMTooltipItemSectionDetail}">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <ContentControl x:Name="Slot" ContentTemplate="{StaticResource AlchemySlotTemplate}" Content="{Binding Item}" ToolTip="{StaticResource ManagedTooltip}" ToolTipService.Placement="Left" ls:AttachedProperties.InheritedTag="CustomCount" >
+                    <ContentControl x:Name="Slot" ContentTemplate="{StaticResource AlchemySlotTemplate}" Content="{Binding Item}" ls:AttachedProperties.InheritedTag="CustomCount" >
                         <ContentControl.Resources>
                             <BitmapImage x:Key="SlotEnabled" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_itemSlot_active.png"/>
                             <BitmapImage x:Key="SlotEnabled_h" UriSource="pack://application:,,,/Core;component/Assets/Alchemy/extract_itemSlot_active_h.png"/>
@@ -1270,16 +1270,49 @@
                             <Grid Margin="0,100,0,0" Width="498" VerticalAlignment="Top">
                                 <ContentPresenter x:Name="ExtractSlot1" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
                                               HorizontalAlignment="Left" 
-                                              ls:AttachedProperties.InheritedNumber="1"/>
+                                              ls:AttachedProperties.InheritedNumber="1">
+                                <b:Interaction.Triggers>
+                                    <!-- Touch UI - Tap opens the base ingredient's sheet on the right edge -->
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="BaseIngredientSheet" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ContentPresenter>
 
                                 <ContentPresenter x:Name="ExtractSlot2" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
                                               HorizontalAlignment="Center" 
-                                              ls:AttachedProperties.InheritedNumber="2"/>
+                                              ls:AttachedProperties.InheritedNumber="2">
+                                <b:Interaction.Triggers>
+                                    <!-- Touch UI - Tap opens the base ingredient's sheet on the right edge -->
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="BaseIngredientSheet" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ContentPresenter>
 
                                 <ContentPresenter x:Name="ExtractSlot3" ContentTemplate="{StaticResource ExtractCraftingSlot}" Content="{Binding SelectedRecipe.BaseExtract}" 
                                               HorizontalAlignment="Right"
-                                              ls:AttachedProperties.InheritedNumber="3"/>
+                                              ls:AttachedProperties.InheritedNumber="3">
+                                <b:Interaction.Triggers>
+                                    <!-- Touch UI - Tap opens the base ingredient's sheet on the right edge -->
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="BaseIngredientSheet" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </ContentPresenter>
                             </Grid>
+
+                            <!-- Touch UI - Shared sheet host for the three combine slots (same wrapper object the vanilla hover resolved) -->
+                            <ContentControl x:Name="BaseIngredientSheet"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Content="{Binding SelectedRecipe.BaseExtract}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
                         </Grid>
                         
                         <StackPanel x:Name="Result" DataContext="{Binding SelectedRecipe.Result}" 
