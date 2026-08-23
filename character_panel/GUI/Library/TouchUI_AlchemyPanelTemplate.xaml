@@ -1133,19 +1133,107 @@
                                               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-150,30,0,0" 
                                               ToolTipService.Placement="Left" 
                                               Tag="Main">
-                                <ContentPresenter.ToolTip>
-                                    <ls:LSTooltip Content="{Binding DataContext.SelectedRecipe.BaseExtract, ElementName=Crafting}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Crafting}"/>
-                                </ContentPresenter.ToolTip>
+                                <b:Interaction.Triggers>
+                                    <!-- Touch UI - Tap opens the base extract's sheet on the right edge -->
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="BaseItemSheet" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
                             </ContentPresenter>
+
+                            <!-- Touch UI - Base extract sheet host (same wrapper object the vanilla hover resolved) -->
+                            <ContentControl x:Name="BaseItemSheet"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Content="{Binding SelectedRecipe.BaseExtract}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
 
                             <ContentPresenter x:Name="ExtraExtract" ContentTemplate="{StaticResource CraftingSlot}" Content="{Binding SelectedExtraExtract}" 
                                               HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,-150,0" 
                                               ToolTipService.Placement="Left" 
                                               Tag="Extra">
-                                <ContentPresenter.ToolTip>
-                                    <ls:LSTooltip x:Name="ExtraExtractToolTip" Content="{Binding DataContext.SelectedExtraExtract, ElementName=Crafting}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Crafting}"/>
-                                </ContentPresenter.ToolTip>
+                                <b:Interaction.Triggers>
+                                    <!-- Touch UI - Tap opens the extra extract's sheet on the right edge -->
+                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                        <b:ChangePropertyAction TargetName="ExtraExtractSheet" PropertyName="Visibility" Value="Visible"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
                             </ContentPresenter>
+
+                            <!-- Touch UI - Extra extract sheet host; content swaps to the matching extract wrapper
+                                 when SelectedExtraExtract points at one of the six character extracts (parity with
+                                 the vanilla hover tooltip's triggers) -->
+                            <ContentControl x:Name="ExtraExtractSheet"
+                                Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                Content="{Binding SelectedExtraExtract}"
+                                ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                </ContentControl.LayoutTransform>
+                                <b:Interaction.Triggers>
+                                    <b:DataTrigger Value="True">
+                                        <b:DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="SelectedExtraExtract"/>
+                                                <Binding Path="ExtractAir.Item"/>
+                                            </MultiBinding>
+                                        </b:DataTrigger.Binding>
+                                        <b:ChangePropertyAction PropertyName="Content" Value="{Binding ExtractAir}"/>
+                                    </b:DataTrigger>
+                                    <b:DataTrigger Value="True">
+                                        <b:DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="SelectedExtraExtract"/>
+                                                <Binding Path="ExtractEarth.Item"/>
+                                            </MultiBinding>
+                                        </b:DataTrigger.Binding>
+                                        <b:ChangePropertyAction PropertyName="Content" Value="{Binding ExtractEarth}"/>
+                                    </b:DataTrigger>
+                                    <b:DataTrigger Value="True">
+                                        <b:DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="SelectedExtraExtract"/>
+                                                <Binding Path="ExtractFey.Item"/>
+                                            </MultiBinding>
+                                        </b:DataTrigger.Binding>
+                                        <b:ChangePropertyAction PropertyName="Content" Value="{Binding ExtractFey}"/>
+                                    </b:DataTrigger>
+                                    <b:DataTrigger Value="True">
+                                        <b:DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="SelectedExtraExtract"/>
+                                                <Binding Path="ExtractFire.Item"/>
+                                            </MultiBinding>
+                                        </b:DataTrigger.Binding>
+                                        <b:ChangePropertyAction PropertyName="Content" Value="{Binding ExtractFire}"/>
+                                    </b:DataTrigger>
+                                    <b:DataTrigger Value="True">
+                                        <b:DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="SelectedExtraExtract"/>
+                                                <Binding Path="ExtractShadow.Item"/>
+                                            </MultiBinding>
+                                        </b:DataTrigger.Binding>
+                                        <b:ChangePropertyAction PropertyName="Content" Value="{Binding ExtractShadow}"/>
+                                    </b:DataTrigger>
+                                    <b:DataTrigger Value="True">
+                                        <b:DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                <Binding Path="SelectedExtraExtract"/>
+                                                <Binding Path="ExtractWater.Item"/>
+                                            </MultiBinding>
+                                        </b:DataTrigger.Binding>
+                                        <b:ChangePropertyAction PropertyName="Content" Value="{Binding ExtractWater}"/>
+                                    </b:DataTrigger>
+                                </b:Interaction.Triggers>
+                            </ContentControl>
                         </Grid>
 
                         <Grid x:Name="CraftingExtract" Visibility="Collapsed">
@@ -1196,9 +1284,12 @@
                                 </Style>
                             </StackPanel.Resources>
 
-                            <StackPanel.ToolTip>
-                                <ls:LSTooltip Content="{Binding DataContext.SelectedRecipe.Result, ElementName=Crafting}" ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, ElementName=Crafting}"/>
-                            </StackPanel.ToolTip>
+                            <b:Interaction.Triggers>
+                                <!-- Touch UI - Tap opens the crafted result's sheet on the right edge -->
+                                <b:EventTrigger EventName="MouseLeftButtonUp">
+                                    <b:ChangePropertyAction TargetName="ResultSheet" PropertyName="Visibility" Value="Visible"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
 
                             <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{StaticResource AlchemySlotTemplate}" Content="{Binding Item}" Tag="{Binding ElementName=Result}">
                                 <ContentControl.Resources>
@@ -1216,6 +1307,18 @@
                                 </StackPanel.LayoutTransform>
                             </TextBlock>
                         </StackPanel>
+
+                        <!-- Touch UI - Crafted result sheet host (same wrapper object the vanilla hover resolved) -->
+                        <ContentControl x:Name="ResultSheet"
+                            Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                            Content="{Binding SelectedRecipe.Result}"
+                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                            Visibility="Collapsed"
+                            HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
                     </Grid>
                 </Grid>
 
@@ -1593,61 +1696,8 @@
                 <Setter TargetName="ExtractCrafting" Property="Margin" Value="0,-81,0,0"/>
             </DataTrigger>
 
-            <!-- If there's no real selected extra extract, set the tooltip to use the VMTooltipItemSectionDetail instead -->
-            <DataTrigger Value="True">
-                <DataTrigger.Binding>
-                    <MultiBinding Converter="{StaticResource EqualConverter}">
-                        <Binding Path="SelectedExtraExtract"/>
-                        <Binding Path="ExtractAir.Item"/>
-                    </MultiBinding>
-                </DataTrigger.Binding>
-                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractAir, ElementName=Crafting}"/>
-            </DataTrigger>
-            <DataTrigger Value="True">
-                <DataTrigger.Binding>
-                    <MultiBinding Converter="{StaticResource EqualConverter}">
-                        <Binding Path="SelectedExtraExtract"/>
-                        <Binding Path="ExtractEarth.Item"/>
-                    </MultiBinding>
-                </DataTrigger.Binding>
-                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractEarth, ElementName=Crafting}"/>
-            </DataTrigger>
-            <DataTrigger Value="True">
-                <DataTrigger.Binding>
-                    <MultiBinding Converter="{StaticResource EqualConverter}">
-                        <Binding Path="SelectedExtraExtract"/>
-                        <Binding Path="ExtractFey.Item"/>
-                    </MultiBinding>
-                </DataTrigger.Binding>
-                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractFey, ElementName=Crafting}"/>
-            </DataTrigger>
-            <DataTrigger Value="True">
-                <DataTrigger.Binding>
-                    <MultiBinding Converter="{StaticResource EqualConverter}">
-                        <Binding Path="SelectedExtraExtract"/>
-                        <Binding Path="ExtractFire.Item"/>
-                    </MultiBinding>
-                </DataTrigger.Binding>
-                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractFire, ElementName=Crafting}"/>
-            </DataTrigger>
-            <DataTrigger Value="True">
-                <DataTrigger.Binding>
-                    <MultiBinding Converter="{StaticResource EqualConverter}">
-                        <Binding Path="SelectedExtraExtract"/>
-                        <Binding Path="ExtractShadow.Item"/>
-                    </MultiBinding>
-                </DataTrigger.Binding>
-                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractShadow, ElementName=Crafting}"/>
-            </DataTrigger>
-            <DataTrigger Value="True">
-                <DataTrigger.Binding>
-                    <MultiBinding Converter="{StaticResource EqualConverter}">
-                        <Binding Path="SelectedExtraExtract"/>
-                        <Binding Path="ExtractWater.Item"/>
-                    </MultiBinding>
-                </DataTrigger.Binding>
-                <Setter TargetName="ExtraExtractToolTip" Property="Content" Value="{Binding DataContext.ExtractWater, ElementName=Crafting}"/>
-            </DataTrigger>
+            <!-- Touch UI - The six vanilla triggers that swapped ExtraExtractToolTip's content were removed
+                 together with that element; the parity swaps now live on ExtraExtractSheet's triggers above -->
 
             <!-- EXTRACT CRAFTING -->
             <DataTrigger Binding="{Binding SelectedRecipe.IsSolutionRecipe}" Value="False">
