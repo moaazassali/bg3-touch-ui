@@ -7,8 +7,12 @@
                     xmlns:ls="clr-namespace:ls;assembly=Code"
                     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
-                    mc:Ignorable="d">    
-    
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <ControlTemplate x:Key="TouchUI_AlchemyPanelTemplate">
         <ControlTemplate.Resources>
             <System:Double x:Key="IconSize">88</System:Double>
@@ -297,9 +301,6 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type ls:VMRecipe}">
                                 <ContentControl x:Name="EntryRoot" Style="{StaticResource ListEntryStyle}">
-                                    <ContentControl.ToolTip>
-                                        <ls:LSTooltip Content="{Binding DataContext.Result, ElementName=EntryRoot}"/>
-                                    </ContentControl.ToolTip>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -307,7 +308,93 @@
                                         </Grid.ColumnDefinitions>
                                         <ContentPresenter x:Name="Icon" Grid.Column="0" Content="{Binding Result.Item}" Width="72" Height="72" VerticalAlignment="Center" ClipToBounds="False" Margin="8,0,0,0" ContentTemplate="{StaticResource Template.ItemNoCount}"/>
                                         <TextBlock x:Name="Name" Grid.Column="1" Text="{Binding Result.Item.NameAlchemy}" Style="{StaticResource ListEntryTextStyle}" Margin="12,12"/>
-                                        <Button Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding DataContext.ChangeSelectedRecipe, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}" Background="Transparent"/>
+                                        <!-- Touch UI - Two stacked tap targets swapped by the selected state: tapping an
+                                             unselected row just selects it; tapping the ALREADY selected row opens its
+                                             tooltip sheet on the right edge (sheet-only - recipes have no context menu) -->
+                                        <Grid x:Name="SelectTapSurface" Grid.ColumnSpan="2" Background="Transparent">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Value="True">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                                    <Binding Path="DataContext.SelectedRecipe" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                                                    <Binding Path="."/>
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <b:ChangePropertyAction TargetName="Icon" PropertyName="RenderTransform">
+                                                        <b:ChangePropertyAction.Value>
+                                                            <TranslateTransform Y="4"/>
+                                                        </b:ChangePropertyAction.Value>
+                                                    </b:ChangePropertyAction>
+                                                </b:EventTrigger>
+                                                <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <b:ChangePropertyAction TargetName="Icon" PropertyName="RenderTransform">
+                                                        <b:ChangePropertyAction.Value>
+                                                            <TranslateTransform Y="0"/>
+                                                        </b:ChangePropertyAction.Value>
+                                                    </b:ChangePropertyAction>
+                                                    <b:InvokeCommandAction Command="{Binding DataContext.ChangeSelectedRecipe, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding .}"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
+
+                                        <Grid x:Name="ReopenTapSurface" Grid.ColumnSpan="2" Background="Transparent">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Value="True">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource EqualConverter}">
+                                                                    <Binding Path="DataContext.SelectedRecipe" RelativeSource="{RelativeSource AncestorType={x:Type ls:UIWidget}}"/>
+                                                                    <Binding Path="."/>
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <b:Interaction.Triggers>
+                                                <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <b:ChangePropertyAction TargetName="Icon" PropertyName="RenderTransform">
+                                                        <b:ChangePropertyAction.Value>
+                                                            <TranslateTransform Y="4"/>
+                                                        </b:ChangePropertyAction.Value>
+                                                    </b:ChangePropertyAction>
+                                                </b:EventTrigger>
+                                                <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <b:ChangePropertyAction TargetName="Icon" PropertyName="RenderTransform">
+                                                        <b:ChangePropertyAction.Value>
+                                                            <TranslateTransform Y="0"/>
+                                                        </b:ChangePropertyAction.Value>
+                                                    </b:ChangePropertyAction>
+                                                    <b:ChangePropertyAction TargetName="RecipeResultPopup" PropertyName="Visibility" Value="Visible"/>
+                                                </b:EventTrigger>
+                                            </b:Interaction.Triggers>
+                                        </Grid>
+
+                                        <!-- Touch UI - Sheet-only popup; clicking outside closes it. Content is the recipe's
+                                             Result wrapper - the same object the vanilla hover tooltip resolved, which
+                                             carries the full item tooltip data (the bare Item lacks the description) -->
+                                        <ContentControl x:Name="RecipeResultPopup"
+                                            Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                            Content="{Binding Result}"
+                                            ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                            Visibility="Collapsed"
+                                            HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                            <ContentControl.LayoutTransform>
+                                                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                            </ContentControl.LayoutTransform>
+                                        </ContentControl>
                                     </Grid>
                                 </ContentControl>
 
