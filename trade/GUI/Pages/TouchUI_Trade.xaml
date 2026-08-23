@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="/Core;component/Library/DialogueTemplates.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
                 <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_ContextMenuWithTooltip.xaml"/>
+                <ResourceDictionary Source="../Library/TouchUI_PartyCharacterInventoryTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ls:UIWidget.Resources>
