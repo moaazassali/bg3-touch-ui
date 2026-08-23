@@ -19,6 +19,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Core;component/Library/DialogueTemplates.xaml"/>
                 <ResourceDictionary Source="../Library/TouchUI_CharacterEquipmentTemplate.xaml"/>
+                <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_ContextMenuWithTooltip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ls:UIWidget.Resources>
@@ -334,19 +335,42 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
                                             <ls:LSEntityObject x:Name="CellRoot" Context="{Binding (ls:ContextMenuService.Context) , RelativeSource={RelativeSource Mode=TemplatedParent} }" ls:ContextMenuService.GenerateEnabled="False" DataContext="{Binding Object}" EntityRef="{Binding EntityHandle}" Background="Transparent" ToolTipService.Placement="Right">
-                                                <ls:LSEntityObject.ToolTip>
-                                                    <ls:LSTooltip Content="{Binding DataContext.Object,RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                </ls:LSEntityObject.ToolTip>
+                                                <!-- Touch UI - Grid cells open the combined context menu + tooltip popup on left
+                                                     tap (same flick + guards pattern as TouchUI_ContainerInvItemStyle) -->
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                        <b:ControlStoryboardAction>
+                                                            <b:ControlStoryboardAction.Storyboard>
+                                                                <Storyboard FillBehavior="Stop">
+                                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CellRoot" Storyboard.TargetProperty="Opacity">
+                                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.05" Value="2"/>
+                                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
+                                                                    </DoubleAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </b:ControlStoryboardAction.Storyboard>
+                                                        </b:ControlStoryboardAction>
+                                                    </b:EventTrigger>
+                                                    <b:DataTrigger Binding="{Binding Opacity, ElementName=CellRoot}" Value="2">
+                                                        <b:Interaction.Behaviors>
+                                                            <b:ConditionBehavior>
+                                                                <b:ConditionalExpression>
+                                                                    <b:ComparisonCondition LeftOperand="{Binding IsSelected, RelativeSource={RelativeSource Mode=TemplatedParent}}" Operator="Equal" RightOperand="True"/>
+                                                                    <!-- Touch UI - Empty grid slots are selectable ListBoxItems with a null Object -->
+                                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext, ElementName=CellRoot}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                                                    <!-- Touch UI - Don't open the menu when a drag is in progress -->
+                                                                    <b:ComparisonCondition LeftOperand="{Binding DataContext.CurrentPlayer.UIData.DragData.DraggingGameObjects.Count, Converter={StaticResource GreaterThanConverter}, ConverterParameter='0', RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Operator="Equal" RightOperand="False"/>
+                                                                </b:ConditionalExpression>
+                                                            </b:ConditionBehavior>
+                                                        </b:Interaction.Behaviors>
+                                                        <b:InvokeCommandAction Command="{Binding ShowContextMenuCommand, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" CommandParameter="{Binding ElementName=GridMenuAnchor}"/>
+                                                    </b:DataTrigger>
+                                                </b:Interaction.Triggers>
 
                                                 <ls:AttachedProperties.AutomationId>
                                                     <MultiBinding StringFormat="{}InventoryItem_{0}">
                                                         <Binding Path="EntityUUID"/>
                                                     </MultiBinding>
                                                 </ls:AttachedProperties.AutomationId>
-
-                                                <b:Interaction.Behaviors>
-                                                    <ls:ContextMenuFillBehavior Context="{Binding (ls:ContextMenuService.Context) , RelativeSource={RelativeSource Mode=TemplatedParent} }" Player="{Binding DataContext.CurrentPlayer, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" TargetObject="{Binding .}" Source="{Binding SelectedItems,RelativeSource={RelativeSource AncestorType=ListBox}}" FillCommand="{Binding DataContext.ContextActionMenuFill, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
-                                                </b:Interaction.Behaviors>
 
                                                 <ContentPresenter  IsHitTestVisible="False" ls:ElementCacheHelper.GroupId="{TemplateBinding ls:ElementCacheHelper.GroupId}"/>
                                                 <Image x:Name="SelectedImg" Source="{StaticResource InvSlot_Selector}" IsHitTestVisible="False" Visibility="Hidden" Opacity="1.0" />
@@ -424,21 +448,47 @@
                             </Style>
 
                             <ControlTemplate x:Key="TraderGridTemplate" TargetType="ListBox">
-                                <ScrollViewer Style="{StaticResource NoForcedScrollViewerStyle}" CanContentScroll="True" Padding="{TemplateBinding Padding}" Focusable="False">
-                                    <b:Interaction.Behaviors>
-                                        <ls:DragScrollingBehavior />
-                                    </b:Interaction.Behaviors>
-                                    <ItemsPresenter />
-                                </ScrollViewer>
+                                <Grid>
+                                    <ScrollViewer Style="{StaticResource NoForcedScrollViewerStyle}" CanContentScroll="True" Padding="{TemplateBinding Padding}" Focusable="False">
+                                        <b:Interaction.Behaviors>
+                                            <ls:DragScrollingBehavior />
+                                        </b:Interaction.Behaviors>
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+
+                                    <!-- Touch UI - Anchor hosting the combined context menu + tooltip popup for grid
+                                         items (opened via ShowContextMenuCommand from the cells) -->
+                                    <ContentControl x:Name="GridMenuAnchor"
+                                                    Template="{StaticResource TouchUI_ContextMenuWithTooltip}"
+                                                    Content="{Binding SelectedItem.Object, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    Tag="{Binding SelectedItems, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                    ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                    ls:TooltipExtender.Context="Trade"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
+                                </Grid>
                             </ControlTemplate>
 
                             <ControlTemplate x:Key="PlayerGridTemplate" TargetType="ListBox">
-                                <ScrollViewer Template="{StaticResource FlippedSimpleScrollViewerTemplate}" CanContentScroll="True" Padding="{TemplateBinding Padding}" Focusable="False">
-                                    <b:Interaction.Behaviors>
-                                        <ls:DragScrollingBehavior />
-                                    </b:Interaction.Behaviors>
-                                    <ItemsPresenter />
-                                </ScrollViewer>
+                                <Grid>
+                                    <ScrollViewer Template="{StaticResource FlippedSimpleScrollViewerTemplate}" CanContentScroll="True" Padding="{TemplateBinding Padding}" Focusable="False">
+                                        <b:Interaction.Behaviors>
+                                            <ls:DragScrollingBehavior />
+                                        </b:Interaction.Behaviors>
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+
+                                    <!-- Touch UI - Anchor hosting the combined context menu + tooltip popup for grid
+                                         items (opened via ShowContextMenuCommand from the cells) -->
+                                    <ContentControl x:Name="GridMenuAnchor"
+                                                    Template="{StaticResource TouchUI_ContextMenuWithTooltip}"
+                                                    Content="{Binding SelectedItem.Object, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    Tag="{Binding SelectedItems, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                    ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                    ls:TooltipExtender.Context="Trade"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
+                                </Grid>
                             </ControlTemplate>
                         </ControlTemplate.Resources>
 
@@ -892,9 +942,6 @@
                                             </ListBox.ItemsPanel>
 
                                             <b:Interaction.Triggers>
-                                                <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=PlayerBarterOffer}" Value="False">
-                                                    <b:ChangePropertyAction TargetName="PlayerBarterOffer" PropertyName="SelectedIndex" Value="-1" />
-                                                </b:DataTrigger>
                                                 <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
                                                     <b:Interaction.Behaviors>
                                                         <b:ConditionBehavior>
@@ -955,9 +1002,6 @@
                                             </ListBox.ItemsPanel>
 
                                             <b:Interaction.Triggers>
-                                                <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=TraderBarterOffer}" Value="False">
-                                                    <b:ChangePropertyAction TargetName="TraderBarterOffer" PropertyName="SelectedIndex" Value="-1" />
-                                                </b:DataTrigger>
                                                 <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
                                                     <b:Interaction.Behaviors>
                                                         <b:ConditionBehavior>
@@ -1066,9 +1110,6 @@
                                             </ListBox.ItemsPanel>
 
                                             <b:Interaction.Triggers>
-                                                <b:DataTrigger Binding="{Binding IsKeyboardFocusWithin, ElementName=TraderInventory}" Value="False">
-                                                    <b:ChangePropertyAction TargetName="TraderInventory" PropertyName="SelectedIndex" Value="-1" />
-                                                </b:DataTrigger>
                                                 <b:EventTrigger EventName="MouseRightButtonUp" SourceObject="{Binding ElementName=Trade}">
                                                     <b:Interaction.Behaviors>
                                                         <b:ConditionBehavior>
