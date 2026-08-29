@@ -267,39 +267,8 @@
                 <Setter Property="Visibility" Value="Hidden"/>
             </MultiDataTrigger>
 
-            <!-- Weapon actions will open the Weapon filter -->
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Content.WeaponActionType}" Value="Melee"/>
-                    <Condition Binding="{Binding Content.IsContainer, FallbackValue=False}" Value="False"/>
-                    <Condition Binding="{Binding (ls:WidgetData.DataContext).IsShowingAContainerWithVariants, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=True}" Value="False"/>
-                    <Condition Binding="{Binding (ls:WidgetData.DataContext).CurrentPlayer.SelectedCharacter.Equipment.MeleeMainHand, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToBoolFalseConverter}}" Value="True"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Command" Value="{Binding (ls:WidgetData.DataContext).UseMeleeWeaponCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                <Setter Property="CommandParameter" Value="{Binding .}"/>
-            </MultiDataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Content.WeaponActionType}" Value="Ranged"/>
-                    <Condition Binding="{Binding Content.IsContainer, FallbackValue=False}" Value="False"/>
-                    <Condition Binding="{Binding (ls:WidgetData.DataContext).IsShowingAContainerWithVariants, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=True}" Value="False"/>
-                    <Condition Binding="{Binding (ls:WidgetData.DataContext).CurrentPlayer.SelectedCharacter.Equipment.RangedMainHand, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToBoolFalseConverter}}" Value="True"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Command" Value="{Binding (ls:WidgetData.DataContext).UseRangedWeaponCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                <Setter Property="CommandParameter" Value="{Binding .}"/>
-            </MultiDataTrigger>
-
-            <!-- Arrows will also open the Ranged Weapon filter -->
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding SlotType}" Value="Item"/>
-                    <Condition Binding="{Binding Content.UseType}" Value="Arrow"/>
-                    <Condition Binding="{Binding (ls:WidgetData.DataContext).IsShowingAContainerWithVariants, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=True}" Value="False"/>
-                    <Condition Binding="{Binding (ls:WidgetData.DataContext).CurrentPlayer.SelectedCharacter.Equipment.RangedMainHand, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToBoolFalseConverter}}" Value="True"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Command" Value="{Binding (ls:WidgetData.DataContext).UseRangedWeaponCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                <Setter Property="CommandParameter" Value="{Binding .}"/>
-            </MultiDataTrigger>
+            <!-- Touch UI - Weapon filter disabled: Melee/Ranged/Arrow actions now use directly instead of opening the Mace/Shortbow filter menu which is redundant for concise hotbar -->
+            <!-- Original Weapon actions will open the Weapon filter triggers removed - see vanilla DataTemplates.xaml for reference -->
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
