@@ -178,17 +178,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
-        <Style.Triggers>
-            <!--Disable selecting EQ slots on Companion Panel-->
-            <DataTrigger Binding="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="CompanionsPanel" >
-                <Setter Property="Command" Value="{x:Null}"/>
-            </DataTrigger>
-            
-            <!--Disable selecting EQ slots on Trade Panel-->
-            <DataTrigger Binding="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Value="Trade" >
-                <Setter Property="Command" Value="{x:Null}"/>
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <!-- Copied from Patch8_HotFix1\Public\Game\GUI\Library\CharacterSheetTemplates_k.xaml just to access EquipmentSlotBaseStyle and override tooltip behavior  -->
