@@ -720,7 +720,7 @@
 
                                         <Image Source="{StaticResource CharacterFrameTrade}" VerticalAlignment="Top" Stretch="Uniform" Margin="0,44,0,0" Width="1087"/>
 
-                                        <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="40,260,40,0" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                                        <Control Template="{StaticResource TouchUI_CharacterEquipmentTemplate}" Margin="40,260,40,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                             <Grid.LayoutTransform>
                                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                                             </Grid.LayoutTransform>
