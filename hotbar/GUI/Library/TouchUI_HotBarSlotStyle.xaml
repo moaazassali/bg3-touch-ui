@@ -267,6 +267,17 @@
                 <Setter Property="Visibility" Value="Hidden"/>
             </MultiDataTrigger>
 
+            <!-- Touch UI - For instant Item slots (Potion UseType) on main hotbar first tap shows Use+tooltip sheet instead of instant consume; not in throw/variant menus where potion is thrown not drunk -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding SlotType}" Value="Item"/>
+                    <Condition Binding="{Binding Content.UseType}" Value="Potion"/>
+                    <Condition Binding="{Binding (ls:WidgetData.DataContext).IsShowingItemsToThrow, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" Value="False"/>
+                    <Condition Binding="{Binding (ls:WidgetData.DataContext).IsShowingAContainerWithVariants, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Command" Value="{x:Null}"/>
+            </MultiDataTrigger>
+
             <!-- Touch UI - Weapon filter disabled: Melee/Ranged/Arrow actions now use directly instead of opening the Mace/Shortbow filter menu which is redundant for concise hotbar -->
             <!-- Original Weapon actions will open the Weapon filter triggers removed - see vanilla DataTemplates.xaml for reference -->
 

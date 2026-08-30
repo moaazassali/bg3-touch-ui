@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="../Library/TouchUI_HotBarSlotStyle.xaml"/>
                 <!-- Touch UI - Popup tooltip sheet template used by clickable tooltips -->
                 <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+                <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopupWithHotbarItemUse.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ls:UIWidget.Resources>
@@ -307,9 +308,87 @@
                                                             <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                                                         </ContentControl.LayoutTransform>
                                                     </ContentControl>
+                                                    <!-- Touch UI - Item (potion etc.) sheet with Use button next to tooltip so first tap doesn't instantly consume -->
+                                                    <ContentControl x:Name="HotbarItemSheetPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopupWithHotbarItemUse}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding Content}"
+                                                        DataContext="{Binding}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
+                                                        ls:TooltipExtender.Context="Hotbar">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
                                                     <b:Interaction.Triggers>
                                                         <!-- Preview event because the LSButton handles the bubbling MouseLeftButtonUp for Click -->
                                                         <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:Interaction.Behaviors>
+                                                                <b:ConditionBehavior>
+                                                                    <b:ConditionalExpression>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding SlotType}" Operator="NotEqual" RightOperand="Item"/>
+                                                                    </b:ConditionalExpression>
+                                                                </b:ConditionBehavior>
+                                                            </b:Interaction.Behaviors>
+                                                            <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                        <!-- Instant Item (Potion UseType) on main hotbar -> Use+sheet so first tap doesn't consume; not in throw/variant where potion is thrown -->
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:Interaction.Behaviors>
+                                                                <b:ConditionBehavior>
+                                                                    <b:ConditionalExpression>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding SlotType}" Operator="Equal" RightOperand="Item"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding IsFake}" Operator="NotEqual" RightOperand="True"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content.UseType}" Operator="Equal" RightOperand="Potion"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding (ls:WidgetData.DataContext).IsShowingItemsToThrow, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" Operator="Equal" RightOperand="False"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding (ls:WidgetData.DataContext).IsShowingAContainerWithVariants, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" Operator="Equal" RightOperand="False"/>
+                                                                    </b:ConditionalExpression>
+                                                                </b:ConditionBehavior>
+                                                            </b:Interaction.Behaviors>
+                                                            <b:ChangePropertyAction TargetName="HotbarItemSheetPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                        <!-- Potion in throw/variant (thrown, not drunk) -> regular sheet like other throw items -->
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:Interaction.Behaviors>
+                                                                <b:ConditionBehavior>
+                                                                    <b:ConditionalExpression>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding SlotType}" Operator="Equal" RightOperand="Item"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding IsFake}" Operator="NotEqual" RightOperand="True"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content.UseType}" Operator="Equal" RightOperand="Potion"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding (ls:WidgetData.DataContext).IsShowingItemsToThrow, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" Operator="Equal" RightOperand="True"/>
+                                                                    </b:ConditionalExpression>
+                                                                </b:ConditionBehavior>
+                                                            </b:Interaction.Behaviors>
+                                                            <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:Interaction.Behaviors>
+                                                                <b:ConditionBehavior>
+                                                                    <b:ConditionalExpression>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding SlotType}" Operator="Equal" RightOperand="Item"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding IsFake}" Operator="NotEqual" RightOperand="True"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content.UseType}" Operator="Equal" RightOperand="Potion"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding (ls:WidgetData.DataContext).IsShowingAContainerWithVariants, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" Operator="Equal" RightOperand="True"/>
+                                                                    </b:ConditionalExpression>
+                                                                </b:ConditionBehavior>
+                                                            </b:Interaction.Behaviors>
+                                                            <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                        </b:EventTrigger>
+                                                        <!-- Targeted/other Item (Scroll, Arrow, etc. UseType!=Potion) -> regular sheet, direct targeting -->
+                                                        <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                            <b:Interaction.Behaviors>
+                                                                <b:ConditionBehavior>
+                                                                    <b:ConditionalExpression>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding SlotType}" Operator="Equal" RightOperand="Item"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding IsFake}" Operator="NotEqual" RightOperand="True"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content}" Operator="NotEqual" RightOperand="{x:Null}"/>
+                                                                        <b:ComparisonCondition LeftOperand="{Binding Content.UseType}" Operator="NotEqual" RightOperand="Potion"/>
+                                                                    </b:ConditionalExpression>
+                                                                </b:ConditionBehavior>
+                                                            </b:Interaction.Behaviors>
                                                             <b:ChangePropertyAction TargetName="SlotTooltipPopup" PropertyName="Visibility" Value="Visible"/>
                                                         </b:EventTrigger>
                                                     </b:Interaction.Triggers>
