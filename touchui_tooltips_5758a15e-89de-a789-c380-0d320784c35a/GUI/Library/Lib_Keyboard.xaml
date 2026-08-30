@@ -19,6 +19,7 @@
         <ResourceDictionary Source="../Library/TouchUI_VMAbility.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_VMSkill.xaml"/>
         <ResourceDictionary Source="../Library/TouchUI_VMResistance.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_VMInterrupt.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Touch UI - We need to override all resources that use LSSpanStyle to use TouchUI_LSSpanStyle -->

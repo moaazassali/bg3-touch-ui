@@ -7,7 +7,12 @@
                     xmlns:ls="clr-namespace:ls;assembly=Code"
                     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
-                    mc:Ignorable="d">   
+                    mc:Ignorable="d">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+        <ResourceDictionary Source="../Library/TouchUI_InterruptToggleBtnTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="TouchUI_InterruptPanelTemplate" TargetType="Control">
         <ControlTemplate.Resources>
@@ -51,15 +56,21 @@
                                 
                                 <!-- Main Row Grid -->
                                 <Grid>
-                                    <!-- 1. LEFT SIDE: Icon and Title 
-                                        This element dictates the "Natural Height" of the row. -->
-                                    <ls:LSToggleButton x:Name="ToggleEnableButton" 
+                                    <!-- The wrapper receives the preview event before LSToggleButton handles it. -->
+                                    <Grid x:Name="ReactionToggleClickTarget">
+                                        <ls:LSToggleButton x:Name="ToggleEnableButton"
                                                     IsChecked="{Binding Enabled, Mode=OneWay}" 
                                                     Command="{Binding DataContext.InterruptToggleDisableCommand,RelativeSource={RelativeSource AncestorType=ls:UIWidget}}" 
                                                     CommandParameter="{Binding .}" 
-                                                    Template="{StaticResource InterruptToggleBtnTemplate}" 
+                                                    Template="{StaticResource TouchUI_InterruptToggleBtnTemplate}"
                                                     Content="{Binding .}" 
                                                     IsEnabled="{Binding Available}"/>
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                <b:ChangePropertyAction TargetName="ReactionTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                    </Grid>
 
                                     <ls:LSToggleButton x:Name="ToggleManagementButton" 
                                                     IsChecked="{Binding Ask, Mode=OneWay}" 
@@ -72,12 +83,6 @@
                                         <ls:LSToggleButton.Template>
                                             <ControlTemplate TargetType="ToggleButton">
                                                 <Grid Background="Transparent">
-                                                    <Grid.ToolTip>
-                                                        <ls:LSTooltip IsHitTestVisible="False">
-                                                            <TextBlock Text="{Binding Source='h4353cf8eg6bb3g46f5g92eage382a75f4338', Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
-                                                        </ls:LSTooltip>
-                                                    </Grid.ToolTip>
-                                                    
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="Auto"/>
@@ -120,6 +125,16 @@
                                             </ControlTemplate>
                                         </ls:LSToggleButton.Template>
                                     </ls:LSToggleButton>
+
+                                    <ContentControl x:Name="ReactionTooltipPopup"
+                                                    Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                    Visibility="Collapsed"
+                                                    Content="{Binding}"
+                                                    ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                        <ContentControl.LayoutTransform>
+                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                        </ContentControl.LayoutTransform>
+                                    </ContentControl>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
