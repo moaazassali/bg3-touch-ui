@@ -125,7 +125,7 @@
                 <ls:LSInputBinding x:Name="MapHotkeyBinding" BoundEvent="ToggleMap" PlayerId="{Binding CurrentPlayer.PlayerId}" SoundID="UI_HUD_Map" Command="{Binding CustomEvent}" CommandParameter="ToggleJournalMap"/>
 
                 <StackPanel  Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right">
-                    <Grid x:Name="MinimapContainer" Background="Transparent"  VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5">
+                    <Grid x:Name="MinimapContainer" Background="{x:Null}"  VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -135,8 +135,8 @@
                             </TransformGroup>
                         </Grid.RenderTransform>
 
-                        <!-- Map Border -->
-                        <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None"/>
+                        <!-- Map Border - decorative, must not block clicks in transparent corners outside circle -->
+                        <Image x:Name="MapBorder" Source="{StaticResource MinimapBg}" Stretch="None" IsHitTestVisible="False"/>
 
                         <!-- Map -->
                         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-2,-2,0">
@@ -189,32 +189,32 @@
                                 <Image x:Name="DangerZoneGlowAnimated" IsHitTestVisible="False" Stretch="None" Source="{StaticResource DangerZone}" Focusable="False" Opacity="0.1"/>
                             </Grid>
 
-                            <!-- North Pointer -->
-                            <Grid Height="644" Width="644" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <!-- North Pointer - decorative frame/directions, must not block clicks (square Image bounds would block corners) -->
+                            <Grid Height="644" Width="644" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False">
                                 <Grid.RenderTransform>
                                     <RotateTransform Angle="{Binding ElementName=WorldMap, Path=MapRotation}"/>
                                 </Grid.RenderTransform>
                                 <Image Source="{StaticResource MinimapFrame}" Stretch="None" IsHitTestVisible="False"/>
-                                <Image Source="{StaticResource MinimapNorth}" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                                <Image Source="{StaticResource MinimapEast}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5">
+                                <Image Source="{StaticResource MinimapNorth}" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+                                <Image Source="{StaticResource MinimapEast}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
                                     <Image.RenderTransform>
                                         <RotateTransform Angle="90"/>
                                     </Image.RenderTransform>
                                 </Image>
-                                <Image Source="{StaticResource MinimapSouth}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <Image Source="{StaticResource MinimapSouth}" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
                                     <Image.RenderTransform>
                                         <RotateTransform Angle="180"/>
                                     </Image.RenderTransform>
                                 </Image>
-                                <Image Source="{StaticResource MinimapWest}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                <Image Source="{StaticResource MinimapWest}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
                                     <Image.RenderTransform>
                                         <RotateTransform Angle="270"/>
                                     </Image.RenderTransform>
                                 </Image>
                             </Grid>
 
-                            <!-- Co-ordinates -->
-                            <TextBlock  Foreground="{StaticResource LS_accent100TxtColor}" FontSize="{StaticResource SmallFontSize}" Effect="{StaticResource HUD.DropShadow}" Opacity="0.8"
+                            <!-- Co-ordinates - decorative, must not block map clicks -->
+                            <TextBlock  Foreground="{StaticResource LS_accent100TxtColor}" FontSize="{StaticResource SmallFontSize}" Effect="{StaticResource HUD.DropShadow}" Opacity="0.8" IsHitTestVisible="False"
                                         HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" Panel.ZIndex="2">
                                 <!-- Touch UI - 2x total scale because minimap already has 1.5x scale -->
                                 <TextBlock.LayoutTransform>
