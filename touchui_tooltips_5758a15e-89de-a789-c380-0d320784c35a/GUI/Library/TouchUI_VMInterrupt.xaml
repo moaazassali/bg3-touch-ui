@@ -26,14 +26,14 @@
                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                 </Grid.LayoutTransform>
                 <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top" Template="{StaticResource TooltipStripTopBackground}" Tag="{Binding ElementName=TitleArea}" Margin="-36,-20,-36,-25"/>
-                <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
+                <!-- <Image x:Name="DecorationImage" Style="{StaticResource TooltipMainIconStyle}">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource IconIdToSourceConverter}">
                             <Binding Source="Assets/Tooltips/Icons/"/>
                             <Binding Path="IconName"/>
                         </MultiBinding>
                     </Image.Source>
-                </Image>
+                </Image> -->
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -99,7 +99,7 @@
                             <TextBlock x:Name="ReactionStatusText" Text="{Binding Source='hb392d1e3ge13cg44b7g8238g0b08a960aeec',Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TouchUI_TooltipDescriptionStyle}" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="{StaticResource TouchUI_DetailSectionWidth}"/>
                         </StackPanel>
                         <ls:LSNineSliceImage Style="{StaticResource TouchUI_TooltipStripBottomStyle}" x:Name="footer" Visibility="{Binding Costs.Count, Converter={StaticResource CountToVisibilityConverter}}">
-                            <ContentPresenter ContentTemplate="{StaticResource FooterCosts}" Content="{Binding Costs}"/>
+                            <ContentPresenter ContentTemplate="{StaticResource FooterCosts}" Content="{Binding Costs}" Margin="18,0,0,0"/>
                         </ls:LSNineSliceImage>
                     </StackPanel>
                 </Grid>
