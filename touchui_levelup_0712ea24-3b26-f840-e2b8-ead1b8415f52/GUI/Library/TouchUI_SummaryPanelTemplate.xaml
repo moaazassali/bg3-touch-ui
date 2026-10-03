@@ -10,6 +10,133 @@
                     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
                     mc:Ignorable="d">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/touchui_tooltips;component/Library/TouchUI_TooltipSheetPopup.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Copied from Game\Public\Game\GUI\Library\DataTemplates_k.xaml (CharacterPassivesTemplate) -->
+    <!-- Touch UI - Removed ToggleFeaturesButton + ExtendedInfo expanded panel; icons always visible and open TouchUI tooltip sheet popup on click -->
+    <DataTemplate x:Key="TouchUI_CharacterPassivesTemplate">
+        <StackPanel x:Name="PassivesHolder" Orientation="Horizontal">
+            <b:Interaction.Behaviors>
+                <ls:CollectionFilterBehavior ItemsSource="{Binding Stats.Passives}" Predicate="{Binding DataContext.Data.AllCharacterFeaturesPredicate, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+
+                <!-- Only for Level up -->
+                <ls:CollectionFilterBehavior ItemsSource="{Binding DataContext.ProgressionData.ClassProgression.Other, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Predicate="{Binding DataContext.Data.AllCharacterFeaturesPredicate, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+                <ls:CollectionFilterBehavior ItemsSource="{Binding DataContext.ProgressionData.SubClassProgression.Other, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}" Predicate="{Binding DataContext.Data.AllCharacterFeaturesPredicate, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"/>
+            </b:Interaction.Behaviors>
+
+            <StackPanel.Resources>
+                <BitmapImage x:Key="Background" UriSource="pack://application:,,,/Core;component/Assets/CharacterPanel/characterSheet_feats_bg.png" />
+            </StackPanel.Resources>
+
+            <ls:LSNineSliceImage x:Name="BarBackground" ImageSource="{StaticResource Background}" Width="124" Slices="4,120,4,100" MinHeight="260" Panel.ZIndex="1">
+                <ls:LSNineSliceImage.Resources>
+                    <!-- The shadows in the texture will block parts of the character UI, mainly scrollbars -->
+                    <!-- We'll prevent the background image from blocking, and make the content block instead -->
+                    <Style TargetType="Image">
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </ls:LSNineSliceImage.Resources>
+                <StackPanel x:Name="Content" Orientation="Vertical" Background="Transparent" Margin="20">
+                    <StackPanel.Resources>
+                        <!-- Revert style back to normal for the actual content -->
+                        <Style TargetType="Image">
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden" MaxHeight="1300" HorizontalScrollBarVisibility="Hidden" Template="{StaticResource ScrollViewerTemplate}" Background="Transparent" Margin="0,22,0,40" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <StackPanel>
+                            <StackPanel.Resources>
+                                <Style TargetType="ItemsControl">
+                                    <Setter Property="ItemsPanel">
+                                        <Setter.Value>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <Grid x:Name="TabRoot" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8" Background="Transparent">
+                                                    <Ellipse x:Name="ButtonImage" Width="60" Height="60" Fill="{Binding Icon}"/>
+
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:ChangePropertyAction TargetName="PassiveTooltipPopup" PropertyName="Visibility" Value="Visible"/>
+                                                            <b:ChangePropertyAction TargetName="TabRoot" PropertyName="Opacity" Value="1"/>
+                                                            <b:ChangePropertyAction TargetName="TabRoot" PropertyName="RenderTransform">
+                                                                <b:ChangePropertyAction.Value>
+                                                                    <TranslateTransform Y="0"/>
+                                                                </b:ChangePropertyAction.Value>
+                                                            </b:ChangePropertyAction>
+                                                        </b:EventTrigger>
+                                                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <b:ChangePropertyAction TargetName="TabRoot" PropertyName="Opacity" Value="0.7"/>
+                                                            <b:ChangePropertyAction TargetName="TabRoot" PropertyName="RenderTransform">
+                                                                <b:ChangePropertyAction.Value>
+                                                                    <TranslateTransform Y="4"/>
+                                                                </b:ChangePropertyAction.Value>
+                                                            </b:ChangePropertyAction>
+                                                        </b:EventTrigger>
+                                                        <b:EventTrigger EventName="MouseLeave">
+                                                            <b:ChangePropertyAction TargetName="TabRoot" PropertyName="Opacity" Value="1"/>
+                                                            <b:ChangePropertyAction TargetName="TabRoot" PropertyName="RenderTransform">
+                                                                <b:ChangePropertyAction.Value>
+                                                                    <TranslateTransform Y="0"/>
+                                                                </b:ChangePropertyAction.Value>
+                                                            </b:ChangePropertyAction>
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+
+                                                    <!-- Touch UI - Tooltip sheet popup instead of hover tooltip + expanded panel; placed as sibling of the icon so popup clicks don't hit the icon -->
+                                                    <!-- Touch UI - Scaled 0.5x because the outer CharacterPassives presenter is scaled 2x -->
+                                                    <!-- Touch UI - Owner matches the widget (LevelUpCharacter), same as the hover tooltip, so cost affordability (e.g. Reaction) evaluates identically -->
+                                                    <ContentControl
+                                                        x:Name="PassiveTooltipPopup"
+                                                        Template="{StaticResource TouchUI_TooltipSheetPopup}"
+                                                        Visibility="Collapsed"
+                                                        Content="{Binding}"
+                                                        ls:TooltipExtender.Owner="{Binding DataContext.LevelUpCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}">
+                                                        <ContentControl.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                                        </ContentControl.LayoutTransform>
+                                                    </ContentControl>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <ItemsControl x:Name="Passives" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[0].FilteredItems, ElementName=PassivesHolder}" Visibility="{Binding Path=(b:Interaction.Behaviors)[0].FilteredItems.Count, ElementName=PassivesHolder, Converter={StaticResource CountToVisibilityConverter}}"/>
+                            <ItemsControl x:Name="ClassPassives" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems, ElementName=PassivesHolder}" Visibility="{Binding Path=(b:Interaction.Behaviors)[1].FilteredItems.Count, ElementName=PassivesHolder, Converter={StaticResource CountToVisibilityConverter}}"/>
+                            <ItemsControl x:Name="SubClassPassives" ItemsSource="{Binding Path=(b:Interaction.Behaviors)[2].FilteredItems, ElementName=PassivesHolder}" Visibility="{Binding Path=(b:Interaction.Behaviors)[2].FilteredItems.Count, ElementName=PassivesHolder, Converter={StaticResource CountToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
+            </ls:LSNineSliceImage>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding ParentState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ls:UIWidget}}}" Value="CharacterLevelUp">
+                <Setter TargetName="BarBackground" Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="-1" CenterX="59"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Content" Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="-1" CenterX="43"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
     <ControlTemplate x:Key="TouchUI_summaryPanelContents">
         <!-- Touch UI - Made whole panel scrollable with a single outer scroller (MaxHeight 950 unscaled = ~1900 visual at 2x net, fits 2160 - 150 top) -->
         <!-- Touch UI - Width 500 unscaled (500*1.333=667 fits fixed 692 container; 500*2=1000 visual fits 1038 visual container) -->
@@ -297,7 +424,8 @@
                 </ls:LSNineSliceImage>
 
                 <!-- Touch UI - Right border of passives strip touches left border of summary: Left offset doubled -80 -> -160 to compensate 2x layout growth -->
-                <ContentPresenter x:Name="CharacterPassives" Content="{Binding DummyCharacter}" ContentTemplate="{StaticResource CharacterPassivesTemplate}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,80,80,0" Visibility="Collapsed">
+                <!-- Touch UI - Uses TouchUI_CharacterPassivesTemplate (tooltip popups, no expanded panel) -->
+                <ContentPresenter x:Name="CharacterPassives" Content="{Binding DummyCharacter}" ContentTemplate="{StaticResource TouchUI_CharacterPassivesTemplate}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,80,80,0" Visibility="Collapsed">
                     <!-- Touch UI - Scale side passives icons for touch -->
                     <ContentPresenter.LayoutTransform>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
