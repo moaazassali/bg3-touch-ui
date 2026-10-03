@@ -16,6 +16,10 @@
 
     <ls:UIWidget.Resources>
         <ResourceDictionary>
+            <!-- Touch UI - Custom summary panel with 1.5x container / 2x contents + scrolling -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Library/TouchUI_SummaryPanelTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="HPTooltipTooltip">
                 <TextBlock ls:TextBlockFormatter.SourceText="{Binding Source=h5702bcfbg5b6bg4c6cga370gbabede69cf41, Converter={StaticResource TranslatedStringConverter}}" Style="{StaticResource TooltipBaseTextStyle}"/>
@@ -140,9 +144,10 @@
 
                     <Grid x:Name="worldFader" Background="Black" IsHitTestVisible="False"/>
 
-                    <Control x:Name="summaryControls" Template="{StaticResource summaryPanelTemplate}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,20,0">
+                    <!-- Touch UI - Use custom summary template (1.5x container, 2x contents, scrollable). No outer LayoutTransform; scaling handled inside template -->
+                    <Control x:Name="summaryControls" Template="{StaticResource TouchUI_summaryPanelTemplate}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,20,0" RenderTransformOrigin="1,0">
                         <Control.RenderTransform>
-                            <TranslateTransform X="1000"/>
+                            <TranslateTransform X="1600"/>
                         </Control.RenderTransform>
                     </Control>
 
