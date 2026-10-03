@@ -22,6 +22,7 @@
                     Panel.ZIndex="1"
                     Content="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
                     ls:TooltipExtender.Content="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
+                    ls:TooltipExtender.Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
                     ls:TooltipExtender.IsOpen="{Binding IsOpen, RelativeSource={RelativeSource AncestorType={x:Type Popup}}}"
                     ls:TooltipExtender.Owner="{Binding Path=(ls:TooltipExtender.Owner), RelativeSource={RelativeSource TemplatedParent}}"
                     ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"

@@ -53,6 +53,7 @@
 
                 <ContentControl x:Name="TooltipBox" Grid.Column="1" Margin="0,0,0,0" VerticalAlignment="Stretch"
                     ls:TooltipExtender.Content="{Binding DataContext, RelativeSource={RelativeSource TemplatedParent}}"
+                    ls:TooltipExtender.Data="{Binding DataContext, RelativeSource={RelativeSource TemplatedParent}}"
                     ls:TooltipExtender.IsOpen="True"
                     ls:TooltipExtender.Owner="{Binding DataContext.CurrentPlayer.SelectedCharacter, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
                     ls:TooltipExtender.PlayerId="{Binding DataContext.CurrentPlayer.PlayerId, RelativeSource={RelativeSource AncestorType={x:Type ls:UIWidget}}}"
